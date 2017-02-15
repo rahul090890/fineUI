@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
+    <wb-module deploy-name="PHOENIX_ENG_ TECH_EHR">
+        <wb-resource deploy-path="/" source-path="/WebContent" tag="defaultRootSource"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src"/>
+        <property name="context-root" value="PHOENIX_ENG__TECH_EHR"/>
+        <property name="java-output-path" value="/PHOENIX_ENG_ TECH_EHR/build/classes"/>
+    </wb-module>
+</project-modules>
