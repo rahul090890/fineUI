@@ -329,7 +329,8 @@ materialAdmin
 
 		.controller(
 				'leaveHistory',
-				function($scope, $filter, $sce, ngTableParams, LeaveHistoryService) {
+				function($scope, $filter, $sce, ngTableParams,
+						LeaveHistoryService) {
 					this.id = LeaveHistoryService.id;
 					this.name = LeaveHistoryService.name;
 					this.fromDate = LeaveHistoryService.from_date;
@@ -338,7 +339,7 @@ materialAdmin
 					this.department = LeaveHistoryService.department;
 					this.status = LeaveHistoryService.status;
 					this.reporting_manager = LeaveHistoryService.reporting_manager
-					this.approvedBy=LeaveHistoryService.approvedBy;
+					this.approvedBy = LeaveHistoryService.approvedBy;
 					this.riResult = LeaveHistoryService.getRecentitem(this.id,
 							this.name, this.from_date, this.todate,
 							this.total_hour, this.department, this.status);
@@ -348,7 +349,49 @@ materialAdmin
 					$scope.itemsPerPage = $scope.viewby;
 					$scope.maxSize = 10;
 				})
-				
+		.controller(
+				'timesheet',
+				function($scope, $filter, $sce, ngTableParams, TimeSheetService) {
+					this.id = TimeSheetService.id;
+					this.name = TimeSheetService.name;
+					this.fromDate = TimeSheetService.from_date;
+					this.toDate = TimeSheetService.to_date;
+					this.totalDays = TimeSheetService.total_days;
+					this.department = TimeSheetService.department;
+					this.status = TimeSheetService.status;
+					this.reporting_manager = TimeSheetService.reporting_manager
+					this.approvedBy = TimeSheetService.approvedBy;
+					this.riResult = TimeSheetService.getRecentitem(this.id,
+							this.name, this.from_date, this.todate,
+							this.total_hour, this.department, this.status);
+					$scope.totalItems = this.riResult.length;
+					$scope.viewby = 10;
+					$scope.currentPage = 1;
+					$scope.itemsPerPage = $scope.viewby;
+					$scope.maxSize = 10;
+				})
+		.controller(
+				'timesheethistory',
+				function($scope, $filter, $sce, ngTableParams,
+						TimeSheetHistoryService) {
+					this.id = TimeSheetHistoryService.id;
+					this.name = TimeSheetHistoryService.name;
+					this.fromDate = TimeSheetHistoryService.from_date;
+					this.toDate = TimeSheetHistoryService.to_date;
+					this.totalDays = TimeSheetHistoryService.total_days;
+					this.department = TimeSheetHistoryService.department;
+					this.status = TimeSheetHistoryService.status;
+					this.reporting_manager = TimeSheetHistoryService.reporting_manager
+					this.approvedBy = TimeSheetHistoryService.approvedBy;
+					this.riResult = TimeSheetHistoryService.getRecentitem(this.id,
+							this.name, this.from_date, this.todate,
+							this.total_hour, this.department, this.status);
+					$scope.totalItems = this.riResult.length;
+					$scope.viewby = 10;
+					$scope.currentPage = 1;
+					$scope.itemsPerPage = $scope.viewby;
+					$scope.maxSize = 10;
+				})
 		.controller(
 				'recentpostCtrl',
 				function(recentpostService) {

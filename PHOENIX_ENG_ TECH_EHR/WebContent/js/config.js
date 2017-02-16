@@ -47,16 +47,19 @@ materialAdmin
 						url : '/applyLeave',
 						templateUrl : 'views/applyLeave.html'
 					})
-					
-					.state('leavehistory', {
-						url : '/leavehistory',
-						templateUrl : 'views/leavehistory.html'
-					})
+
 					.state('headers.leavehistory', {
 						url : '/leavehistory',
 						templateUrl : 'views/leavehistory.html'
 					})
-
+					.state('headers.timesheet', {
+						url : '/timesheet',
+						templateUrl : 'views/timesheet.html'
+					})
+					.state('headers.timesheethistory', {
+						url : '/timesheethistory',
+						templateUrl : 'views/timesheethistory.html'
+					})
 					.state('headers.mainmenu-on-top', {
 						url : '/mainmenu-on-top',
 						templateUrl : 'views/mainmenu-on-top.html'
