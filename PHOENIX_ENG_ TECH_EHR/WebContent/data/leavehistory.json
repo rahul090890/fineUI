@@ -1,0 +1,113 @@
+{
+    "list": [
+        {
+            "id": 2569,
+            "name": "Rahul Pandey",
+             "from_date": "2017/01/23",
+             "to_date": "2017/01/23",
+            "total_days":1,
+            "leavetype":"Annual leave",
+            "status":"approved",
+            "department":"Support",
+            "approvedBy":"K Ravi"
+        },
+        {
+            "id": 9658,
+            "name": "Shyama K",
+            "from_date": "2017/01/23",
+             "to_date": "2017/01/23",
+            "total_days":1,
+              "leavetype":"Sick leave",
+            "status":"approved",
+            "department":"Development",
+              "approvedBy":"K Ravi"
+        },
+        {
+            "id": 1101,
+            "name": "Neeraj R",
+            "from_date": "2017/01/23",
+             "to_date": "2017/01/23",
+            "total_days":1,
+              "leavetype":"Annual leave",
+            "status":"approved",
+            "department":"ADM",
+              "approvedBy":"K Ravi"
+        },
+        {
+            "id": 2569,
+            "name": "Prassanna Ujwal Muth",
+             "from_date": "2017/01/23",
+             "to_date": "2017/01/23",
+            "total_days":1,
+              "leavetype":"Sick leave",
+            "status":"approved",
+            "department":"Core",
+              "approvedBy":"K Ravi"
+        },
+        {
+            "id": 6598,
+            "name": "K Aarti",
+             "from_date": "2017/01/23",
+             "to_date": "2017/01/23",
+            "total_days":1,
+              "leavetype":"Annual leave",
+            "status":"approved",
+            "department":"Support",
+              "approvedBy":"K Ravi"
+        },   {
+            "id": 2569,
+            "name": "Rahul Pandey",
+             "from_date": "2017/01/23",
+             "to_date": "2017/01/23",
+            "total_days":1,
+            "leavetype":"Annual leave",
+            "status":"approved",
+            "department":"Support",
+            "approvedBy":"K Ravi"
+        },
+        {
+            "id": 9658,
+            "name": "Shyama K",
+            "from_date": "2017/01/23",
+             "to_date": "2017/01/23",
+            "total_days":1,
+              "leavetype":"Sick leave",
+            "status":"approved",
+            "department":"Development",
+              "approvedBy":"K Ravi"
+        },
+        {
+            "id": 1101,
+            "name": "Neeraj R",
+            "from_date": "2017/01/23",
+             "to_date": "2017/01/23",
+            "total_days":1,
+              "leavetype":"Annual leave",
+            "status":"approved",
+            "department":"ADM",
+              "approvedBy":"K Ravi"
+        },
+        {
+            "id": 2569,
+            "name": "Prassanna Ujwal Muth",
+             "from_date": "2017/01/23",
+             "to_date": "2017/01/23",
+            "total_days":1,
+              "leavetype":"Sick leave",
+            "status":"approved",
+            "department":"Core",
+              "approvedBy":"K Ravi"
+        },
+        {
+            "id": 6598,
+            "name": "K Aarti",
+             "from_date": "2017/01/23",
+             "to_date": "2017/01/23",
+            "total_days":1,
+              "leavetype":"Annual leave",
+            "status":"approved",
+            "department":"Support",
+              "approvedBy":"K Ravi"
+        }
+    ]
+}

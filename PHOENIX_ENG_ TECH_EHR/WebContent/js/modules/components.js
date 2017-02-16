@@ -127,7 +127,131 @@ materialAdmin
             }
         }
     })
-
+.directive('swalSuccessMsg', function(){
+        return {
+            restrict: 'A',
+            link: function(scope, element, attrs) {
+                element.click(function(){
+                    swal({   
+                        title: "Are you sure?",   
+                        text: "Kindly click on approve for approval",   
+                        type: "warning",   
+                        showCancelButton: true,   
+                        confirmButtonColor: "#DD6B55",   
+                        confirmButtonText: "Yes, Approve it!",   
+                        cancelButtonText: "No, cancel pls!",   
+                        closeOnConfirm: false,   
+                        closeOnCancel: true 
+                    }, function(isConfirm){   
+                        if (isConfirm) {     
+                            swal("Approved!", "Leave Application has been approved.", "success");   
+                        } 
+                    });
+                });
+            }
+        }
+    })
+    
+    .directive('swalCancelMsg', function(){
+        return {
+            restrict: 'A',
+            link: function(scope, element, attrs) {
+                element.click(function(){
+                    swal({   
+                        title: "Are you sure?",   
+                        text: "Kindly make sure while cancelling leave",   
+                        type: "warning",   
+                        showCancelButton: true,   
+                        confirmButtonColor: "#DD6B55",   
+                        confirmButtonText: "Yes, Cancel it!",   
+                        cancelButtonText: "No, Cancel pls!",   
+                        closeOnConfirm: false,   
+                        closeOnCancel: true 
+                    }, function(isConfirm){   
+                        if (isConfirm) {     
+                            swal("Cancelled!", "Leave Application has been cancelled.", "success");   
+                        } 
+                    });
+                });
+            }
+        }
+    })
+    .directive('swalTimesheetSuccessMsg', function(){
+        return {
+            restrict: 'A',
+            link: function(scope, element, attrs) {
+                element.click(function(){
+                    swal({   
+                        title: "Are you sure?",   
+                        text: "Kindly click on approve for approval",   
+                        type: "warning",   
+                        showCancelButton: true,   
+                        confirmButtonColor: "#DD6B55",   
+                        confirmButtonText: "Yes, Approve it!",   
+                        cancelButtonText: "No, cancel pls!",   
+                        closeOnConfirm: false,   
+                        closeOnCancel: true 
+                    }, function(isConfirm){   
+                        if (isConfirm) {     
+                            swal("Approved!", "TimeSheet has been approved", "success");   
+                        } 
+                    });
+                });
+            }
+        }
+    })
+    
+     .directive('swalTimesheetCancelMsg', function(){
+        return {
+            restrict: 'A',
+            link: function(scope, element, attrs) {
+                element.click(function(){
+                    swal({   
+                        title: "Are you sure?",   
+                        text: "Kindly make sure while cancelling leave",   
+                        type: "warning",   
+                        showCancelButton: true,   
+                        confirmButtonColor: "#DD6B55",   
+                        confirmButtonText: "Yes, Reject it!",   
+                        cancelButtonText: "No, Cancel pls!",   
+                        closeOnConfirm: false,   
+                        closeOnCancel: true 
+                    }, function(isConfirm){   
+                        if (isConfirm) {     
+                            swal("Cancelled!", "TimeSheet has been Rejected.", "success");   
+                        } 
+                    });
+                });
+            }
+        }
+    })
+    .directive('swalLeaveapplySucessMsg', function(){
+        return {
+            restrict: 'A',
+            link: function(scope, element, attrs) {
+                element.click(function(){
+                    swal({   
+                        title: "Are you sure?",   
+                        text: "You will not be able to recover this imaginary file!",   
+                        type: "warning",   
+                        showCancelButton: true,   
+                        confirmButtonColor: "#DD6B55",   
+                        confirmButtonText: "Yes, Apply it!",   
+                        cancelButtonText: "No, cancel plx!",   
+                        closeOnConfirm: false,   
+                        closeOnCancel: false 
+                    }, function(isConfirm){   
+                        if (isConfirm) {     
+                            swal("Applied SuccessFully!", "Your Leave Application has been submitted successfully.", "success");   
+                        } else {     
+                            swal("Cancelled", "Your Leave Application has not been submitted.)", "error");   
+                        } 
+                    });
+                });
+            }
+        }
+    })
+    
     //Custom Image
     .directive('swalImg', function(){
         return {

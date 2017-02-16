@@ -5325,6 +5325,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
 
 .input-group-addon:first-child {
   border-right: 0;
+      text-align: left;
 }
 
 .input-group .form-control:last-child,
@@ -14031,6 +14032,7 @@ html:not(.ie9) .select.fg-line:before {
 .fg-line:not(.form-group) {
   display: inline-block;
   width: 100%;
+  
 }
 
 .fg-line .form-control:disabled {

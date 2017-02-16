@@ -64,7 +64,10 @@ materialAdmin
 			department : department
 		})
 	}
-} ]).service('timeSheetService', [ '$resource', function($resource) {
+} ])
+
+
+.service('timeSheetService', [ '$resource', function($resource) {
 	this.getRecentitem = function(id, name, from_date,to_date,total_hour,status,department,reporting_manager) {
 		var recentitemList = $resource("data/timeSheet.json");
 
@@ -81,7 +84,24 @@ materialAdmin
 		})
 	}
 } ])
+.service('LeaveHistoryService', [ '$resource', function($resource) {
+	this.getRecentitem = function(id, name, from_date,to_date,total_days,status,department,reporting_manager,approvedBy) {
+		var recentitemList = $resource("data/leavehistory.json");
 
+		return recentitemList.get({
+			id : id,
+			name : name,
+			from_date : from_date,
+			to_date : to_date,
+			total_days : total_days,
+			status : status,
+			department : department,
+			reporting_manager:reporting_manager,
+			approvedBy:approvedBy
+
+		})
+	}
+} ])
 // =========================================================================
 // Recent Posts Widget Data
 // =========================================================================

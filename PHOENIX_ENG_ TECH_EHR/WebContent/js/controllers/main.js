@@ -7,7 +7,7 @@ materialAdmin
 				'materialadminCtrl',
 				function($timeout, $state, $scope, growlService) {
 					// Welcome Message
-					growlService.growl('Welcome back Mallinda!', 'inverse')
+					growlService.growl('Welcome ADAM!', 'inverse')
 
 					// Detact Mobile Browser
 					if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i
@@ -218,7 +218,8 @@ materialAdmin
 
 		.controller(
 				'recentitemCtrl',
-				function(recentitemService) {
+				function($scope, $filter, $sce, ngTableParams,
+						recentitemService) {
 
 					// Get Recent Items Widget Data
 					this.id = recentitemService.id;
@@ -232,6 +233,12 @@ materialAdmin
 					this.riResult = recentitemService.getRecentitem(this.id,
 							this.name, this.from_date, this.todate,
 							this.totalDays, this.department, this.status);
+
+					$scope.totalItems1 = this.riResult.length;
+					$scope.viewby1 = 5;
+					$scope.currentPage1 = 1;
+					$scope.itemsPerPage1 = $scope.viewby;
+					$scope.maxSize1 = 5;
 				})
 
 		// =========================================================================
@@ -239,21 +246,109 @@ materialAdmin
 		// =========================================================================
 		.controller(
 				'timeSheetCtrl',
-				function(timeSheetService) {
+				function($scope, $filter, $sce, ngTableParams, timeSheetService) {
 					this.id = timeSheetService.id;
 					this.name = timeSheetService.name;
 					this.fromDate = timeSheetService.from_date;
 					this.toDate = timeSheetService.to_date;
 					this.total_hour = timeSheetService.total_hour;
 					this.department = timeSheetService.department;
-					this.reporting_manager=timeSheetService.reporting_manager
+					this.reporting_manager = timeSheetService.reporting_manager
 					this.status = timeSheetService.status;
 
 					this.riResult = timeSheetService.getRecentitem(this.id,
 							this.name, this.from_date, this.todate,
 							this.total_hour, this.department, this.status);
+					$scope.totalItems = this.riResult.length;
+					$scope.viewby = 5;
+					$scope.currentPage = 1;
+					$scope.itemsPerPage = $scope.viewby;
+					$scope.maxSize = 5;
+					/*
+					 * var data = this.riResult.list; // Basic Example
+					 * this.tableBasic = new ngTableParams({ page : 1, // show
+					 * first page count : 10 // count per page }, { total :
+					 * data.length, // length of data getData : function($defer,
+					 * params) { $defer.resolve(data.slice((params.page() - 1)
+					 * params.count(), params.page() params.count())); } }) //
+					 * Sorting this.tableSorting = new ngTableParams({ page : 1, //
+					 * show first page count : 10, // count per page sorting : {
+					 * name : 'asc' // initial sorting } }, { total :
+					 * data.length, // length of data getData : function($defer,
+					 * params) { // use build-in angular filter var orderedData =
+					 * params.sorting() ? $filter( 'orderBy')(data,
+					 * params.orderBy()) : data;
+					 * 
+					 * $defer.resolve(orderedData.slice( (params.page() - 1) *
+					 * params.count(), params.page() * params.count())); } }) //
+					 * Filtering this.tableFilter = new ngTableParams( { page :
+					 * 1, // show first page count : 10 }, { total :
+					 * data.length, // length of data getData : function($defer,
+					 * params) { // use build-in angular filter var orderedData =
+					 * params.filter() ? $filter( 'filter')(data,
+					 * params.filter()) : data;
+					 * 
+					 * this.id = timeSheetService.id; this.name =
+					 * timeSheetService.name; this.fromDate =
+					 * timeSheetService.from_date; this.toDate =
+					 * timeSheetService.to_date; this.total_hour =
+					 * timeSheetService.total_hour; this.department =
+					 * timeSheetService.department; this.reporting_manager =
+					 * timeSheetService.reporting_manager this.status =
+					 * timeSheetService.status;
+					 * 
+					 * this.id = orderedData.slice( (params.page() - 1)
+					 * params.count(), params .page() params.count()); this.name =
+					 * orderedData.slice((params .page() - 1) params.count(),
+					 * params.page() params.count()); this.fromDate =
+					 * orderedData.slice((params .page() - 1) params.count(),
+					 * params.page() params.count()); this.toDate =
+					 * orderedData.slice((params .page() - 1) params.count(),
+					 * params.page() params.count()); this.total_hour =
+					 * orderedData.slice((params .page() - 1) params.count(),
+					 * params.page() params.count()); this.department =
+					 * orderedData.slice((params .page() - 1) params.count(),
+					 * params.page() params.count()); this.reporting_manager =
+					 * orderedData.slice( (params.page() - 1) params.count(),
+					 * params .page() params.count()); this.status =
+					 * orderedData.slice((params .page() - 1) params.count(),
+					 * params.page() params.count());
+					 * 
+					 * params.total(orderedData.length); // set // total // for //
+					 * recalc // pagination $defer .resolve(this.id, this.name,
+					 * this.fromDate, this.toDate, this.total_hour,
+					 * this.department, this.reporting_manager, this.status); } }) //
+					 * Editable this.tableEdit = new ngTableParams({ page : 1, //
+					 * show first page count : 10 // count per page }, { total :
+					 * data.length, // length of data getData : function($defer,
+					 * params) { $defer.resolve(data.slice((params.page() - 1)
+					 * params.count(), params.page() params.count())); } });
+					 */
 
 				})
+
+		.controller(
+				'leaveHistory',
+				function($scope, $filter, $sce, ngTableParams, LeaveHistoryService) {
+					this.id = LeaveHistoryService.id;
+					this.name = LeaveHistoryService.name;
+					this.fromDate = LeaveHistoryService.from_date;
+					this.toDate = LeaveHistoryService.to_date;
+					this.totalDays = LeaveHistoryService.total_days;
+					this.department = LeaveHistoryService.department;
+					this.status = LeaveHistoryService.status;
+					this.reporting_manager = LeaveHistoryService.reporting_manager
+					this.approvedBy=LeaveHistoryService.approvedBy;
+					this.riResult = LeaveHistoryService.getRecentitem(this.id,
+							this.name, this.from_date, this.todate,
+							this.total_hour, this.department, this.status);
+					$scope.totalItems = this.riResult.length;
+					$scope.viewby = 10;
+					$scope.currentPage = 1;
+					$scope.itemsPerPage = $scope.viewby;
+					$scope.maxSize = 10;
+				})
+				
 		.controller(
 				'recentpostCtrl',
 				function(recentpostService) {

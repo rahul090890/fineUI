@@ -1,0 +1,363 @@
+
+<header id="header" data-current-skin={{mactrl.currentSkin}}
+	data-ng-include="'template/header.html'"
+	data-ng-controller="headerCtrl as hctrl"></header>
+
+<section id="main">
+	<aside id="sidebar" data-ng-include="'template/sidebar-left.html'"
+		data-ng-class="{ 'toggled': mactrl.sidebarToggle.left === true }"></aside>
+
+	<aside id="chat" data-ng-include="'template/chat.html'"
+		data-ng-class="{ 'toggled': mactrl.sidebarToggle.right === true }"></aside>
+
+	<section id="content">
+		<div class="container c-alt">
+			<div class="block-header">
+				<h2>
+					Leave Request <small></small>
+				</h2>
+			</div>
+
+			<div class="card" data-ng-controller="DatepickerDemoCtrl">
+				<div class="card-body card-padding">
+					<div class="row">
+						<div class="col-sm-4">
+							<div class="form-group">
+								<span class="input-group-addon"><i class="">Employee
+										id</i></span>
+								<div class="fg-line"></div>
+							</div>
+
+							<br />
+							<div class="form-group">
+								<span class="input-group-addon"><i class="">Employee
+										Name</i></span>
+								<div class="fg-line"></div>
+							</div>
+
+							<br />
+
+							<div class="form-group">
+								<span class="input-group-addon"><i class="">Department</i></span>
+								<div class="fg-line"></div>
+							</div>
+
+							<br />
+
+							<div class="form-group">
+								<span class="input-group-addon"><i class="">Email
+										Address</i></span>
+								<div class="fg-line"></div>
+							</div>
+
+							<br />
+
+							<div class="form-group">
+								<span class="input-group-addon"><i class="">Leave
+										Type</i></span>
+
+							</div>
+							<br />
+
+							<div class="form-group">
+								<span class="input-group-addon"><i class="">From-Date
+								</i></span>
+
+							</div>
+							<br />
+
+							<div class="form-group">
+								<span class="input-group-addon"><i class="">To-Date </i></span>
+
+							</div>
+							<br />
+							<div class="form-group">
+								<span class="input-group-addon"><i class=""> </i></span>
+
+							</div>
+							<br /> <br /> <br />
+							<div class="form-group">
+								<span class="input-group-addon"><i class="">Leave
+										Available </i></span>
+
+							</div>
+							<br />
+
+							<div class="form-group">
+								<span class="input-group-addon"><i class="">Days
+										Taken </i></span>
+
+							</div>
+							<br />
+
+							<div class="form-group">
+								<span class="input-group-addon"><i class="">Remaining
+										Leaves </i></span>
+
+							</div>
+						</div>
+						<div class="col-sm-4">
+							<div class="form-group">
+								<div class="fg-line">
+									<input type="text" class="form-control" placeholder="125695"
+										disabled>
+								</div>
+
+							</div>
+
+							<br />
+							<div class="form-group">
+								<div class="fg-line">
+									<input type="text" class="form-control"
+										placeholder="Adam Kario" disabled>
+								</div>
+
+							</div>
+
+							<br />
+
+							<div class="form-group">
+								<div class="fg-line">
+									<input type="text" class="form-control" placeholder="ADM">
+								</div>
+
+							</div>
+
+							<br />
+
+							<div class="form-group">
+								<div class="fg-line">
+									<input type="text" class="form-control"
+										placeholder="adam.Kario@phonixtechnologies.com">
+								</div>
+
+							</div>
+
+							<br />
+
+
+
+							<div class="form-group">
+								<div class="fg-line">
+
+									<div class="select">
+										<select class="form-control">
+											<option>Select leave type</option>
+											<option>Annual Leave</option>
+											<option>Sick Leave</option>
+											<option>Maternity leave</option>
+											<option>Marriage Leave</option>
+											<option>BirthDay Leave</option>
+										</select>
+									</div>
+								</div>
+							</div>
+
+							<br />
+
+
+
+							<div class="form-group" style="margin-top: 5px;">
+								<div class="fg-line">
+
+									<div class="date-picker input-group dp-blue"
+										ng-class="{ 'is-opened': opened == true }">
+
+										<div class="fg-line"
+											ng-class="{ 'fg-toggled': opened == true }">
+											<input ng-click="open($event, 'opened')" type="text"
+												class="form-control" uib-datepicker-popup="{{format}}"
+												show-weeks="false" ng-model="dtPopup" is-open="opened"
+												min-date="minDate" datepicker-options="dateOptions"
+												ng-required="true" close-text="Close"
+												placeholder="Select Date" />
+										</div>
+										<span class="input-group-addon"><i
+											class="zmdi zmdi-calendar ma-icon"></i></span>
+									</div>
+
+								</div>
+							</div>
+							<br />
+							<div class="form-group">
+								<div class="fg-line">
+
+									<div class="date-picker input-group dp-blue"
+										ng-class="{ 'is-opened': opened2 == true }">
+
+										<div class="fg-line"
+											ng-class="{ 'fg-toggled': opened2 == true }">
+											<input ng-click="open($event, 'opened2')" type="text"
+												class="form-control" uib-datepicker-popup="{{format}}"
+												show-weeks="false" ng-model="dtPopup2" is-open="opened2"
+												min-date="minDate" datepicker-options="dateOptions"
+												ng-required="true" close-text="Close"
+												placeholder="Select Date" />
+										</div>
+										<span class="input-group-addon"><i
+											class="zmdi zmdi-calendar ma-icon"></i></span>
+									</div>
+
+								</div>
+							</div>
+							<br />
+							<div class="form-group">
+								<button class="btn btn-default btn-icon-text waves-effect">
+									<i class="zmdi zmdi-refresh"></i> Check Eligibility
+								</button>
+							</div>
+							<br />
+							<div class="form-group">
+								<div class="fg-line" ng-model="totalLeaves">
+									<input type="text" class="form-control" ng-model="totalLeaves"
+										disabled placeholder="5">
+								</div>
+
+							</div>
+							<br />
+
+							<div class="form-group">
+								<div class="fg-line">
+									<input type="text" class="form-control" ng-model="leaveTaken"
+										disabled placeholder="2">
+								</div>
+
+							</div>
+							<br />
+
+							<div class="form-group">
+								<div class="fg-line">
+									<input type="text" class="form-control" ng-model="remainLeaves"
+										placeholder="3">
+
+								</div>
+
+							</div>
+						</div>
+
+					</div>
+
+
+
+					<!-- 	<div class="col-sm-4">
+						<div class="input-group">
+							<span class="input-group-addon"><i
+								class="zmdi zmdi-arrow-missed"></i></span>
+							<div class="fg-line">
+								<input type="text" class="form-control" placeholder="Internet">
+							</div>
+							<span class="input-group-addon last"><i
+								class="zmdi zmdi-globe"></i></span>
+						</div>
+
+						<br />
+
+						<div class="input-group">
+							<span class="input-group-addon"><i class="zmdi zmdi-money"></i></span>
+							<div class="fg-line">
+								<input type="text" class="form-control"
+									placeholder="Notifications">
+							</div>
+							<span class="input-group-addon last"><i
+								class="zmdi zmdi-plus-circle-o"></i></span>
+						</div>
+
+						<br />
+
+						<div class="input-group">
+							<span class="input-group-addon"><i
+								class="zmdi zmdi-mail-send"></i></span>
+							<div class="fg-line">
+								<input type="text" class="form-control" placeholder="Layers">
+							</div>
+							<span class="input-group-addon last"><i
+								class="zmdi zmdi-layers"></i></span>
+						</div>
+
+						<br />
+
+						<div class="input-group">
+							<span class="input-group-addon"><i
+								class="zmdi zmdi-portable-wifi"></i></span>
+							<div class="fg-line">
+								<input type="text" class="form-control" placeholder="Messages">
+							</div>
+							<span class="input-group-addon last"><i
+								class="zmdi zmdi-dialpad"></i></span>
+						</div>
+					</div> -->
+
+				</div>
+				<div class="card-body card-padding">
+					<div class="row">
+						<div class="col-sm-4">
+							<div class="form-group">
+								<span class="input-group-addon"><i class="">Supervisor
+										Name </i></span>
+								<div class="fg-line"></div>
+							</div>
+
+							<br />
+
+							<div class="form-group">
+								<span class="input-group-addon"><i class="">Supervisor
+										email</i></span>
+								<div class="fg-line"></div>
+							</div>
+
+							<br />
+
+							<div class="form-group">
+								<span class="input-group-addon"><i class="">Supervisor
+										ID </i></span>
+								<div class="fg-line"></div>
+							</div>
+
+
+						</div>
+
+						<div class="col-sm-4">
+							<div class="form-group">
+								<div class="fg-line">
+									<input type="text" class="form-control" placeholder="Kiran Rao"
+										disabled>
+								</div>
+
+							</div>
+
+							<br />
+							<div class="form-group">
+								<div class="fg-line">
+									<input type="text" class="form-control"
+										placeholder="kiran.rao@phonixtechnologies.com" disabled>
+								</div>
+
+							</div>
+
+							<br />
+
+							<div class="form-group">
+								<div class="fg-line">
+									<input type="text" class="form-control" placeholder="56889">
+								</div>
+
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<button class="btn bgm-lightblue waves-effect" swal-leaveapply-sucess-msg
+							style="float: right;">Apply</button>
+					</div>
+				</div>
+
+			</div>
+
+		</div>
+
+	</section>
+
+</section>
+
+<footer id="footer" data-ng-include src="'template/footer.html'"></footer>
+
+
