@@ -8,10 +8,9 @@
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.web.container"/>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
-	<classpathentry kind="lib" path="C:/Program Files/Java/jdk1.7.0_79/jre/lib/resources.jar"/>
-	<classpathentry kind="lib" path="C:/Program Files/Java/jdk1.7.0_79/jre/lib/rt.jar"/>
-	<classpathentry kind="lib" path="E:/UITesting/SEMCODEZER/WebContent/WEB-INF/lib/jsp-api.jar"/>
-	<classpathentry kind="lib" path="E:/UITesting/SEMCODEZER/WebContent/WEB-INF/lib/jstl-1.2.jar"/>
-	<classpathentry kind="lib" path="E:/UITesting/SEMCODEZER/WebContent/WEB-INF/lib/servlet-api.jar"/>
+	<classpathentry kind="lib" path="WebContent/lib/jsp-api.jar"/>
+	<classpathentry kind="lib" path="WebContent/lib/resources.jar"/>
+	<classpathentry kind="lib" path="WebContent/lib/servlet-api.jar"/>
+	<classpathentry kind="lib" path="WebContent/lib/rt.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>
