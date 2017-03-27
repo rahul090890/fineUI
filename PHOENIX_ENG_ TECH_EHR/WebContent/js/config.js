@@ -52,6 +52,10 @@ materialAdmin
 						url : '/leavehistory',
 						templateUrl : 'views/leavehistory.html'
 					})
+					.state('headers.createuser', {
+						url : '/createuser',
+						templateUrl : 'views/createuser.html'
+					})
 					.state('headers.timesheet', {
 						url : '/timesheet',
 						templateUrl : 'views/timesheet.html'
