@@ -56,6 +56,70 @@ materialAdmin
 						url : '/createuser',
 						templateUrl : 'views/createuser.html'
 					})
+					.state('headers.edituser', {
+						url : '/edituser',
+						templateUrl : 'views/edituser.html'
+					})
+					.state('headers.edituserdetails', {
+						url : '/edituserdetails',
+						templateUrl : 'views/edituserdetails.html'
+					})
+					.state('headers.addcustomer', {
+						url : '/addcustomer',
+						templateUrl : 'views/addcustomer.html'
+					})
+					.state('headers.editcustomer', {
+						url : '/editcustomer',
+						templateUrl : 'views/editcustomer.html'
+					})
+					.state('headers.adddepartment', {
+						url : '/adddepartment',
+						templateUrl : 'views/adddepartment.html'
+					})
+					.state('headers.editdepartment', {
+						url : '/editdepartment',
+						templateUrl : 'views/editdepartment.html'
+					})
+					.state('headers.addrole', {
+						url : '/addrole',
+						templateUrl : 'views/addrole.html'
+					})
+					.state('headers.editrole', {
+						url : '/editrole',
+						templateUrl : 'views/editrole.html'
+					})
+					.state('headers.addproject', {
+						url : '/addproject',
+						templateUrl : 'views/addproject.html'
+					})
+					.state('headers.editproject', {
+						url : '/editproject',
+						templateUrl : 'views/editproject.html'
+					})
+					.state('headers.addleave', {
+						url : '/addleave',
+						templateUrl : 'views/addleave.html'
+					})
+					.state('headers.editleave', {
+						url : '/editleave',
+						templateUrl : 'views/editleave.html'
+					})
+					.state('headers.addcpc', {
+						url : '/addcustomerprogramcode',
+						templateUrl : 'views/addcpc.html'
+					})
+					.state('headers.editcpc', {
+						url : '/editcustomerprogramcode',
+						templateUrl : 'views/editcpc.html'
+					})
+					.state('headers.addtimesheet', {
+						url : '/addtimesheet',
+						templateUrl : 'views/addtimesheet.html'
+					})
+					.state('headers.edittimesheet', {
+						url : '/edittimesheet',
+						templateUrl : 'views/edittimesheet.html'
+					})
 					.state('headers.timesheet', {
 						url : '/timesheet',
 						templateUrl : 'views/timesheet.html'
@@ -64,6 +128,7 @@ materialAdmin
 						url : '/timesheethistory',
 						templateUrl : 'views/timesheethistory.html'
 					})
+					
 					.state('headers.mainmenu-on-top', {
 						url : '/mainmenu-on-top',
 						templateUrl : 'views/mainmenu-on-top.html'

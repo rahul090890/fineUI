@@ -2,6 +2,7 @@
     <wb-module deploy-name="PHOENIX_ENG_ TECH_EHR">
         <wb-resource deploy-path="/" source-path="/WebContent" tag="defaultRootSource"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/"/>
         <property name="context-root" value="PHOENIX_ENG__TECH_EHR"/>
         <property name="java-output-path" value="/PHOENIX_ENG_ TECH_EHR/build/classes"/>
     </wb-module>
