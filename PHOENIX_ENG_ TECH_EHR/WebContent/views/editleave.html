@@ -1,0 +1,127 @@
+
+<header id="header" data-current-skin={{mactrl.currentSkin}}
+	data-ng-include="'template/header.html'"
+	data-ng-controller="headerCtrl as hctrl"></header>
+
+<section id="main">
+	<aside id="sidebar" data-ng-include="'template/sidebar-left.html'"
+		data-ng-class="{ 'toggled': mactrl.sidebarToggle.left === true }"></aside>
+
+	<aside id="chat" data-ng-include="'template/chat.html'"
+		data-ng-class="{ 'toggled': mactrl.sidebarToggle.right === true }"></aside>
+
+	<section id="content">
+		<div class="container c-alt">
+			<!-- <div class="block-header">
+				<h2>
+					Update Employee List <small></small>
+				</h2>
+			</div> -->
+
+			<div class="card" data-ng-controller="DatepickerDemoCtrl">
+				<div class="card-header">
+					<h2>
+						Edit Leave<small></small>
+					</h2>
+					<div class="card-body card-padding">
+						<div class='row'>
+							<div class='col-sm-4'>
+								<div class="form-group">
+									<span class="input-group-addon"><i class="">Leave Id  </i></span>
+									<div class="fg-line"></div>
+								</div>
+								
+								<div class="form-group">
+									<span class="input-group-addon"><i class="">Leave Name</i></span>
+									<div class="fg-line"></div>
+								</div>
+								
+								<div class="form-group">
+									<span class="input-group-addon"><i class="">Leave From</i></span>
+									<div class="fg-line"></div>
+								</div>
+								
+								<div class="form-group">
+									<span class="input-group-addon"><i class="">Leave To</i></span>
+									<div class="fg-line"></div>
+								</div>
+								
+								<div class="form-group">
+									<span class="input-group-addon"><i class="">Number of Leaves</i></span>
+									<div class="fg-line"></div>
+								</div>
+								
+								<div class="form-group">
+									<span class="input-group-addon"><i class="">Leave Type</i></span>
+									<div class="fg-line"></div>
+								</div>
+								
+								<div class="form-group">
+									<span class="input-group-addon"><i class="">Leave Status</i></span>
+									<div class="fg-line"></div>
+								</div>
+							</div>	
+							
+							<div class='col-sm-4'>
+								<div class="form-group">
+									<div class="fg-line">
+										<input type="text" class="form-control" placeholder="Enter Leave Id" value='phoenixLeave_111'>
+									</div>	
+								</div>
+								
+								<div class="form-group">
+									<div class="fg-line">
+										<input type="text" class="form-control" placeholder="Enter Leave Name" value='phoenixLeave_Name'>
+									</div>	
+								</div>
+								
+								<div class="form-group">
+									<div class="fg-line">
+										<input type="text" class="form-control" placeholder="Enter Leave From" value='phoenixLeave_From'>
+									</div>	
+								</div>
+								
+								<div class="form-group">
+									<div class="fg-line">
+										<input type="text" class="form-control" placeholder="Enter Leave To" value='phoenixLeave_To'>
+									</div>	
+								</div>
+								
+								<div class="form-group">
+									<div class="fg-line">
+										<input type="text" class="form-control" placeholder="Enter Number of Leaves" value='phoenixLeave_no'>
+									</div>	
+								</div>
+								
+								<div class="form-group">
+									<div class="fg-line">
+										<input type="text" class="form-control" placeholder="Enter Leave Type" value='phoenixLeave_Type'>
+									</div>	
+								</div>
+								
+								<div class="form-group">
+									<div class="fg-line">
+										<input type="text" class="form-control" placeholder="Enter Leave Status" value='phoenixLeave_Status'>
+									</div>	
+								</div>
+								
+								<br/> 
+								
+								<div class="form-group">
+									<span>
+										<button class="btn btn-primary btn-icon-text waves-effect">
+										<i class="zmdi zmdi-check-all"></i> Done</button>
+													
+										<button class="btn btn-danger btn-icon-text waves-effect">
+										<i class="zmdi zmdi-close"></i> Cancel</button>
+									</span>
+								</div>
+							</div>	
+							
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+</section>
