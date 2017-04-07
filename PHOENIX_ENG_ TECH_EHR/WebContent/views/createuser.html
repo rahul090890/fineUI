@@ -14,24 +14,6 @@
 			<div class="block-header">
 				<h2>New User Creation</h2>
 
-				<ul class="actions">
-					<li><a href=""> <i class="zmdi zmdi-trending-up"></i>
-					</a></li>
-					<li><a href=""> <i class="zmdi zmdi-check-all"></i>
-					</a></li>
-					<li class="dropdown" uib-dropdown=""><a href=""
-						uib-dropdown-toggle="" class="dropdown-toggle"
-						aria-haspopup="true" aria-expanded="false"> <i
-							class="zmdi zmdi-more-vert"></i>
-					</a>
-
-						<ul class="dropdown-menu dropdown-menu-right">
-							<li><a href="">Refresh</a></li>
-							<li><a href="">Manage Widgets</a></li>
-							<li><a href="">Widgets Settings</a></li>
-						</ul></li>
-				</ul>
-
 			</div>
 
 			<div class="card">
@@ -56,7 +38,8 @@
 									class="zmdi zmdi-email"></i></span>
 								<!-- zmdi zmdi-local-phone -->
 								<div class="fg-line">
-									<input type="text" class="form-control" placeholder="Email Id">
+									<input type="text" class="form-control" ng-modal="email"
+										placeholder="Email Id">
 								</div>
 							</div>
 
@@ -72,6 +55,49 @@
 							</div>
 
 							<br>
+							<div class="input-group">
+								<span class="input-group-addon"><i
+									class="zmdi zmdi-accounts-alt zmdi-hc-fw"></i></span>
+								<div class="fg-line">
+									<div class="form-group">
+										<div class="fg-line">
+
+											<div class="select">
+												<select class="form-control">
+													<option>Designation</option>
+													<option>Admin</option>
+													<option>Resource</option>
+													<option>Lead</option>
+													<option>Project Manage</option>
+													<option>Director</option>
+													<option>Reporter</option>
+													<!-- 	<option>Lead</option> -->
+												</select>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<br>
+							<div class="input-group">
+								<span class="input-group-addon"><i
+									class="zmdi zmdi-accounts-alt zmdi-hc-fw"></i></span>
+								<div class="fg-line">
+									<div class="form-group">
+										<div class="fg-line">
+
+											<div class="select">
+												<select class="form-control">
+													<option>Status</option>
+													<option>Active</option>
+													<option>InActive</option>
+
+												</select>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
 
 							<!-- <div class="input-group">
 								<span class="input-group-addon"><i class="zmdi zmdi-pin"></i></span>
@@ -87,7 +113,7 @@
 									class="zmdi zmdi-account"></i></span>
 								<div class="fg-line">
 									<input type="text" class="form-control"
-										placeholder="Complete Name">
+										placeholder="First Name">
 								</div>
 							</div>
 
@@ -126,7 +152,27 @@
 									</div>
 								</div>
 							</div>
+							
+							<br>
+							<div class="input-group">
+								<span class="input-group-addon"><i
+									class="zmdi zmdi-accounts-alt zmdi-hc-fw"></i></span>
+								<div class="fg-line">
+									<div class="form-group">
+										<div class="fg-line">
 
+											<div class="select">
+												<select class="form-control">
+													<option>Employee Type</option>
+													<option>FTE</option>
+													<option>CTE</option>
+
+												</select>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
 							<!-- <br>
 
 							<div class="input-group">
@@ -203,8 +249,14 @@
 									class="zmdi zmdi-globe"></i></span >
 							</div> -->
 
-							
-
+							<div class="input-group">
+								<span class="input-group-addon"><i
+									class="zmdi zmdi-account"></i></span>
+								<div class="fg-line">
+									<input type="text" class="form-control" placeholder="Last Name">
+								</div>
+							</div>
+							<br>
 							<div class="input-group">
 								<span class="input-group-addon"><i
 									class="zmdi zmdi-key zmdi-hc-fw"></i></span>
@@ -218,11 +270,10 @@
 								<!-- <span class="input-group-addon last"><i
 									class="zmdi zmdi-plus-circle-o"></i></span> -->
 							</div>
-							
+
 							<div class="input-group">
 								<span class="input-group-addon"><i
-									class="zmdi zmdi-home zmdi-hc-fw"></i>
-								</span>
+									class="zmdi zmdi-home zmdi-hc-fw"></i> </span>
 								<div class="form-group">
 									<div class="fg-line">
 										<input type="text" class="form-control"
@@ -232,7 +283,28 @@
 								<!-- <span class="input-group-addon last"><i
 									class="zmdi zmdi-plus-circle-o"></i></span> -->
 							</div>
+							<br>
+							<div class="input-group">
+								<span class="input-group-addon"><i
+									class="zmdi zmdi-accounts-alt zmdi-hc-fw"></i></span>
+								<div class="fg-line">
+									<div class="form-group">
+										<div class="fg-line">
 
+											<div class="select">
+												<select class="form-control">
+													<option>Department</option>
+													<option>Lee Cho(22456)</option>
+													<option>Vijay Shankaran(22498)</option>
+													<option>Ashutosh Vijay(22488)</option>
+													<option>Vinayaka(22490)</option>
+													<!-- 	<option>Lead</option> -->
+												</select>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
 
 							<!-- <div class="input-group">
 								<span class="input-group-addon"><i
@@ -258,20 +330,22 @@
 						</div>
 					</div>
 					<div class='col-sm-4'>
-					<div class="form-group">
-						<span>
-							<button class="btn btn-primary btn-icon-text waves-effect">
-							<i class="zmdi zmdi-check-all"></i> Done</button>
-										
-							<button class="btn btn-danger btn-icon-text waves-effect">
-							<i class="zmdi zmdi-close"></i> Clear</button>
-						</span>
-					</div>
+						<div class="form-group">
+							<span>
+								<button class="btn btn-primary btn-icon-text waves-effect">
+									<i class="zmdi zmdi-check-all"></i>Create User
+								</button>
+
+								<button class="btn btn-danger btn-icon-text waves-effect">
+									<i class="zmdi zmdi-close"></i> Clear
+								</button>
+							</span>
+						</div>
 					</div>
 					<!-- <p class="c-black f-500 m-b-5 m-t-20">Link Role Management</p> -->
 					<br>
 
-					
+
 
 					<!-- <br> <br>
 					<p class="c-black f-500 m-b-5 m-t-20">Different Sizes</p>
@@ -5439,7 +5513,7 @@
 
 					<p class="f-500 c-black m-b-20">Image Preview</p>
  -->
-				<!-- 	<div class="fileinput fileinput-new" data-provides="fileinput">
+					<!-- 	<div class="fileinput fileinput-new" data-provides="fileinput">
 						<div class="fileinput-preview thumbnail" data-trigger="fileinput"></div>
 						<div>
 							<span class="btn btn-info btn-file waves-effect"> <span

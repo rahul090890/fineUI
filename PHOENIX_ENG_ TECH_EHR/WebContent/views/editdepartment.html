@@ -21,7 +21,7 @@
 			<div class="card" data-ng-controller="DatepickerDemoCtrl">
 				<div class="card-header">
 					<h2>
-						Edit Department<small></small>
+						Update Department<small></small>
 					</h2>
 					<div class="card-body card-padding">
 						<div class='row'>
@@ -37,14 +37,10 @@
 								</div>
 								
 								<div class="form-group">
-									<span class="input-group-addon"><i class="">Sub-Department Level 1</i></span>
+									<span class="input-group-addon"><i class="">Sub-Department</i></span>
 									<div class="fg-line"></div>
 								</div>
-								
-								<div class="form-group">
-									<span class="input-group-addon"><i class="">Sub-Department Level 2</i></span>
-									<div class="fg-line"></div>
-								</div>
+							
 							</div>	
 							
 							<div class='col-sm-4'>
@@ -61,22 +57,24 @@
 								</div>
 								
 								<div class="form-group">
-									<div class="fg-line">
-										<input type="text" class="form-control" placeholder="Enter Sub-Department Level 1" value='Design Engineering'>
-									</div>	
-								</div>
-								
-								<div class="form-group">
-									<div class="fg-line">
-										<input type="text" class="form-control" placeholder="Enter Sub-Department Level 2" value='Mechanical Engineering'>
-									</div>	
+										<div class="fg-line">
+											<div class="select">
+												<select class="form-control">
+													<option>Design Engineering</option>
+													<option selected>Certification Engineering</option>
+													<option>Manufacturing Engineering</option>
+													<option>Research and Development</option>
+												</select>
+											</div>
+									</div>
+										
 								</div>
 								
 								<br/>
 								<div class="form-group">
 									<span>
 										<button class="btn btn-primary btn-icon-text waves-effect">
-										<i class="zmdi zmdi-check-all"></i> Done</button>
+										<i class="zmdi zmdi-check-all"></i> Update Department</button>
 													
 										<button class="btn btn-danger btn-icon-text waves-effect">
 										<i class="zmdi zmdi-close"></i> Cancel</button>
