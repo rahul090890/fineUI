@@ -1,0 +1,81 @@
+
+<header id="header" data-current-skin={{mactrl.currentSkin}}
+	data-ng-include="'template/header.html'"
+	data-ng-controller="headerCtrl as hctrl"></header>
+
+<section id="main">
+	<aside id="sidebar" data-ng-include="'template/sidebar-left.html'"
+		data-ng-class="{ 'toggled': mactrl.sidebarToggle.left === true }"></aside>
+
+	<aside id="chat" data-ng-include="'template/chat.html'"
+		data-ng-class="{ 'toggled': mactrl.sidebarToggle.right === true }"></aside>
+
+	<section id="content">
+		<div class="row">
+			<div class="col-sm-12 ">
+				<!-- Recent Items -->
+				<div class="card" data-ng-controller="recentitemCtrl as rictrl">
+					<div class="card-header">
+						<h2>
+							Leave Requested <small>Leave requested need a approval </small>
+						</h2>
+						<ul class="actions">
+							<li class="dropdown" uib-dropdown><a href=""
+								uib-dropdown-toggle> <i class="zmdi zmdi-more-vert"></i>
+							</a>
+
+								<ul class="dropdown-menu dropdown-menu-right">
+									<li><a href="">Refresh</a></li>
+									<li><a href="">Approve All</a></li>
+									<li><a href="">Reject All</a></li>
+								</ul></li>
+						</ul>
+					</div>
+
+					<div class="card-body m-t-0">
+						<table class="table table-inner table-vmiddle">
+							<thead>
+								<tr>
+									<th>EMP ID</th>
+									<th>EMP Name</th>
+									<th>From Date</th>
+									<th>To Date</th>
+									<th>Total Days</th>
+									<th>Status</th>
+									<th>Department</th>
+									<th style="width: 60px">Approve/Reject</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr data-ng-repeat="w in rictrl.riResult.list">
+									<td class="f-500 c-cyan">{{ w.id }}</td>
+									<td>{{ w.name }}</td>
+									<td>{{ w.from_date }}</td>
+									<td>{{ w.to_date }}</td>
+									<td>{{ w.total_days }}</td>
+									<td>{{ w.status }}</td>
+									<td>{{ w.department }}</td>
+									<td><button data-swal-success-msg
+											class="btn bgm-orange btn-icon waves-effect waves-circle">
+											<i class="zmdi zmdi-check"></i>
+										</button>&nbsp;&nbsp;|&nbsp;&nbsp;
+										<button data-swal-cancel-msg
+											class="btn bgm-cyan btn-icon waves-effect waves-circle">
+											<i class="zmdi zmdi-close"></i>
+										</button></td>
+
+								</tr>
+							</tbody>
+						</table>
+						<ul uib-pagination boundary-links="true" total-items="totalItems"
+							ng-model="currentPage" class="pagination-sm"
+							previous-text="&lsaquo;" next-text="&rsaquo;"
+							first-text="&laquo;" last-text="&raquo;"></ul>
+					</div>
+					<!-- <div id="recent-items-chart" class="flot-chart" data-line-chart></div> -->
+				</div>
+			</div>
+		</div>
+
+	</section>
+</section>
