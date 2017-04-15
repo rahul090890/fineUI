@@ -47,7 +47,10 @@ materialAdmin
 						url : '/applyLeave',
 						templateUrl : 'views/applyLeave.html'
 					})
-
+					.state('headers.approveTimeSheet', {
+						url : '/approveTimeSheet',
+						templateUrl : 'views/approveTimeSheet.html'
+					})
 					.state('headers.leavehistory', {
 						url : '/leavehistory',
 						templateUrl : 'views/leavehistory.html'

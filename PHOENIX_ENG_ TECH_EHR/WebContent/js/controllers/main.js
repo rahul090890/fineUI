@@ -240,6 +240,41 @@ materialAdmin
 					$scope.itemsPerPage1 = $scope.viewby;
 					$scope.maxSize1 = 5;
 				})
+		// controller for leave applied history top table
+		.controller(
+				'leavetypehistorytable',
+				function($scope, $filter, $sce, ngTableParams,
+						LeaveTypeHistoryService) {
+
+					// Get Recent Items Widget Data
+					this.total_leave = LeaveTypeHistoryService.total_leave;
+					this.leavetype = LeaveTypeHistoryService.leavetype;
+					this.leaveavailed = LeaveTypeHistoryService.leaveavailed;
+					this.leavepending = LeaveTypeHistoryService.leavepending;
+					this.leaveavalible = LeaveTypeHistoryService.leaveavalible;
+
+					this.riResult = LeaveTypeHistoryService.getRecentitem(
+							this.total_leave, this.leavetype,
+							this.leaveavailed, this.leavepending,
+							this.leaveavalible);
+					$scope.leavedetails = this.riResult;
+
+					$scope.updatehistorydata = function() {
+						var leave = $scope.confirmed;
+						console.log(leave);
+						var leavedetails = $scope.leavedetails.list;
+						console.log(leavedetails);
+						angular.forEach($scope.leavedetails.list, function(
+								value, index) {
+							if (value.leavetype === leave) {
+								$scope.leaveAvaild = value.leaveavailed;
+								$scope.leavepending = value.leavepending;
+								$scope.leaveavalible = value.leaveavalible;
+							}
+						});
+
+					};
+				})
 
 		// =========================================================================
 		// Recent Posts Widget
@@ -383,8 +418,8 @@ materialAdmin
 					this.status = TimeSheetHistoryService.status;
 					this.reporting_manager = TimeSheetHistoryService.reporting_manager
 					this.approvedBy = TimeSheetHistoryService.approvedBy;
-					this.riResult = TimeSheetHistoryService.getRecentitem(this.id,
-							this.name, this.from_date, this.todate,
+					this.riResult = TimeSheetHistoryService.getRecentitem(
+							this.id, this.name, this.from_date, this.todate,
 							this.total_hour, this.department, this.status);
 					$scope.totalItems = this.riResult.length;
 					$scope.viewby = 10;

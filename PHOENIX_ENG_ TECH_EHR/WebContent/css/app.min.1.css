@@ -1,14 +1,4 @@
-/*
- * Load Main Bootstrap LESS files
- */
 
-/*!
- * Bootstrap v3.3.5 (http://getbootstrap.com)
- * Copyright 2011-2015 Twitter, Inc.
- * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
- */
-
-/*! normalize.css v3.0.3 | MIT License | github.com/necolas/normalize.css */
 
 html {
   font-family: sans-serif;
@@ -9219,14 +9209,7 @@ button.close {
   border-left: 0;
 }
 
-/*!
- * Waves v0.7.4
- * http://fian.my.id/Waves 
- * 
- * Copyright 2014 Alfiana E. Sibuea and other contributors 
- * Released under the MIT license 
- * https://github.com/fians/Waves/blob/master/LICENSE 
- */
+
 
 .waves-effect {
   position: relative;

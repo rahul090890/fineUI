@@ -12,18 +12,51 @@
 
 	<section id="content">
 		<div class="container c-alt">
-			<div class="block-header">
-				<h2>
-					TimeSheet Historical data <small></small>
-				</h2>
-			</div>
-
-			<div class="card">
+			<div class="card" data-ng-controller="timeSheetCtrl as tictrl">
 				<div class="card-header">
 					<h2>
-						TimeSheet History <small></small>
+						TimeSheet History<small> </small>
 					</h2>
+					
 				</div>
+
+				<div class="card-body m-t-0">
+					<table class="table table-inner table-vmiddle ng-scope ng-table"
+						ng-table="tctrl.tableSorting">
+						<thead>
+							<tr>
+								<th>EMP ID</th>
+								<th>EMP Name</th>
+								<th>From Date</th>
+								<th>To Date</th>
+								<th>Total Hour</th>
+								<th>Status</th>
+								<th>Department</th>
+								<th>Reporting manager</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr
+								data-ng-repeat="w in tictrl.riResult.list.slice(((currentPage-1)*itemsPerPage), ((currentPage)*itemsPerPage))">
+								<td class="f-500 c-cyan">{{ w.id }}</td>
+								<td>{{ w.name }}</td>
+								<td>{{ w.from_date }}</td>
+								<td>{{ w.to_date }}</td>
+								<td>{{ w.total_hour }}</td>
+								<td>{{ w.status }}</td>
+								<td>{{ w.department }}</td>
+								<td>{{ w.reporting_manager }}</td>
+								
+							</tr>
+						</tbody>
+					</table>
+
+					<ul uib-pagination boundary-links="true" total-items="totalItems"
+						ng-model="currentPage" class="pagination-sm"
+						previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;"
+						last-text="&raquo;"></ul>
+				</div>
+				<!-- <div id="recent-items-chart" class="flot-chart" data-line-chart></div> -->
 			</div>
 		</div>
 	</section>
