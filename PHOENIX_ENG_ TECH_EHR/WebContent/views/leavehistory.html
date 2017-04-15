@@ -17,7 +17,90 @@
 					Leave Request/Approval History <small></small>
 				</h2>
 			</div>
+			<div class="card">
+				<div class="card-header">
+					<h2>
+						Leave Summary<small></small>
+					</h2>
+				</div>
 
+				<div class="table-responsive"
+					ng-controller="leavetypehistorytable as leaveupdates">
+					<table class="table">
+						<thead>
+							<tr>
+								<th>Leave Type</th>
+								<th>Leave Availed</th>
+								<th>Leave Pending</th>
+								<th>Leave Avalible</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr class="">
+								<td>
+									<div class="form-group">
+										<div class="fg-line">
+
+											<div class="select">
+
+												<!-- <select class="form-control" ng-options="leavetype as size.name for size in sizes"
+													ng-model="item" ng-change="update()"></select> -->
+												<select class="form-control" ng-change="updatehistorydata()"
+													ng-model="confirmed">
+													<option value="" disabled="" selected="" class="ng-binding">Please
+														select the value</option>
+													<option ng-repeat=" x in leaveupdates.riResult.list">{{x.leavetype}}</option>
+												</select>
+
+												<!--  <select class="form-control"
+													ng-options="leaveupdates.riResult.list as size.leavetype for size in sizes"
+													ng-model="selectedItem" ng-change="updatehistorydata()"></select>
+ -->
+												<!--  <select class="form-control">
+													<option value="Select leave type" ng-change="updatehistorydata()" data-ng-repeat="w in leaveupdates.riResult.list">{{w.leavetype}}</option>
+													
+												</select>  -->
+
+											</div>
+										</div>
+									</div>
+								</td>
+								<td><span style="color: orange; font-size: 20px">{{leaveAvaild}}</span></td>
+								<td><span style="color: red;font-size: 20px">{{leavepending}}</span></td>
+								<td><span style="color: green;font-size: 20px">{{leaveavalible}}</span></td>
+							</tr>
+							<!-- <tr class="info">
+								<td>3</td>
+								<td>Sebastian</td>
+								<td>Johnston</td>
+								<td>@sebastian</td>
+								<td>Jaycee</td>
+							</tr>
+							<tr class="warning c-white">
+								<td>4</td>
+								<td>Mitchell</td>
+								<td>Christin</td>
+								<td>@mitchell4u</td>
+								<td>AdskiDeAnus</td>
+							</tr>
+							<tr class="success c-white">
+								<td>2</td>
+								<td>Madeleine</td>
+								<td>Hollaway</td>
+								<td>@hollway</td>
+								<td>Cheese</td>
+							</tr>
+							<tr class="danger c-white">
+								<td>5</td>
+								<td>Elizabeth</td>
+								<td>Belkitt</td>
+								<td>@belkitt</td>
+								<td>Goat</td>
+							</tr> -->
+						</tbody>
+					</table>
+				</div>
+			</div>
 			<div class="card">
 				<div class="card-header">
 					<h2>
