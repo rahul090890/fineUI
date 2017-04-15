@@ -135,6 +135,11 @@ materialAdmin
 						url : '/timesheethistory',
 						templateUrl : 'views/timesheethistory.html'
 					})
+					
+					.state('headers.taskoperations', {
+						url : '/taskoperations',
+						templateUrl : 'views/taskoperations.html'
+					})
 
 					.state('headers.mainmenu-on-top', {
 						url : '/mainmenu-on-top',

@@ -24,69 +24,32 @@
 						TimeSheet Filling <small></small>
 					</h2>
 					<div class="card-body card-padding">
-						<div class='row'>
+						<div class='card-body table-responsive'>
+							<table class='table'>
+								<thead>
+									<tr>
+										<th>Employee Id</th>
+										<th>Employee Name</th>
+										<th>Role</th>
+										<th>Designation</th>
+										<th>Location</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td>Emp001</td>
+										<td>Amaresh Angadi</td>
+										<td>UI Development Role</td>
+										<td>UI Developer</td>
+										<td>Bengaluru</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						<hr>
+						<br/>
+						<div class='row timesheetContainer'>
 							<div class="col-sm-4">
-								<div class="form-group">
-									<span class="input-group-addon"> <i class="zmdi zmdi-assignment zmdi-hc-fw"> </i>Project Name</span>
-									<div class="fg-line"></div>
-								</div>
-								<br/>
-								<div class="form-group">
-									<span class="input-group-addon"> <i class="zmdi zmdi-assignment zmdi-hc-fw"> </i>Sub Task</span>
-									<div class="fg-line"></div>
-								</div>
-								<br/>
-								<div class="form-group">
-									<span class="input-group-addon"><i class="zmdi zmdi-calendar zmdi-hc-fw"> </i>Select Week</span>
-									<div class="fg-line"></div>
-								</div>
-								<br/>
-								<div class="form-group">
-									<span class="input-group-addon"><i class="zmdi zmdi-alarm zmdi-hc-fw"> </i>Time</span>
-									<div class="fg-line"></div>
-								</div>
-								
-								<!-- <br/>
-								<div class="form-group">
-									<span class="input-group-addon"><i class="">Total Hours</i></span>
-									<div class="fg-line"></div>
-								</div> -->
-								<br/>
-								<div class="form-group">
-									<span class="input-group-addon"><i class="zmdi zmdi-border-color zmdi-hc-fw"> </i>Comment</span>
-									<div class="fg-line"></div>
-								</div>
-							</div>
-							
-							<div class="col-sm-8">
-							
-								<div class="form-group">									
-									<div class="fg-line">
-										<div class="select">
-											<select class="form-control">
-												<option>Select Your Project</option>
-												<option>Product Development</option>
-												<option>General Work</option>
-											</select>
-										</div>
-									</div>
-								</div>
-								<br/>
-								<div class="form-group">									
-									<div class="fg-line">
-										<div class="select">
-											<select class="form-control">
-												<option>Select Your Subtask</option>
-												<option>Research and Development</option>
-												<option>Requirement Analysis</option>
-												<option>Graphics Design</option>
-												<option>Programming</option>
-												<option>Testing</option>
-											</select>
-										</div>
-									</div>
-								</div>
-								<br/>
 								<div class="form-group">	
 									<div class="fg-line">
 										<div class="date-picker input-group dp-blue"
@@ -105,8 +68,82 @@
 											class="zmdi zmdi-calendar ma-icon"></i></span>
 									</div>
 									</div>
+								</div><br/>
+								<div class="form-group">									
+									<div class="fg-line">
+										<div class="select">
+											<select class="form-control">
+												<option>Select Customer</option>
+												<option>Customer Name 1</option>
+												<option>Customer Name 2</option>
+											</select>
+										</div>
+									</div>
+								</div>
+								<br/>		
+								
+								<div class="form-group">									
+									<div class="fg-line">
+										<div class="select">
+											<select class="form-control">
+												<option>Select Department</option>
+												<option>Engineering</option>
+												<option>Quality Engineering</option>
+												<option>Overhead</option>
+											</select>
+										</div>
+									</div>
 								</div>
 								<br/>
+								
+								
+								<div class="form-group">									
+									<div class="fg-line">
+										<div class="select">
+											<select class="form-control">
+												<option>Select Program</option>
+												<option>Product Development</option>
+												<option>General Work</option>
+											</select>
+										</div>
+									</div>
+								</div>
+								<br/>
+								<div class="form-group">									
+									<div class="fg-line">
+										<div class="select">
+											<select class="form-control">
+												<option>Select Task</option>
+												<option>Research and Development</option>
+												<option>Requirement Analysis</option>
+												<option>Graphics Design</option>
+												<option>Programming</option>
+												<option>Testing</option>
+											</select>
+										</div>
+									</div>
+								</div>								
+								<br/>
+								<div class="form-group">									
+									<div class="fg-line">
+										<div class="select">
+											<select class="form-control">
+												<option>Select Task Type</option>
+												<option>Billable</option>
+												<option>Non Billable</option>
+											</select>
+										</div>
+									</div>
+								</div><br/>
+								
+							</div>
+							
+							<div class="col-sm-8">
+															
+								<div class="form-group">
+									<span class="input-group-addon"><i class="zmdi zmdi-alarm zmdi-hc-fw"> </i>Time : </span>
+									<div class="fg-line"></div>
+								</div>
 								<div class="form-group">
 										<div class="table-responsive">
 								            <table class="table">
@@ -135,12 +172,10 @@
 								            </table>								        
 									</div>
 								</div>
-								<!--<br/>
-								<div class="form-group">									
-									<div class="fg-line">
-									<h5>00:00</h5>
-									</div>
-								</div>-->
+								<div class="form-group">
+									<span class="input-group-addon"><i class="zmdi zmdi-border-color zmdi-hc-fw"> </i>Comment : </span>
+									<div class="fg-line"></div>
+								</div>
 								<br/>
 								<div class="form-group">									
 									<div class="fg-line">

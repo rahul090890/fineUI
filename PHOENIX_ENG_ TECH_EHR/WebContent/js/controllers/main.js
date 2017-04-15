@@ -267,9 +267,12 @@ materialAdmin
 						angular.forEach($scope.leavedetails.list, function(
 								value, index) {
 							if (value.leavetype === leave) {
+								$('.btn-icon').css({"display" : "block"});
 								$scope.leaveAvaild = value.leaveavailed;
 								$scope.leavepending = value.leavepending;
 								$scope.leaveavalible = value.leaveavalible;
+							}else{
+								$('.btn-icon').css({"display" : "none"});
 							}
 						});
 

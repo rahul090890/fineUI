@@ -163,3 +163,21 @@
 .input-group-addon .zmdi{
 	font-size:18px;
 }
+
+.searchInput{
+	float:left;
+	width:70% !important;
+}
+
+.seacrhBtn{
+	float:right;
+}
+
+.timesheetContainer{
+	border:1px solid #f0f0f0;
+}
+
+.leaveInfo .btn-icon{
+	font-size: 18px;
+	display:none;
+}
