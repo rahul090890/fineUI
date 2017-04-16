@@ -259,7 +259,7 @@ materialAdmin
 							this.leaveavalible);
 					$scope.leavedetails = this.riResult;
 
-					$scope.updatehistorydata = function() {
+					$scope.updatehistorydata = function()    {
 						var leave = $scope.confirmed;
 						console.log(leave);
 						var leavedetails = $scope.leavedetails.list;
@@ -271,8 +271,6 @@ materialAdmin
 								$scope.leaveAvaild = value.leaveavailed;
 								$scope.leavepending = value.leavepending;
 								$scope.leaveavalible = value.leaveavalible;
-							}else{
-								$('.btn-icon').css({"display" : "none"});
 							}
 						});
 

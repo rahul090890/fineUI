@@ -1,35 +1,47 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+	pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
-    <!--[if IE 9 ]><html class="ie9" data-ng-app="materialAdmin" data-ng-controller="materialadminCtrl as mactrl"><![endif]-->
-    <![if IE 9 ]><html data-ng-app="materialAdmin" data-ng-controller="materialadminCtrl as mactrl"><![endif]>
+<!--[if IE 9 ]><html class="ie9" data-ng-app="materialAdmin" data-ng-controller="materialadminCtrl as mactrl"><![endif]-->
+<![if IE 9 ]>
+<html data-ng-app="materialAdmin"
+	data-ng-controller="materialadminCtrl as mactrl">
+<![endif]>
 
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>PHOENIX ENGINEERING TECHNOLOGIES</title>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PHOENIX ENGINEERING TECHNOLOGIES</title>
 
-        <!-- Vendor CSS -->
-        <link href="vendors/bower_components/animate.css/animate.min.css" rel="stylesheet">
-        <link href="vendors/bower_components/material-design-iconic-font/dist/css/material-design-iconic-font.min.css" rel="stylesheet">
-        <link href="vendors/bower_components/bootstrap-sweetalert/lib/sweet-alert.css" rel="stylesheet">
-        <link href="vendors/bower_components/angular-loading-bar/src/loading-bar.css" rel="stylesheet">
-        <link href="vendors/bower_components/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.min.css" rel="stylesheet">
+<!-- Vendor CSS -->
+<link href="vendors/bower_components/animate.css/animate.min.css"
+	rel="stylesheet">
+<link
+	href="vendors/bower_components/material-design-iconic-font/dist/css/material-design-iconic-font.min.css"
+	rel="stylesheet">
+<link
+	href="vendors/bower_components/bootstrap-sweetalert/lib/sweet-alert.css"
+	rel="stylesheet">
+<link
+	href="vendors/bower_components/angular-loading-bar/src/loading-bar.css"
+	rel="stylesheet">
+<link
+	href="vendors/bower_components/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.min.css"
+	rel="stylesheet">
 
-        <!-- CSS -->
-        <link href="css/app.min.1.css" rel="stylesheet" id="app-level">
-        <link href="css/app.min.2.css" rel="stylesheet">
-        <link href="css/demo.css" rel="stylesheet">
+<!-- CSS -->
+<link href="css/app.min.1.css" rel="stylesheet" id="app-level">
+<link href="css/app.min.2.css" rel="stylesheet">
+<link href="css/demo.css" rel="stylesheet">
 
-    </head>
+</head>
 
-    <body data-ng-class="{ 'sw-toggled': mactrl.layoutType === '1'}">
+<body data-ng-class="{ 'sw-toggled': mactrl.layoutType === '1'}">
 
-        <data ui-view></data>
+	<data ui-view></data>
 
-        <!-- Older IE warning message -->
-        <!--[if lt IE 9]>
+	<!-- Older IE warning message -->
+	<!--[if lt IE 9]>
             <div class="ie-warning">
                 <h1 class="c-white">Warning!!</h1>
                 <p>You are using an outdated version of Internet Explorer, please upgrade <br/>to any of the following web browsers to access this website.</p>
@@ -72,66 +84,79 @@
         <![endif]-->
 
 
-        <!-- Core -->
-        <script src="vendors/bower_components/jquery/dist/jquery.min.js"></script>
+	<!-- Core -->
+	<script src="vendors/bower_components/jquery/dist/jquery.min.js"></script>
 
-        <!-- Angular -->
-        <script src="vendors/bower_components/angular/angular.min.js"></script>
-        <script src="vendors/bower_components/angular-animate/angular-animate.min.js"></script>
-        <script src="vendors/bower_components/angular-resource/angular-resource.min.js"></script>
-        
-        <!-- Angular Modules -->
-        <script src="vendors/bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
-        <script src="vendors/bower_components/angular-loading-bar/src/loading-bar.js"></script>
-        <script src="vendors/bower_components/oclazyload/dist/ocLazyLoad.min.js"></script>
-        <script src="vendors/bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
+	<!-- Angular -->
+	<script src="vendors/bower_components/angular/angular.min.js"></script>
+	<script
+		src="vendors/bower_components/angular-animate/angular-animate.min.js"></script>
+	<script
+		src="vendors/bower_components/angular-resource/angular-resource.min.js"></script>
 
-        <!-- Common Vendors -->
-        <script src="vendors/bower_components/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js"></script>
-        <script src="vendors/bower_components/bootstrap-sweetalert/lib/sweet-alert.min.js"></script>
-        <script src="vendors/bower_components/Waves/dist/waves.min.js"></script>
-        <script src="vendors/bootstrap-growl/bootstrap-growl.min.js"></script>
-        <script src="vendors/bower_components/ng-table/dist/ng-table.min.js"></script>
-       
+	<!-- Angular Modules -->
+	<script
+		src="vendors/bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
+	<script
+		src="vendors/bower_components/angular-loading-bar/src/loading-bar.js"></script>
+	<script
+		src="vendors/bower_components/oclazyload/dist/ocLazyLoad.min.js"></script>
+	<script
+		src="vendors/bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
 
-        <!-- Placeholder for IE9 -->
-        <!--[if IE 9 ]>
+	<!-- Common Vendors -->
+	<script
+		src="vendors/bower_components/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js"></script>
+	<script
+		src="vendors/bower_components/bootstrap-sweetalert/lib/sweet-alert.min.js"></script>
+	<script src="vendors/bower_components/Waves/dist/waves.min.js"></script>
+	<script src="vendors/bootstrap-growl/bootstrap-growl.min.js"></script>
+	<script src="vendors/bower_components/ng-table/dist/ng-table.min.js"></script>
+
+
+	<!-- Placeholder for IE9 -->
+	<!--[if IE 9 ]>
             <script src="vendors/bower_components/jquery-placeholder/jquery.placeholder.min.js"></script>
         <![endif]-->
 
-        <!-- Using below vendors in order to avoid misloading on resolve -->
-        <script src="vendors/bower_components/flot/jquery.flot.js"></script>
-        <script src="vendors/bower_components/flot.curvedlines/curvedLines.js"></script>
-        <script src="vendors/bower_components/flot/jquery.flot.resize.js"></script>
-        <script src="vendors/bower_components/moment/min/moment.min.js"></script>
-        <script src="vendors/bower_components/fullcalendar/dist/fullcalendar.min.js"></script>
-        <script src="vendors/bower_components/flot-orderBars/js/jquery.flot.orderBars.js"></script>
-        <script src="vendors/bower_components/flot/jquery.flot.pie.js"></script>
-        <script src="vendors/bower_components/flot.tooltip/js/jquery.flot.tooltip.min.js"></script>
-        <script src="vendors/bower_components/angular-nouislider/src/nouislider.min.js"></script>
-        
-        
-        <!-- App level -->
-        <script src="js/app.js"></script>
-        <script src="js/config.js"></script>
-        <script src="js/controllers/main.js"></script>
-        <script src="js/services.js"></script>
-        <script src="js/templates.js"></script>
-        <script src="js/controllers/ui-bootstrap.js"></script>
-        <script src="js/controllers/table.js"></script>
+	<!-- Using below vendors in order to avoid misloading on resolve -->
+	<script src="vendors/bower_components/flot/jquery.flot.js"></script>
+	<script src="vendors/bower_components/flot.curvedlines/curvedLines.js"></script>
+	<script src="vendors/bower_components/flot/jquery.flot.resize.js"></script>
+	<script src="vendors/bower_components/moment/min/moment.min.js"></script>
+	<script
+		src="vendors/bower_components/fullcalendar/dist/fullcalendar.min.js"></script>
+	<script
+		src="vendors/bower_components/flot-orderBars/js/jquery.flot.orderBars.js"></script>
+	<script src="vendors/bower_components/flot/jquery.flot.pie.js"></script>
+	<script
+		src="vendors/bower_components/flot.tooltip/js/jquery.flot.tooltip.min.js"></script>
+	<script
+		src="vendors/bower_components/angular-nouislider/src/nouislider.min.js"></script>
 
 
-        <!-- Template Modules -->
-        <script src="js/modules/template.js"></script>
-        <script src="js/modules/ui.js"></script>
-        <script src="js/modules/charts/flot.js"></script>
-        <script src="js/modules/charts/other-charts.js"></script>
-        <script src="js/modules/form.js"></script>
-        <script src="js/modules/media.js"></script>
-        <script src="js/modules/components.js"></script>
-        <script src="js/modules/calendar.js"></script>
-        <script src="js/modules/demo.js"></script>
-    </body>
+	<!-- App level -->
+	<script src="js/app.js"></script>
+	<script src="js/config.js"></script>
+	<script src="js/controllers/main.js"></script>
+	<script src="js/services.js"></script>
+	<script src="js/templates.js"></script>
+	<script src="js/controllers/ui-bootstrap.js"></script>
+	<script src="js/controllers/table.js"></script>
+
+
+	<!-- Template Modules -->
+	<script src="js/modules/template.js"></script>
+	<script src="js/modules/ui.js"></script>
+	<script src="js/modules/charts/flot.js"></script>
+	<script src="js/modules/charts/other-charts.js"></script>
+	<script src="js/modules/form.js"></script>
+	<script src="js/modules/media.js"></script>
+	<script src="js/modules/components.js"></script>
+	<script src="js/modules/calendar.js"></script>
+	<script src="js/modules/demo.js"></script>
+
+</body>
 </html>
 
 
