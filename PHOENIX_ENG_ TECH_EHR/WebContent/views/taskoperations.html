@@ -1,0 +1,147 @@
+
+<header id="header" data-current-skin={{mactrl.currentSkin}}
+	data-ng-include="'template/header.html'"
+	data-ng-controller="headerCtrl as hctrl"></header>
+
+<section id="main">
+	<aside id="sidebar" data-ng-include="'template/sidebar-left.html'"
+		data-ng-class="{ 'toggled': mactrl.sidebarToggle.left === true }"></aside>
+
+	<aside id="chat" data-ng-include="'template/chat.html'"
+		data-ng-class="{ 'toggled': mactrl.sidebarToggle.right === true }"></aside>
+
+	<section id="content">
+		<div class="container c-alt">
+			<!-- <div class="block-header">
+				<h2>
+					Update Employee List <small></small>
+				</h2>
+			</div> -->
+
+			<div class="card" data-ng-controller="DatepickerDemoCtrl">
+				<div class="card-header">
+					<h2>
+						Task Operations<small></small>
+					</h2>
+					<div class="card-body card-padding">
+						<div class='row'>
+							<div class='col-sm-4'>
+								<div class="form-group">
+									<span class="input-group-addon"><i class="zmdi zmdi-label zmdi-hc-fw"> </i>Task Id</span>
+									<div class="fg-line"></div>
+								</div>
+								
+								<div class="form-group">
+									<span class="input-group-addon"><i class="zmdi zmdi-archive zmdi-hc-fw"> </i>Task Name</span>
+									<div class="fg-line"></div>
+								</div>
+								
+								<div class="form-group">
+									<span class="input-group-addon"><i class="zmdi zmdi-flag zmdi-hc-fw"> </i>Department</span>
+									<div class="fg-line"></div>
+								</div>
+								
+								<div class="form-group">
+									<span class="input-group-addon"><i class="zmdi zmdi-account zmdi-hc-fw"> </i>Customer</span>
+									<div class="fg-line"></div>
+								</div>
+							</div>	
+							
+							<div class='col-sm-4'>
+								<div class="form-group">
+									<div class="fg-line">
+										<input type="text" class="form-control" placeholder="Enter Task Id">
+									</div>	
+								</div>
+								<br/>
+								<div class="form-group">
+									<div class="fg-line">
+										<input type="text" class="form-control" placeholder="Enter Task Name">
+									</div>	
+								</div>
+								<br/>
+								<div class="form-group">									
+									<div class="fg-line">
+										<div class="select">
+											<select class="form-control">
+												<option>Select Department</option>
+												<option>Engineering</option>
+												<option>Quality Engineering</option>
+												<option>Overhead</option>
+											</select>
+										</div>
+									</div>
+								</div>
+								<br/>
+								<div class="form-group">									
+									<div class="fg-line">
+										<div class="select">
+											<select class="form-control">
+												<option>Select Customer</option>
+												<option>Customer Name 1</option>
+												<option>Customer Name 2</option>
+											</select>
+										</div>
+									</div>
+								</div>	
+								<br/>
+								<br/>
+								<div class="form-group">
+									<span>
+										<button class="btn btn-primary btn-icon-text waves-effect">
+										<i class="zmdi zmdi-check-all"></i>Add Task</button>
+													
+										<button class="btn btn-danger btn-icon-text waves-effect">
+ 										<i class="zmdi zmdi-close"></i> Clear</button>
+									</span>
+								</div>								
+							</div>								
+						</div>
+						<hr/>
+						<div class='row'>
+							<div class='col-sm-6'></div>
+							<div class='col-sm-6'>
+								<div class="fg-line searchInput" >
+										<input type="text" class="form-control" placeholder="Search Here">										
+								</div>
+								<button class="btn btn-success btn-icon-text waves-effect seacrhBtn">
+								<i class="zmdi zmdi-search"></i> Search </button>					
+							</div>
+						</div>
+						<div class='table-responsive'>
+						<table class='table table-responsive'>
+								<thead>
+									<tr>
+										<th>Task Id</th>
+										<th>Task Name</th>
+										<th>Department</th>
+										<th>Customer</th>
+										<th>Delete Task</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td>EmpTask001</td>
+										<td>Task Name</td>
+										<td>Engineering</td>
+										<td>Customer Name 1</td>
+										<td><button class="btn bgm-red btn-icon waves-effect waves-circle">
+										<i class="zmdi zmdi-close"></i> </button></td>
+									</tr>
+									<tr>
+										<td>EmpTask001</td>
+										<td>Task Name</td>
+										<td>Engineering</td>
+										<td>Customer Name 2</td>
+										<td><button class="btn bgm-red btn-icon waves-effect waves-circle">
+										<i class="zmdi zmdi-close"></i> </button></td>
+									</tr>
+								</tbody>
+							</table>
+							</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+</section>
