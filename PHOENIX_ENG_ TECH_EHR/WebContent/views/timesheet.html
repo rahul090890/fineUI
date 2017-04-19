@@ -47,181 +47,200 @@
 							</table>
 						</div>
 						<hr>
-						<br />
-						<div class="form-group">
-							<div data-name="plus" id="addmore">  
-								<p>
-									<i class="zmdi zmdi-plus-circle zmdi-hc-fw"></i>
-								</p>
-							</div>
 
+						<div class="form-group">
+							<button class="btn btn-info btn-icon-text waves-effect"
+								data-name="plus" id="addmore">
+								<i class="zmdi zmdi-alarm-add"></i> Add Work Log
+							</button>
 						</div>
 
-						<div id="appendchildin">
+						<!-- timesheetContainer starts  -->
+						<div id="timesheetContainer">
+							<div class="form-group">
+								<div class="fg-line">
+									<div class="date-picker input-group dp-blue"
+										ng-class="{ 'is-opened': opened == true }">
 
-							<div class='row timesheetContainer' id="rowtimesheet">
-								<div class="col-sm-4">
-									<div class="form-group">
-										<div class="fg-line">
-											<div class="date-picker input-group dp-blue"
-												ng-class="{ 'is-opened': opened == true }">
+										<div class="fg-line"
+											ng-class="{ 'fg-toggled': opened == true }">
+											<input ng-click="open($event, 'opened')" type="text"
+												class="form-control" uib-datepicker-popup="{{format}}"
+												show-weeks="false" ng-model="dtPopup" is-open="opened"
+												min-date="minDate" datepicker-options="dateOptions"
+												ng-required="true" close-text="Close"
+												placeholder="Select Week" />
+										</div>
+										<span class="input-group-addon"><i
+											class="zmdi zmdi-calendar ma-icon"></i></span>
+									</div>
+								</div>
+							</div>
+							<br />
+							<!-- timesheet Content 1 starts  -->
+							<div class='rowtimesheet' id="rowtimesheet_1">
+								<div class='row timesheetContent'>
+									<div class="col-sm-4">
 
-												<div class="fg-line"
-													ng-class="{ 'fg-toggled': opened == true }">
-													<input ng-click="open($event, 'opened')" type="text"
-														class="form-control" uib-datepicker-popup="{{format}}"
-														show-weeks="false" ng-model="dtPopup" is-open="opened"
-														min-date="minDate" datepicker-options="dateOptions"
-														ng-required="true" close-text="Close"
-														placeholder="Select Week" />
+
+										<div class="form-group">
+											<div class="fg-line">
+												<div class="select">
+													<select class="form-control">
+														<option>Select Customer</option>
+														<option>Customer Name 1</option>
+														<option>Customer Name 2</option>
+													</select>
 												</div>
-												<span class="input-group-addon"><i
-													class="zmdi zmdi-calendar ma-icon"></i></span>
 											</div>
 										</div>
 									</div>
-									<br />
-									<div class="form-group">
-										<div class="fg-line">
-											<div class="select">
-												<select class="form-control">
-													<option>Select Customer</option>
-													<option>Customer Name 1</option>
-													<option>Customer Name 2</option>
-												</select>
-											</div>
-										</div>
-									</div>
-									<br />
 
-									<div class="form-group">
-										<div class="fg-line">
-											<div class="select">
-												<select class="form-control">
-													<option>Select Department</option>
-													<option>Engineering</option>
-													<option>Quality Engineering</option>
-													<option>Overhead</option>
-												</select>
+									<div class='col-sm-4'>
+										<div class="form-group">
+											<div class="fg-line">
+												<div class="select">
+													<select class="form-control">
+														<option>Select Department</option>
+														<option>Engineering</option>
+														<option>Quality Engineering</option>
+														<option>Overhead</option>
+													</select>
+												</div>
 											</div>
 										</div>
-									</div>
-									<br />
+										<br />
 
 
-									<div class="form-group">
-										<div class="fg-line">
-											<div class="select">
-												<select class="form-control">
-													<option>Select Program</option>
-													<option>Product Development</option>
-													<option>General Work</option>
-												</select>
+										<div class="form-group">
+											<div class="fg-line">
+												<div class="select">
+													<select class="form-control">
+														<option>Select Program</option>
+														<option>Product Development</option>
+														<option>General Work</option>
+													</select>
+												</div>
 											</div>
 										</div>
 									</div>
-									<br />
-									<div class="form-group">
-										<div class="fg-line">
-											<div class="select">
-												<select class="form-control">
-													<option>Select Task</option>
-													<option>Research and Development</option>
-													<option>Requirement Analysis</option>
-													<option>Graphics Design</option>
-													<option>Programming</option>
-													<option>Testing</option>
-												</select>
-											</div>
-										</div>
-									</div>
-									<br />
-									<div class="form-group">
-										<div class="fg-line">
-											<div class="select">
-												<select class="form-control">
-													<option>Select Task Type</option>
-													<option>Billable</option>
-													<option>Non Billable</option>
-												</select>
-											</div>
-										</div>
-									</div>
-									<br />
 
+									<div class='col-sm-4'>
+										<div class="form-group">
+											<div class="fg-line">
+												<div class="select">
+													<select class="form-control">
+														<option>Select Task</option>
+														<option>Research and Development</option>
+														<option>Requirement Analysis</option>
+														<option>Graphics Design</option>
+														<option>Programming</option>
+														<option>Testing</option>
+													</select>
+												</div>
+											</div>
+										</div>
+										<br />
+										<div class="form-group">
+											<div class="fg-line">
+												<div class="select">
+													<select class="form-control">
+														<option>Select Task Type</option>
+														<option>Billable</option>
+														<option>Non Billable</option>
+													</select>
+												</div>
+											</div>
+										</div>
+									</div>
 								</div>
 
-								<div class="col-sm-8">
-
-									<div class="form-group">
-										<span class="input-group-addon"><i
-											class="zmdi zmdi-alarm zmdi-hc-fw"> </i>Time : </span>
-										<div class="fg-line"></div>
-									</div>
-									<div class="form-group">
-										<div class="table-responsive">
-											<table class="table">
-												<thead>
-													<tr>
-														<th>26(Sun)</th>
-														<th>27(Mon)</th>
-														<th>28(Tue)</th>
-														<th>29(Wed)</th>
-														<th>30(Thu)</th>
-														<th>31(Fri)</th>
-														<th>31(Sat)</th>
-													</tr>
-												</thead>
-												<tbody>
-													<tr>
-														<td><input type="text"
-															class="form-control ng-isolate-scope" placeholder="00:00" /></td>
-														<td><input type="text"
-															class="form-control ng-isolate-scope" placeholder="00:00" /></td>
-														<td><input type="text"
-															class="form-control ng-isolate-scope" placeholder="00:00" /></td>
-														<td><input type="text"
-															class="form-control ng-isolate-scope" placeholder="00:00" /></td>
-														<td><input type="text"
-															class="form-control ng-isolate-scope" placeholder="00:00" /></td>
-														<td><input type="text"
-															class="form-control ng-isolate-scope" placeholder="00:00" /></td>
-														<td><input type="text"
-															class="form-control ng-isolate-scope" placeholder="00:00" /></td>
-													</tr>
-												</tbody>
-											</table>
+								<div class='row'>
+									<div class='col-sm-4'>
+										<div class="form-group">
+											<span class="input-group-addon"><i
+												class="zmdi zmdi-alarm zmdi-hc-fw"> </i>Time : </span>
+											<div class="fg-line"></div>
+										</div>
+										<br /> <br /> <br />
+										<div class="form-group">
+											<button
+												class="btn btn-danger btn-icon-text waves-effect deleteWorkLog"
+												id='deleteWorkLog_'+count+''>
+												<i class="zmdi zmdi-alarm-off"></i> Delete Work Log
+											</button>
 										</div>
 									</div>
-									<div class="form-group">
+
+									<div class="col-sm-8">
+
+										<div class="form-group">
+											<div class="table-responsive">
+												<table class="table">
+													<thead>
+														<tr>
+															<th>26(Sun)</th>
+															<th>27(Mon)</th>
+															<th>28(Tue)</th>
+															<th>29(Wed)</th>
+															<th>30(Thu)</th>
+															<th>31(Fri)</th>
+															<th>31(Sat)</th>
+														</tr>
+													</thead>
+													<tbody>
+														<tr>
+															<td><input type="text"
+																class="form-control ng-isolate-scope"
+																placeholder="00:00" /></td>
+															<td><input type="text"
+																class="form-control ng-isolate-scope"
+																placeholder="00:00" /></td>
+															<td><input type="text"
+																class="form-control ng-isolate-scope"
+																placeholder="00:00" /></td>
+															<td><input type="text"
+																class="form-control ng-isolate-scope"
+																placeholder="00:00" /></td>
+															<td><input type="text"
+																class="form-control ng-isolate-scope"
+																placeholder="00:00" /></td>
+															<td><input type="text"
+																class="form-control ng-isolate-scope"
+																placeholder="00:00" /></td>
+															<td><input type="text"
+																class="form-control ng-isolate-scope"
+																placeholder="00:00" /></td>
+														</tr>
+													</tbody>
+												</table>
+											</div>
+										</div>
+
+										<div class="form-group">
+											<span>
+												<button class="btn btn-primary btn-icon-text waves-effect">
+													<i class="zmdi zmdi-check-all"></i> Done
+												</button>
+
+												<button class="btn btn-danger btn-icon-text waves-effect">
+													<i class="zmdi zmdi-close"></i> Clear
+												</button>
+											</span>
+										</div>
+										<!-- <div class="form-group">
 										<span class="input-group-addon"><i
 											class="zmdi zmdi-border-color zmdi-hc-fw"> </i>Comment : </span>
 										<div class="fg-line"></div>
-									</div>
-									<br />
-									<div class="form-group">
-										<div class="fg-line">
-											<input type="text" class="form-control"
-												placeholder="Add your comments here" />
-										</div>
-									</div>
-									<br />
+									</div>-->
 
+									</div>
 								</div>
-
 							</div>
+							<!-- timesheet Content 1 ends  -->
+							<hr />
 						</div>
-						<div class="form-group">
-							<span>
-								<button class="btn btn-primary btn-icon-text waves-effect">
-									<i class="zmdi zmdi-check-all"></i> Done
-								</button>
-
-								<button class="btn btn-danger btn-icon-text waves-effect">
-									<i class="zmdi zmdi-close"></i> Clear
-								</button>
-							</span>
-						</div>
+						<!-- timesheetContainer ends  -->
 					</div>
 				</div>
 			</div>
@@ -229,8 +248,37 @@
 	</section>
 </section>
 <script type="text/javascript">
-	$("#addmore").click(function() {
-		var divcontent = $(rowtimesheet).html();
-		$("#appendchildin").append(divcontent);
-	});
+	$(document)
+			.ready(
+					function() {
+
+						count = 1;
+						$("#addmore")
+								.click(
+										function() {
+											var divcontent = $(
+													'#rowtimesheet_' + count)
+													.html();
+											count++;
+											$("#timesheetContainer").append(
+													"<div id='rowtimesheet_"+count+"'>"
+															+ divcontent
+															+ "</div>");
+										});
+
+						$('.deleteWorkLog')
+								.click(
+										function(e) {
+											var deleteId = e.target.id;
+											console
+													.log("deleteWorkLog clicked and Id : "
+															+ deleteId);
+											var deletedDivNo = e.target.id
+													.split("_")[2];
+											$('#rowtimesheet_' + deletedDivNo)
+													.remove();
+											count--;
+										});
+
+					});
 </script>
