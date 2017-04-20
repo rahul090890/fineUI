@@ -174,7 +174,7 @@
 }
 
 .rowtimesheet{
-	border:1px solid #0d8aee;
+	/* border:1px solid #0d8aee; */
 }
 
 .leaveInfo .btn-icon{
@@ -193,6 +193,7 @@
 
 .timesheetContent{
 	font-size: 11px;
+	border: 1px solid #0d8aee;
 }
 
 .timesheetContent select {
@@ -212,7 +213,7 @@
 
 
 #timeHead{
-	background:#0d8aee;
+/* 	background:#0d8aee; */
 	color:#fff;
 	height:30px;
 	padding-top:5px;

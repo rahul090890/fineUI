@@ -17,26 +17,19 @@
 					Leave Summary <small></small>
 				</h2>
 			</div>
-			<div class="card">
-				<div class="card-header">
-					<h2>
-						Leave Details<small></small>
-					</h2>
-				</div>
-
-				<div class="table-responsive"
-					ng-controller="leavetypehistorytable as leaveupdates">
-					<table class="table">
+			<div>
+				<div class="" ng-controller="leavetypehistorytable as leaveupdates">
+					<table class="">
 						<thead>
-							<tr>
-								<th>Leave Type</th>
-								<th>Leave Availed</th>
-								<th>Leave Pending</th>
-								<th>Leave Avalible</th>
+							<tr  >
+								<th class='col-sm-4'>Leave Type</th>
+								<th class='col-sm-4'>Leave Availed</th>
+								<th class='col-sm-4'>Leave Pending</th>
+								<th class='col-sm-4'>Leave Available</th>
 							</tr>
 						</thead>
 						<tbody>
-							<tr class="" ng-repeat=" x in leaveupdates.riResult.list">
+							<tr class="" ng-repeat=" x in leaveupdates.riResult.list" style="border: 1px solid #EDECEC;">
 
 								<!-- <div class="form-group">
 										<div class="fg-line">
@@ -64,10 +57,10 @@
 										<!-- 	</div>
 										</div>
 									</div> -->
-								<td><span style="color: Black;">{{x.leavetype}}</span></td>
-								<td><span style="color: orange;">{{x.leaveavailed}}</span></td>
-								<td><span style="color: red;">{{x.leavepending}}</span></td>
-								<td><span style="color: green;">{{x.leaveavalible}}</span></td>
+								<td class='col-sm-4'><span style="color: Black;">{{x.leavetype}}</span></td>
+								<td class='col-sm-4'><span style="color: orange;">{{x.leaveavailed}}</span></td>
+								<td class='col-sm-4'><span style="color: red;">{{x.leavepending}}</span></td>
+								<td class='col-sm-4'><span style="color: green;">{{x.leaveavalible}}</span></td>
 							</tr>
 							<!-- <tr class="info">
 								<td>3</td>

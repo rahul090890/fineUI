@@ -13810,6 +13810,7 @@ input:focus {
   -moz-appearance: none;
   appearance: none;
   padding: 0;
+  margin-top: 5px;
 }
 
 .form-control:not(.fc-alt).auto-size {

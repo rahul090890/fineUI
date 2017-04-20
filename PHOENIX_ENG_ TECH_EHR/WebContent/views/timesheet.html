@@ -84,26 +84,34 @@
 							</div>
 							<br />
 							<!-- timesheet Content 1 starts  -->
+							<div class='row' id='timeHead'>
+								<div class='col-sm-1'>
+									<span style="color: black">All</span>
+								</div>
+								<div class='col-sm-2'>
+									<p>
+										<span style="color: green"><i
+											class="zmdi zmdi-alarm-add"></i><a id='addworkLog'><span
+												style="color: green"> Add</span></a></span>&nbsp;&nbsp;|&nbsp;&nbsp;<span
+											style="color: red"><i class="zmdi zmdi-alarm-off"></i></span><a
+											id='deleteworklog'><span style="color: red">
+												Delete</span></a>
+									</p>
+								</div>
+								<div class='col-sm-2'>
+									<p id='deleteWorkLog'>
+										<!-- <a><i class="zmdi zmdi-alarm-off"></i> Delete</a> -->
+									</p>
+								</div>
+								<div class='col-sm-7'>
+									<p class='text-center'>
+										<i class="zmdi zmdi-alarm-add"></i> <span style="color: black">Time</span>
+									</p>
+								</div>
+							</div>
 							<div class='rowtimesheet' id="rowtimesheet_1">
 
-								<div class='row' id='timeHead'>
-									<div class='col-sm-1'>All</div>
-									<div class='col-sm-2'>
-										<p id='addworkLog'>
-											<i class="zmdi zmdi-alarm-add"></i> Add
-										</p>
-									</div>
-									<div class='col-sm-2'>
-										<p id='deleteWorkLog'>
-											<i class="zmdi zmdi-alarm-off"></i> Delete</a>
-										</p>
-									</div>
-									<div class='col-sm-7'>
-										<p class='text-center'>
-											<i class="zmdi zmdi-alarm-add"></i> Time
-										</p>
-									</div>
-								</div>
+
 
 								<div class='row timesheetContent'>
 
@@ -278,43 +286,44 @@
 
 								</div>
 
-								<div class='row'>
-									<div class='col-sm-3'>
-										<div class="form-group">
-											<span class="input-group-addon"><i
-												class="zmdi zmdi-border-color zmdi-hc-fw"> </i>Comments : </span>
-											<div class="fg-line"></div>
-										</div>
 
-									</div>
-
-									<div class="col-sm-6">
-
-										<div class="form-group ">
-											<div class="fg-line">
-												<input type="text" class="form-control ng-isolate-scope"
-													placeholder="Enter your comments here">
-											</div>
-										</div>
-									</div>
-									<div class='col-sm-3'>
-										<div class="form-group">
-											<span>
-												<button class="btn btn-primary btn-icon-text waves-effect">
-													<i class="zmdi zmdi-check-all"></i> Done
-												</button>
-
-												<button class="btn btn-danger btn-icon-text waves-effect">
-													<i class="zmdi zmdi-close"></i> Clear
-												</button>
-											</span>
-										</div>
-									</div>
-
-								</div>
 							</div>
 							<!-- timesheet Content 1 ends  -->
 							<hr />
+						</div>
+						<div class='row'>
+							<div class='col-sm-3'>
+								<div class="form-group">
+									<span class="input-group-addon"><i
+										class="zmdi zmdi-border-color zmdi-hc-fw"> </i>Comments : </span>
+									<div class="fg-line"></div>
+								</div>
+
+							</div>
+
+							<div class="col-sm-6">
+
+								<div class="form-group ">
+									<div class="fg-line">
+										<input type="text" class="form-control ng-isolate-scope"
+											placeholder="Enter your comments here">
+									</div>
+								</div>
+							</div>
+							<div class='col-sm-3'>
+								<div class="form-group">
+									<span>
+										<button class="btn btn-primary btn-icon-text waves-effect">
+											<i class="zmdi zmdi-check-all"></i> Submit
+										</button>
+
+										<button class="btn btn-danger btn-icon-text waves-effect">
+											<i class="zmdi zmdi-close"></i> Clear
+										</button>
+									</span>
+								</div>
+							</div>
+
 						</div>
 						<!-- timesheetContainer ends  -->
 					</div>
