@@ -48,46 +48,83 @@
 						</div>
 						<hr>
 
-						<div class="form-group">
-							<button class="btn btn-info btn-icon-text waves-effect"
-								data-name="plus" id="addmore">
-								<i class="zmdi zmdi-alarm-add"></i> Add Work Log
-							</button>
-						</div>
+
+
 
 						<!-- timesheetContainer starts  -->
 						<div id="timesheetContainer">
-							<div class="form-group">
-								<div class="fg-line">
-									<div class="date-picker input-group dp-blue"
-										ng-class="{ 'is-opened': opened == true }">
+							<div class='row'>
+								<div class='col-md-3'>
+									<div class="form-group">
+										<div class="fg-line">
+											<div class="date-picker input-group dp-blue"
+												ng-class="{ 'is-opened': opened == true }">
 
-										<div class="fg-line"
-											ng-class="{ 'fg-toggled': opened == true }">
-											<input ng-click="open($event, 'opened')" type="text"
-												class="form-control" uib-datepicker-popup="{{format}}"
-												show-weeks="false" ng-model="dtPopup" is-open="opened"
-												min-date="minDate" datepicker-options="dateOptions"
-												ng-required="true" close-text="Close"
-												placeholder="Select Week" />
+												<div class="fg-line"
+													ng-class="{ 'fg-toggled': opened == true }">
+													<input ng-click="open($event, 'opened')" type="text"
+														class="form-control" uib-datepicker-popup="{{format}}"
+														show-weeks="false" ng-model="dtPopup" is-open="opened"
+														min-date="minDate" datepicker-options="dateOptions"
+														ng-required="true" close-text="Close"
+														placeholder="Select Week" />
+												</div>
+												<span class="input-group-addon"><i
+													class="zmdi zmdi-calendar ma-icon"></i></span>
+											</div>
 										</div>
-										<span class="input-group-addon"><i
-											class="zmdi zmdi-calendar ma-icon"></i></span>
 									</div>
 								</div>
+								<div class='col-md-3'>
+									<input type="text" class="form-control" placeholder=""
+										value='24-04-2017 to 31-04-2017' />
+								</div>
+								<div class='col-md-6'></div>
+
 							</div>
 							<br />
 							<!-- timesheet Content 1 starts  -->
 							<div class='rowtimesheet' id="rowtimesheet_1">
-								<div class='row timesheetContent'>
-									<div class="col-sm-4">
 
+								<div class='row' id='timeHead'>
+									<div class='col-sm-1'>All</div>
+									<div class='col-sm-2'>
+										<p id='addworkLog'>
+											<i class="zmdi zmdi-alarm-add"></i> Add
+										</p>
+									</div>
+									<div class='col-sm-2'>
+										<p id='deleteWorkLog'>
+											<i class="zmdi zmdi-alarm-off"></i> Delete</a>
+										</p>
+									</div>
+									<div class='col-sm-7'>
+										<p class='text-center'>
+											<i class="zmdi zmdi-alarm-add"></i> Time
+										</p>
+									</div>
+								</div>
+
+								<div class='row timesheetContent'>
+
+									<div class="col-sm-1">
+										<div class='form-group'>
+											<div class="fg-line">
+												<label class="checkbox checkbox-inline m-r-20" id='checkAll'>
+													<input type="checkbox" value="option1"> <i
+													class="input-helper"></i>
+												</label>
+											</div>
+										</div>
+									</div>
+
+									<div class="col-sm-1">
 
 										<div class="form-group">
 											<div class="fg-line">
 												<div class="select">
 													<select class="form-control">
-														<option>Select Customer</option>
+														<option>Customer</option>
 														<option>Customer Name 1</option>
 														<option>Customer Name 2</option>
 													</select>
@@ -96,12 +133,12 @@
 										</div>
 									</div>
 
-									<div class='col-sm-4'>
+									<div class='col-sm-1'>
 										<div class="form-group">
 											<div class="fg-line">
 												<div class="select">
 													<select class="form-control">
-														<option>Select Department</option>
+														<option>Department</option>
 														<option>Engineering</option>
 														<option>Quality Engineering</option>
 														<option>Overhead</option>
@@ -109,14 +146,14 @@
 												</div>
 											</div>
 										</div>
-										<br />
+									</div>
 
-
+									<div class='col-sm-1'>
 										<div class="form-group">
 											<div class="fg-line">
 												<div class="select">
 													<select class="form-control">
-														<option>Select Program</option>
+														<option>Program</option>
 														<option>Product Development</option>
 														<option>General Work</option>
 													</select>
@@ -124,13 +161,12 @@
 											</div>
 										</div>
 									</div>
-
-									<div class='col-sm-4'>
+									<div class='col-sm-1'>
 										<div class="form-group">
 											<div class="fg-line">
 												<div class="select">
 													<select class="form-control">
-														<option>Select Task</option>
+														<option>Task</option>
 														<option>Research and Development</option>
 														<option>Requirement Analysis</option>
 														<option>Graphics Design</option>
@@ -140,12 +176,13 @@
 												</div>
 											</div>
 										</div>
-										<br />
+									</div>
+									<div class='col-sm-1'>
 										<div class="form-group">
 											<div class="fg-line">
 												<div class="select">
 													<select class="form-control">
-														<option>Select Task Type</option>
+														<option>Task Type</option>
 														<option>Billable</option>
 														<option>Non Billable</option>
 													</select>
@@ -153,70 +190,114 @@
 											</div>
 										</div>
 									</div>
-								</div>
 
-								<div class='row'>
-									<div class='col-sm-4'>
-										<div class="form-group">
-											<span class="input-group-addon"><i
-												class="zmdi zmdi-alarm zmdi-hc-fw"> </i>Time : </span>
-											<div class="fg-line"></div>
-										</div>
-										<br /> <br /> <br />
-										<div class="form-group">
-											<button
-												class="btn btn-danger btn-icon-text waves-effect deleteWorkLog"
-												id='deleteWorkLog_'+count+''>
-												<i class="zmdi zmdi-alarm-off"></i> Delete Work Log
-											</button>
+									<div class='col-sm-6'>
+										<div class='row' id='timeTable'>
+											<div class='col-sm-1'>
+												26(Sun)<br />
+												<div class="form-group">
+													<div class="fg-line">
+														<input type="text" class="form-control ng-isolate-scope"
+															placeholder="00:00">
+													</div>
+												</div>
+											</div>
+
+											<div class='col-sm-1'>
+												27(Mon)<br />
+												<div class="form-group">
+													<div class="fg-line">
+														<input type="text" class="form-control ng-isolate-scope"
+															placeholder="00:00">
+													</div>
+												</div>
+											</div>
+
+											<div class='col-sm-1'>
+												28(Tue)<br />
+												<div class="form-group">
+													<div class="fg-line">
+														<input type="text" class="form-control ng-isolate-scope"
+															placeholder="00:00">
+													</div>
+												</div>
+											</div>
+
+
+											<div class='col-sm-1'>
+												29(Wed)<br />
+												<div class="form-group">
+													<div class="fg-line">
+														<input type="text" class="form-control ng-isolate-scope"
+															placeholder="00:00">
+													</div>
+												</div>
+											</div>
+
+											<div class='col-sm-1'>
+												30(Thu)<br />
+												<div class="form-group">
+													<div class="fg-line">
+														<input type="text" class="form-control ng-isolate-scope"
+															placeholder="00:00">
+													</div>
+												</div>
+											</div>
+
+											<div class='col-sm-1'>
+												31(Fri)<br />
+												<div class="form-group">
+													<div class="fg-line">
+														<input type="text" class="form-control ng-isolate-scope"
+															placeholder="00:00">
+													</div>
+												</div>
+											</div>
+
+											<div class='col-sm-1'>
+												01(Sat)<br />
+												<div class="form-group ">
+													<div class="fg-line">
+														<input type="text" class="form-control ng-isolate-scope"
+															placeholder="00:00">
+													</div>
+												</div>
+											</div>
+											<div class='col-sm-5'>
+												Total Hours<br /> <br />
+												<div class="form-group ">
+													<div class="fg-line">
+														<span>45.50 hrs</span>
+													</div>
+												</div>
+											</div>
 										</div>
 									</div>
 
-									<div class="col-sm-8">
 
+
+								</div>
+
+								<div class='row'>
+									<div class='col-sm-3'>
 										<div class="form-group">
-											<div class="table-responsive">
-												<table class="table">
-													<thead>
-														<tr>
-															<th>26(Sun)</th>
-															<th>27(Mon)</th>
-															<th>28(Tue)</th>
-															<th>29(Wed)</th>
-															<th>30(Thu)</th>
-															<th>31(Fri)</th>
-															<th>31(Sat)</th>
-														</tr>
-													</thead>
-													<tbody>
-														<tr>
-															<td><input type="text"
-																class="form-control ng-isolate-scope"
-																placeholder="00:00" /></td>
-															<td><input type="text"
-																class="form-control ng-isolate-scope"
-																placeholder="00:00" /></td>
-															<td><input type="text"
-																class="form-control ng-isolate-scope"
-																placeholder="00:00" /></td>
-															<td><input type="text"
-																class="form-control ng-isolate-scope"
-																placeholder="00:00" /></td>
-															<td><input type="text"
-																class="form-control ng-isolate-scope"
-																placeholder="00:00" /></td>
-															<td><input type="text"
-																class="form-control ng-isolate-scope"
-																placeholder="00:00" /></td>
-															<td><input type="text"
-																class="form-control ng-isolate-scope"
-																placeholder="00:00" /></td>
-														</tr>
-													</tbody>
-												</table>
-											</div>
+											<span class="input-group-addon"><i
+												class="zmdi zmdi-border-color zmdi-hc-fw"> </i>Comments : </span>
+											<div class="fg-line"></div>
 										</div>
 
+									</div>
+
+									<div class="col-sm-6">
+
+										<div class="form-group ">
+											<div class="fg-line">
+												<input type="text" class="form-control ng-isolate-scope"
+													placeholder="Enter your comments here">
+											</div>
+										</div>
+									</div>
+									<div class='col-sm-3'>
 										<div class="form-group">
 											<span>
 												<button class="btn btn-primary btn-icon-text waves-effect">
@@ -228,13 +309,8 @@
 												</button>
 											</span>
 										</div>
-										<!-- <div class="form-group">
-										<span class="input-group-addon"><i
-											class="zmdi zmdi-border-color zmdi-hc-fw"> </i>Comment : </span>
-										<div class="fg-line"></div>
-									</div>-->
-
 									</div>
+
 								</div>
 							</div>
 							<!-- timesheet Content 1 ends  -->
@@ -253,7 +329,7 @@
 					function() {
 
 						count = 1;
-						$("#addmore")
+						$("#addworkLog")
 								.click(
 										function() {
 											var divcontent = $(

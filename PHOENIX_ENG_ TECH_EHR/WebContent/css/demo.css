@@ -174,10 +174,48 @@
 }
 
 .rowtimesheet{
-	border:1px solid #f0f0f0;
+	border:1px solid #0d8aee;
 }
 
 .leaveInfo .btn-icon{
 	font-size: 18px;
 	display:none;
+}
+
+#empLogout{
+	/*margin-top:5px;
+	padding:5px;*/
+}
+
+#addworkLog,#deleteWorkLog{
+	cursor:pointer;
+}
+
+.timesheetContent{
+	font-size: 11px;
+}
+
+.timesheetContent select {
+	font-size:10px;
+}
+
+#timeTable .col-sm-1{
+	width:11%;
+}
+
+#timeTable .col-sm-5{
+	width:23%;
+}
+#checkAll{
+	margin:5px;
+}
+
+
+#timeHead{
+	background:#0d8aee;
+	color:#fff;
+	height:30px;
+	padding-top:5px;
+	margin-left: -1px;
+    margin-right: -1px;
 }

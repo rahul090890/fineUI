@@ -14,13 +14,13 @@
 		<div class="container c-alt">
 			<div class="block-header">
 				<h2>
-					Leave Request/Approval History <small></small>
+					Leave Summary <small></small>
 				</h2>
 			</div>
 			<div class="card">
 				<div class="card-header">
 					<h2>
-						Leave Summary<small></small>
+						Leave Details<small></small>
 					</h2>
 				</div>
 
@@ -36,15 +36,15 @@
 							</tr>
 						</thead>
 						<tbody>
-							<tr class="">
-								<td>
-									<div class="form-group">
+							<tr class="" ng-repeat=" x in leaveupdates.riResult.list">
+
+								<!-- <div class="form-group">
 										<div class="fg-line">
 
 											<div class="select">
 
-												<!-- <select class="form-control" ng-options="leavetype as size.name for size in sizes"
-													ng-model="item" ng-change="update()"></select> -->
+												<select class="form-control" ng-options="leavetype as size.name for size in sizes"
+													ng-model="item" ng-change="update()"></select>
 												<select class="form-control" ng-change="updatehistorydata()"
 													ng-model="confirmed">
 													<option value="" disabled="" selected="" class="ng-binding">Please
@@ -52,22 +52,22 @@
 													<option ng-repeat=" x in leaveupdates.riResult.list">{{x.leavetype}}</option>
 												</select>
 
-												<!--  <select class="form-control"
+												 <select class="form-control"
 													ng-options="leaveupdates.riResult.list as size.leavetype for size in sizes"
 													ng-model="selectedItem" ng-change="updatehistorydata()"></select>
- -->
-												<!--  <select class="form-control">
+
+												 <select class="form-control">
 													<option value="Select leave type" ng-change="updatehistorydata()" data-ng-repeat="w in leaveupdates.riResult.list">{{w.leavetype}}</option>
 													
-												</select>  -->
+												</select> 
 
-											</div>
+										<!-- 	</div>
 										</div>
-									</div>
-								</td>
-								<td><span style="color: orange; font-size: 20px">{{leaveAvaild}}</span></td>
-								<td><span style="color: red;font-size: 20px">{{leavepending}}</span></td>
-								<td><span style="color: green;font-size: 20px">{{leaveavalible}}</span></td>
+									</div> -->
+								<td><span style="color: Black;">{{x.leavetype}}</span></td>
+								<td><span style="color: orange;">{{x.leaveavailed}}</span></td>
+								<td><span style="color: red;">{{x.leavepending}}</span></td>
+								<td><span style="color: green;">{{x.leaveavalible}}</span></td>
 							</tr>
 							<!-- <tr class="info">
 								<td>3</td>
