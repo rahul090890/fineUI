@@ -113,180 +113,181 @@
 
 
 
-								<div class='row timesheetContent'>
-
-									<div class="col-sm-1">
-										<div class='form-group'>
-											<div class="fg-line">
-												<label class="checkbox checkbox-inline m-r-20" id='checkAll'>
-													<input type="checkbox" value="option1"> <i
-													class="input-helper"></i>
-												</label>
-											</div>
-										</div>
-									</div>
-
-									<div class="col-sm-1">
-
-										<div class="form-group">
-											<div class="fg-line">
-												<div class="select">
-													<select class="form-control">
-														<option>Customer</option>
-														<option>Customer Name 1</option>
-														<option>Customer Name 2</option>
-													</select>
+								<div class='row timesheetContent' id="newRowContent">
+									<div id="timesheetData_1" style="height: 100px">
+										<div class='col-sm-6'>
+											<div class="col-sm-1" style="padding-left: 0">
+												<div class='form-group'>
+													<div class="fg-line">
+														<label class="checkbox checkbox-inline m-r-20"
+															id='checkAll'> <input type="checkbox"
+															value="option1"> <i class="input-helper"></i>
+														</label>
+													</div>
 												</div>
 											</div>
-										</div>
-									</div>
 
-									<div class='col-sm-1'>
-										<div class="form-group">
-											<div class="fg-line">
-												<div class="select">
-													<select class="form-control">
-														<option>Department</option>
-														<option>Engineering</option>
-														<option>Quality Engineering</option>
-														<option>Overhead</option>
-													</select>
-												</div>
-											</div>
-										</div>
-									</div>
+											<div class="col-sm-3">
 
-									<div class='col-sm-1'>
-										<div class="form-group">
-											<div class="fg-line">
-												<div class="select">
-													<select class="form-control">
-														<option>Program</option>
-														<option>Product Development</option>
-														<option>General Work</option>
-													</select>
-												</div>
-											</div>
-										</div>
-									</div>
-									<div class='col-sm-1'>
-										<div class="form-group">
-											<div class="fg-line">
-												<div class="select">
-													<select class="form-control">
-														<option>Task</option>
-														<option>Research and Development</option>
-														<option>Requirement Analysis</option>
-														<option>Graphics Design</option>
-														<option>Programming</option>
-														<option>Testing</option>
-													</select>
-												</div>
-											</div>
-										</div>
-									</div>
-									<div class='col-sm-1'>
-										<div class="form-group">
-											<div class="fg-line">
-												<div class="select">
-													<select class="form-control">
-														<option>Task Type</option>
-														<option>Billable</option>
-														<option>Non Billable</option>
-													</select>
-												</div>
-											</div>
-										</div>
-									</div>
-
-									<div class='col-sm-6'>
-										<div class='row' id='timeTable'>
-											<div class='col-sm-1'>
-												26(Sun)<br />
 												<div class="form-group">
 													<div class="fg-line">
-														<input type="text" class="form-control ng-isolate-scope"
-															placeholder="00:00">
+														<div class="select">
+															<select class="form-control">
+																<option>Customer</option>
+																<option>Customer Name 1</option>
+																<option>Customer Name 2</option>
+															</select>
+														</div>
 													</div>
 												</div>
 											</div>
 
-											<div class='col-sm-1'>
-												27(Mon)<br />
+											<div class='col-sm-2'>
 												<div class="form-group">
 													<div class="fg-line">
-														<input type="text" class="form-control ng-isolate-scope"
-															placeholder="00:00">
+														<div class="select">
+															<select class="form-control">
+																<option>Department</option>
+																<option>Engineering</option>
+																<option>Quality Engineering</option>
+																<option>Overhead</option>
+															</select>
+														</div>
 													</div>
 												</div>
 											</div>
 
-											<div class='col-sm-1'>
-												28(Tue)<br />
+											<div class='col-sm-2'>
 												<div class="form-group">
 													<div class="fg-line">
-														<input type="text" class="form-control ng-isolate-scope"
-															placeholder="00:00">
+														<div class="select">
+															<select class="form-control">
+																<option>Program</option>
+																<option>Product Development</option>
+																<option>General Work</option>
+															</select>
+														</div>
 													</div>
 												</div>
 											</div>
-
-
-											<div class='col-sm-1'>
-												29(Wed)<br />
+											<div class='col-sm-2'>
 												<div class="form-group">
 													<div class="fg-line">
-														<input type="text" class="form-control ng-isolate-scope"
-															placeholder="00:00">
+														<div class="select">
+															<select class="form-control">
+																<option>Task</option>
+																<option>Research and Development</option>
+																<option>Requirement Analysis</option>
+																<option>Graphics Design</option>
+																<option>Programming</option>
+																<option>Testing</option>
+															</select>
+														</div>
 													</div>
 												</div>
 											</div>
-
-											<div class='col-sm-1'>
-												30(Thu)<br />
+											<div class='col-sm-2'>
 												<div class="form-group">
 													<div class="fg-line">
-														<input type="text" class="form-control ng-isolate-scope"
-															placeholder="00:00">
-													</div>
-												</div>
-											</div>
-
-											<div class='col-sm-1'>
-												31(Fri)<br />
-												<div class="form-group">
-													<div class="fg-line">
-														<input type="text" class="form-control ng-isolate-scope"
-															placeholder="00:00">
-													</div>
-												</div>
-											</div>
-
-											<div class='col-sm-1'>
-												01(Sat)<br />
-												<div class="form-group ">
-													<div class="fg-line">
-														<input type="text" class="form-control ng-isolate-scope"
-															placeholder="00:00">
-													</div>
-												</div>
-											</div>
-											<div class='col-sm-5'>
-												Total Hours<br /> <br />
-												<div class="form-group ">
-													<div class="fg-line">
-														<span>45.50 hrs</span>
+														<div class="select">
+															<select class="form-control">
+																<option>Task Type</option>
+																<option>Billable</option>
+																<option>Non Billable</option>
+															</select>
+														</div>
 													</div>
 												</div>
 											</div>
 										</div>
+										<div class='col-sm-6'>
+											<div class='row' id='timeTable'>
+												<div class='col-sm-1'>
+													26(Sun)<br />
+													<div class="form-group">
+														<div class="fg-line">
+															<input type="text" class="form-control ng-isolate-scope"
+																placeholder="0">
+														</div>
+													</div>
+												</div>
+
+												<div class='col-sm-1'>
+													27(Mon)<br />
+													<div class="form-group">
+														<div class="fg-line">
+															<input type="text" class="form-control ng-isolate-scope"
+																placeholder="8">
+														</div>
+													</div>
+												</div>
+
+												<div class='col-sm-1'>
+													28(Tue)<br />
+													<div class="form-group">
+														<div class="fg-line">
+															<input type="text" class="form-control ng-isolate-scope"
+																placeholder="8">
+														</div>
+													</div>
+												</div>
+
+
+												<div class='col-sm-1'>
+													29(Wed)<br />
+													<div class="form-group">
+														<div class="fg-line">
+															<input type="text" class="form-control ng-isolate-scope"
+																placeholder="8">
+														</div>
+													</div>
+												</div>
+
+												<div class='col-sm-1'>
+													30(Thu)<br />
+													<div class="form-group">
+														<div class="fg-line">
+															<input type="text" class="form-control ng-isolate-scope"
+																placeholder="8">
+														</div>
+													</div>
+												</div>
+
+												<div class='col-sm-1'>
+													31(Fri)<br />
+													<div class="form-group">
+														<div class="fg-line">
+															<input type="text" class="form-control ng-isolate-scope"
+																placeholder="8">
+														</div>
+													</div>
+												</div>
+
+												<div class='col-sm-1'>
+													01(Sat)<br />
+													<div class="form-group ">
+														<div class="fg-line">
+															<input type="text" class="form-control ng-isolate-scope"
+																placeholder="0">
+														</div>
+													</div>
+												</div>
+												<div class='col-sm-5'>
+													Total Hours<br /> <br />
+													<div class="form-group ">
+														<div class="fg-line">
+															<span>40 hrs</span>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+
+
+
 									</div>
-
-
 
 								</div>
-
-
 							</div>
 							<!-- timesheet Content 1 ends  -->
 							<hr />
@@ -333,37 +334,28 @@
 	</section>
 </section>
 <script type="text/javascript">
-	$(document)
-			.ready(
-					function() {
+	$(document).ready(
+			function() {
 
-						count = 1;
-						$("#addworkLog")
-								.click(
-										function() {
-											var divcontent = $(
-													'#rowtimesheet_' + count)
-													.html();
-											count++;
-											$("#timesheetContainer").append(
-													"<div id='rowtimesheet_"+count+"'>"
-															+ divcontent
-															+ "</div>");
-										});
+				count = 1;
+				$("#addworkLog").click(
+						function() {
+							var divcontent = $('#timesheetData_' + count)
+									.html();
+							count++;
 
-						$('.deleteWorkLog')
-								.click(
-										function(e) {
-											var deleteId = e.target.id;
-											console
-													.log("deleteWorkLog clicked and Id : "
-															+ deleteId);
-											var deletedDivNo = e.target.id
-													.split("_")[2];
-											$('#rowtimesheet_' + deletedDivNo)
-													.remove();
-											count--;
-										});
+							$("#newRowContent").append(
+									"<div id='timesheetData_"+count+"' style='height: 100px'>"
+											+ divcontent + "</div>");
+						});
 
-					});
+				$('.deleteWorkLog').click(function(e) {
+					var deleteId = e.target.id;
+					console.log("deleteWorkLog clicked and Id : " + deleteId);
+					var deletedDivNo = e.target.id.split("_")[2];
+					$('#rowtimesheet_' + deletedDivNo).remove();
+					count--;
+				});
+
+			});
 </script>
