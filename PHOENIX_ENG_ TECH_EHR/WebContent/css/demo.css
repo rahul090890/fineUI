@@ -1,6 +1,28 @@
 /*
  * Following CSS codes are used only for demo purpose thus you can remove them completly whenever you want. 
  */
+.glyphicon {
+    position: relative;
+    top: 1px;
+    display: inline-block;
+    font-family: 'Glyphicons Halflings';
+    font-style: normal;
+    font-weight: 400;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+.glyphicon-search:before {
+    content: "\e003";
+}
+
+.glyphicon-chevron-down:before {
+    content: "\e114";
+}
+
+.glyphicon-chevron-up:before {
+    content: "\e113";
+}
 
 .toggle-switch .ts-label {
     min-width: 130px;

@@ -8,7 +8,7 @@ materialAdmin
 				function($timeout, $state, $scope, growlService) {
 					// Welcome Message
 					growlService.growl('Welcome ADAM!', 'inverse')
-
+					$scope.webserviceshost = 'http://localhost:8080/';
 					// Detact Mobile Browser
 					if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i
 							.test(navigator.userAgent)) {
@@ -259,7 +259,7 @@ materialAdmin
 							this.leaveavalible);
 					$scope.leavedetails = this.riResult;
 
-					$scope.updatehistorydata = function()    {
+					$scope.updatehistorydata = function() {
 						var leave = $scope.confirmed;
 						console.log(leave);
 						var leavedetails = $scope.leavedetails.list;
@@ -267,7 +267,9 @@ materialAdmin
 						angular.forEach($scope.leavedetails.list, function(
 								value, index) {
 							if (value.leavetype === leave) {
-								$('.btn-icon').css({"display" : "block"});
+								$('.btn-icon').css({
+									"display" : "block"
+								});
 								$scope.leaveAvaild = value.leaveavailed;
 								$scope.leavepending = value.leavepending;
 								$scope.leaveavalible = value.leaveavalible;
@@ -300,69 +302,157 @@ materialAdmin
 					$scope.currentPage = 1;
 					$scope.itemsPerPage = $scope.viewby;
 					$scope.maxSize = 5;
-					/*
-					 * var data = this.riResult.list; // Basic Example
-					 * this.tableBasic = new ngTableParams({ page : 1, // show
-					 * first page count : 10 // count per page }, { total :
-					 * data.length, // length of data getData : function($defer,
-					 * params) { $defer.resolve(data.slice((params.page() - 1)
-					 * params.count(), params.page() params.count())); } }) //
-					 * Sorting this.tableSorting = new ngTableParams({ page : 1, //
-					 * show first page count : 10, // count per page sorting : {
-					 * name : 'asc' // initial sorting } }, { total :
-					 * data.length, // length of data getData : function($defer,
-					 * params) { // use build-in angular filter var orderedData =
-					 * params.sorting() ? $filter( 'orderBy')(data,
-					 * params.orderBy()) : data;
-					 * 
-					 * $defer.resolve(orderedData.slice( (params.page() - 1) *
-					 * params.count(), params.page() * params.count())); } }) //
-					 * Filtering this.tableFilter = new ngTableParams( { page :
-					 * 1, // show first page count : 10 }, { total :
-					 * data.length, // length of data getData : function($defer,
-					 * params) { // use build-in angular filter var orderedData =
-					 * params.filter() ? $filter( 'filter')(data,
-					 * params.filter()) : data;
-					 * 
-					 * this.id = timeSheetService.id; this.name =
-					 * timeSheetService.name; this.fromDate =
-					 * timeSheetService.from_date; this.toDate =
-					 * timeSheetService.to_date; this.total_hour =
-					 * timeSheetService.total_hour; this.department =
-					 * timeSheetService.department; this.reporting_manager =
-					 * timeSheetService.reporting_manager this.status =
-					 * timeSheetService.status;
-					 * 
-					 * this.id = orderedData.slice( (params.page() - 1)
-					 * params.count(), params .page() params.count()); this.name =
-					 * orderedData.slice((params .page() - 1) params.count(),
-					 * params.page() params.count()); this.fromDate =
-					 * orderedData.slice((params .page() - 1) params.count(),
-					 * params.page() params.count()); this.toDate =
-					 * orderedData.slice((params .page() - 1) params.count(),
-					 * params.page() params.count()); this.total_hour =
-					 * orderedData.slice((params .page() - 1) params.count(),
-					 * params.page() params.count()); this.department =
-					 * orderedData.slice((params .page() - 1) params.count(),
-					 * params.page() params.count()); this.reporting_manager =
-					 * orderedData.slice( (params.page() - 1) params.count(),
-					 * params .page() params.count()); this.status =
-					 * orderedData.slice((params .page() - 1) params.count(),
-					 * params.page() params.count());
-					 * 
-					 * params.total(orderedData.length); // set // total // for //
-					 * recalc // pagination $defer .resolve(this.id, this.name,
-					 * this.fromDate, this.toDate, this.total_hour,
-					 * this.department, this.reporting_manager, this.status); } }) //
-					 * Editable this.tableEdit = new ngTableParams({ page : 1, //
-					 * show first page count : 10 // count per page }, { total :
-					 * data.length, // length of data getData : function($defer,
-					 * params) { $defer.resolve(data.slice((params.page() - 1)
-					 * params.count(), params.page() params.count())); } });
-					 */
+				})
+		.controller(
+				'editUserController',
+				function($scope, $filter, filteredListService, $http) {
+					var allusersURL = $scope.webserviceshost
+							+ 'hr/employee/all';
+					$http({
+						method : "GET",
+						url : allusersURL
+					}).then(function mySucces(response) {
+						console.log(response.data);
+						if (response != 'undefiend' && response != "") {
+							
+							$scope.allUsers = response.data;
+							$scope.pageSize = 4;
+							$scope.allItems = $scope.allUsers;
+							$scope.reverse = false;
 
+							$scope.resetAll = function() {
+								$scope.filteredList = $scope.allItems;
+								$scope.employeeId = '';
+								$scope.firstName = '';
+								$scope.lastName = '';
+								$scope.emailId = '';
+								$scope.joiningdate = ''
+								$scope.searchText = '';
+								$scope.currentPage = 0;
+								$scope.Header = [ '', '', '', '', '', '', '' ];
+							}
+
+							
+							$scope.search = function() {
+								$scope.filteredList = filteredListService.searched(
+										$scope.allItems, $scope.searchText);
+
+								if ($scope.searchText == '') {
+									$scope.filteredList = $scope.allItems;
+								}
+								$scope.pagination();
+							}
+
+							// Calculate Total Number of Pages based on Search Result
+							$scope.pagination = function() {
+								$scope.ItemsByPage = filteredListService.paged(
+										$scope.filteredList, $scope.pageSize);
+							};
+
+							$scope.setPage = function() {
+								$scope.currentPage = this.n;
+							};
+
+							$scope.firstPage = function() {
+								$scope.currentPage = 0;
+							};
+
+							$scope.lastPage = function() {
+								$scope.currentPage = $scope.ItemsByPage.length - 1;
+							};
+
+							$scope.range = function(input, total) {
+								var ret = [];
+								if (!total) {
+									total = input;
+									input = 0;
+								}
+								for (var i = input; i < total; i++) {
+									if (i != 0 && i != total - 1) {
+										ret.push(i);
+									}
+								}
+								return ret;
+							};
+
+							$scope.sort = function(sortBy) {
+								$scope.resetAll();
+
+								$scope.columnToOrder = sortBy;
+
+								// $Filter - Standard Service
+								$scope.filteredList = $filter('orderBy')(
+										$scope.filteredList, $scope.columnToOrder,
+										$scope.reverse);
+
+								if ($scope.reverse)
+									iconName = 'glyphicon glyphicon-chevron-up';
+								else
+									iconName = 'glyphicon glyphicon-chevron-down';
+
+								if (sortBy === 'EmpId') {
+									$scope.Header[0] = iconName;
+								} else if (sortBy === 'name') {
+									$scope.Header[1] = iconName;
+								} else {
+									$scope.Header[2] = iconName;
+								}
+
+								$scope.reverse = !$scope.reverse;
+
+								$scope.pagination();
+							};
+
+							// By Default sort ny Name
+							$scope.sort('name');
+
+							//console.log($scope.allUsers.length);
+						}
+					}, function myError(response) {
+						console.log(response);
+					});
+					
 				})
 
+		/*
+		 * var allusers=$scope.webserviceshost + 'hr/employee/all'; $http({
+		 * method : "GET", url : allusers }).then(function mySucces(response) {
+		 * console.log(response.data); if(response!='undefiend' &&response!=""){
+		 * $scope.allUsers=response.data; } }, function myError(response) {
+		 * console.log(response); });
+		 */
+
+		.controller(
+				'allManagerCTRL',
+				function($scope, $filter, $sce, ngTableParams, $http) {
+
+					var roles = $scope.webserviceshost + 'hr/role/all';
+					var departments = $scope.webserviceshost
+							+ 'hr/department/all';
+
+					$http({
+						method : "GET",
+						url : roles
+					}).then(function mySucces(response) {
+						console.log(response.data);
+						if (response != 'undefiend' && response != "") {
+							$scope.rolesdata = response.data;
+						}
+					}, function myError(response) {
+						console.log(response);
+					});
+					$http({
+						method : "GET",
+						url : departments
+					}).then(function mySucces(response) {
+						console.log(response.data);
+						if (response != 'undefiend' && response != "") {
+							$scope.departments = response.data;
+						}
+					}, function myError(response) {
+						console.log(response);
+					});
+				})
 		.controller(
 				'leaveHistory',
 				function($scope, $filter, $sce, ngTableParams,
@@ -894,3 +984,63 @@ materialAdmin
 			}
 
 		})
+function searchUtil(item, toSearch) {
+	/* Search Text in all 3 fields */
+	
+	return (item.firstName.toLowerCase().indexOf(toSearch.toLowerCase()) > -1
+			|| item.lastName.toLowerCase().indexOf(toSearch.toLowerCase()) > -1 || item.employeeId == toSearch) ? true
+			: false;
+}
+
+/* Get Dummy Data for Example */
+function getDummyData() {
+	return [ {
+		EmpId : 2,
+		name : 'Jitendra',
+		Email : 'jz@gmail.com'
+	}, {
+		EmpId : 1,
+		name : 'Minal',
+		Email : 'amz@gmail.com'
+	}, {
+		EmpId : 3,
+		name : 'Rudra',
+		Email : 'ruz@gmail.com'
+	}, {
+		EmpId : 21,
+		name : 'Jitendra1',
+		Email : 'jz@gmail.com'
+	}, {
+		EmpId : 11,
+		name : 'Minal1',
+		Email : 'amz@gmail.com'
+	}, {
+		EmpId : 31,
+		name : 'Rudra1',
+		Email : 'ruz@gmail.com'
+	}, {
+		EmpId : 22,
+		name : 'Jitendra2',
+		Email : 'jz@gmail.com'
+	}, {
+		EmpId : 12,
+		name : 'Minal2',
+		Email : 'amz@gmail.com'
+	}, {
+		EmpId : 32,
+		name : 'Rudra2',
+		Email : 'ruz@gmail.com'
+	}, {
+		EmpId : 23,
+		name : 'Jitendra3',
+		Email : 'jz@gmail.com'
+	}, {
+		EmpId : 13,
+		name : 'Minal3',
+		Email : 'amz@gmail.com'
+	}, {
+		EmpId : 33,
+		name : 'Rudra3',
+		Email : 'ruz@gmail.com'
+	} ];
+}

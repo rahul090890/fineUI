@@ -16,7 +16,7 @@
 
 			</div>
 
-			<div class="card">
+			<div class="card" ng-controller="allManagerCTRL">
 
 
 				<div class="card-body card-padding">
@@ -45,7 +45,7 @@
 
 							<br>
 
-							<div class="input-group">
+							<!-- <div class="input-group">
 								<span class="input-group-addon"><i
 									class="zmdi zmdi-portable-wifi"></i></span>
 								<div class="fg-line">
@@ -53,8 +53,8 @@
 										placeholder="Update Status">
 								</div>
 							</div>
-
-							<br>
+							<br> 
+							<br>-->
 							<div class="input-group">
 								<span class="input-group-addon"><i
 									class="zmdi zmdi-accounts-alt zmdi-hc-fw"></i></span>
@@ -64,14 +64,10 @@
 
 											<div class="select">
 												<select class="form-control">
-													<option>Designation</option>
-													<option>Admin</option>
-													<option>Resource</option>
-													<option>Lead</option>
-													<option>Project Manage</option>
-													<option>Director</option>
-													<option>Reporter</option>
-													<!-- 	<option>Lead</option> -->
+													<option value='' >Select Role</option>
+													<option value='{{rolesdata.roleName}}'
+														ng-repeat='rolesdata in managers'>{{manager.roleName}}</option>
+
 												</select>
 											</div>
 										</div>
@@ -87,10 +83,10 @@
 										<div class="fg-line">
 
 											<div class="select">
-												<select class="form-control">
+												<select class="form-control" name="empstatus">
 													<option>Status</option>
-													<option>Active</option>
-													<option>InActive</option>
+													<option value='Active'>Active</option>
+													<option value='InActive'>InActive</option>
 
 												</select>
 											</div>
@@ -140,7 +136,7 @@
 
 											<div class="select">
 												<select class="form-control">
-													<option>Reporting Manager</option>
+													<option>Select Reporting Manager</option>
 													<option>Lee Cho(22456)</option>
 													<option>Vijay Shankaran(22498)</option>
 													<option>Ashutosh Vijay(22488)</option>
@@ -152,7 +148,7 @@
 									</div>
 								</div>
 							</div>
-							
+
 							<br>
 							<div class="input-group">
 								<span class="input-group-addon"><i
@@ -163,9 +159,9 @@
 
 											<div class="select">
 												<select class="form-control">
-													<option>Employee Type</option>
-													<option>FTE</option>
-													<option>CTE</option>
+													<option>Selct Employee Type</option>
+													<option value="FTE">FTE</option>
+													<option value="CTE">CTE</option>
 
 												</select>
 											</div>
@@ -293,11 +289,9 @@
 
 											<div class="select">
 												<select class="form-control">
-													<option>Department</option>
-													<option>Lee Cho(22456)</option>
-													<option>Vijay Shankaran(22498)</option>
-													<option>Ashutosh Vijay(22488)</option>
-													<option>Vinayaka(22490)</option>
+												<option value='' >Select Department</option>
+													<option value='{{department.departmentId}}' ng-repeat='department in departments'>{{department.departmentName}}</option>
+													
 													<!-- 	<option>Lead</option> -->
 												</select>
 											</div>
@@ -337,7 +331,7 @@
 								</button>
 
 								<button class="btn btn-danger btn-icon-text waves-effect">
-									<i class="zmdi zmdi-close"></i> Clear
+									<i class="zmdi zmdi-close"></i> Reset
 								</button>
 							</span>
 						</div>

@@ -27,126 +27,150 @@
 						<div class='row'>
 							<div class='col-sm-4'>
 								<div class="form-group">
-									<span class="input-group-addon"><i class="zmdi zmdi-label zmdi-hc-fw"> </i>Department Id </span>
+									<span class="input-group-addon"><i
+										class="zmdi zmdi-label zmdi-hc-fw"> </i>Department Id </span>
 									<div class="fg-line"></div>
 								</div>
-								
+
 								<div class="form-group">
-									<span class="input-group-addon"><i class="zmdi zmdi-flag zmdi-hc-fw"> </i>Department Name</span>
+									<span class="input-group-addon"><i
+										class="zmdi zmdi-flag zmdi-hc-fw"> </i>Department Name</span>
 									<div class="fg-line"></div>
 								</div>
-								
+
 								<div class="form-group">
-									<span class="input-group-addon"><i class="zmdi zmdi-flag zmdi-hc-fw"> </i>Parent Department</span>
+									<span class="input-group-addon"><i
+										class="zmdi zmdi-flag zmdi-hc-fw"> </i>Parent Department</span>
 									<div class="fg-line"></div>
 								</div>
 								<div class="form-group">
-									<span class="input-group-addon"><i class="zmdi zmdi-account-box zmdi-hc-fw"></i>Manager</span>
+									<span class="input-group-addon"><i
+										class="zmdi zmdi-account-box zmdi-hc-fw"></i>Manager</span>
 									<div class="fg-line"></div>
 								</div>
-								
+
 								<div class="form-group">
-									<span class="input-group-addon"><i class="zmdi zmdi-calendar zmdi-hc-fw"></i>Effective Start Date</span>
-									<div class="fg-line"></div>
-								</div> 
-								<br/>
-								<div class="form-group">
-									<span class="input-group-addon"><i class="zmdi zmdi-calendar zmdi-hc-fw"></i>Effective End Date</span>
+									<span class="input-group-addon"><i
+										class="zmdi zmdi-calendar zmdi-hc-fw"></i>Effective Start Date</span>
 									<div class="fg-line"></div>
 								</div>
-							</div>	
-							
+								<br />
+								<div class="form-group">
+									<span class="input-group-addon"><i
+										class="zmdi zmdi-calendar zmdi-hc-fw"></i>Effective End Date</span>
+									<div class="fg-line"></div>
+								</div>
+							</div>
+
 							<div class='col-sm-4'>
 								<div class="form-group">
 									<div class="fg-line">
-										<input type="text" class="form-control" placeholder="Enter Department Id" value='phpoenixDept_111'>
-									</div>	
+										<div class="select" name="departmentId">
+											<select class="form-control">
+												<option>1</option>
+												<option selected>2</option>
+												<option>3</option>
+												<option>4</option>
+											</select>
+										</div>
+									</div>
 								</div>
-								<br/>
+								<br />
 								<div class="form-group">
 									<div class="fg-line">
-										<input type="text" class="form-control" placeholder="Enter Department Name" value='Engineering'>
-									</div>	
-								</div>
-								<br/>
-								<div class="form-group">
-										<div class="fg-line">
-											<div class="select">
-												<select class="form-control">
-													<option>Design Engineering</option>
-													<option selected>Certification Engineering</option>
-													<option>Manufacturing Engineering</option>
-													<option>Research and Development</option>
-												</select>
-											</div>
+										<div class="select" name="departmentName">
+											<select class="form-control">
+												<option>Engineering</option>
+												<option selected>Certification Engineering</option>
+												<option>Manufacturing Engineering</option>
+												<option>Research and Development</option>
+											</select>
+										</div>
 									</div>
-										
+
 								</div>
-								<br/>
+								<br />
 								<div class="form-group">
-										<div class="fg-line">
-											<div class="select">
-												<select class="form-control">
-													<option>Select Manager</option>
-													<option selected>Amaresh Angadi</option>
-													<option>Rahul Pandey</option>
-													<option>Pankaj Tiwari</option>
-													<option>Abhishekh Tester</option>
-												</select>
-											</div>
-									</div>										
+									<div class="fg-line">
+										<div class="select">
+											<select class="form-control">
+												<option>Design Engineering</option>
+												<option selected>Certification Engineering</option>
+												<option>Manufacturing Engineering</option>
+												<option>Research and Development</option>
+											</select>
+										</div>
+									</div>
+
 								</div>
-								<br/>
-								<div class="form-group">	
+								<br />
+								<div class="form-group">
+									<div class="fg-line">
+										<div class="select">
+											<select class="form-control">
+												<option>Select Manager</option>
+												<option selected>Amaresh Angadi</option>
+												<option>Rahul Pandey</option>
+												<option>Pankaj Tiwari</option>
+												<option>Abhishekh Tester</option>
+											</select>
+										</div>
+									</div>
+								</div>
+								<br />
+								<div class="form-group">
 									<div class="fg-line">
 										<div class="date-picker input-group dp-blue"
-										ng-class="{ 'is-opened': opened == true }">
+											ng-class="{ 'is-opened': opened == true }">
 
-										<div class="fg-line"
-											ng-class="{ 'fg-toggled': opened == true }">
-											<input ng-click="open($event, 'opened')" type="text"
-												class="form-control" uib-datepicker-popup="{{format}}"
-												show-weeks="false" ng-model="dtPopup" is-open="opened"
-												min-date="minDate" datepicker-options="dateOptions"
-												ng-required="true" close-text="Close"
-												placeholder="" value='01-01-2013' />
+											<div class="fg-line"
+												ng-class="{ 'fg-toggled': opened == true }">
+												<input ng-click="open($event, 'opened')" type="text"
+													class="form-control" uib-datepicker-popup="{{format}}"
+													show-weeks="false" ng-model="dtPopup" is-open="opened"
+													min-date="minDate" datepicker-options="dateOptions"
+													ng-required="true" close-text="Close" placeholder=""
+													value='01-01-2013' />
+											</div>
+											<span class="input-group-addon"><i
+												class="zmdi zmdi-calendar ma-icon"></i></span>
 										</div>
-										<span class="input-group-addon"><i
-											class="zmdi zmdi-calendar ma-icon"></i></span>
-									</div>
 									</div>
 								</div>
-								<br/>
-								<div class="form-group">	
+								<br />
+								<div class="form-group">
 									<div class="fg-line">
 										<div class="date-picker input-group dp-blue"
-										ng-class="{ 'is-opened': opened == true }">
+											ng-class="{ 'is-opened': opened == true }">
 
-										<div class="fg-line"
-											ng-class="{ 'fg-toggled': opened == true }">
-											<input ng-click="open($event, 'opened')" type="text"
-												class="form-control" uib-datepicker-popup="{{format}}"
-												show-weeks="false" ng-model="dtPopup" is-open="opened"
-												min-date="minDate" datepicker-options="dateOptions"
-												ng-required="true" close-text="Close"
-												placeholder="" value='01-01-2016'/>
+											<div class="fg-line"
+												ng-class="{ 'fg-toggled': opened == true }">
+												<input ng-click="open($event, 'opened')" type="text"
+													class="form-control" uib-datepicker-popup="{{format}}"
+													show-weeks="false" ng-model="dtPopup" is-open="opened"
+													min-date="minDate" datepicker-options="dateOptions"
+													ng-required="true" close-text="Close" placeholder=""
+													value='01-01-2016' />
+											</div>
+											<span class="input-group-addon"><i
+												class="zmdi zmdi-calendar ma-icon"></i></span>
 										</div>
-										<span class="input-group-addon"><i
-											class="zmdi zmdi-calendar ma-icon"></i></span>
 									</div>
-									</div>
-								</div><br/>
+								</div>
+								<br />
 								<div class="form-group">
 									<span>
 										<button class="btn btn-primary btn-icon-text waves-effect">
-										<i class="zmdi zmdi-check-all"></i> Update Department</button>
-													
+											<i class="zmdi zmdi-check-all"></i> Update Department
+										</button>
+
 										<button class="btn btn-danger btn-icon-text waves-effect">
-										<i class="zmdi zmdi-close"></i> Cancel</button>
+											<i class="zmdi zmdi-close"></i> Cancel
+										</button>
 									</span>
 								</div>
-							</div>	
-							
+							</div>
+
 						</div>
 					</div>
 				</div>

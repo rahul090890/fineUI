@@ -33,6 +33,7 @@
 <link href="css/app.min.1.css" rel="stylesheet" id="app-level">
 <link href="css/app.min.2.css" rel="stylesheet">
 <link href="css/demo.css" rel="stylesheet">
+<link href="https://cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css" rel="stylesheet">
 
 </head>
 
@@ -138,11 +139,13 @@
 	<!-- App level -->
 	<script src="js/app.js"></script>
 	<script src="js/config.js"></script>
+	<script src="js/underscore.js"></script>
 	<script src="js/controllers/main.js"></script>
 	<script src="js/services.js"></script>
 	<script src="js/templates.js"></script>
 	<script src="js/controllers/ui-bootstrap.js"></script>
 	<script src="js/controllers/table.js"></script>
+	<script src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
 
 
 	<!-- Template Modules -->

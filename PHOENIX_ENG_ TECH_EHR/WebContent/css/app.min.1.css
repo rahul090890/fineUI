@@ -6299,6 +6299,7 @@ fieldset[disabled] .navbar-inverse .btn-link:focus {
   color: #333333;
   background-color: #d7d7d7;
   border-color: #ffffff;
+  float:right;
 }
 
 .pagination > .active > a,
