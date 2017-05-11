@@ -290,7 +290,7 @@ materialAdmin
 						$scope.minDate = new Date($scope.myDate.getFullYear(),
 								$scope.myDate.getMonth() - 11, $scope.myDate
 										.getDate());
-						
+
 					};
 					$scope.toggleMin();
 
@@ -310,8 +310,41 @@ materialAdmin
 							'dd.MM.yyyy', 'shortDate' ];
 					$scope.format = $scope.formats[0];
 				})
-				
 
+		.controller(
+				'DatepickerDemoCtrl2',
+				function($scope) {
+					$scope.today = function() {
+						$scope.dt = new Date();
+					};
+					$scope.today();
+
+					$scope.myDate = new Date();
+
+					$scope.toggleMin = function() {
+						$scope.minDate = new Date($scope.myDate.getFullYear(),
+								$scope.myDate.getMonth() - 11, $scope.myDate
+										.getDate());
+
+					};
+					$scope.toggleMin();
+
+					$scope.open = function($event, opened) {
+						$event.preventDefault();
+						$event.stopPropagation();
+
+						$scope[opened] = true;
+					};
+
+					$scope.dateOptions = {
+						formatYear : 'yy',
+						startingDay : 1
+					};
+
+					$scope.formats = [ 'dd-MMMM-yyyy', 'yyyy/MM/dd',
+							'dd.MM.yyyy', 'shortDate' ];
+					$scope.format = $scope.formats[0];
+				})
 		// ====================================
 		// TYPEAHEAD
 		// ====================================
