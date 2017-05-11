@@ -79,6 +79,11 @@ materialAdmin
 						url : '/adddepartment',
 						templateUrl : 'views/adddepartment.html'
 					})
+					.state('headers.updateuserdetails',{
+						url : '/updateuserdetails',
+						templateUrl : 'views/updateuserdetails.html'
+						
+					})
 					.state('headers.editdepartment', {
 						url : '/editdepartment',
 						templateUrl : 'views/editdepartment.html'
@@ -611,9 +616,10 @@ materialAdmin
 		});
 
 materialAdmin.config(function($httpProvider) {
-    //Enable cross domain calls
+    // Enable cross domain calls
     $httpProvider.defaults.useXDomain = true;
 
-    //Remove the header used to identify ajax call  that would prevent CORS from working
+    // Remove the header used to identify ajax call that would prevent CORS from
+	// working
     delete $httpProvider.defaults.headers.common['X-Requested-With'];
 });

@@ -311,109 +311,302 @@ materialAdmin
 					$http({
 						method : "GET",
 						url : allusersURL
+					})
+							.then(
+									function mySucces(response) {
+										console.log(response.data);
+										if (response != 'undefiend'
+												&& response != "") {
+
+											$scope.allUsers = response.data;
+											$scope.pageSize = 4;
+											$scope.allItems = $scope.allUsers;
+											$scope.reverse = false;
+
+											$scope.resetAll = function() {
+												$scope.filteredList = $scope.allItems;
+												$scope.employeeId = '';
+												$scope.firstName = '';
+												$scope.lastName = '';
+												$scope.emailId = '';
+												$scope.joiningdate = ''
+												$scope.searchText = '';
+												$scope.currentPage = 0;
+												$scope.Header = [ '', '', '',
+														'', '', '', '' ];
+											}
+
+											$scope.search = function() {
+												$scope.filteredList = filteredListService
+														.searched(
+																$scope.allItems,
+																$scope.searchText);
+
+												if ($scope.searchText == '') {
+													$scope.filteredList = $scope.allItems;
+												}
+												$scope.pagination();
+											}
+
+											// Calculate Total Number of Pages
+											// based on Search Result
+											$scope.pagination = function() {
+												$scope.ItemsByPage = filteredListService
+														.paged(
+																$scope.filteredList,
+																$scope.pageSize);
+											};
+
+											$scope.setPage = function() {
+												$scope.currentPage = this.n;
+											};
+
+											$scope.firstPage = function() {
+												$scope.currentPage = 0;
+											};
+
+											$scope.lastPage = function() {
+												$scope.currentPage = $scope.ItemsByPage.length - 1;
+											};
+
+											$scope.range = function(input,
+													total) {
+												var ret = [];
+												if (!total) {
+													total = input;
+													input = 0;
+												}
+												for (var i = input; i < total; i++) {
+													if (i != 0
+															&& i != total - 1) {
+														ret.push(i);
+													}
+												}
+												return ret;
+											};
+
+											$scope.sort = function(sortBy) {
+												$scope.resetAll();
+
+												$scope.columnToOrder = sortBy;
+
+												// $Filter - Standard Service
+												$scope.filteredList = $filter(
+														'orderBy')(
+														$scope.filteredList,
+														$scope.columnToOrder,
+														$scope.reverse);
+
+												if ($scope.reverse)
+													iconName = 'glyphicon glyphicon-chevron-up';
+												else
+													iconName = 'glyphicon glyphicon-chevron-down';
+
+												if (sortBy === 'EmpId') {
+													$scope.Header[0] = iconName;
+												} else if (sortBy === 'name') {
+													$scope.Header[1] = iconName;
+												} else {
+													$scope.Header[2] = iconName;
+												}
+
+												$scope.reverse = !$scope.reverse;
+
+												$scope.pagination();
+											};
+
+											// By Default sort ny Name
+											$scope.sort('name');
+
+											// console.log($scope.allUsers.length);
+										}
+									}, function myError(response) {
+										console.log(response);
+									});
+
+				})
+		.controller('editcustomercontroller',function($scope, $filter, filteredListService, $http){
+			$('#updateCustomerData').hide();
+			var allcustomer=$scope.webserviceshost+'hr/customer/all';
+			$http({
+				method : "GET",
+				url : allcustomer
+			}).then(function mySucces(response) {
+				console.log(response.data);
+				$scope.allCoustomer = response.data;
+				$scope.pageSize = 4;
+				$scope.allItems = $scope.allCoustomer;
+				$scope.reverse = false;
+
+				$scope.resetAll = function() {
+					$scope.filteredList = $scope.allItems;
+					$scope.customerId = '';
+					$scope.address = '';
+					$scope.country = '';
+					$scope.customerName = '';
+					$scope.zipCode = ''
+					$scope.searchText = '';
+					$scope.currentPage = 0;
+					$scope.Header = [ '', '', '',
+							'', '', '', '' ];
+				}
+
+				$scope.search = function() {
+					$scope.filteredList = filteredListService
+							.searched(
+									$scope.allItems,
+									$scope.searchText);
+
+					if ($scope.searchText == '') {
+						$scope.filteredList = $scope.allItems;
+					}
+					$scope.pagination();
+				}
+				$scope.editcustomerdetails=function(item){
+					$('#updateCustomerData').show();
+					console.log(item);
+					
+					$scope.customerId=item.customerId;
+					$scope.customerName=item.customerName;
+					$scope.customerAddress=item.address;
+					$scope.customerCountry=item.country;
+					$scope.customerZipCode=item.zipCode;
+				}
+				$scope.resetCustomerUpdate=function(){
+					$('#updateCustomerData').hide(); 
+				}
+				$scope.updateCustomerDetails=function(){
+					/*/update/{customerId}/{customerName}/{address}/{country}/{zipCode}*/
+					var updatecustomer=$scope.webserviceshost+'hr/customer/';
+					
+					var customerId=$scope.customerId;
+					var customerName=$scope.customerName;
+					var address=$scope.customerAddress;
+					var country=$scope.customerCountry;
+					var zipCode=$scope.customerZipCode;
+					
+					updatecustomer=updatecustomer+'/update/'+customerId+'/'+customerName+'/'+address+'/'+country+'/'+zipCode;
+					$http({
+						method : "POST",
+						url : updatecustomer
 					}).then(function mySucces(response) {
 						console.log(response.data);
-						if (response != 'undefiend' && response != "") {
-							
-							$scope.allUsers = response.data;
-							$scope.pageSize = 4;
-							$scope.allItems = $scope.allUsers;
-							$scope.reverse = false;
-
-							$scope.resetAll = function() {
-								$scope.filteredList = $scope.allItems;
-								$scope.employeeId = '';
-								$scope.firstName = '';
-								$scope.lastName = '';
-								$scope.emailId = '';
-								$scope.joiningdate = ''
-								$scope.searchText = '';
-								$scope.currentPage = 0;
-								$scope.Header = [ '', '', '', '', '', '', '' ];
-							}
-
-							
-							$scope.search = function() {
-								$scope.filteredList = filteredListService.searched(
-										$scope.allItems, $scope.searchText);
-
-								if ($scope.searchText == '') {
-									$scope.filteredList = $scope.allItems;
-								}
-								$scope.pagination();
-							}
-
-							// Calculate Total Number of Pages based on Search Result
-							$scope.pagination = function() {
-								$scope.ItemsByPage = filteredListService.paged(
-										$scope.filteredList, $scope.pageSize);
-							};
-
-							$scope.setPage = function() {
-								$scope.currentPage = this.n;
-							};
-
-							$scope.firstPage = function() {
-								$scope.currentPage = 0;
-							};
-
-							$scope.lastPage = function() {
-								$scope.currentPage = $scope.ItemsByPage.length - 1;
-							};
-
-							$scope.range = function(input, total) {
-								var ret = [];
-								if (!total) {
-									total = input;
-									input = 0;
-								}
-								for (var i = input; i < total; i++) {
-									if (i != 0 && i != total - 1) {
-										ret.push(i);
-									}
-								}
-								return ret;
-							};
-
-							$scope.sort = function(sortBy) {
-								$scope.resetAll();
-
-								$scope.columnToOrder = sortBy;
-
-								// $Filter - Standard Service
-								$scope.filteredList = $filter('orderBy')(
-										$scope.filteredList, $scope.columnToOrder,
-										$scope.reverse);
-
-								if ($scope.reverse)
-									iconName = 'glyphicon glyphicon-chevron-up';
-								else
-									iconName = 'glyphicon glyphicon-chevron-down';
-
-								if (sortBy === 'EmpId') {
-									$scope.Header[0] = iconName;
-								} else if (sortBy === 'name') {
-									$scope.Header[1] = iconName;
-								} else {
-									$scope.Header[2] = iconName;
-								}
-
-								$scope.reverse = !$scope.reverse;
-
-								$scope.pagination();
-							};
-
-							// By Default sort ny Name
-							$scope.sort('name');
-
-							//console.log($scope.allUsers.length);
+						if (response==200) {
+							console.log("success")
 						}
 					}, function myError(response) {
 						console.log(response);
 					});
 					
-				})
+					
+				}
+				// Calculate Total Number of Pages
+				// based on Search Result
+				$scope.pagination = function() {
+					$scope.ItemsByPage = filteredListService
+							.paged(
+									$scope.filteredList,
+									$scope.pageSize);
+				};
 
+				$scope.setPage = function() {
+					$scope.currentPage = this.n;
+				};
+
+				$scope.firstPage = function() {
+					$scope.currentPage = 0;
+				};
+
+				$scope.lastPage = function() {
+					$scope.currentPage = $scope.ItemsByPage.length - 1;
+				};
+
+				$scope.range = function(input,
+						total) {
+					var ret = [];
+					if (!total) {
+						total = input;
+						input = 0;
+					}
+					for (var i = input; i < total; i++) {
+						if (i != 0
+								&& i != total - 1) {
+							ret.push(i);
+						}
+					}
+					return ret;
+				};
+
+				$scope.sort = function(sortBy) {
+					$scope.resetAll();
+
+					$scope.columnToOrder = sortBy;
+
+					// $Filter - Standard Service
+					$scope.filteredList = $filter(
+							'orderBy')(
+							$scope.filteredList,
+							$scope.columnToOrder,
+							$scope.reverse);
+
+					if ($scope.reverse)
+						iconName = 'glyphicon glyphicon-chevron-up';
+					else
+						iconName = 'glyphicon glyphicon-chevron-down';
+
+					if (sortBy === 'customerId') {
+						$scope.Header[0] = iconName;
+					} else if (sortBy === 'customerName') {
+						$scope.Header[1] = iconName;
+					} else if (sortBy === 'zipCode') {
+						$scope.Header[2] = iconName;
+					} else if (sortBy === 'country') {
+						$scope.Header[3] = iconName;
+					} else if (sortBy === 'address') {
+						$scope.Header[4] = iconName;
+					} else {
+						$scope.Header[1] = iconName;
+					}
+
+					$scope.reverse = !$scope.reverse;
+
+					$scope.pagination();
+				};
+
+				// By Default sort ny Name
+				$scope.sort('customerName');
+
+				// console.log($scope.allUsers.length);
+			
+			}, function myError(response) {
+				console.log(response);
+			});
+			
+		})
+		
+		.controller('addcustomercontroller',
+				function($scope, $filter, $sce, ngTableParams, $http) {
+					$scope.submitemployee = function() {
+						var customerName=$scope.customerName;
+						var customerAddress=$scope.customerAddress;
+						var	customerZip=$scope.customerZip;
+						var customerCountry=$('#select_country :selected').text();
+						var createCustomer=$scope.webserviceshost+'hr/customer';
+						createCustomer=createCustomer+'/create/'+customerName+'/'+customerAddress+'/'+customerCountry+'/'+customerZip+'';
+						$http({
+							method : "POST",
+							url : createCustomer
+						}).then(function mySucces(response) {
+							console.log(response.data);
+							if (response==200) {
+								console.log("success")
+							}
+						}, function myError(response) {
+							console.log(response);
+						});
+					};
+
+				})
 		/*
 		 * var allusers=$scope.webserviceshost + 'hr/employee/all'; $http({
 		 * method : "GET", url : allusers }).then(function mySucces(response) {
@@ -986,10 +1179,16 @@ materialAdmin
 		})
 function searchUtil(item, toSearch) {
 	/* Search Text in all 3 fields */
-	
+	if(item.firstName!=undefined){
 	return (item.firstName.toLowerCase().indexOf(toSearch.toLowerCase()) > -1
 			|| item.lastName.toLowerCase().indexOf(toSearch.toLowerCase()) > -1 || item.employeeId == toSearch) ? true
 			: false;
+	}
+	else{
+		return (item.address.toLowerCase().indexOf(toSearch.toLowerCase()) > -1||item.customerName.toLowerCase().indexOf(toSearch.toLowerCase()) > -1
+				|| item.country.toLowerCase().indexOf(toSearch.toLowerCase()) > -1 || item.zipCode == toSearch) ? true
+				: false;
+	}
 }
 
 /* Get Dummy Data for Example */

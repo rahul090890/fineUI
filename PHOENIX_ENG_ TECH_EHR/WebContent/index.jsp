@@ -33,7 +33,10 @@
 <link href="css/app.min.1.css" rel="stylesheet" id="app-level">
 <link href="css/app.min.2.css" rel="stylesheet">
 <link href="css/demo.css" rel="stylesheet">
-<link href="https://cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css" rel="stylesheet">
+<link href="css/flags.css" rel="stylesheet">
+<link
+	href="https://cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css"
+	rel="stylesheet">
 
 </head>
 
@@ -145,10 +148,8 @@
 	<script src="js/templates.js"></script>
 	<script src="js/controllers/ui-bootstrap.js"></script>
 	<script src="js/controllers/table.js"></script>
-	<script src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
-
-
-	<!-- Template Modules -->
+	<script src="js/jquery.dataTables.min.js"></script>
+	<script src="js/jquery.flagstrap.min.js"></script>
 	<script src="js/modules/template.js"></script>
 	<script src="js/modules/ui.js"></script>
 	<script src="js/modules/charts/flot.js"></script>

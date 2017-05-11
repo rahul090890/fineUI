@@ -18,82 +18,294 @@
 				</h2>
 			</div> -->
 
-			<div class="card" data-ng-controller="DatepickerDemoCtrl">
+			<div class="card" data-ng-controller="editcustomercontroller">
 				<div class="card-header">
 					<h2>
 						Update Customer<small></small>
 					</h2>
 					<div class="card-body card-padding">
 						<div class='row'>
-							<div class='col-sm-4'>
-								<div class="form-group">
-									<span class="input-group-addon"><i class="zmdi zmdi-label zmdi-hc-fw"> </i> Id </span>
-									<div class="fg-line"></div>
-								</div>
-								
-								<div class="form-group">
-									<span class="input-group-addon"><i class="zmdi zmdi-assignment-account zmdi-hc-fw"></i>Customer Name</span>
-									<div class="fg-line"></div>
-								</div>
-								
-								<div class="form-group">
-									<span class="input-group-addon"><i class="zmdi zmdi-city zmdi-hc-fw" title="Customer Address"></i>Address</i></span>
-									<div class="fg-line"></div>
-								</div>
-								
-								<div class="form-group">
-									<span class="input-group-addon"><i class="zmdi zmdi-globe zmdi-hc-fw"> </i> Country </span>
-									<div class="fg-line"></div>
-								</div>
-								
-								<div class="form-group">
-									<span class="input-group-addon"><i class="zmdi zmdi-globe zmdi-hc-fw"> </i> Zip Code </span>
-									<div class="fg-line"></div>
-								</div>
-							</div>	
-							
-							<div class='col-sm-4'>
-								<div class="form-group">
-									<div class="fg-line">
-										<input type="text" class="form-control" placeholder="Enter Customer Id" value="PhoenixCust_111">
-									</div>	
-								</div>
-								
-								<div class="form-group">
-									<div class="fg-line">
-										<input type="text" class="form-control" placeholder="Enter Customer Name" value="PhoenixCust_Name">
-									</div>	
-								</div>
-								
-								<div class="form-group">
-									<div class="fg-line">
-										<input type="text" class="form-control" placeholder="Enter Customer Address" value='PhoenixCust_Address'>
-									</div>	
-								</div>
-								
-								<div class="form-group">
-									<div class="fg-line">
-										<input type="text" class="form-control" placeholder="Enter Customer Country" value='PhoenixCust_Country'>
-									</div>	
-								</div>
-								
-								<div class="form-group">
-									<div class="fg-line">
-										<input type="text" class="form-control" placeholder="Enter Zip Code" value='PhoenixCust_ZipCode'>
-									</div>	
-								</div>
-								
-								<div class="form-group">
-									<span>
-										<button class="btn btn-primary btn-icon-text waves-effect">
-										<i class="zmdi zmdi-check-all"></i> Update Customer</button>
-													
-										<button class="btn btn-danger btn-icon-text waves-effect">
-										<i class="zmdi zmdi-close"></i> Cancel</button>
+							<div class='table-responsive'>
+								<div class="input-group">
+									<input class="form-control" ng-model="searchText"
+										placeholder="Search" type="search" ng-change="search()" /> <span
+										class="input-group-addon"> <span
+										class="glyphicon glyphicon-search"></span>
 									</span>
 								</div>
-							</div>	
-							
+								<table class="table  table-hover data-table myTable">
+									<thead>
+										<tr>
+											<th class="EmpId"><i class="zmdi zmdi-label zmdi-hc-fw">
+											</i><a href="#" ng-click="sort('customerId',$event)">ID <span
+													class="{{Header[0]}}"></span>
+											</a></th>
+											<th class="name"><i
+												class="zmdi zmdi-assignment-account zmdi-hc-fw"></i><a
+												ng-click="sort('customerNamme')" href="#"> Customer Name<span
+													class="{{Header[1]}}"></span>
+											</a></th>
+
+											<th class="Email"><i class="zmdi zmdi-city zmdi-hc-fw"></i><a
+												ng-click="sort('zipCode')" href="#"> Zip Code <span
+													class="{{Header[2]}}"></span>
+											</a></th>
+
+											<th class="Email"><i class="zmdi zmdi-globe zmdi-hc-fw">
+											</i><a ng-click="sort('country')" href="#">Country <span
+													class="{{Header[3]}}"></span>
+											</a></th>
+											<th class="Email"><i class="zmdi zmdi-globe zmdi-hc-fw">
+											</i><a ng-click="sort('address')" href="#"> Address <span
+													class="{{Header[4]}}"></span>
+											</a></th>
+
+											<th class="Email">
+												<!-- <a ng-click="sort('lastName')" href="#"> --> <a>
+													Actions <span class="{{Header[5]}}"></span>
+											</a>
+											</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr
+											ng-repeat="item in ItemsByPage[currentPage] | orderBy:columnToOrder:reverse">
+											<td>{{item.customerId}}</td>
+											<td>{{item.customerName}}</td>
+											<td>{{item.zipCode}}</td>
+											<td>{{item.country}}</td>
+											<td>{{item.address}}</td>
+											<td>
+												<p>
+													<span><a ng-click="editcustomerdetails(item)">Edit</a></span>
+													&nbsp;| &nbsp; <span><a href='#'>Delete</a></span>
+												</p>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+								<ul class="pagination pagination-sm">
+									<li ng-class="{active:0}"><a href="#"
+										ng-click="firstPage()">First</a></li>
+									<li ng-repeat="n in range(ItemsByPage.length)"><a href="#"
+										ng-click="setPage()" ng-bind="n+1">1</a></li>
+									<li><a href="#" ng-click="lastPage()">Last</a></li>
+								</ul>
+
+								<!-- <table class='table table-striped' id='myDataTable'>
+									<thead>
+										<tr>
+											<th>ID</th>
+											<th>First Name</th>
+											<th>Last Name</th>
+											<th>Date of Join</th>
+											<th style="max-width:50px;">Status</th>
+											<th style="text-align: center;">Actions</th>
+										</tr>
+									</thead>
+
+									<tbody>
+										<tr ng-repeat='user in allUsers  | orderBy:columnToOrder:reverse'>
+											<td>{{user.employeeId}}</td>
+											<td>{{user.firstName}}</td>
+											<td>{{user.lastName}}</td>
+
+											<td>dummy date</td>
+											<td>{{user.employementStatus}}</td>
+											<td>
+												<p>
+													<span><a data-ui-sref="headers.edituserdetails">Edit</a></span>
+													&nbsp;| &nbsp; <span><a href='#'>Delete</a></span> &nbsp;|
+													&nbsp;<a href='#'>Reset Pswd</a></span>
+												</p>
+											</td>
+										</tr>
+										
+
+									</tbody>
+								</table> -->
+							</div>
+
+
+
+
+
+
+
+
+
+							<!-- 
+							<div class='col-sm-4'>
+								<div class="form-group">
+									<span class="input-group-addon"><i
+										class="zmdi zmdi-label zmdi-hc-fw"> </i> Id </span>
+									<div class="fg-line"></div>
+								</div>
+
+								<div class="form-group">
+									<span class="input-group-addon"><i
+										class="zmdi zmdi-assignment-account zmdi-hc-fw"></i>Customer
+										Name</span>
+									<div class="fg-line"></div>
+								</div>
+
+								<div class="form-group">
+									<span class="input-group-addon"><i
+										class="zmdi zmdi-city zmdi-hc-fw" title="Customer Address"></i>Address</span>
+									<div class="fg-line"></div>
+								</div>
+
+								<div class="form-group">
+									<span class="input-group-addon"><i
+										class="zmdi zmdi-globe zmdi-hc-fw"> </i> Country </span>
+									<div class="fg-line"></div>
+								</div>
+
+								<div class="form-group">
+									<span class="input-group-addon"><i
+										class="zmdi zmdi-globe zmdi-hc-fw"> </i> Zip Code </span>
+									<div class="fg-line"></div>
+								</div>
+							</div>
+
+							<div class='col-sm-4'>
+								<div class="form-group">
+									<div class="fg-line">
+										<input type="text" class="form-control"
+											placeholder="Enter Customer Id" value="PhoenixCust_111">
+									</div>
+								</div>
+
+								<div class="form-group">
+									<div class="fg-line">
+										<input type="text" class="form-control"
+											placeholder="Enter Customer Name" value="PhoenixCust_Name">
+									</div>
+								</div>
+
+								<div class="form-group">
+									<div class="fg-line">
+										<input type="text" class="form-control"
+											placeholder="Enter Customer Address"
+											value='PhoenixCust_Address'>
+									</div>
+								</div>
+
+								<div class="form-group">
+									<div class="fg-line">
+										<input type="text" class="form-control"
+											placeholder="Enter Customer Country"
+											value='PhoenixCust_Country'>
+									</div>
+								</div>
+
+								<div class="form-group">
+									<div class="fg-line">
+										<input type="text" class="form-control"
+											placeholder="Enter Zip Code" value='PhoenixCust_ZipCode'>
+									</div>
+								</div> -->
+
+							<!-- <div class="form-group" style="float: right;">
+									<span>
+										<button class="btn btn-primary btn-icon-text waves-effect">
+											<i class="zmdi zmdi-check-all"></i> Update Customer
+										</button>
+
+										<button class="btn btn-danger btn-icon-text waves-effect">
+											<i class="zmdi zmdi-close"></i> Cancel
+										</button>
+									</span>
+								</div> -->
+						</div>
+						<div class='row' id="updateCustomerData"
+							style='border: 1px grey solid !important'>
+							<div class='col-sm-4'>
+								<div class="form-group">
+									<span class="input-group-addon"><i
+										class="zmdi zmdi-label zmdi-hc-fw"> </i> Id </span>
+									<div class="fg-line"></div>
+								</div>
+
+								<div class="form-group">
+									<span class="input-group-addon"><i
+										class="zmdi zmdi-assignment-account zmdi-hc-fw"></i>Customer
+										Name</span>
+									<div class="fg-line"></div>
+								</div>
+
+								<div class="form-group">
+									<span class="input-group-addon"><i
+										class="zmdi zmdi-city zmdi-hc-fw" title="Customer Address"></i>Address</span>
+									<div class="fg-line"></div>
+								</div>
+
+								<div class="form-group">
+									<span class="input-group-addon"><i
+										class="zmdi zmdi-globe zmdi-hc-fw"> </i> Country </span>
+									<div class="fg-line"></div>
+								</div>
+
+								<div class="form-group">
+									<span class="input-group-addon"><i
+										class="zmdi zmdi-globe zmdi-hc-fw"> </i> Zip Code </span>
+									<div class="fg-line"></div>
+								</div>
+							</div>
+
+							<div class='col-sm-4'>
+								<div class="form-group">
+									<div class="fg-line">
+										<input type="text" class="form-control" disabled="disabled"
+											value="PhoenixCust_111" ng-model='customerId'
+											value='{{customerId}}'>
+									</div>
+								</div>
+
+								<div class="form-group">
+									<div class="fg-line">
+										<input type="text" class="form-control"
+											value="PhoenixCust_Name" ng-model='customerName'
+											value='{{customerName}}'>
+									</div>
+								</div>
+
+								<div class="form-group">
+									<div class="fg-line">
+										<input type="text" class="form-control"
+											ng-model='customerAddress' value='{{customerAddress}}'>
+									</div>
+								</div>
+
+								<div class="form-group">
+									<div class="fg-line">
+										<input type="text" class="form-control"
+											ng-model='customerCountry' value='{{customerCountry}}'>
+									</div>
+								</div>
+
+								<div class="form-group">
+									<div class="fg-line">
+										<input type="text" class="form-control"
+											ng-model='customerZipCode' 
+											value='{{customerZipCode}}'>
+									</div>
+								</div>
+
+								<div class="form-group">
+									<span>
+										<button class="btn btn-primary btn-icon-text waves-effect"
+											ng-click="updateCustomerDetails()">
+											<i class="zmdi zmdi-check-all"></i> Update Customer
+										</button>
+
+										<button class="btn btn-danger btn-icon-text waves-effect" ng-click="resetCustomerUpdate()">
+											<i class="zmdi zmdi-close"  ></i> Cancel
+										</button>
+									</span>
+								</div>
+							</div>
+
 						</div>
 					</div>
 				</div>

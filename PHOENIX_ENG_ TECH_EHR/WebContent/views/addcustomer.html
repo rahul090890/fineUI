@@ -18,7 +18,7 @@
 				</h2>
 			</div> -->
 
-			<div class="card" data-ng-controller="DatepickerDemoCtrl">
+			<div class="card" data-ng-controller="addcustomercontroller">
 				<div class="card-header">
 					<h2>
 						Add Customer<small></small>
@@ -26,73 +26,96 @@
 					<div class="card-body card-padding">
 						<div class='row'>
 							<div class='col-sm-4'>
-								<div class="form-group">
+								<!-- <div class="form-group">
 									<span class="input-group-addon"><i class="zmdi zmdi-label zmdi-hc-fw"> </i> ID</span>
 									<div class="fg-line"></div>
-								</div>
-								
+								</div> -->
+
 								<div class="form-group">
-									<span class="input-group-addon"><i class="zmdi zmdi-assignment-account zmdi-hc-fw"></i>Customer Name</span>
+									<span class="input-group-addon"><i
+										class="zmdi zmdi-assignment-account zmdi-hc-fw"></i>Customer
+										Name</span>
 									<div class="fg-line"></div>
 								</div>
-								
+
 								<div class="form-group">
-									<span class="input-group-addon"><i class="zmdi zmdi-city zmdi-hc-fw" title="Customer Address"></i>Address</span>
+									<span class="input-group-addon"><i
+										class="zmdi zmdi-city zmdi-hc-fw" title="Customer Address"></i>Address</span>
 									<div class="fg-line"></div>
 								</div>
 								<div class="form-group">
-									<span class="input-group-addon"><i class="zmdi zmdi-globe zmdi-hc-fw"></i>Country</span>
+									<span class="input-group-addon"><i
+										class="zmdi zmdi-globe zmdi-hc-fw"></i>Country</span>
 									<div class="fg-line"></div>
 								</div>
 								<div class="form-group">
-									<span class="input-group-addon"><i class="zmdi zmdi-pin zmdi-hc-fw"></i>Zip Code</span>
+									<span class="input-group-addon"><i
+										class="zmdi zmdi-pin zmdi-hc-fw"></i>Zip Code</span>
 									<div class="fg-line"></div>
 								</div>
-							</div>	
-							
+							</div>
+
 							<div class='col-sm-4'>
-								<div class="form-group">
+								<!-- <div class="form-group">
 									<div class="fg-line">
 										<input type="text" class="form-control" placeholder="Enter Customer Id">
 									</div>	
-								</div>
-								
+								</div> -->
+
 								<div class="form-group">
 									<div class="fg-line">
-										<input type="text" class="form-control" placeholder="Enter Customer Name">
-									</div>	
+										<input type="text" class="form-control" ng-model='customerName'
+											placeholder="Enter Customer Name">
+									</div>
 								</div>
-								
+
 								<div class="form-group">
 									<div class="fg-line">
-										<input type="text" class="form-control" placeholder="Enter Customer Address">
-									</div>	
-								</div>
-								<div class="form-group">
-									<div class="fg-line">
-										<input type="text" class="form-control" placeholder="Enter Country">
-									</div>	
+										<input type="text" class="form-control" ng-model='customerAddress'
+											placeholder="Enter Customer Address">
+									</div>
 								</div>
 								<div class="form-group">
 									<div class="fg-line">
-										<input type="text" class="form-control" placeholder="Enter Zip Code">
-									</div>	
+									<br>
+										
+										<div class="flagstrap" id="select_country" ng-model='customerCountry'
+											data-input-name="NewBuyer_country" data-selected-country=""></div>
+									</div>
+
+								</div>
+
+								<div class="form-group">
+									<div class="fg-line">
+										<input type="text" class="form-control" ng-model='customerZip'
+											placeholder="Enter Zip Code">
+									</div>
 								</div>
 								<div class="form-group">
 									<span>
-										<button class="btn btn-primary btn-icon-text waves-effect">
-										<i class="zmdi zmdi-check-all"></i> Add Customer</button>
-													
+										<button class="btn btn-primary btn-icon-text waves-effect" ng-click='submitemployee();'>
+											<i class="zmdi zmdi-check-all"></i> Add Customer
+										</button>
+
 										<button class="btn btn-danger btn-icon-text waves-effect">
-										<i class="zmdi zmdi-close"></i> Clear</button>
+											<i class="zmdi zmdi-close"></i> Clear
+										</button>
 									</span>
 								</div>
-							</div>	
-							
+							</div>
+
 						</div>
 					</div>
 				</div>
 			</div>
+
 		</div>
 	</section>
+
 </section>
+<script>
+	$(document).ready(function() {
+		$('#select_country').attr('data-selected-country', 'IN');
+		$('#select_country').flagStrap();
+	});
+</script>
