@@ -18,13 +18,73 @@
 				</h2>
 			</div> -->
 
-			<div class="card" data-ng-controller="DatepickerDemoCtrl">
+			<div class="card" data-ng-controller="editRollcontroller">
 				<div class="card-header">
 					<h2>
 						Update Role<small></small>
 					</h2>
 					<div class="card-body card-padding">
-						<div class='row'>
+						<div class='table-responsive'>
+							<div class="input-group">
+								<input class="form-control" ng-model="searchText"
+									placeholder="Search" type="search" ng-change="search()" /> <span
+									class="input-group-addon"> <span
+									class="glyphicon glyphicon-search"></span>
+								</span>
+							</div>
+							<table class="table  table-hover data-table myTable">
+								<thead>
+									<tr>
+										<th class="EmpId"><i class="zmdi zmdi-label zmdi-hc-fw">
+										</i><a href="#" ng-click="sort('roleid',$event)">Role
+												Id <span class="{{Header[0]}}"></span>
+										</a></th>
+										<th class="name"><i
+											class="zmdi zmdi-assignment-account zmdi-hc-fw"></i><a
+											ng-click="sort('roleName')" href="#"> Role
+												Name<span class="{{Header[1]}}"></span>
+										</a></th>
+
+										<th class="Email"><i class="zmdi zmdi-city zmdi-hc-fw"></i><a
+											ng-click="sort('parentRole')" href="#"> Parent
+												Role Name <span class="{{Header[2]}}"></span>
+										</a></th>
+
+										<th class="Email">
+											<!-- <a ng-click="sort('lastName')" href="#"> --> <a>
+												Actions <span class="{{Header[3]}}"></span>
+										</a>
+										</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr
+										ng-repeat="item in ItemsByPage[currentPage] | orderBy:columnToOrder:reverse">
+										<td>{{item.roleid}}</td>
+										<td>{{item.roleName}}</td>
+										<td>{{item.parentRole}}</td>
+										<td>
+											<p>
+												<span><a ng-click="editRoleDetails(item)">Edit</a></span>
+												&nbsp;| &nbsp; <span><a href='#'>Delete</a></span>
+											</p>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+							<ul class="pagination pagination-sm">
+								<li ng-class="{active:0}"><a href="#"
+									ng-click="firstPage()">First</a></li>
+								<li ng-repeat="n in range(ItemsByPage.length)"><a href="#"
+									ng-click="setPage()" ng-bind="n+1">1</a></li>
+								<li><a href="#" ng-click="lastPage()">Last</a></li>
+							</ul>
+
+
+
+						</div>
+
+						<div class='row' id='updateRoleDetails' style='border: 1px grey solid !important'>
 							<div class='col-sm-4'>
 								<div class="form-group">
 									<span class="input-group-addon"><i class="zmdi zmdi-label zmdi-hc-fw"> </i>Role Id </span>
@@ -45,19 +105,19 @@
 							<div class='col-sm-4'>
 								<div class="form-group">
 									<div class="fg-line">
-										<input type="text" class="form-control" placeholder="Enter Role Id" value="phoenixRole_111">
+										<input type="text" class="form-control" placeholder="Enter Role Id" value="{{roleid}}" ng-model='roleid'>
 									</div>	
 								</div>
 								
 								<div class="form-group">
 									<div class="fg-line">
-										<input type="text" class="form-control" placeholder="Enter Role Name" value="phoenixRole_Name">
+										<input type="text" class="form-control" placeholder="Enter Role Name" value="{{roleName}}" ng-model='roleName'>
 									</div>	
 								</div>
 								
 								<div class="form-group">
 									<div class="fg-line">
-										<input type="text" class="form-control" placeholder="" value='phoenixParentRole_Name'>
+										<input type="text" class="form-control" placeholder="" value='{{parentRole}}' ng-model='parentRole'>
 									</div>	
 								</div>
 								
@@ -65,10 +125,10 @@
 								
 								<div class="form-group">
 									<span>
-										<button class="btn btn-primary btn-icon-text waves-effect">
+										<button class="btn btn-primary btn-icon-text waves-effect" ng-click='updateRoleDetails()'>
 										<i class="zmdi zmdi-check-all"></i> Update Role</button>
 													
-										<button class="btn btn-danger btn-icon-text waves-effect">
+										<button class="btn btn-danger btn-icon-text waves-effect" ng-click='clearRole();'>
 										<i class="zmdi zmdi-close"></i> Cancel</button>
 									</span>
 								</div>

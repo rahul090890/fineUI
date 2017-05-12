@@ -425,10 +425,194 @@ materialAdmin
 									});
 
 				})
+
+		.controller(
+				'editRollcontroller',
+				function($scope, $filter, filteredListService, $http) {
+					var getroll = $scope.webserviceshost + 'hr/role/all';
+					$('#updateRoleDetails').hide();
+					$http({
+						method : "GET",
+						url : getroll
+					})
+							.then(
+									function mySucces(response) {
+										console.log(response.data);
+										if (response != 'undefiend'
+												&& response != "") {
+
+											$scope.allUsers = response.data;
+											$scope.pageSize = 4;
+											$scope.allItems = $scope.allUsers;
+											$scope.reverse = false;
+
+											$scope.resetAll = function() {
+												$scope.filteredList = $scope.allItems;
+												$scope.roleId = '';
+												$scope.roleName = '';
+												$scope.parentRoleName = '';
+												$scope.searchText = '';
+												$scope.currentPage = 0;
+												$scope.Header = [ '', '', '',
+														'', '' ];
+											}
+
+											$scope.editRoleDetails = function(
+													item) {
+												$('#updateRoleDetails').show();
+												$scope.roleid = item.roleid;
+												$scope.roleName = item.roleName;
+												$scope.parentRole = item.parentRole;
+											}
+											$scope.clearRole = function() {
+												$('#updateRoleDetails').hide();
+											}
+											$scope.search = function() {
+												$scope.filteredList = filteredListService
+														.searched(
+																$scope.allItems,
+																$scope.searchText);
+
+												if ($scope.searchText == '') {
+													$scope.filteredList = $scope.allItems;
+												}
+												$scope.pagination();
+											}
+
+											// Calculate Total Number of Pages
+											// based on Search Result
+											$scope.pagination = function() {
+												$scope.ItemsByPage = filteredListService
+														.paged(
+																$scope.filteredList,
+																$scope.pageSize);
+											};
+
+											$scope.setPage = function() {
+												$scope.currentPage = this.n;
+											};
+
+											$scope.firstPage = function() {
+												$scope.currentPage = 0;
+											};
+
+											$scope.lastPage = function() {
+												$scope.currentPage = $scope.ItemsByPage.length - 1;
+											};
+
+											$scope.range = function(input,
+													total) {
+												var ret = [];
+												if (!total) {
+													total = input;
+													input = 0;
+												}
+												for (var i = input; i < total; i++) {
+													if (i != 0
+															&& i != total - 1) {
+														ret.push(i);
+													}
+												}
+												return ret;
+											};
+
+											$scope.sort = function(sortBy) {
+												$scope.resetAll();
+
+												$scope.columnToOrder = sortBy;
+
+												// $Filter - Standard Service
+												$scope.filteredList = $filter(
+														'orderBy')(
+														$scope.filteredList,
+														$scope.columnToOrder,
+														$scope.reverse);
+
+												if ($scope.reverse)
+													iconName = 'glyphicon glyphicon-chevron-up';
+												else
+													iconName = 'glyphicon glyphicon-chevron-down';
+
+												if (sortBy === 'roleid') {
+													$scope.Header[0] = iconName;
+												} else if (sortBy === 'roleName') {
+													$scope.Header[1] = iconName;
+												} else if (sortBy === 'parentRole') {
+													$scope.Header[2] = iconName;
+												} else {
+													$scope.Header[1] = iconName;
+												}
+
+												$scope.reverse = !$scope.reverse;
+
+												$scope.pagination();
+											};
+
+											// By Default sort ny Name
+											$scope.sort('roleName');
+
+											// console.log($scope.allUsers.length);
+										}
+									}, function myError(response) {
+										console.log(response);
+									});
+					$scope.updateRoleDetails = function() {
+						var roleid = $scope.roleid;
+						var roleName = $scope.roleName;
+						var parentRole = $scope.parentRole;
+						var addroll = $scope.webserviceshost + 'hr/role';
+						var updaterole = addroll + '/update/' + roleName + '/'
+								+ parentRole;
+						$http({
+							method : "POST",
+							url : updaterole
+						}).then(function mySucces(response) {
+							console.log(response.data);
+							$scope.rolls = response.data;
+						}, function myError(response) {
+							console.log(response);
+						});
+					}
+
+				})
+
+		.controller('addrollcontroller', function($scope, $filter, $http) {
+			var getroll = $scope.webserviceshost + 'hr/role/all';
+
+			$http({
+				method : "GET",
+				url : getroll
+			}).then(function mySucces(response) {
+				console.log(response.data);
+				$scope.rolls = response.data;
+			}, function myError(response) {
+				console.log(response);
+			});
+			$scope.addroll = function() {
+				var roleName = $scope.roleName;
+				var parentRollId = $scope.parentroleId;
+				var addroll = $scope.webserviceshost + 'hr/role';
+				var createRoll = '/create/' + roleName + '/' + parentRollId;
+				addroll = addroll + createRoll;
+				$http({
+					method : "POST",
+					url : addroll
+				}).then(function mySucces(response) {
+					console.log(response.data);
+					$scope.rolls = response.data;
+				}, function myError(response) {
+					console.log(response);
+				});
+			}
+			$scope.clearRole = function() {
+				$scope.parentroleId = '';
+				$scope.roleName = '';
+			}
+		})
 		.controller(
 				'editdepartmentcontroller',
 				function($scope, $filter, filteredListService, $http) {
-
+					$('#departmentupdatedetails').hide();
 					var allusersURL = $scope.webserviceshost
 							+ 'hr/department/all';
 					$http({
@@ -549,6 +733,49 @@ materialAdmin
 									}, function myError(response) {
 										console.log(response);
 									});
+
+					$scope.editdepartmentDetails = function(item) {
+						$('#departmentupdatedetails').show();
+						$scope.departmentid = item.departmentId;
+						$scope.departmentName = item.departmentName;
+						var allusersURL = $scope.webserviceshost
+								+ 'hr/department/all';
+						$http({
+							method : "GET",
+							url : allusersURL
+						}).then(function mySucces(response) {
+							$scope.departments = response.data;
+						}, function myError(response) {
+							console.log(response);
+						});
+						$scope.resetupdateDepartment = function() {
+							$('#departmentupdatedetails').hide();
+						}
+						$scope.savedepartmentUpdate = function() {
+							var departmentid = $scope.departmentid;
+							var departmentName = $scope.departmentName;
+							var parentDepartmentId = $scope.parentdepartment;
+							var managerId = $scope.managerId;
+							var addDepartment = "hr/department";
+							var additional = '/update/' + departmentid + '/'
+									+ departmentName + '/' + parentDepartmentId
+									+ '/' + managerId;
+							addDepartment = addDepartment + additional;
+							$http({
+								method : "GET",
+								url : addDepartment
+							}).then(function mySucces(response) {
+								console.log(response.data);
+								$scope.departments = response.data;
+
+								if (response == 200) {
+									console.log("success")
+								}
+							}, function myError(response) {
+								console.log(response);
+							});
+						}
+					}
 
 				})
 
@@ -1382,10 +1609,13 @@ function searchUtil(item, toSearch) {
 				|| item.country.toLowerCase().indexOf(toSearch.toLowerCase()) > -1 || item.zipCode == toSearch) ? true
 				: false;
 	} else if (item.departmentName != undefined) {
-		return ( item.departmentName.toLowerCase().indexOf(
-						toSearch.toLowerCase()) > -1
+		return (item.departmentName.toLowerCase().indexOf(
+				toSearch.toLowerCase()) > -1
 				|| item.manager.parentDepartment.toLowerCase().indexOf(
 						toSearch.toLowerCase()) > -1 || item.zipCode == toSearch) ? true
+				: false;
+	} else if (item.roleName != undefined) {
+		return (item.roleName.toLowerCase().indexOf(toSearch.toLowerCase()) > -1) ? true
 				: false;
 	}
 }

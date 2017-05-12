@@ -18,7 +18,7 @@
 				</h2>
 			</div> -->
 
-			<div class="card" data-ng-controller="DatepickerDemoCtrl">
+			<div class="card" data-ng-controller="addrollcontroller">
 				<div class="card-header">
 					<h2>
 						Add Role<small></small>
@@ -26,52 +26,60 @@
 					<div class="card-body card-padding">
 						<div class='row'>
 							<div class='col-sm-4'>
-								<div class="form-group">
+								<!-- <div class="form-group">
 									<span class="input-group-addon"><i class="zmdi zmdi-label zmdi-hc-fw"> </i>Role Id</span>
 									<div class="fg-line"></div>
-								</div>
-								
+								</div> -->
+
 								<div class="form-group">
-									<span class="input-group-addon"><i class="zmdi zmdi-camera-front zmdi-hc-fw"> </i>Role Name</span>
+									<span class="input-group-addon"><i
+										class="zmdi zmdi-camera-front zmdi-hc-fw"> </i>Role Name</span>
 									<div class="fg-line"></div>
 								</div>
 								<div class="form-group">
-									<span class="input-group-addon"><i class="zmdi zmdi-camera-front zmdi-hc-fw"> </i>Parent Role Name</span>
+									<span class="input-group-addon"><i
+										class="zmdi zmdi-camera-front zmdi-hc-fw"> </i>Parent Role
+										Name</span>
 									<div class="fg-line"></div>
 								</div>
-							</div>	
-							
+							</div>
+
 							<div class='col-sm-4'>
+								
+
 								<div class="form-group">
 									<div class="fg-line">
-										<input type="text" class="form-control" placeholder="Enter Role Id">
-									</div>	
+										<input type="text" class="form-control" ng-model='roleName'
+											placeholder="Enter Role Name">
+									</div>
 								</div>
-								
+
 								<div class="form-group">
 									<div class="fg-line">
-										<input type="text" class="form-control" placeholder="Enter Role Name">
-									</div>	
+										<div class="select">
+											<select class="form-control" name="parentroleId" ng-model='parentroleId'>
+												<option>Select Roll</option>
+												<option ng-repeat='roll in rolls' value='{{roll.roleid}}'>{{roll.roleName}}</option>
+
+											</select>
+										</div>
+									</div>
 								</div>
-								
-								<div class="form-group">
-									<div class="fg-line">
-										<input type="text" class="form-control" placeholder="Enter Parent Role Name">
-									</div>	
-								</div>
-								<br/>
-								
+								<br />
+
 								<div class="form-group">
 									<span>
-										<button class="btn btn-primary btn-icon-text waves-effect">
-										<i class="zmdi zmdi-check-all"></i> Add Role</button>
-													
-										<button class="btn btn-danger btn-icon-text waves-effect">
-										<i class="zmdi zmdi-close"></i> Clear</button>
+										<button class="btn btn-primary btn-icon-text waves-effect" ng-click="addroll()">
+											<i class="zmdi zmdi-check-all"></i> Add Role
+										</button>
+
+										<!-- <button class="btn btn-danger btn-icon-text waves-effect">
+											<i class="zmdi zmdi-close" ng-click='clearRole()'></i> Clear
+										</button> -->
 									</span>
 								</div>
-							</div>	
-							
+							</div>
+
 						</div>
 					</div>
 				</div>
