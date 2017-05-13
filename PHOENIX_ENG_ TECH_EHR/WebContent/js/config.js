@@ -84,6 +84,11 @@ materialAdmin
 						templateUrl : 'views/updateuserdetails.html'
 						
 					})
+					.state('headers.updatetask',{
+						url : '/updatetask',
+						templateUrl : 'views/updatetask.html'
+						
+					})
 					.state('headers.editdepartment', {
 						url : '/editdepartment',
 						templateUrl : 'views/editdepartment.html'

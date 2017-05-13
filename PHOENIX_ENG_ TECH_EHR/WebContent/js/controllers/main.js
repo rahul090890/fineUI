@@ -425,7 +425,235 @@ materialAdmin
 									});
 
 				})
+		.controller(
+				'addtaskcontroller',
+				function($scope, $filter, $http) {
+					var alldepartmentURL = $scope.webserviceshost
+							+ 'hr/department/all';
+					var allcustomer = $scope.webserviceshost
+							+ 'hr/customer/all';
+					$http({
+						method : "GET",
+						url : alldepartmentURL
+					}).then(function mySucces(response) {
+						console.log(response.data);
+						if (response != 'undefiend' && response != "") {
+							$scope.departments = response.data;
+						}
+					}, function myError(response) {
+						console.log(response);
+					});
+					$http({
+						method : "GET",
+						url : allcustomer
+					}).then(function mySucces(response) {
+						console.log(response.data);
+						if (response != 'undefiend' && response != "") {
+							$scope.customers = response.data;
+						}
+					}, function myError(response) {
+						console.log(response);
+					});
+					$scope.addTask = function() {
+						var taskName = $scope.taskName;
+						var departmentId = $scope.department;
+						var customerId = $scope.customer;
+						var addTask = $scope.webserviceshost + 'hr/task/'
+								+ 'create/' + taskName + '/' + departmentId
+								+ '/' + customerId;
 
+						$http({
+							method : "POST",
+							url : addTask
+						}).then(function mySucces(response) {
+							console.log(response.data);
+
+						}, function myError(response) {
+							console.log(response);
+						});
+					}
+
+				})
+		.controller(
+				'edittaskcontroller',
+				function($scope, $filter, filteredListService, $http) {
+					var allTask = $scope.webserviceshost + 'hr/task/all';
+
+					$('#updatetask').hide();
+					$http({
+						method : "GET",
+						url : allTask
+					})
+							.then(
+									function mySucces(response) {
+										console.log(response.data);
+										if (response != 'undefiend'
+												&& response != "") {
+
+											$scope.allUsers = response.data;
+											$scope.pageSize = 4;
+											$scope.allItems = $scope.allUsers;
+											$scope.reverse = false;
+
+											$scope.resetAll = function() {
+												$scope.filteredList = $scope.allItems;
+												$scope.taskId = '';
+												$scope.TaskName = '';
+												$scope.customer = '';
+												$scope.department = '';
+												$scope.searchText = '';
+												$scope.currentPage = 0;
+												$scope.Header = [ '', '', '',
+														'', '', '', '' ];
+											}
+
+											$scope.search = function() {
+												$scope.filteredList = filteredListService
+														.searched(
+																$scope.allItems,
+																$scope.searchText);
+
+												if ($scope.searchText == '') {
+													$scope.filteredList = $scope.allItems;
+												}
+												$scope.pagination();
+											}
+
+											// Calculate Total Number of Pages
+											// based on Search Result
+											$scope.pagination = function() {
+												$scope.ItemsByPage = filteredListService
+														.paged(
+																$scope.filteredList,
+																$scope.pageSize);
+											};
+
+											$scope.setPage = function() {
+												$scope.currentPage = this.n;
+											};
+
+											$scope.firstPage = function() {
+												$scope.currentPage = 0;
+											};
+
+											$scope.lastPage = function() {
+												$scope.currentPage = $scope.ItemsByPage.length - 1;
+											};
+
+											$scope.range = function(input,
+													total) {
+												var ret = [];
+												if (!total) {
+													total = input;
+													input = 0;
+												}
+												for (var i = input; i < total; i++) {
+													if (i != 0
+															&& i != total - 1) {
+														ret.push(i);
+													}
+												}
+												return ret;
+											};
+
+											$scope.sort = function(sortBy) {
+												$scope.resetAll();
+
+												$scope.columnToOrder = sortBy;
+
+												// $Filter - Standard Service
+												$scope.filteredList = $filter(
+														'orderBy')(
+														$scope.filteredList,
+														$scope.columnToOrder,
+														$scope.reverse);
+
+												if ($scope.reverse)
+													iconName = 'glyphicon glyphicon-chevron-up';
+												else
+													iconName = 'glyphicon glyphicon-chevron-down';
+
+												if (sortBy === 'taskId') {
+													$scope.Header[0] = iconName;
+												} else if (sortBy === 'taskName') {
+													$scope.Header[1] = iconName;
+												} else if (sortBy === 'customerName') {
+													$scope.Header[2] = iconName;
+												} else if (sortBy === 'departmentName') {
+													$scope.Header[3] = iconName;
+												} else {
+													$scope.Header[1] = iconName;
+												}
+
+												$scope.reverse = !$scope.reverse;
+
+												$scope.pagination();
+											};
+
+											// By Default sort ny Name
+											$scope.sort('taskName');
+
+											// console.log($scope.allUsers.length);
+										}
+									}, function myError(response) {
+										console.log(response);
+									});
+					$scope.edittaskDetails = function(item) {
+						$('#updatetask').show();
+
+						$scope.taskId = item.taskId;
+						$scope.taskName = item.taskName;
+						var alldepartmentURL = $scope.webserviceshost
+								+ 'hr/department/all';
+						var allcustomer = $scope.webserviceshost
+								+ 'hr/customer/all';
+						$http({
+							method : "GET",
+							url : alldepartmentURL
+						}).then(function mySucces(response) {
+							console.log(response.data);
+							if (response != 'undefiend' && response != "") {
+								$scope.departments = response.data;
+							}
+						}, function myError(response) {
+							console.log(response);
+						});
+						$http({
+							method : "GET",
+							url : allcustomer
+						}).then(function mySucces(response) {
+							console.log(response.data);
+							if (response != 'undefiend' && response != "") {
+								$scope.customers = response.data;
+							}
+						}, function myError(response) {
+							console.log(response);
+						});
+					}
+					$scope.resettaskUpdate = function() {
+						$('#updatetask').hide();
+					}
+					$scope.updatetaskDetails = function() {
+						var taskId = $scope.taskId;
+						var taskName = $scope.taskName;
+						var customerId = $scope.customer;
+						var departmentId = $scope.department;
+						var taskUpdate = $scope.webserviceshost
+								+ 'hr/task';
+						var add='/update/'+taskId+'/'+taskName+'/'+departmentId+'/'+customerId
+						taskUpdate=taskUpdate+add;
+						$http({
+							method : "Post",
+							url : taskUpdate
+						}).then(function mySucces(response) {
+							console.log(response.data);
+							
+						}, function myError(response) {
+							console.log(response);
+						});
+					}
+
+				})
 		.controller(
 				'editRollcontroller',
 				function($scope, $filter, filteredListService, $http) {
@@ -561,8 +789,8 @@ materialAdmin
 						var roleName = $scope.roleName;
 						var parentRole = $scope.parentRole;
 						var addroll = $scope.webserviceshost + 'hr/role';
-						var updaterole = addroll + '/update/'+roleid+'/' + roleName + '/'
-								+ parentRole;
+						var updaterole = addroll + '/update/' + roleid + '/'
+								+ roleName + '/' + parentRole;
 						$http({
 							method : "POST",
 							url : updaterole
@@ -806,7 +1034,8 @@ materialAdmin
 						var parentDepartmentId = $scope.parentDepartment;
 						var departmentName = $scope.departmentName;
 						var managerId = $scope.managerId;
-						var addDepartment =$scope.webserviceshost+ "hr/department";
+						var addDepartment = $scope.webserviceshost
+								+ "hr/department";
 						var additional = '/create/' + departmentName + '/'
 								+ parentDepartmentId + '/' + managerId;
 						addDepartment = addDepartment + additional;
@@ -1616,6 +1845,13 @@ function searchUtil(item, toSearch) {
 				: false;
 	} else if (item.roleName != undefined) {
 		return (item.roleName.toLowerCase().indexOf(toSearch.toLowerCase()) > -1) ? true
+				: false;
+	} else if (item.taskName != undefined) {
+		return (item.taskName.toLowerCase().indexOf(toSearch.toLowerCase()) > -1
+				|| item.customer.customerName.toLowerCase().indexOf(
+						toSearch.toLowerCase()) > -1
+				|| item.department.departmentName.toLowerCase().indexOf(
+						toSearch.toLowerCase()) > -1 || item.zipCode == toSearch) ? true
 				: false;
 	}
 }
