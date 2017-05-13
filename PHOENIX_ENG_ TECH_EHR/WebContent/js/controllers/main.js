@@ -561,7 +561,7 @@ materialAdmin
 						var roleName = $scope.roleName;
 						var parentRole = $scope.parentRole;
 						var addroll = $scope.webserviceshost + 'hr/role';
-						var updaterole = addroll + '/update/' + roleName + '/'
+						var updaterole = addroll + '/update/'+roleid+'/' + roleName + '/'
 								+ parentRole;
 						$http({
 							method : "POST",
@@ -806,7 +806,7 @@ materialAdmin
 						var parentDepartmentId = $scope.parentDepartment;
 						var departmentName = $scope.departmentName;
 						var managerId = $scope.managerId;
-						var addDepartment = "hr/department";
+						var addDepartment =$scope.webserviceshost+ "hr/department";
 						var additional = '/create/' + departmentName + '/'
 								+ parentDepartmentId + '/' + managerId;
 						addDepartment = addDepartment + additional;
