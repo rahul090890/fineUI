@@ -1099,8 +1099,8 @@ materialAdmin
 											$('#updateCustomerData').show();
 											console.log(item);
 
-											$scope.customerId = item.customerId;
-											$scope.customerName = item.customerName;
+											$scope.customerID = item.customerId;
+											$scope.customerNAME = item.customerName;
 											$scope.customerAddress = item.address;
 											$scope.customerCountry = item.country;
 											$scope.customerZipCode = item.zipCode;
@@ -1113,8 +1113,8 @@ materialAdmin
 											var updatecustomer = $scope.webserviceshost
 													+ 'hr/customer/';
 
-											var customerId = $scope.customerId;
-											var customerName = $scope.customerName;
+											var customerId = $scope.customerID;
+											var customerName = $scope.customerNAME;
 											var address = $scope.customerAddress;
 											var country = $scope.customerCountry;
 											var zipCode = $scope.customerZipCode;
@@ -1131,6 +1131,112 @@ materialAdmin
 													.then(
 															function mySucces(
 																	response) {
+																$http({
+																	method : "GET",
+																	url : allcustomer
+																})
+																		.then(
+																				function mySucces(response) {
+																					$scope.allCoustomer = response.data;
+																					$scope.pageSize = 4;
+																					$scope.allItems = $scope.allCoustomer;
+																					$scope.reverse = false;
+
+																					$scope.resetAll = function() {
+																						$scope.filteredList = $scope.allItems;
+																						$scope.customerId = '';
+																						$scope.address = '';
+																						$scope.country = '';
+																						$scope.customerName = '';
+																						$scope.zipCode = ''
+																						$scope.searchText = '';
+																						$scope.currentPage = 0;
+																						$scope.Header = [ '', '', '', '',
+																								'', '', '' ];
+																					}
+
+																					$scope.search = function() {
+																						$scope.filteredList = filteredListService
+																								.searched($scope.allItems,
+																										$scope.searchText);
+
+																						if ($scope.searchText == '') {
+																							$scope.filteredList = $scope.allItems;
+																						}
+																						$scope.pagination();
+																					}
+																					$scope.pagination = function() {
+																						$scope.ItemsByPage = filteredListService
+																								.paged($scope.filteredList,
+																										$scope.pageSize);
+																					};
+
+																					$scope.setPage = function() {
+																						$scope.currentPage = this.n;
+																					};
+
+																					$scope.firstPage = function() {
+																						$scope.currentPage = 0;
+																					};
+
+																					$scope.lastPage = function() {
+																						$scope.currentPage = $scope.ItemsByPage.length - 1;
+																					};
+
+																					$scope.range = function(input, total) {
+																						var ret = [];
+																						if (!total) {
+																							total = input;
+																							input = 0;
+																						}
+																						for (var i = input; i < total; i++) {
+																							if (i != 0 && i != total - 1) {
+																								ret.push(i);
+																							}
+																						}
+																						return ret;
+																					};
+
+																					$scope.sort = function(sortBy) {
+																						$scope.resetAll();
+
+																						$scope.columnToOrder = sortBy;
+
+																						// $Filter - Standard Service
+																						$scope.filteredList = $filter(
+																								'orderBy')(
+																								$scope.filteredList,
+																								$scope.columnToOrder,
+																								$scope.reverse);
+
+																						if ($scope.reverse)
+																							iconName = 'glyphicon glyphicon-chevron-up';
+																						else
+																							iconName = 'glyphicon glyphicon-chevron-down';
+
+																						if (sortBy === 'customerId') {
+																							$scope.Header[0] = iconName;
+																						} else if (sortBy === 'customerName') {
+																							$scope.Header[1] = iconName;
+																						} else if (sortBy === 'zipCode') {
+																							$scope.Header[2] = iconName;
+																						} else if (sortBy === 'country') {
+																							$scope.Header[3] = iconName;
+																						} else if (sortBy === 'address') {
+																							$scope.Header[4] = iconName;
+																						} else {
+																							$scope.Header[1] = iconName;
+																						}
+
+																						$scope.reverse = !$scope.reverse;
+
+																						$scope.pagination();
+																					};
+
+																					// By Default sort ny Name
+																					$scope.sort('customerName');
+
+																				})
 																console
 																		.log(response.data);
 

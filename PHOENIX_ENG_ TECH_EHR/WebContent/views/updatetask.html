@@ -1,0 +1,182 @@
+
+<header id="header" data-current-skin={{mactrl.currentSkin}}
+	data-ng-include="'template/header.html'"
+	data-ng-controller="headerCtrl as hctrl"></header>
+
+<section id="main">
+	<aside id="sidebar" data-ng-include="'template/sidebar-left.html'"
+		data-ng-class="{ 'toggled': mactrl.sidebarToggle.left === true }"></aside>
+
+	<aside id="chat" data-ng-include="'template/chat.html'"
+		data-ng-class="{ 'toggled': mactrl.sidebarToggle.right === true }"></aside>
+
+	<section id="content">
+		<div class="container c-alt"></div>
+
+		<div class="card" data-ng-controller="edittaskcontroller">
+			<div class="card-header">
+				<h2>
+					Update Task<small></small>
+				</h2>
+				<div class="card-body card-padding">
+					<div class="row">
+						<div class='table-responsive'>
+							<div class="input-group">
+								<input class="form-control" ng-model="searchText"
+									placeholder="Search" type="search" ng-change="search()" /> <span
+									class="input-group-addon"> <span
+									class="glyphicon glyphicon-search"></span>
+								</span>
+							</div>
+							<table class="table  table-hover data-table myTable">
+								<thead>
+									<tr>
+										<th class="EmpId"><i class="zmdi zmdi-label zmdi-hc-fw">
+										</i><a href="#" ng-click="sort('taskId',$event)">Task Id <span
+												class="{{Header[0]}}"></span>
+										</a></th>
+										<th class="name"><i
+											class="zmdi zmdi-assignment-account zmdi-hc-fw"></i><a
+											ng-click="sort('taskName')" href="#"> Task Name<span
+												class="{{Header[1]}}"></span>
+										</a></th>
+
+										<th class="Email"><i class="zmdi zmdi-city zmdi-hc-fw"></i><a
+											ng-click="sort('customerName')" href="#"> Customer Name <span
+												class="{{Header[2]}}"></span>
+										</a></th>
+										<th class="Email"><i class="zmdi zmdi-city zmdi-hc-fw"></i><a
+											ng-click="sort('departmentName')" href="#">Department
+												Name <span class="{{Header[3]}}"></span>
+										</a></th>
+										<th class="Email">
+											<!-- <a ng-click="sort('lastName')" href="#"> --> <a>
+												Actions <span class="{{Header[4]}}"></span>
+										</a>
+										</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr
+										ng-repeat="item in ItemsByPage[currentPage] | orderBy:columnToOrder:reverse">
+										<td>{{item.taskId}}</td>
+										<td>{{item.taskName}}</td>
+										<td>{{item.customer.customerName}}</td>
+										<td>{{item.department.departmentName}}</td>
+										<td>
+											<p>
+												<span><a ng-click="edittaskDetails(item)">Edit</a></span>
+												&nbsp;| &nbsp; <span><a href='#'>Delete</a></span>
+											</p>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+							<ul class="pagination pagination-sm">
+								<li ng-class="{active:0}"><a href="#"
+									ng-click="firstPage()">First</a></li>
+								<li ng-repeat="n in range(ItemsByPage.length)"><a href="#"
+									ng-click="setPage()" ng-bind="n+1">1</a></li>
+								<li><a href="#" ng-click="lastPage()">Last</a></li>
+							</ul>
+
+
+
+						</div>
+
+					</div>
+					<div class='row' id="updatetask"
+						style='border: 1px grey solid !important'>
+						<div class='col-sm-4'>
+							<div class="form-group">
+								<span class="input-group-addon"><i
+									class="zmdi zmdi-label zmdi-hc-fw"> </i>Task Id </span>
+								<div class="fg-line"></div>
+							</div>
+
+							<div class="form-group">
+								<span class="input-group-addon"><i
+									class="zmdi zmdi-assignment-account zmdi-hc-fw"></i>Task Name</span>
+								<div class="fg-line"></div>
+							</div>
+
+							<div class="form-group">
+								<span class="input-group-addon"><i
+									class="zmdi zmdi-city zmdi-hc-fw" title="Department Name"></i>Department
+									Name</span>
+								<div class="fg-line"></div>
+							</div>
+
+							<div class="form-group">
+								<span class="input-group-addon"><i
+									class="zmdi zmdi-globe zmdi-hc-fw"> </i> Customer Name </span>
+								<div class="fg-line"></div>
+							</div>
+
+
+						</div>
+
+						<div class='col-sm-4'>
+							<div class="form-group">
+								<div class="fg-line">
+									<input type="text" class="form-control" disabled="disabled"
+										ng-model='taskId' value='{{taskId}}'>
+								</div>
+							</div>
+
+							<div class="form-group">
+								<div class="fg-line">
+									<input type="text" class="form-control" ng-model='taskName'
+										value='{{taskName}}'>
+								</div>
+							</div>
+
+							<div class="form-group">
+								<div class="fg-line">
+									<div class="select">
+										<select class="form-control" ng-model='department'>
+											<option>Select Department</option>
+											<option ng-repeat='department in departments'
+												value='{{department.departmentId}}'>{{department.departmentName}}</option>
+
+										</select>
+									</div>
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="fg-line">
+									<div class="select">
+										<select class="form-control" ng-model='customer'>
+											<option>Select Customer</option>
+											<option ng-repeat='customer in customers'
+												value='{{customer.customerId}}'>{{customer.customerName}}</option>
+
+										</select>
+									</div>
+								</div>
+							</div>
+
+
+
+
+							<div class="form-group">
+								<span>
+									<button class="btn btn-primary btn-icon-text waves-effect"
+										ng-click="updatetaskDetails()">
+										<i class="zmdi zmdi-check-all"></i> Update Task
+									</button>
+
+									<button class="btn btn-danger btn-icon-text waves-effect"
+										ng-click="resettaskUpdate()">
+										<i class="zmdi zmdi-close"></i> Cancel
+									</button>
+								</span>
+							</div>
+						</div>
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+</section>
