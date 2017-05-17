@@ -84,7 +84,7 @@
 											<div class="select">
 												<select class="form-control" name="managerId" ng-model='managerId'>
 													<option>Select Manager</option>
-													<option value='{{managers.employeeId}}'>{{managers.firstName}}&nbsp;{{managers.lastName}}</option>
+													<option value='{{manager.employeeId}}' ng-repeat='manager in managers'>{{manager.firstName}}&nbsp;{{manager.lastName}}</option>
 													
 												</select>
 											</div>

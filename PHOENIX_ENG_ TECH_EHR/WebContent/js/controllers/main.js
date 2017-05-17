@@ -466,10 +466,10 @@ materialAdmin
 																	console
 																			.log(response);
 																});
-											
+
 											}
-											$scope.updateUser=function(){
-												var employeeId=$scope.employeeId;
+											$scope.updateUser = function() {
+												var employeeId = $scope.employeeId;
 												var firstName = $scope.firstName;
 												var lastName = $scope.lastName;
 												var emailId = $scope.emailId;
@@ -483,144 +483,194 @@ materialAdmin
 												var employeeStatus = $scope.employeeStatus;
 												var updateEmployee = $scope.webserviceshost
 														+ 'hr/employee/update/';
-												var addition = employeeId + '/' + firstName + '/' + lastName + '/'
-														+ emailId + '/' + loginId + '/' + loginPassword
-														+ '/' + managerId + '/' + address + '/'
-														+ designation + '/' + employeeType + '/'
-														+ userdepartmentId + '/' + employeeStatus;
-												updateEmployee = updateEmployee + addition;
-												
+												var addition = employeeId + '/'
+														+ firstName + '/'
+														+ lastName + '/'
+														+ emailId + '/'
+														+ loginId + '/'
+														+ loginPassword + '/'
+														+ managerId + '/'
+														+ address + '/'
+														+ designation + '/'
+														+ employeeType + '/'
+														+ userdepartmentId
+														+ '/' + employeeStatus;
+												updateEmployee = updateEmployee
+														+ addition;
+
 												$http({
 													method : "POST",
 													url : updateEmployee
-												}).then(function mySucces(response) {
-													$('#edituser').hide();
-													var allusersURL = $scope.webserviceshost
-															+ 'hr/employee/all';
-													$http({
-														method : "GET",
-														url : allusersURL
-													})
-															.then(
-																	function mySucces(response) {
-																		console.log(response.data);
-																		swal({
-																			title : "Employe Updated Successfully",
-																			closeOnConfirm : false,
-																			closeOnCancel : false
-																		});
-																		if (response != 'undefiend'
-																				&& response != "") {
+												})
+														.then(
+																function mySucces(
+																		response) {
+																	$(
+																			'#edituser')
+																			.hide();
+																	var allusersURL = $scope.webserviceshost
+																			+ 'hr/employee/all';
+																	$http(
+																			{
+																				method : "GET",
+																				url : allusersURL
+																			})
+																			.then(
+																					function mySucces(
+																							response) {
+																						console
+																								.log(response.data);
+																						swal({
+																							title : "Employe Updated Successfully",
+																							closeOnConfirm : false,
+																							closeOnCancel : false
+																						});
+																						if (response != 'undefiend'
+																								&& response != "") {
 
-																			$scope.allUsers = response.data;
-																			$scope.pageSize = 4;
-																			$scope.allItems = $scope.allUsers;
-																			$scope.reverse = false;
+																							$scope.allUsers = response.data;
+																							$scope.pageSize = 4;
+																							$scope.allItems = $scope.allUsers;
+																							$scope.reverse = false;
 
-																			$scope.resetAll = function() {
-																				$scope.filteredList = $scope.allItems;
-																				$scope.employeeId = '';
-																				$scope.firstName = '';
-																				$scope.lastName = '';
-																				$scope.emailId = '';
-																				$scope.joiningdate = ''
-																				$scope.searchText = '';
-																				$scope.currentPage = 0;
-																				$scope.Header = [ '', '', '',
-																						'', '', '', '' ];
-																			}
+																							$scope.resetAll = function() {
+																								$scope.filteredList = $scope.allItems;
+																								$scope.employeeId = '';
+																								$scope.firstName = '';
+																								$scope.lastName = '';
+																								$scope.emailId = '';
+																								$scope.joiningdate = ''
+																								$scope.searchText = '';
+																								$scope.currentPage = 0;
+																								$scope.Header = [
+																										'',
+																										'',
+																										'',
+																										'',
+																										'',
+																										'',
+																										'' ];
+																							}
 
-																			$scope.search = function() {
-																				$scope.filteredList = filteredListService
-																						.searched(
-																								$scope.allItems,
-																								$scope.searchText);
+																							$scope.search = function() {
+																								$scope.filteredList = filteredListService
+																										.searched(
+																												$scope.allItems,
+																												$scope.searchText);
 
-																				if ($scope.searchText == '') {
-																					$scope.filteredList = $scope.allItems;
-																				}
-																				$scope.pagination();
-																			}
+																								if ($scope.searchText == '') {
+																									$scope.filteredList = $scope.allItems;
+																								}
+																								$scope
+																										.pagination();
+																							}
 
-																			// Calculate Total Number of Pages
-																			// based on Search Result
-																			$scope.pagination = function() {
-																				$scope.ItemsByPage = filteredListService
-																						.paged(
-																								$scope.filteredList,
-																								$scope.pageSize);
-																			};
+																							// Calculate
+																							// Total
+																							// Number
+																							// of
+																							// Pages
+																							// based
+																							// on
+																							// Search
+																							// Result
+																							$scope.pagination = function() {
+																								$scope.ItemsByPage = filteredListService
+																										.paged(
+																												$scope.filteredList,
+																												$scope.pageSize);
+																							};
 
-																			$scope.setPage = function() {
-																				$scope.currentPage = this.n;
-																			};
+																							$scope.setPage = function() {
+																								$scope.currentPage = this.n;
+																							};
 
-																			$scope.firstPage = function() {
-																				$scope.currentPage = 0;
-																			};
+																							$scope.firstPage = function() {
+																								$scope.currentPage = 0;
+																							};
 
-																			$scope.lastPage = function() {
-																				$scope.currentPage = $scope.ItemsByPage.length - 1;
-																			};
+																							$scope.lastPage = function() {
+																								$scope.currentPage = $scope.ItemsByPage.length - 1;
+																							};
 
-																			$scope.range = function(input,
-																					total) {
-																				var ret = [];
-																				if (!total) {
-																					total = input;
-																					input = 0;
-																				}
-																				for (var i = input; i < total; i++) {
-																					if (i != 0
-																							&& i != total - 1) {
-																						ret.push(i);
-																					}
-																				}
-																				return ret;
-																			};
-																																						
-																			$scope.sort = function(sortBy) {
-																				$scope.resetAll();
+																							$scope.range = function(
+																									input,
+																									total) {
+																								var ret = [];
+																								if (!total) {
+																									total = input;
+																									input = 0;
+																								}
+																								for (var i = input; i < total; i++) {
+																									if (i != 0
+																											&& i != total - 1) {
+																										ret
+																												.push(i);
+																									}
+																								}
+																								return ret;
+																							};
 
-																				$scope.columnToOrder = sortBy;
+																							$scope.sort = function(
+																									sortBy) {
+																								$scope
+																										.resetAll();
 
-																				// $Filter - Standard Service
-																				$scope.filteredList = $filter(
-																						'orderBy')(
-																						$scope.filteredList,
-																						$scope.columnToOrder,
-																						$scope.reverse);
+																								$scope.columnToOrder = sortBy;
 
-																				if ($scope.reverse)
-																					iconName = 'glyphicon glyphicon-chevron-up';
-																				else
-																					iconName = 'glyphicon glyphicon-chevron-down';
+																								// $Filter
+																								// -
+																								// Standard
+																								// Service
+																								$scope.filteredList = $filter(
+																										'orderBy')
+																										(
+																												$scope.filteredList,
+																												$scope.columnToOrder,
+																												$scope.reverse);
 
-																				if (sortBy === 'EmpId') {
-																					$scope.Header[0] = iconName;
-																				} else if (sortBy === 'name') {
-																					$scope.Header[1] = iconName;
-																				} else {
-																					$scope.Header[2] = iconName;
-																				}
+																								if ($scope.reverse)
+																									iconName = 'glyphicon glyphicon-chevron-up';
+																								else
+																									iconName = 'glyphicon glyphicon-chevron-down';
 
-																				$scope.reverse = !$scope.reverse;
+																								if (sortBy === 'EmpId') {
+																									$scope.Header[0] = iconName;
+																								} else if (sortBy === 'name') {
+																									$scope.Header[1] = iconName;
+																								} else {
+																									$scope.Header[2] = iconName;
+																								}
 
-																				$scope.pagination();
-																			};
+																								$scope.reverse = !$scope.reverse;
 
-																			// By Default sort ny Name
-																			$scope.sort('name');
+																								$scope
+																										.pagination();
+																							};
 
-																			// console.log($scope.allUsers.length);
-																		}
-																	}, function myError(response) {
-																		console.log(response);
-																	});
+																							// By
+																							// Default
+																							// sort
+																							// ny
+																							// Name
+																							$scope
+																									.sort('name');
 
-												}, function myError(response) {
-													console.log(response);
-												});
+																							// console.log($scope.allUsers.length);
+																						}
+																					},
+																					function myError(
+																							response) {
+																						console
+																								.log(response);
+																					});
+
+																},
+																function myError(
+																		response) {
+																	console
+																			.log(response);
+																});
 											}
 											$scope.resetuser = function() {
 												$('#edituser').hide();
@@ -1943,6 +1993,8 @@ materialAdmin
 
 					var departmentcontroller = $scope.webserviceshost
 							+ 'hr/department/all';
+					var managersdata = $scope.webserviceshost
+							+ 'hr/employee/managers';
 
 					$http({
 						method : "GET",
@@ -1950,9 +2002,20 @@ materialAdmin
 					}).then(function mySucces(response) {
 						console.log(response.data);
 						$scope.departments = response.data;
-						if ($scope.departments.length > 0) {
-							$scope.managers = $scope.departments[0].manager;
+
+						if (response == 200) {
+							console.log("success")
 						}
+					}, function myError(response) {
+						console.log(response);
+					});
+					$http({
+						method : "GET",
+						url : managersdata
+					}).then(function mySucces(response) {
+						console.log(response.data);
+
+						$scope.managers = response.data;
 
 						if (response == 200) {
 							console.log("success")
