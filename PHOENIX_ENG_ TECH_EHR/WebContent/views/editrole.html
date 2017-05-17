@@ -62,7 +62,7 @@
 										ng-repeat="item in ItemsByPage[currentPage] | orderBy:columnToOrder:reverse">
 										<td>{{item.roleid}}</td>
 										<td>{{item.roleName}}</td>
-										<td>{{item.parentRole}}</td>
+										<td>{{item.parentRole.roleName}}</td>
 										<td>
 											<p>
 												<span><a ng-click="editRoleDetails(item)">Edit</a></span>
@@ -114,18 +114,28 @@
 										<input type="text" class="form-control" placeholder="Enter Role Name" value="{{roleName}}" ng-model='roleName'>
 									</div>	
 								</div>
-								
 								<div class="form-group">
+									<div class="fg-line">
+										<div class="select">
+											<select class="form-control" name="parentroleId" ng-model='parentRole'>
+												<option>Select Roll</option>
+												<option ng-repeat='roll in rolls' value='{{roll.roleid}}'>{{roll.roleName}}</option>
+
+											</select>
+										</div>
+									</div>
+								</div>
+								<!-- <div class="form-group">
 									<div class="fg-line">
 										<input type="text" class="form-control" placeholder="" value='{{parentRole}}' ng-model='parentRole'>
 									</div>	
-								</div>
+								</div> -->
 								
 								<br/>
 								
 								<div class="form-group">
 									<span>
-										<button class="btn btn-primary btn-icon-text waves-effect" ng-click='updateRoleDetails()'>
+										<button class="btn btn-primary btn-icon-text waves-effect" ng-click='updateRoleDetailsTable()'>
 										<i class="zmdi zmdi-check-all"></i> Update Role</button>
 													
 										<button class="btn btn-danger btn-icon-text waves-effect" ng-click='clearRole();'>

@@ -58,8 +58,8 @@
 											</a></th>
 
 											<th class="Email">
-												<!-- <a ng-click="sort('lastName')" href="#"> -->
-												<a> Actions <span class="{{Header[5]}}"></span>
+												<!-- <a ng-click="sort('lastName')" href="#"> --> <a>
+													Actions <span class="{{Header[5]}}"></span>
 											</a>
 											</th>
 										</tr>
@@ -74,7 +74,7 @@
 											<td>{{item.employementStatus}}</td>
 											<td>
 												<p>
-													<span><a data-ui-sref="headers.edituserdetails">Edit</a></span>
+													<span><a ng-click="edituserdetails(item)">Edit</a></span>
 													&nbsp;| &nbsp; <span><a href='#'>Delete</a></span> &nbsp;|
 													&nbsp;<a href='#'>Reset Pswd</a></span>
 												</p>
@@ -88,56 +88,253 @@
 									<li ng-repeat="n in range(ItemsByPage.length)"><a href="#"
 										ng-click="setPage()" ng-bind="n+1">1</a></li>
 									<li><a href="#" ng-click="lastPage()">Last</a></li>
-								</ul> 
-						<!-- 		<ul uib-pagination boundary-links="true" total-items="totalItems"
-								ng-model="currentPage" class="pagination-sm"
-								previous-text="&lsaquo;" next-text="&rsaquo;"
-								first-text="&laquo;" last-text="&raquo;"></ul> -->
-								<!-- <table class='table table-striped' id='myDataTable'>
-									<thead>
-										<tr>
-											<th>ID</th>
-											<th>First Name</th>
-											<th>Last Name</th>
-											<th>Date of Join</th>
-											<th style="max-width:50px;">Status</th>
-											<th style="text-align: center;">Actions</th>
-										</tr>
-									</thead>
+								</ul>
 
-									<tbody>
-										<tr ng-repeat='user in allUsers  | orderBy:columnToOrder:reverse'>
-											<td>{{user.employeeId}}</td>
-											<td>{{user.firstName}}</td>
-											<td>{{user.lastName}}</td>
-
-											<td>dummy date</td>
-											<td>{{user.employementStatus}}</td>
-											<td>
-												<p>
-													<span><a data-ui-sref="headers.edituserdetails">Edit</a></span>
-													&nbsp;| &nbsp; <span><a href='#'>Delete</a></span> &nbsp;|
-													&nbsp;<a href='#'>Reset Pswd</a></span>
-												</p>
-											</td>
-										</tr>
-										
-
-									</tbody>
-								</table> -->
 							</div>
 						</div>
-						<!-- Jquery datatable ends -->
+
+						<div class="row" id="edituser"
+							style='border: 1px grey solid !important'>
+							<div class="col-sm-4">
+								<div class="input-group">
+									<span class="input-group-addon"><i
+										class="zmdi zmdi-account"></i></span>
+									<div class="fg-line">
+										<input type="text" class="form-control" ng-model='employeeId'
+											placeholder="Employee Id">
+									</div>
+								</div>
+
+								<br>
+
+								<div class="input-group">
+									<span class="input-group-addon"><i
+										class="zmdi zmdi-email"></i></span>
+									<!-- zmdi zmdi-local-phone -->
+									<div class="fg-line">
+										<input type="text" class="form-control" ng-model="emailId"
+											placeholder="Email Id">
+									</div>
+								</div>
+
+								<br>
+
+								<!-- <div class="input-group">
+								<span class="input-group-addon"><i
+									class="zmdi zmdi-portable-wifi"></i></span>
+								<div class="fg-line">
+									<input type="text" class="form-control"
+										placeholder="Update Status">
+								</div>
+							</div>
+							<br> 
+							<br>-->
+								<div class="input-group">
+									<span class="input-group-addon"><i
+										class="zmdi zmdi-accounts-alt zmdi-hc-fw"></i></span>
+									<div class="fg-line">
+										<div class="form-group">
+											<div class="fg-line">
+
+												<div class="select">
+													<select class="form-control" ng-model='designation'>
+														<option value=''>Select Designation</option>
+														<option value='{{roles.roleid}}'
+															ng-repeat='roles in rolesdata'>{{roles.roleName}}</option>
+
+													</select>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<br>
+								<div class="input-group">
+									<span class="input-group-addon"><i
+										class="zmdi zmdi-accounts-alt zmdi-hc-fw"></i></span>
+									<div class="fg-line">
+										<div class="form-group">
+											<div class="fg-line">
+
+												<div class="select">
+													<select class="form-control" name="empstatus"
+														ng-model='employeeStatus'>
+														<option value=''>Select Status</option>
+														<option value='active'>Active</option>
+														<option value='inactive'>InActive</option>
+
+													</select>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+
+								<!-- <div class="input-group">
+								<span class="input-group-addon"><i class="zmdi zmdi-pin"></i></span>
+								<div class="fg-line">
+									<input type="text" class="form-control"
+										placeholder="Home Address">
+								</div>
+							</div> -->
+							</div>
+							<div class="col-sm-4">
+								<div class="input-group">
+									<span class="input-group-addon"><i
+										class="zmdi zmdi-account"></i></span>
+									<div class="fg-line">
+										<input type="text" class="form-control" ng-model='firstName'
+											placeholder="First Name">
+									</div>
+								</div>
+
+								<br>
+
+								<div class="input-group">
+									<span class="input-group-addon"><i
+										class="zmdi zmdi-pin-account zmdi-hc-fw"></i></span>
+									<!-- zmdi zmdi-local-phone -->
+									<div class="fg-line">
+										<input type="text" class="form-control" ng-model='loginId'
+											placeholder="Employee Login ID">
+									</div>
+								</div>
+
+								<br>
+
+								<div class="input-group">
+									<span class="input-group-addon"><i
+										class="zmdi zmdi-accounts-alt zmdi-hc-fw"></i></span>
+									<div class="fg-line">
+										<div class="form-group">
+											<div class="fg-line">
+
+												<div class="select">
+													<select class="form-control" ng-model='managerId'>
+														<option value=''>Select Manager</option>
+														<option value='{{manager.employeeId}}'
+															ng-repeat='manager in managers'>{{manager.firstName}}&nbsp;{{manager.lastName}}</option>
+
+														<!-- 	<option>Lead</option> -->
+													</select>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+
+								<br>
+								<div class="input-group">
+									<span class="input-group-addon"><i
+										class="zmdi zmdi-accounts-alt zmdi-hc-fw"></i></span>
+									<div class="fg-line">
+										<div class="form-group">
+											<div class="fg-line">
+
+												<div class="select">
+													<select class="form-control" ng-model='employeeType'>
+														<option value=''>Selct Employee Type</option>
+														<option value="FTE">FTE</option>
+														<option value="CTE">CTE</option>
+
+													</select>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+
+							</div>
+
+							<div class="col-sm-4">
+
+								<div class="input-group">
+									<span class="input-group-addon"><i
+										class="zmdi zmdi-account"></i></span>
+									<div class="fg-line">
+										<input type="text" class="form-control"
+											placeholder="Last Name" ng-model='lastName'>
+									</div>
+								</div>
+								<br>
+								<div class="input-group">
+									<span class="input-group-addon"><i
+										class="zmdi zmdi-key zmdi-hc-fw"></i></span>
+									<!-- zmdi zmdi-money -->
+									<div class="form-group">
+										<div class="fg-line">
+											<input type="password" class="form-control"
+												ng-model='loginPassword' placeholder="Employee Password">
+										</div>
+									</div>
+									<!-- <span class="input-group-addon last"><i
+									class="zmdi zmdi-plus-circle-o"></i></span> -->
+								</div>
+
+								<div class="input-group">
+									<span class="input-group-addon"><i
+										class="zmdi zmdi-home zmdi-hc-fw"></i> </span>
+									<div class="form-group">
+										<div class="fg-line">
+											<input type="text" class="form-control" ng-model='address'
+												placeholder="Empoyee Address">
+										</div>
+									</div>
+									<!-- <span class="input-group-addon last"><i
+									class="zmdi zmdi-plus-circle-o"></i></span> -->
+								</div>
+								<br>
+								<div class="input-group">
+									<span class="input-group-addon"><i
+										class="zmdi zmdi-accounts-alt zmdi-hc-fw"></i></span>
+									<div class="fg-line">
+										<div class="form-group">
+											<div class="fg-line">
+
+												<div class="select">
+													<select class="form-control" ng-model='userDepartmentId'>
+														<option value=''>Select Department</option>
+														<option value='{{department.departmentId}}'
+															ng-repeat='department in departments'>{{department.departmentName}}</option>
+													</select>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+
+							</div>
+							
+							<div class='col-sm-4'>
+								<div class="form-group">
+									<span>
+										<button class="btn btn-primary btn-icon-text waves-effect"
+											ng-click="updateUser();">
+											<i class="zmdi zmdi-check-all"></i>Update
+										</button>
+
+										<button class="btn btn-danger btn-icon-text waves-effect"
+											ng-click='resetuser()'>
+											<i class="zmdi zmdi-close"></i> Reset
+										</button>
+									</span>
+								</div>
+							</div>
+
+						</div>
+
+
+
+
 
 					</div>
 				</div>
+				<!-- Jquery datatable ends -->
+
 			</div>
 		</div>
+
 	</section>
 </section>
 
-<script>
-	$(document).ready(function() {
-		$('#myDataTable').DataTable();
-	});
-</script>
+

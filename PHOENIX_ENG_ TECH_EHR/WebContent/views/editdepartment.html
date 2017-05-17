@@ -69,7 +69,7 @@
 											ng-repeat="item in ItemsByPage[currentPage] | orderBy:columnToOrder:reverse">
 											<td>{{item.departmentId}}</td>
 											<td>{{item.departmentName}}</td>
-											<td>{{item.parentDepartmentId}}</td>
+											<td>{{item.parentDepartment.departmentName}}</td>
 											<td>{{item.manager.firstName}}&nbsp;{{item.manager.lastName}}</td>
 											<td>
 												<p>
@@ -120,7 +120,7 @@
 											class="zmdi zmdi-account-box zmdi-hc-fw"></i>Manager</span>
 										<div class="fg-line"></div>
 									</div>
-									<br>
+								<!-- 	<br>
 									<div class="form-group">
 										<span class="input-group-addon"><i
 											class="zmdi zmdi-calendar zmdi-hc-fw"></i>Effective Start
@@ -132,7 +132,7 @@
 										<span class="input-group-addon"><i
 											class="zmdi zmdi-calendar zmdi-hc-fw"></i>Effective End Date</span>
 										<div class="fg-line"></div>
-									</div>
+									</div> -->
 								</div>
 
 								<div class='col-sm-4'>
@@ -172,15 +172,15 @@
 										<div class="fg-line">
 											<div class="select">
 												<select class="form-control" ng-model='managerId'>
-													<option ng-repeat='department in departments' 
-														value='{{department.manager.employeeId}}'>{{department.manager.firstName}}&nbsp;{{department.manager.lastName}}</option>
+													<option ng-repeat='manager in managersList' 
+														value='{{manager.employeeId}}'>{{manager.firstName}}&nbsp;{{manager.lastName}}</option>
 
 												</select>
 											</div>
 										</div>
 									</div>
 									<br />
-									<div class="form-group">
+								<!-- 	<div class="form-group">
 										<div class="fg-line">
 											<div class="date-picker input-group dp-blue"
 												ng-class="{ 'is-opened': opened == true }">
@@ -218,7 +218,7 @@
 													class="zmdi zmdi-calendar ma-icon"></i></span>
 											</div>
 										</div>
-									</div>
+									</div> -->
 									<br />
 									<div class="form-group">
 										<span>
