@@ -134,24 +134,29 @@
 							<div class="form-group">
 								<div class="fg-line">
 									<div class="select">
-										<select class="form-control" ng-model='department'>
+									<select class="form-control" ng-model='departmentid'
+											ng-options="department.departmentId  as department.departmentName    for department in departments"></select>
+										<!-- <select class="form-control" ng-model='departmentid'>
 											<option>Select Department</option>
-											<option ng-repeat='department in departments'
+											<option ng-repeat='department in departments' 
 												value='{{department.departmentId}}'>{{department.departmentName}}</option>
 
-										</select>
+										</select> -->
 									</div>
 								</div>
 							</div>
 							<div class="form-group">
 								<div class="fg-line">
 									<div class="select">
-										<select class="form-control" ng-model='customer'>
+									<select class="form-control" ng-model='customerid'
+											ng-options="customer.customerId  as customer.customerName    for customer in customers"></select>
+									
+										<!-- <select class="form-control" ng-model='customerid' >
 											<option>Select Customer</option>
 											<option ng-repeat='customer in customers'
 												value='{{customer.customerId}}'>{{customer.customerName}}</option>
 
-										</select>
+										</select> -->
 									</div>
 								</div>
 							</div>

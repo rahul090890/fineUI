@@ -120,7 +120,7 @@
 											class="zmdi zmdi-account-box zmdi-hc-fw"></i>Manager</span>
 										<div class="fg-line"></div>
 									</div>
-								<!-- 	<br>
+									<!-- 	<br>
 									<div class="form-group">
 										<span class="input-group-addon"><i
 											class="zmdi zmdi-calendar zmdi-hc-fw"></i>Effective Start
@@ -158,11 +158,9 @@
 									<div class="form-group">
 										<div class="fg-line">
 											<div class="select">
-												<select class="form-control" ng-model='parentdepartment'>
-													<option ng-repeat='department in departments'
-														value='{{department.departmentId}}'>{{department.departmentName}}</option>
+												<select class="form-control" ng-model='parentDepartment'
+													ng-options="department.departmentId  as department.departmentName    for department in departments"></select>
 
-												</select>
 											</div>
 										</div>
 
@@ -171,16 +169,18 @@
 									<div class="form-group">
 										<div class="fg-line">
 											<div class="select">
-												<select class="form-control" ng-model='managerId'>
-													<option ng-repeat='manager in managersList' 
+											<select class="form-control" ng-model='managerId'
+											ng-options="manager.employeeId  as manager.firstName +' '+ manager.lastName    for manager in managersList"></select>
+												<!-- <select class="form-control" ng-model='managerId'>
+													<option ng-repeat='manager in managersList'
 														value='{{manager.employeeId}}'>{{manager.firstName}}&nbsp;{{manager.lastName}}</option>
 
-												</select>
+												</select> -->
 											</div>
 										</div>
 									</div>
 									<br />
-								<!-- 	<div class="form-group">
+									<!-- 	<div class="form-group">
 										<div class="fg-line">
 											<div class="date-picker input-group dp-blue"
 												ng-class="{ 'is-opened': opened == true }">
@@ -222,11 +222,13 @@
 									<br />
 									<div class="form-group">
 										<span>
-											<button class="btn btn-primary btn-icon-text waves-effect" ng-click="savedepartmentUpdate()">
+											<button class="btn btn-primary btn-icon-text waves-effect"
+												ng-click="savedepartmentUpdate()">
 												<i class="zmdi zmdi-check-all"></i> Update Department
 											</button>
 
-											<button class="btn btn-danger btn-icon-text waves-effect" ng-click="resetupdateDepartment()">
+											<button class="btn btn-danger btn-icon-text waves-effect"
+												ng-click="resetupdateDepartment()">
 												<i class="zmdi zmdi-close"></i> Cancel
 											</button>
 										</span>
@@ -238,5 +240,6 @@
 					</div>
 				</div>
 			</div>
+		</div>
 	</section>
 </section>
