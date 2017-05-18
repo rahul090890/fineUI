@@ -320,7 +320,7 @@ materialAdmin
 												&& response != "") {
 
 											$scope.allUsers = response.data;
-											$scope.pageSize = 4;
+											$scope.pageSize = 7;
 											$scope.allItems = $scope.allUsers;
 											$scope.reverse = false;
 
@@ -540,7 +540,7 @@ materialAdmin
 																								&& response != "") {
 
 																							$scope.allUsers = response.data;
-																							$scope.pageSize = 4;
+																							$scope.pageSize = 7;
 																							$scope.allItems = $scope.allUsers;
 																							$scope.reverse = false;
 
@@ -772,9 +772,9 @@ materialAdmin
 								closeOnConfirm : false,
 								closeOnCancel : false
 							});
-							$scope.taskName='';
-							$scope.department={};
-							$scope.customer={};
+							$scope.taskName = '';
+							$scope.department = {};
+							$scope.customer = {};
 							console.log(response.data);
 
 						}, function myError(response) {
@@ -782,6 +782,409 @@ materialAdmin
 						});
 					}
 
+				})
+
+		.controller(
+				'addprojectcontroller',
+				function($scope, $filter, filteredListService, $http) {
+
+					var referenceData = $scope.webserviceshost
+							+ 'hr/refData/list';
+					$http({
+						method : "GET",
+						url : referenceData
+					}).then(function mySucces(response) {
+
+						console.log(response.data);
+						$scope.customerprojectype = response.data.ProjectType;
+						console.log($scope.customerprojectype);
+						$scope.projectStatus = response.data.ProjectStatus;
+						console.log($scope.projectStatus);
+
+					}, function myError(response) {
+						console.log(response);
+					});
+
+					$scope.addprojecttocustomer = function() {
+						var projectName = $scope.projectname;
+						var customerProgramId = $scope.customerprogramcode;
+						var projectType = $scope.customerproject;
+						var projectStatus = $scope.projectstatus;
+						var projectadd = $scope.webserviceshost + 'hr/project';
+						var additional = '/create/' + projectName + '/'
+								+ customerProgramId + '/' + projectType + '/'
+								+ projectStatus;
+						projectadd = projectadd + additional;
+						$http({
+							method : "POST",
+							url : projectadd
+						}).then(function mySucces(response) {
+
+							console.log(response.data);
+							swal({
+								title : "Project Added Successfully",
+								closeOnConfirm : false,
+								closeOnCancel : false
+							});
+							$scope.projectname = '';
+							$scope.customerproject = {};
+							$scope.projectstatus = {};
+							$scope.customerprogramcode = '';
+
+						}, function myError(response) {
+							console.log(response);
+						});
+					}
+
+				})
+		.controller(
+				'editprojectdetails',
+				function($scope, $filter, filteredListService, $http) {
+					var allTask = $scope.webserviceshost + 'hr/project/all';
+					$("#editprojectdata").hide();
+					$http({
+						method : "GET",
+						url : allTask
+					})
+							.then(
+									function mySucces(response) {
+
+										console.log(response.data);
+
+										console.log(response.data);
+										if (response != 'undefiend'
+												&& response != "") {
+
+											$scope.allUsers = response.data;
+											$scope.pageSize = 7;
+											$scope.allItems = $scope.allUsers;
+											$scope.reverse = false;
+
+											$scope.resetAll = function() {
+												$scope.filteredList = $scope.allItems;
+												$scope.projectId = '';
+												$scope.projectName = '';
+												$scope.customerProgramCode = '';
+												$scope.projectType = '';
+												$scope.projectStatus = '';
+												$scope.searchText = '';
+												$scope.currentPage = 0;
+												$scope.Header = [ '', '', '',
+														'', '', '', '' ];
+											}
+
+											$scope.search = function() {
+												$scope.filteredList = filteredListService
+														.searched(
+																$scope.allItems,
+																$scope.searchText);
+
+												if ($scope.searchText == '') {
+													$scope.filteredList = $scope.allItems;
+												}
+												$scope.pagination();
+											}
+
+											// Calculate Total Number of Pages
+											// based on Search Result
+											$scope.pagination = function() {
+												$scope.ItemsByPage = filteredListService
+														.paged(
+																$scope.filteredList,
+																$scope.pageSize);
+											};
+
+											$scope.setPage = function() {
+												$scope.currentPage = this.n;
+											};
+
+											$scope.firstPage = function() {
+												$scope.currentPage = 0;
+											};
+
+											$scope.lastPage = function() {
+												$scope.currentPage = $scope.ItemsByPage.length - 1;
+											};
+
+											$scope.range = function(input,
+													total) {
+												var ret = [];
+												if (!total) {
+													total = input;
+													input = 0;
+												}
+												for (var i = input; i < total; i++) {
+													if (i != 0
+															&& i != total - 1) {
+														ret.push(i);
+													}
+												}
+												return ret;
+											};
+
+											$scope.sort = function(sortBy) {
+												console.log(sortBy);
+												$scope.resetAll();
+
+												$scope.columnToOrder = sortBy;
+
+												// $Filter - Standard Service
+												$scope.filteredList = $filter(
+														'orderBy')(
+														$scope.filteredList,
+														$scope.columnToOrder,
+														$scope.reverse);
+
+												if ($scope.reverse)
+													iconName = 'glyphicon glyphicon-chevron-up';
+												else
+													iconName = 'glyphicon glyphicon-chevron-down';
+
+												if (sortBy === 'projectid') {
+													$scope.Header[0] = iconName;
+												} else if (sortBy === 'projectName') {
+													$scope.Header[1] = iconName;
+												} else if (sortBy === 'customerProjectCode') {
+													$scope.Header[2] = iconName;
+												} else if (sortBy === 'projectType') {
+													$scope.Header[3] = iconName;
+												} else if (sortBy === 'projectStatus') {
+													$scope.Header[4] = iconName;
+												} else {
+													$scope.Header[1] = iconName;
+												}
+
+												$scope.reverse = !$scope.reverse;
+
+												$scope.pagination();
+											};
+
+											// By Default sort ny Name
+											$scope.sort('projectName');
+
+											// console.log($scope.allUsers.length);
+										}
+
+									}, function myError(response) {
+										console.log(response);
+									});
+					$scope.editprojects = function(item) {
+						$("#editprojectdata").show();
+						$scope.projectid = item.projectid;
+						$scope.projectname = item.projectName;
+						$scope.customerprojectcode = item.customerProjectCode;
+						$scope.customerproject = item.projectType;
+						$scope.projectstatus = item.projectStatus;
+						var referenceData = $scope.webserviceshost
+								+ 'hr/refData/list';
+						$http({
+							method : "GET",
+							url : referenceData
+						})
+								.then(
+										function mySucces(response) {
+
+											console.log(response.data);
+											$scope.customerprojectype = response.data.ProjectType;
+											console
+													.log($scope.customerprojectype);
+											$scope.projectStatus = response.data.ProjectStatus;
+											console.log($scope.projectStatus);
+
+										}, function myError(response) {
+											console.log(response);
+										});
+
+					}
+					$scope.updateprojectdata=function(){
+						var projectid = $scope.projectid;
+						var projectName = $scope.projectname;
+						var customerprojectcode = $scope.customerprojectcode;
+						var projectType = $scope.customerproject;
+						var projectStatus = $scope.projectstatus;
+						var projectadd = $scope.webserviceshost + 'hr/project';
+						var additional = '/update/'+projectid+'/' + projectName + '/'
+								+ customerprojectcode + '/' + projectType + '/'
+								+ projectStatus;
+						projectadd = projectadd + additional;
+						$http({
+							method : "POST",
+							url : projectadd
+						}).then(function mySucces(response) {
+							$("#editprojectdata").hide();
+							console.log(response.data);
+
+							var allTask = $scope.webserviceshost + 'hr/project/all';
+							$("#editprojectdata").hide();
+							$http({
+								method : "GET",
+								url : allTask
+							})
+									.then(
+											function mySucces(response) {
+
+												console.log(response.data);
+
+												console.log(response.data);
+												if (response != 'undefiend'
+														&& response != "") {
+
+													$scope.allUsers = response.data;
+													$scope.pageSize = 7;
+													$scope.allItems = $scope.allUsers;
+													$scope.reverse = false;
+
+													$scope.resetAll = function() {
+														$scope.filteredList = $scope.allItems;
+														$scope.projectId = '';
+														$scope.projectName = '';
+														$scope.customerProgramCode = '';
+														$scope.projectType = '';
+														$scope.projectStatus = '';
+														$scope.searchText = '';
+														$scope.currentPage = 0;
+														$scope.Header = [ '', '', '',
+																'', '', '', '' ];
+													}
+
+													$scope.search = function() {
+														$scope.filteredList = filteredListService
+																.searched(
+																		$scope.allItems,
+																		$scope.searchText);
+
+														if ($scope.searchText == '') {
+															$scope.filteredList = $scope.allItems;
+														}
+														$scope.pagination();
+													}
+
+													// Calculate Total Number of Pages
+													// based on Search Result
+													$scope.pagination = function() {
+														$scope.ItemsByPage = filteredListService
+																.paged(
+																		$scope.filteredList,
+																		$scope.pageSize);
+													};
+
+													$scope.setPage = function() {
+														$scope.currentPage = this.n;
+													};
+
+													$scope.firstPage = function() {
+														$scope.currentPage = 0;
+													};
+
+													$scope.lastPage = function() {
+														$scope.currentPage = $scope.ItemsByPage.length - 1;
+													};
+
+													$scope.range = function(input,
+															total) {
+														var ret = [];
+														if (!total) {
+															total = input;
+															input = 0;
+														}
+														for (var i = input; i < total; i++) {
+															if (i != 0
+																	&& i != total - 1) {
+																ret.push(i);
+															}
+														}
+														return ret;
+													};
+
+													$scope.sort = function(sortBy) {
+														console.log(sortBy);
+														$scope.resetAll();
+
+														$scope.columnToOrder = sortBy;
+
+														// $Filter - Standard Service
+														$scope.filteredList = $filter(
+																'orderBy')(
+																$scope.filteredList,
+																$scope.columnToOrder,
+																$scope.reverse);
+
+														if ($scope.reverse)
+															iconName = 'glyphicon glyphicon-chevron-up';
+														else
+															iconName = 'glyphicon glyphicon-chevron-down';
+
+														if (sortBy === 'projectid') {
+															$scope.Header[0] = iconName;
+														} else if (sortBy === 'projectName') {
+															$scope.Header[1] = iconName;
+														} else if (sortBy === 'customerProjectCode') {
+															$scope.Header[2] = iconName;
+														} else if (sortBy === 'projectType') {
+															$scope.Header[3] = iconName;
+														} else if (sortBy === 'projectStatus') {
+															$scope.Header[4] = iconName;
+														} else {
+															$scope.Header[1] = iconName;
+														}
+
+														$scope.reverse = !$scope.reverse;
+
+														$scope.pagination();
+													};
+
+													// By Default sort ny Name
+													$scope.sort('projectName');
+
+													// console.log($scope.allUsers.length);
+												}
+
+											}, function myError(response) {
+												console.log(response);
+											});
+							$scope.editprojects = function(item) {
+								$("#editprojectdata").show();
+								$scope.projectid = item.projectid;
+								$scope.projectname = item.projectName;
+								$scope.customerprojectcode = item.customerProjectCode;
+								$scope.customerproject = item.projectType;
+								$scope.projectstatus = item.projectStatus;
+								var referenceData = $scope.webserviceshost
+										+ 'hr/refData/list';
+								$http({
+									method : "GET",
+									url : referenceData
+								})
+										.then(
+												function mySucces(response) {
+
+													console.log(response.data);
+													$scope.customerprojectype = response.data.ProjectType;
+													console
+															.log($scope.customerprojectype);
+													$scope.projectStatus = response.data.ProjectStatus;
+													console.log($scope.projectStatus);
+
+												}, function myError(response) {
+													console.log(response);
+												});
+
+							}
+							
+						
+							swal({
+								title : "Project Updated Successfully",
+								closeOnConfirm : false,
+								closeOnCancel : false
+							});
+							
+
+						}, function myError(response) {
+							console.log(response);
+						});
+					
+						
+					}
 				})
 		.controller(
 				'edittaskcontroller',
@@ -800,7 +1203,7 @@ materialAdmin
 												&& response != "") {
 
 											$scope.allUsers = response.data;
-											$scope.pageSize = 4;
+											$scope.pageSize = 7;
 											$scope.allItems = $scope.allUsers;
 											$scope.reverse = false;
 
@@ -984,7 +1387,7 @@ materialAdmin
 																		closeOnCancel : false
 																	});
 																	$scope.allUsers = response.data;
-																	$scope.pageSize = 4;
+																	$scope.pageSize = 7;
 																	$scope.allItems = $scope.allUsers;
 																	$scope.reverse = false;
 
@@ -1141,7 +1544,7 @@ materialAdmin
 												&& response != "") {
 
 											$scope.allUsers = response.data;
-											$scope.pageSize = 4;
+											$scope.pageSize = 7;
 											$scope.allItems = $scope.allUsers;
 											$scope.reverse = false;
 
@@ -1319,7 +1722,7 @@ materialAdmin
 																		closeOnCancel : false
 																	});
 																	$scope.newusers = response.data;
-																	$scope.pageSize = 4;
+																	$scope.pageSize = 7;
 																	$scope.allItems = $scope.newusers;
 																	$scope.reverse = false;
 
@@ -1569,8 +1972,8 @@ materialAdmin
 						closeOnConfirm : false,
 						closeOnCancel : false
 					});
-					$scope.roleName='';
-					$scope.parentroleId={};
+					$scope.roleName = '';
+					$scope.parentroleId = {};
 				}, function myError(response) {
 					console.log(response);
 				});
@@ -1598,7 +2001,7 @@ materialAdmin
 												&& response != "") {
 
 											$scope.allUsers = response.data;
-											$scope.pageSize = 4;
+											$scope.pageSize = 7;
 											$scope.allItems = $scope.allUsers;
 											$scope.reverse = false;
 
@@ -1794,7 +2197,7 @@ materialAdmin
 																		});
 
 																		$scope.allUsers = response.data;
-																		$scope.pageSize = 4;
+																		$scope.pageSize = 7;
 																		$scope.allItems = $scope.allUsers;
 																		$scope.reverse = false;
 
@@ -2106,9 +2509,9 @@ materialAdmin
 								closeOnConfirm : false,
 								closeOnCancel : false
 							});
-							$scope.parentDepartment={};
-							$scope.departmentName='';
-							$scope.managerId={};
+							$scope.parentDepartment = {};
+							$scope.departmentName = '';
+							$scope.managerId = {};
 							if (response == 200) {
 								console.log("success")
 							}
@@ -2132,7 +2535,7 @@ materialAdmin
 									function mySucces(response) {
 										console.log(response.data);
 										$scope.allCoustomer = response.data;
-										$scope.pageSize = 4;
+										$scope.pageSize = 7;
 										$scope.allItems = $scope.allCoustomer;
 										$scope.reverse = false;
 
@@ -3182,7 +3585,7 @@ materialAdmin
 																							'#updateCustomerData')
 																							.hide();
 																					$scope.allCoustomer = response.data;
-																					$scope.pageSize = 4;
+																					$scope.pageSize = 7;
 																					$scope.allItems = $scope.allCoustomer;
 																					$scope.reverse = false;
 
@@ -3426,10 +3829,10 @@ materialAdmin
 								closeOnConfirm : false,
 								closeOnCancel : false
 							});
-							$scope.customerName='';
-							$scope.customerAddress='';
-							$scope.customerZip='';
-							$scope.country={};
+							$scope.customerName = '';
+							$scope.customerAddress = '';
+							$scope.customerZip = '';
+							$scope.country = {};
 							$scope.webserviceshost
 							if (response == 200) {
 								console.log("success")
@@ -4739,6 +5142,19 @@ function searchUtil(item, toSearch) {
 				|| item.department.departmentName.toLowerCase().indexOf(
 						toSearch.toLowerCase()) > -1 || item.zipCode == toSearch) ? true
 				: false;
+	} else if (item.projectid != undefined) {
+
+		return (item.projectName.toLowerCase().indexOf(toSearch.toLowerCase()) > -1
+				|| item.projectName.toLowerCase().indexOf(
+						toSearch.toLowerCase()) > -1
+				|| item.customerProjectCode.toLowerCase().indexOf(
+						toSearch.toLowerCase()) > -1
+				|| item.projectType.toLowerCase().indexOf(
+						toSearch.toLowerCase()) > -1
+				|| item.projectStatus.toLowerCase().indexOf(
+						toSearch.toLowerCase()) > -1 || item.zipCode == toSearch) ? true
+				: false;
+
 	}
 }
 
