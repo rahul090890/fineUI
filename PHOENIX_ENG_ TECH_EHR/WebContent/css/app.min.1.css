@@ -10182,11 +10182,10 @@ h6 small,
   margin-right: -2px;
 }
 
-.logo a {
-  color: #fff;
-  text-transform: uppercase;
-  display: block;
-  font-size: 16px;
+.logo{
+ border-top:1px solid orange;
+ border-bottom:1px solid orange;
+ padding: 5px 0;
 }
 
 #menu-trigger {
@@ -10196,7 +10195,7 @@ h6 small,
 }
 
 #menu-trigger .line-wrap .line {
-  background-color: #fff;
+  background-color: #333;
 }
 
 #menu-trigger:before {
@@ -10299,7 +10298,7 @@ h6 small,
 }
 
 .top-menu > li > a {
-  color: #fff;
+   color: #999;
   display: block;
   text-align: center;
   z-index: 1;
@@ -10322,12 +10321,13 @@ h6 small,
 .top-menu > li > a > .tmn-counts {
   position: absolute;
   font-style: normal;
-  background: #f44336;
+  background: #999;
   padding: 1px 5px;
   border-radius: 2px;
   right: 7px;
   top: -3px;
   font-size: 10px;
+  color:#fff;
   line-height: 15px;
 }
 
@@ -10705,7 +10705,7 @@ h6 small,
   position: fixed;
   background: #fff;
   box-shadow: 0 0 10px rgba(51, 51, 51, 0.38);
-  top: 65px;
+  top: 70px;
   height: calc(100% - 65px);
   -webkit-transform: translate3d(-268px, 0, 0);
   transform: translate3d(-268px, 0, 0);

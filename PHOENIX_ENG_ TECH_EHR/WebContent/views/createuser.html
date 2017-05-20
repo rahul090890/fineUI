@@ -16,7 +16,7 @@
 
 			</div>
 
-			<div class="card" ng-controller="allManagerCTRL">
+			<div class="card" ng-controller="allManagerCTRL as ctrl">
 
 
 				<div class="card-body card-padding">
@@ -95,7 +95,27 @@
 									</div>
 								</div>
 							</div>
+							<div class="form-group" style="margin-top: 5px;">
+								<div class="fg-line">
 
+									<div class="date-picker input-group dp-blue"
+										ng-class="{ 'is-opened': opened == true }">
+										<span class="input-group-addon"><i
+											class="zmdi zmdi-calendar ma-icon"></i></span>
+										<div class="fg-line"
+											ng-class="{ 'fg-toggled': opened == true }">
+											<input ng-click="open($event, 'opened')" type="text" readonly
+												class="form-control" uib-datepicker-popup="{{format}}"
+												show-weeks="false" ng-model="dtPopup" is-open="opened"
+												min-date="minDate" datepicker-options="dateOptions"
+												ng-required="true" close-text="Close"
+												placeholder="Select Date" />
+										</div>
+
+									</div>
+
+								</div>
+							</div>
 							<!-- <div class="input-group">
 								<span class="input-group-addon"><i class="zmdi zmdi-pin"></i></span>
 								<div class="fg-line">
