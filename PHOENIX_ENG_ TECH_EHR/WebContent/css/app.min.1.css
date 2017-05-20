@@ -10183,9 +10183,9 @@ h6 small,
 }
 
 .logo{
- border-top:1px solid orange;
- border-bottom:1px solid orange;
- padding: 5px 0;
+/*  border-top:1px solid orange;
+ border-bottom:1px solid orange; */
+/*  padding: 5px 0; */
 }
 
 #menu-trigger {
