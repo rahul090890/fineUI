@@ -19,7 +19,7 @@
 			</div> -->
 
 			<div class="card" data-ng-controller="editprojectdetails">
-			<div class="card-header">
+				<div class="card-header">
 					<h2>
 						Update User Details<small></small>
 					</h2>
@@ -38,20 +38,26 @@
 								<table class="table  table-hover data-table myTable">
 									<thead>
 										<tr>
-											<th class="EmpId"><i class="zmdi zmdi-label zmdi-hc-fw"> </i><a href="#"
-												ng-click="sort('projectId')">Project ID <span
+											<th class="EmpId"><i class="zmdi zmdi-label zmdi-hc-fw">
+											</i><a href="#" ng-click="sort('projectId')">Project ID <span
 													class="{{Header[0]}}"></span>
 											</a></th>
-											<th class="name"> <i class="zmdi zmdi-assignment zmdi-hc-fw"></i><a ng-click="sort('projectName')"
-												href="#"> Project Name<span class="{{Header[1]}}"></span>
+											<th class="name"><i
+												class="zmdi zmdi-assignment zmdi-hc-fw"></i><a
+												ng-click="sort('projectName')" href="#"> Project Name<span
+													class="{{Header[1]}}"></span>
 											</a></th>
-											<th class="Email"><i class="zmdi zmdi-label zmdi-hc-fw"> </i><a ng-click="sort('customerProjectCode')"
-												href="#">Customer Program Code <span class="{{Header[2]}}"></span>
+											<th class="Email"><i class="zmdi zmdi-label zmdi-hc-fw">
+											</i><a ng-click="sort('customerProjectCode')" href="#">Customer
+													Program Code <span class="{{Header[2]}}"></span>
 											</a></th>
-											<th class="Email"><i class="zmdi zmdi-assignment zmdi-hc-fw"> </i>
-												 <a ng-click="sort('projectType')" href="#"> Project Type <span class="{{Header[3]}}"></span>  </a> 
-											</th>
-											<th class="Email"><i class="zmdi zmdi-exposure zmdi-hc-fw"> </i><a
+											<th class="Email"><i
+												class="zmdi zmdi-assignment zmdi-hc-fw"> </i> <a
+												ng-click="sort('projectType')" href="#"> Project Type <span
+													class="{{Header[3]}}"></span>
+											</a></th>
+											<th class="Email"><i
+												class="zmdi zmdi-exposure zmdi-hc-fw"> </i><a
 												ng-click="sort('projectStatus')" href="#"> Status <span
 													class="{{Header[4]}}"></span>
 											</a></th>
@@ -68,12 +74,12 @@
 											ng-repeat="item in ItemsByPage[currentPage] | orderBy:columnToOrder:reverse">
 											<td>{{item.projectid}}</td>
 											<td>{{item.projectName}}</td>
-											<td>{{item.customerProjectCode}}</td>
+											<td>{{item.customerProgram.customerProgramCode}}</td>
 											<td>{{item.projectType}}</td>
 											<td>{{item.projectStatus}}</td>
 											<td>
 												<p>
-													<span><a  ng-click="editprojects(item)">Edit</a></span>
+													<span><a ng-click="editprojects(item)">Edit</a></span>
 													&nbsp;| &nbsp; <span><a href='#'>Delete</a></span>
 												</p>
 											</td>
@@ -93,12 +99,14 @@
 
 						<div class="row" id="editprojectdata"
 							style='border: 1px grey solid !important'>
-							
+
 							<div class='col-sm-4'>
-								 <div class="form-group">
-									<span class="input-group-addon"> <i class="zmdi zmdi-label zmdi-hc-fw"> </i> Project Id </span>
+								<div class="form-group">
+									<span class="input-group-addon"> <i
+										class="zmdi zmdi-label zmdi-hc-fw"> </i> Project Id
+									</span>
 									<div class="fg-line"></div>
-								</div> 
+								</div>
 
 								<div class="form-group">
 									<span class="input-group-addon"> <i
@@ -108,11 +116,22 @@
 								</div>
 
 								<div class="form-group">
+									<span class="input-group-addon"> <i
+										class="zmdi zmdi-assignment zmdi-hc-fw"> </i>Customer
+									</span>
+									<div class="fg-line"></div>
+								</div>
+								<div class="form-group">
+									<span class="input-group-addon"> <i
+										class="zmdi zmdi-assignment zmdi-hc-fw"> </i>Department
+									</span>
+									<div class="fg-line"></div>
+								</div>
+								<div class="form-group">
 									<span class="input-group-addon"><i
 										class="zmdi zmdi-label zmdi-hc-fw"> </i>Customer Program Code</span>
 									<div class="fg-line"></div>
 								</div>
-
 								<div class="form-group">
 									<span class="input-group-addon"> <i
 										class="zmdi zmdi-assignment zmdi-hc-fw"> </i>Project Type
@@ -126,14 +145,20 @@
 									</span>
 									<div class="fg-line"></div>
 								</div>
+								<div class="form-group">
+									<span class="input-group-addon"><i
+										class="zmdi zmdi-globe zmdi-hc-fw"></i>Country</span>
+									<div class="fg-line"></div>
+								</div>
 							</div>
 
 							<div class='col-sm-4'>
-								 <div class="form-group">
+								<div class="form-group">
 									<div class="fg-line">
-										<input type="text" class="form-control" placeholder="Enter Project Id" ng-model='projectid' disabled>
-									</div>	
-								</div> 
+										<input type="text" class="form-control"
+											placeholder="Enter Project Id" ng-model='projectid' disabled>
+									</div>
+								</div>
 
 								<div class="form-group">
 									<div class="fg-line">
@@ -141,20 +166,54 @@
 											placeholder="Enter Project Name">
 									</div>
 								</div>
+								<div class="form-group">
+									<div class="fg-line">
+										<div class="select">
+											<select class="form-control" ng-model='customerid'
+												ng-options="customer.customerId  as customer.customerName    for customer in customers"></select>
+											<!-- <select class="form-control" name="customerprojectype"
+												ng-model='customerprojecttype'>
+												<option>Select Project Type</option>
+												<option></option>
+
+											</select> -->
+										</div>
+									</div>
+								</div>
+								<div class="form-group">
+									<div class="fg-line">
+										<div class="select">
+											<select class="form-control" ng-model='departmentid'
+												ng-options="department.departmentId  as department.departmentName    for department in departments"></select>
+
+										</div>
+									</div>
+
+								</div>
+								<br />
 
 								<div class="form-group">
+									<div class="fg-line">
+										<div class="select">
+											<select class="form-control" ng-model='customerprogramcode'
+												ng-options="programcode.customerProgramId  as programcode.customerProgramCode    for programcode in cpc"></select>
+										</div>
+									</div>
+								</div>
+
+								<!-- <div class="form-group">
 									<div class="fg-line">
 										<input type="text" class="form-control" ng-model='customerprojectcode'
 											placeholder="Customer Program Code Id">
 
 									</div>
-								</div>
+								</div> -->
 
 								<div class="form-group">
 									<div class="fg-line">
 										<div class="select">
-										<select class="form-control" ng-model='customerproject'
-											ng-options="project.groupKey  as project.groupValue    for project in customerprojectype"></select>
+											<select class="form-control" ng-model='customerproject'
+												ng-options="project.groupKey  as project.groupValue    for project in customerprojectype"></select>
 											<!-- <select class="form-control" name="customerprojectype"
 												ng-model='customerprojecttype'>
 												<option>Select Project Type</option>
@@ -168,8 +227,8 @@
 								<div class="form-group">
 									<div class="fg-line">
 										<div class="select">
-										<select class="form-control" ng-model='projectstatus'
-											ng-options="project.groupKey  as project.groupValue    for project in projectStatus"></select>
+											<select class="form-control" ng-model='projectstatus'
+												ng-options="project.groupKey  as project.groupValue    for project in projectStatus"></select>
 											<!-- <select class="form-control" name="customerprojectype"
 												ng-model='customerprojecttype'>
 												<option>Select Project Type</option>
@@ -179,12 +238,26 @@
 										</div>
 									</div>
 								</div>
-
 								<br />
+								<div class="form-group">
+									<div class="fg-line">
+										<br> <select class="form-control" ng-model="country"
+											ng-options="country.name for country in countries track by country.code">
+											<option value="">-- Select a Country --</option>
+										</select>
+
+										<!-- <div class="flagstrap" id="select_country"
+											ng-model='customerCountry' data-input-name="NewBuyer_country"
+											data-selected-country=""></div> -->
+									</div>
+
+								</div>
+								<br /> <br />
 
 								<div class="form-group">
 									<span>
-										<button class="btn btn-primary btn-icon-text waves-effect" ng-click='updateprojectdata()'>
+										<button class="btn btn-primary btn-icon-text waves-effect"
+											ng-click='updateprojectdata()'>
 											<i class="zmdi zmdi-check-all"></i> Update Project
 										</button>
 
@@ -195,7 +268,7 @@
 								</div>
 							</div>
 
-						
+
 						</div>
 
 
@@ -204,7 +277,7 @@
 
 					</div>
 				</div>
-				
+
 			</div>
 		</div>
 	</section>

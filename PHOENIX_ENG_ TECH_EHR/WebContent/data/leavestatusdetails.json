@@ -3,7 +3,6 @@
         {
             "total_leave":12,
             "leavetype":"Annual leave",
-            "leaveavailed":"3",
             "leavepending":"2",
              "leaveavalible":"8"
            
@@ -11,21 +10,18 @@
         {
              "total_leave":4,
             "leavetype":"Sick leave",
-            "leaveavailed":"1",
             "leavepending":"2",
              "leaveavalible":"1"
         },
         {
              "total_leave":40,
             "leavetype":"Meternity leave",
-            "leaveavailed":"0",
             "leavepending":"0",
              "leaveavalible":"40"
         },
         {
               "total_leave":5,
             "leavetype":"Other leave",
-            "leaveavailed":"3",
             "leavepending":"2",
              "leaveavalible":"0"
         }

@@ -19,59 +19,134 @@
 						<h2>
 							Leave Requested <small>Leave requested need a approval </small>
 						</h2>
-						<ul class="actions">
-							<li class="dropdown" uib-dropdown><a href=""
-								uib-dropdown-toggle> <i class="zmdi zmdi-more-vert"></i>
-							</a>
-
-								<ul class="dropdown-menu dropdown-menu-right">
-									<li><a href="">Refresh</a></li>
-									<li><a href="">Approve All</a></li>
-									<li><a href="">Reject All</a></li>
-								</ul></li>
-						</ul>
+						
 					</div>
 
 					<div class="card-body m-t-0">
-						<table class="table table-inner table-vmiddle">
-							<thead>
-								<tr>
-									<th>EMP ID</th>
-									<th>EMP Name</th>
-									<th>From Date</th>
-									<th>To Date</th>
-									<th>Total Days</th>
-									<th>Status</th>
-									<th>Department</th>
-									<th style="width: 60px">Approve/Reject</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr data-ng-repeat="w in rictrl.riResult.list">
-									<td class="f-500 c-cyan">{{ w.id }}</td>
-									<td>{{ w.name }}</td>
-									<td>{{ w.from_date }}</td>
-									<td>{{ w.to_date }}</td>
-									<td>{{ w.total_days }}</td>
-									<td>{{ w.status }}</td>
-									<td>{{ w.department }}</td>
-									<td><button data-swal-success-msg
-											class="btn bgm-orange btn-icon waves-effect waves-circle">
-											<i class="zmdi zmdi-check"></i>
-										</button>&nbsp;&nbsp;|&nbsp;&nbsp;
-										<button data-swal-cancel-msg
-											class="btn bgm-cyan btn-icon waves-effect waves-circle">
-											<i class="zmdi zmdi-close"></i>
-										</button></td>
 
-								</tr>
-							</tbody>
-						</table>
-						<ul uib-pagination boundary-links="true" total-items="totalItems"
-							ng-model="currentPage" class="pagination-sm"
-							previous-text="&lsaquo;" next-text="&rsaquo;"
-							first-text="&laquo;" last-text="&raquo;"></ul>
-					</div>
+
+							<div class='table-responsive'>
+								<!-- <div class="input-group">
+									<input class="form-control" ng-model="searchText"
+										placeholder="Search" type="search" ng-change="search()" /> <span
+										class="input-group-addon"> <span
+										class="glyphicon glyphicon-search"></span>
+									</span>
+								</div> -->
+								<table class="table  table-hover data-table myTable">
+									<thead>
+										<tr>
+											<th class="EmpId"><i class="zmdi zmdi-label zmdi-hc-fw">
+											</i><a href="#" ng-click="sort('employeeId',$event)">Employee
+													Id <span class="{{Header[0]}}"></span>
+											</a></th>
+											<th class="name"><i
+												class="zmdi zmdi-assignment-account zmdi-hc-fw"></i><a
+												ng-click="sort('firstName')" href="#"> First Name<span
+													class="{{Header[1]}}"></span>
+											</a></th>
+
+											<th class="Email"><i class="zmdi zmdi-city zmdi-hc-fw"></i><a
+												ng-click="sort('lastName')" href="#"> Last Name <span
+													class="{{Header[2]}}"></span>
+											</a></th>
+											<th class="Email"><i class="zmdi zmdi-city zmdi-hc-fw"></i><a
+												ng-click="sort('fromDate')" href="#"> From date <span
+													class="{{Header[3]}}"></span>
+											</a></th>
+											<th class="Email"><i class="zmdi zmdi-city zmdi-hc-fw"></i><a
+												ng-click="sort('toDate')" href="#"> To Date <span
+													class="{{Header[4]}}"></span>
+											</a></th>
+											<th class="Email"><i class="zmdi zmdi-city zmdi-hc-fw"></i><a
+												ng-click="sort('noOfDays')" href="#"> Total days <span
+													class="{{Header[5]}}"></span>
+											</a></th>
+											<th class="Email"><i class="zmdi zmdi-city zmdi-hc-fw"></i><a
+												ng-click="sort('leaveStatus')" href="#"> Status <span
+													class="{{Header[6]}}"></span>
+											</a></th>
+											<th class="Email">
+												<!-- <a ng-click="sort('lastName')" href="#"> --> <a>
+													Actions <span class="{{Header[7]}}"></span>
+											</a>
+											</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr
+											ng-repeat="item in ItemsByPage[currentPage] | orderBy:columnToOrder:reverse">
+											<td>{{item.employee.employeeId}}</td>
+											<td>{{item.employee.firstName}}</td>
+											<td>{{item.employee.lastName}}</td>
+											<td>{{item.fromDate}}</td>
+											<td>{{item.toDate}}</td>
+											<td>{{item.noOfDays}}</td>
+											<td>{{item.leaveStatus}}</td>
+											<td>
+												<button data-swal-success-msg
+													class="btn bgm-orange btn-icon waves-effect waves-circle" ng-click="approveLeave(item)">
+													<i class="zmdi zmdi-check"></i>
+												</button>&nbsp;&nbsp;|&nbsp;&nbsp;
+												<button data-swal-cancel-msg
+													class="btn bgm-cyan btn-icon waves-effect waves-circle" ng-click="rejectLeave(item)">
+													<i class="zmdi zmdi-close"></i>
+												</button>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+								<ul class="pagination pagination-sm">
+									<li ng-class="{active:0}"><a href="#"
+										ng-click="firstPage()">First</a></li>
+									<li ng-repeat="n in range(ItemsByPage.length)"><a href="#"
+										ng-click="setPage()" ng-bind="n+1">1</a></li>
+									<li><a href="#" ng-click="lastPage()">Last</a></li>
+								</ul>
+
+
+
+							</div>
+							<!-- 
+							<table class="table table-inner table-vmiddle">
+								<thead>
+									<tr>
+										<th>EMP ID</th>
+										<th>EMP Name</th>
+										<th>From Date</th>
+										<th>To Date</th>
+										<th>Total Days</th>
+										<th>Status</th>
+										<th>Department</th>
+										<th style="width: 60px">Approve/Reject</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr data-ng-repeat="w in rictrl.riResult.list">
+										<td class="f-500 c-cyan">{{ w.id }}</td>
+										<td>{{ w.name }}</td>
+										<td>{{ w.from_date }}</td>
+										<td>{{ w.to_date }}</td>
+										<td>{{ w.total_days }}</td>
+										<td>{{ w.status }}</td>
+										<td>{{ w.department }}</td>
+										<td><button data-swal-success-msg
+												class="btn bgm-orange btn-icon waves-effect waves-circle">
+												<i class="zmdi zmdi-check"></i>
+											</button>&nbsp;&nbsp;|&nbsp;&nbsp;
+											<button data-swal-cancel-msg
+												class="btn bgm-cyan btn-icon waves-effect waves-circle">
+												<i class="zmdi zmdi-close"></i>
+											</button></td>
+
+									</tr>
+								</tbody>
+							</table>
+							<ul uib-pagination boundary-links="true" total-items="totalItems"
+								ng-model="currentPage" class="pagination-sm"
+								previous-text="&lsaquo;" next-text="&rsaquo;"
+								first-text="&laquo;" last-text="&raquo;"></ul> -->
+						</div>
 					<!-- <div id="recent-items-chart" class="flot-chart" data-line-chart></div> -->
 				</div>
 			</div>

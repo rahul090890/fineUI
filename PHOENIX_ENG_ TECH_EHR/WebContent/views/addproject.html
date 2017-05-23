@@ -37,7 +37,18 @@
 									</span>
 									<div class="fg-line"></div>
 								</div>
-
+								<div class="form-group">
+									<span class="input-group-addon"> <i
+										class="zmdi zmdi-assignment zmdi-hc-fw"> </i>Customer
+									</span>
+									<div class="fg-line"></div>
+								</div>
+								<div class="form-group">
+									<span class="input-group-addon"> <i
+										class="zmdi zmdi-assignment zmdi-hc-fw"> </i>Department
+									</span>
+									<div class="fg-line"></div>
+								</div>
 								<div class="form-group">
 									<span class="input-group-addon"><i
 										class="zmdi zmdi-label zmdi-hc-fw"> </i>Customer Program Code</span>
@@ -57,6 +68,12 @@
 									</span>
 									<div class="fg-line"></div>
 								</div>
+								<br />
+								<div class="form-group">
+									<span class="input-group-addon"><i
+										class="zmdi zmdi-globe zmdi-hc-fw"></i>Country</span>
+									<div class="fg-line"></div>
+								</div>
 							</div>
 
 							<div class='col-sm-4'>
@@ -72,20 +89,52 @@
 											placeholder="Enter Project Name">
 									</div>
 								</div>
-
 								<div class="form-group">
 									<div class="fg-line">
-										<input type="text" class="form-control" ng-model='customerprogramcode'
+										<div class="select">
+											<select class="form-control" ng-model='customerid'
+												ng-options="customer.customerId  as customer.customerName    for customer in customers"></select>
+											<!-- <select class="form-control" name="customerprojectype"
+												ng-model='customerprojecttype'>
+												<option>Select Project Type</option>
+												<option></option>
+
+											</select> -->
+										</div>
+									</div>
+								</div>
+								<div class="form-group">
+									<div class="fg-line">
+										<div class="select">
+											<select class="form-control" ng-model='departmentid'
+												ng-options="department.departmentId  as department.departmentName    for department in departments"></select>
+
+										</div>
+									</div>
+
+								</div>
+								<br />
+								<!-- <div class="form-group">
+									<div class="fg-line">
+										<input type="text" class="form-control"
+											ng-model='customerprogramcode'
 											placeholder="Customer Program Code Id">
 
 									</div>
-								</div>
-
+								</div> -->
 								<div class="form-group">
 									<div class="fg-line">
 										<div class="select">
-										<select class="form-control" ng-model='customerproject'
-											ng-options="project.groupKey  as project.groupValue    for project in customerprojectype"></select>
+											<select class="form-control" ng-model='customerprogramcode'
+												ng-options="programcode.customerProgramId  as programcode.customerProgramCode    for programcode in cpc"></select>
+										</div>
+									</div>
+								</div>
+								<div class="form-group">
+									<div class="fg-line">
+										<div class="select">
+											<select class="form-control" ng-model='customerproject'
+												ng-options="project.groupKey  as project.groupValue    for project in customerprojectype"></select>
 											<!-- <select class="form-control" name="customerprojectype"
 												ng-model='customerprojecttype'>
 												<option>Select Project Type</option>
@@ -99,8 +148,8 @@
 								<div class="form-group">
 									<div class="fg-line">
 										<div class="select">
-										<select class="form-control" ng-model='projectstatus'
-											ng-options="project.groupKey  as project.groupValue    for project in projectStatus"></select>
+											<select class="form-control" ng-model='projectstatus'
+												ng-options="project.groupKey  as project.groupValue    for project in projectStatus"></select>
 											<!-- <select class="form-control" name="customerprojectype"
 												ng-model='customerprojecttype'>
 												<option>Select Project Type</option>
@@ -112,10 +161,24 @@
 								</div>
 
 								<br />
+								<div class="form-group">
+									<div class="fg-line">
+										<br> <select class="form-control" ng-model="country"
+											ng-options="country.name for country in countries track by country.code">
+											<option value="">-- Select a Country --</option>
+										</select>
 
+										<!-- <div class="flagstrap" id="select_country"
+											ng-model='customerCountry' data-input-name="NewBuyer_country"
+											data-selected-country=""></div> -->
+									</div>
+
+								</div>
+								<br />
 								<div class="form-group">
 									<span>
-										<button class="btn btn-primary btn-icon-text waves-effect" ng-click='addprojecttocustomer()'>
+										<button class="btn btn-primary btn-icon-text waves-effect"
+											ng-click='addprojecttocustomer()'>
 											<i class="zmdi zmdi-check-all"></i> Add Project
 										</button>
 

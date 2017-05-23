@@ -18,7 +18,7 @@
 				</h2>
 			</div> -->
 
-			<div class="card" data-ng-controller="DatepickerDemoCtrl">
+			<div class="card" data-ng-controller="customerprogramcontroller">
 				<div class="card-header">
 					<h2>
 						Add Customer Program Code(CPC)<small></small>
@@ -50,45 +50,54 @@
 							</div>
 
 							<div class='col-sm-6'>
-								<div class="form-group">
+							<div class="form-group">
 									<div class="fg-line">
-										<input type="text" class="form-control"
-											placeholder="Enter Customer Program Code Id">
+										<div class="select">
+											<select class="form-control" ng-model='customerId'
+												ng-options="customer.customerId  as customer.customerName    for customer in customers">
+
+											</select>
+
+										</div>
 									</div>
 								</div>
-
 								<div class="form-group">
 									<div class="fg-line">
 										<input type="text" class="form-control"
+											ng-model='customerprogName'
 											placeholder="Enter Customer Program Code Name">
 									</div>
 								</div>
 
 								<div class="form-group">
 									<div class="fg-line">
-										<input type="text" class="form-control"
-											placeholder="Enter Customer Program Code Type">
-									</div>
+										<div class="select">
+											<select class="form-control" ng-model='customerProgCodeType'
+												ng-options="customerProgramCode.groupKey  as customerProgramCode.groupValue    for customerProgramCode in customerProgramCodelist.customerProgramType">
 
-									<br /> <br />
+											</select>
 
-									<div class="form-group">
-										<span>
-											<button class="btn btn-primary btn-icon-text waves-effect">
-												<i class="zmdi zmdi-check-all"></i> Add Customer Program
-												Code
-											</button>
-
-											<button class="btn btn-danger btn-icon-text waves-effect">
-												<i class="zmdi zmdi-close"></i> Clear
-											</button>
-										</span>
+										</div>
 									</div>
 								</div>
+								<br /> <br />
+
+								<div class="form-group">
+									<span>
+										<button class="btn btn-primary btn-icon-text waves-effect"
+											ng-click='createCPC()'>
+											<i class="zmdi zmdi-check-all"></i> Add Customer Program Code
+										</button>
+
+										<button class="btn btn-danger btn-icon-text waves-effect">
+											<i class="zmdi zmdi-close"></i> Clear
+										</button>
+									</span>
+								</div>
 							</div>
-
-
 						</div>
+
+
 					</div>
 				</div>
 			</div>

@@ -11,7 +11,7 @@
 		data-ng-class="{ 'toggled': mactrl.sidebarToggle.right === true }"></aside>
 
 	<section id="content">
-		<div class="container c-alt">
+		<div class="container c-alt" ng-controller="leavebalancecontroller">
 
 			<div class="block-header">
 				<h2>
@@ -25,83 +25,27 @@
 					</h2>
 				</div> -->
 
-				<div class="" ng-controller="leavetypehistorytable as leaveupdates">
-					<table class="">
+				<div class="">
+					<table style="width: 100%">
 						<thead>
-							<tr  >
+							<tr>
 								<th class='col-sm-4'>Leave Type</th>
-								<th class='col-sm-4'>Leave Availed</th>
 								<th class='col-sm-4'>Leave Pending</th>
 								<th class='col-sm-4'>Leave Available</th>
 							</tr>
 						</thead>
 						<tbody>
-							<tr class="" ng-repeat=" x in leaveupdates.riResult.list" style="border: 1px solid #EDECEC;">
-
-								<!-- <div class="form-group">
-										<div class="fg-line">
-
-											<div class="select">
-
-												<select class="form-control" ng-options="leavetype as size.name for size in sizes"
-													ng-model="item" ng-change="update()"></select>
-												<select class="form-control" ng-change="updatehistorydata()"
-													ng-model="confirmed">
-													<option value="" disabled="" selected="" class="ng-binding">Please
-														select the value</option>
-													<option ng-repeat=" x in leaveupdates.riResult.list">{{x.leavetype}}</option>
-												</select>
-
-												 <select class="form-control"
-													ng-options="leaveupdates.riResult.list as size.leavetype for size in sizes"
-													ng-model="selectedItem" ng-change="updatehistorydata()"></select>
-
-												 <select class="form-control">
-													<option value="Select leave type" ng-change="updatehistorydata()" data-ng-repeat="w in leaveupdates.riResult.list">{{w.leavetype}}</option>
-													
-												</select> 
-
-										<!-- 	</div>
-										</div>
-									</div> -->
-								<td class='col-sm-4'><span style="color: Black;">{{x.leavetype}}</span></td>
-								<td class='col-sm-4'><span style="color: orange;">{{x.leaveavailed}}</span></td>
-								<td class='col-sm-4'><span style="color: red;">{{x.leavepending}}</span></td>
-								<td class='col-sm-4'><span style="color: green;">{{x.leaveavalible}}</span></td>
+							<tr class="" ng-repeat=" x in leaveupdates"
+								style="border: 1px solid #EDECEC;">
+								<td class='col-sm-4'><span style="color: Black;">{{x.leaveType}}</span></td>
+								<td class='col-sm-4'><span style="color: red;">{{x.pendingApproval}}</span></td>
+								<td class='col-sm-4'><span style="color: green;">{{x.eligible}}</span></td>
 							</tr>
-							<!-- <tr class="info">
-								<td>3</td>
-								<td>Sebastian</td>
-								<td>Johnston</td>
-								<td>@sebastian</td>
-								<td>Jaycee</td>
-							</tr>
-							<tr class="warning c-white">
-								<td>4</td>
-								<td>Mitchell</td>
-								<td>Christin</td>
-								<td>@mitchell4u</td>
-								<td>AdskiDeAnus</td>
-							</tr>
-							<tr class="success c-white">
-								<td>2</td>
-								<td>Madeleine</td>
-								<td>Hollaway</td>
-								<td>@hollway</td>
-								<td>Cheese</td>
-							</tr>
-							<tr class="danger c-white">
-								<td>5</td>
-								<td>Elizabeth</td>
-								<td>Belkitt</td>
-								<td>@belkitt</td>
-								<td>Goat</td>
-							</tr> -->
 						</tbody>
 					</table>
 				</div>
 			</div>
-			<div class="card" data-ng-controller="DatepickerDemoCtrl">
+			<div class="card">
 				<div class="card-body card-padding">
 					<div class="row">
 						<div class="col-sm-4">
@@ -147,24 +91,20 @@
 								</i></span>
 
 							</div>
-							<br />
+							<br /> <br />
 
 							<div class="form-group">
 								<span class="input-group-addon"><i class="">To-Date </i></span>
 
 							</div>
-							<br />
-							<div class="form-group">
-								<span class="input-group-addon"><i class=""> </i></span>
+							<br /> <br />
 
-							</div>
-							<br /> <br /> <br />
 							<div class="form-group">
 								<span class="input-group-addon"><i class="">Leave
 										Available </i></span>
 
 							</div>
-							<br />
+							<br /> <br />
 
 							<div class="form-group">
 								<span class="input-group-addon"><i class="">Days
@@ -182,7 +122,7 @@
 						<div class="col-sm-4">
 							<div class="form-group">
 								<div class="fg-line">
-									<input type="text" class="form-control" placeholder="125695"
+									<input type="text" class="form-control" ng-model="employeeid"
 										disabled>
 								</div>
 
@@ -191,17 +131,8 @@
 							<br />
 							<div class="form-group">
 								<div class="fg-line">
-									<input type="text" class="form-control"
-										placeholder="Adam Kario" disabled>
-								</div>
-
-							</div>
-
-							<br />
-
-							<div class="form-group">
-								<div class="fg-line">
-									<input type="text" class="form-control" placeholder="ADM">
+									<input type="text" class="form-control" ng-model='employeename'
+										disabled>
 								</div>
 
 							</div>
@@ -211,7 +142,17 @@
 							<div class="form-group">
 								<div class="fg-line">
 									<input type="text" class="form-control"
-										placeholder="adam.Kario@phonixtechnologies.com">
+										ng-model='employeedepartment' disabled>
+								</div>
+
+							</div>
+
+							<br />
+
+							<div class="form-group">
+								<div class="fg-line">
+									<input type="text" class="form-control"
+										ng-model='employeeemail' disabled>
 								</div>
 
 							</div>
@@ -224,14 +165,14 @@
 								<div class="fg-line">
 
 									<div class="select">
-										<select class="form-control">
-											<option>Select leave type</option>
-											<option>Annual Leave</option>
-											<option>Sick Leave</option>
-											<option>Maternity leave</option>
-											<option>Marriage Leave</option>
-											<option>BirthDay Leave</option>
+										<select class="form-control" name="category-group"
+											id="categoryGroup" class="form-control"
+											ng-model="itemSelected"
+											ng-change="updateleavesdetails(itemSelected)"
+											ng-options=" category.leaveType for category in leaveupdates">
+
 										</select>
+
 									</div>
 								</div>
 							</div>
@@ -245,73 +186,75 @@
 
 									<div class="date-picker input-group dp-blue"
 										ng-class="{ 'is-opened': opened == true }">
-
+										<span class="input-group-addon"><i
+											class="zmdi zmdi-calendar ma-icon"></i></span>
 										<div class="fg-line"
 											ng-class="{ 'fg-toggled': opened == true }">
-											<input ng-click="open($event, 'opened')" type="text"
+											<input ng-click="open($event, 1)" type="text" readonly
 												class="form-control" uib-datepicker-popup="{{format}}"
 												show-weeks="false" ng-model="dtPopup" is-open="opened"
 												min-date="minDate" datepicker-options="dateOptions"
 												ng-required="true" close-text="Close"
 												placeholder="Select Date" />
 										</div>
-										<span class="input-group-addon"><i
-											class="zmdi zmdi-calendar ma-icon"></i></span>
+
 									</div>
 
 								</div>
 							</div>
+
 							<br />
-							<div class="form-group">
+							<div class="form-group" style="margin-top: 5px;">
 								<div class="fg-line">
 
 									<div class="date-picker input-group dp-blue"
 										ng-class="{ 'is-opened': opened2 == true }">
-
+										<span class="input-group-addon"><i
+											class="zmdi zmdi-calendar ma-icon"></i></span>
 										<div class="fg-line"
 											ng-class="{ 'fg-toggled': opened2 == true }">
-											<input ng-click="open($event, 'opened2')" type="text"
+											<input ng-click="open($event, 2)" type="text" readonly
 												class="form-control" uib-datepicker-popup="{{format}}"
-												show-weeks="false" ng-model="dtPopup2" is-open="opened2"
+												show-weeks="false" ng-model="dtPopup1" is-open="opened2"
 												min-date="minDate" datepicker-options="dateOptions"
 												ng-required="true" close-text="Close"
 												placeholder="Select Date" />
 										</div>
-										<span class="input-group-addon"><i
-											class="zmdi zmdi-calendar ma-icon"></i></span>
+
 									</div>
 
 								</div>
-							</div>
-							<br />
-							<div class="form-group">
-								<button class="btn btn-default btn-icon-text waves-effect">
-									<i class="zmdi zmdi-refresh"></i> Check Eligibility
-								</button>
-							</div>
-							<br />
-							<div class="form-group">
-								<div class="fg-line" ng-model="totalLeaves">
-									<input type="text" class="form-control" ng-model="totalLeaves"
-										disabled placeholder="5">
-								</div>
 
 							</div>
-							<br />
 
 							<div class="form-group">
 								<div class="fg-line">
-									<input type="text" class="form-control" ng-model="leaveTaken"
-										disabled placeholder="2">
+									<input type="text" class="form-control" ng-model="totalLeaves"
+										disabled>
 								</div>
 
+							</div>
+							<br />
+
+							<div class="form-group">
+								<div class="fg-line" style="display: inline-block;">
+									<input type="text" class="form-control" ng-model="leaveTaken"
+										disabled>
+								</div>
+								<div class="col-sm-12" style="display: inline-block;">
+									<button style="float: right" title="Calculate Leave taken"
+										ng-click="refreshLeavetaken()"
+										class="btn bgm-teal btn-icon waves-effect waves-circle">
+										<i class="zmdi zmdi-refresh"></i>
+									</button>
+								</div>
 							</div>
 							<br />
 
 							<div class="form-group">
 								<div class="fg-line">
 									<input type="text" class="form-control" ng-model="remainLeaves"
-										placeholder="3">
+										disabled>
 
 								</div>
 
@@ -319,57 +262,6 @@
 						</div>
 
 					</div>
-
-
-
-					<!-- 	<div class="col-sm-4">
-						<div class="input-group">
-							<span class="input-group-addon"><i
-								class="zmdi zmdi-arrow-missed"></i></span>
-							<div class="fg-line">
-								<input type="text" class="form-control" placeholder="Internet">
-							</div>
-							<span class="input-group-addon last"><i
-								class="zmdi zmdi-globe"></i></span>
-						</div>
-
-						<br />
-
-						<div class="input-group">
-							<span class="input-group-addon"><i class="zmdi zmdi-money"></i></span>
-							<div class="fg-line">
-								<input type="text" class="form-control"
-									placeholder="Notifications">
-							</div>
-							<span class="input-group-addon last"><i
-								class="zmdi zmdi-plus-circle-o"></i></span>
-						</div>
-
-						<br />
-
-						<div class="input-group">
-							<span class="input-group-addon"><i
-								class="zmdi zmdi-mail-send"></i></span>
-							<div class="fg-line">
-								<input type="text" class="form-control" placeholder="Layers">
-							</div>
-							<span class="input-group-addon last"><i
-								class="zmdi zmdi-layers"></i></span>
-						</div>
-
-						<br />
-
-						<div class="input-group">
-							<span class="input-group-addon"><i
-								class="zmdi zmdi-portable-wifi"></i></span>
-							<div class="fg-line">
-								<input type="text" class="form-control" placeholder="Messages">
-							</div>
-							<span class="input-group-addon last"><i
-								class="zmdi zmdi-dialpad"></i></span>
-						</div>
-					</div> -->
-
 				</div>
 				<div class="card-body card-padding">
 					<div class="row">
@@ -402,7 +294,7 @@
 						<div class="col-sm-4">
 							<div class="form-group">
 								<div class="fg-line">
-									<input type="text" class="form-control" placeholder="Kiran Rao"
+									<input type="text" class="form-control" ng-model='managername'
 										disabled>
 								</div>
 
@@ -411,8 +303,8 @@
 							<br />
 							<div class="form-group">
 								<div class="fg-line">
-									<input type="text" class="form-control"
-										placeholder="kiran.rao@phonixtechnologies.com" disabled>
+									<input type="text" class="form-control" ng-model='manageremail'
+										disabled>
 								</div>
 
 							</div>
@@ -421,7 +313,8 @@
 
 							<div class="form-group">
 								<div class="fg-line">
-									<input type="text" class="form-control" placeholder="56889">
+									<input type="text" class="form-control" ng-model='managerid'
+										disabled>
 								</div>
 
 							</div>
@@ -429,7 +322,8 @@
 					</div>
 					<div class="row">
 						<button class="btn bgm-lightblue waves-effect"
-							swal-leaveapply-sucess-msg style="float: right;">Apply</button>
+							 style="float: right;"
+							ng-click='applyleave()'>Apply</button>
 					</div>
 				</div>
 

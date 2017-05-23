@@ -218,65 +218,859 @@ materialAdmin
 
 		.controller(
 				'recentitemCtrl',
-				function($scope, $filter, $sce, ngTableParams,
-						recentitemService) {
+				function($scope, $filter, $sce, ngTableParams, $http,
+						filteredListService) {
 
-					// Get Recent Items Widget Data
-					this.id = recentitemService.id;
-					this.name = recentitemService.name;
-					this.fromDate = recentitemService.from_date;
-					this.toDate = recentitemService.to_date;
-					this.totalDays = recentitemService.total_days;
-					this.department = recentitemService.department;
-					this.status = recentitemService.status;
+					var managerid = 3;// hard coded as of now
+					var pendingapproval = $scope.webserviceshost
+							+ 'hr/leave/pendingApproval/' + managerid;
 
-					this.riResult = recentitemService.getRecentitem(this.id,
-							this.name, this.from_date, this.todate,
-							this.totalDays, this.department, this.status);
+					$http({
+						method : "GET",
+						url : pendingapproval
+					})
+							.then(
+									function mySucces(response) {
+										console.log(response.data);
+										if (response != 'undefiend'
+												&& response != "") {
 
-					$scope.totalItems1 = this.riResult.length;
-					$scope.viewby1 = 5;
-					$scope.currentPage1 = 1;
-					$scope.itemsPerPage1 = $scope.viewby;
-					$scope.maxSize1 = 5;
+											$scope.allUsers = response.data;
+											$scope.pageSize = 7;
+											$scope.allItems = $scope.allUsers;
+											$scope.reverse = false;
+
+											$scope.resetAll = function() {
+												$scope.filteredList = $scope.allItems;
+												$scope.employeeId = '';
+												$scope.firstName = '';
+												$scope.lastName = '';
+												$scope.fromDate = '';
+												$scope.toDate = '';
+												$scope.noOfDays = ''
+												$scope.searchText = '';
+												$scope.currentPage = 0;
+												$scope.Header = [ '', '', '',
+														'', '', '', '' ];
+											}
+
+											$scope.search = function() {
+												$scope.filteredList = filteredListService
+														.searched(
+																$scope.allItems,
+																$scope.searchText);
+
+												if ($scope.searchText == '') {
+													$scope.filteredList = $scope.allItems;
+												}
+												$scope.pagination();
+											}
+
+											$scope.pagination = function() {
+												$scope.ItemsByPage = filteredListService
+														.paged(
+																$scope.filteredList,
+																$scope.pageSize);
+											};
+
+											$scope.setPage = function() {
+												$scope.currentPage = this.n;
+											};
+
+											$scope.firstPage = function() {
+												$scope.currentPage = 0;
+											};
+
+											$scope.lastPage = function() {
+												$scope.currentPage = $scope.ItemsByPage.length - 1;
+											};
+
+											$scope.range = function(input,
+													total) {
+												var ret = [];
+												if (!total) {
+													total = input;
+													input = 0;
+												}
+												for (var i = input; i < total; i++) {
+													if (i != 0
+															&& i != total - 1) {
+														ret.push(i);
+													}
+												}
+												return ret;
+											};
+											$scope.sort = function(sortBy) {
+												$scope.resetAll();
+
+												$scope.columnToOrder = sortBy;
+
+												// $Filter
+												// -
+												// Standard
+												// Service
+												$scope.filteredList = $filter(
+														'orderBy')(
+														$scope.filteredList,
+														$scope.columnToOrder,
+														$scope.reverse);
+
+												if ($scope.reverse)
+													iconName = 'glyphicon glyphicon-chevron-up';
+												else
+													iconName = 'glyphicon glyphicon-chevron-down';
+
+												if (sortBy === 'EmployeeId') {
+													$scope.Header[0] = iconName;
+												} else if (sortBy === 'firstName') {
+													$scope.Header[1] = iconName;
+												} else if (sortBy === 'lastName') {
+													$scope.Header[2] = iconName;
+												} else if (sortBy === 'leaveStatus') {
+													$scope.Header[3] = iconName;
+												} else {
+													$scope.Header[4] = iconName;
+												}
+
+												$scope.reverse = !$scope.reverse;
+
+												$scope.pagination();
+											};
+											$scope.sort('firstName');
+
+											// console.log($scope.allUsers.length);
+										}
+									}, function myError(response) {
+										console.log(response);
+									});
+					$scope.approveLeave = function(item) {
+
+						swal(
+								{
+									title : "Are you sure?",
+									text : "Approve leave ",
+									showCancelButton : true,
+									confirmButtonColor : "#DD6B55",
+									confirmButtonText : "Yes, Approve it!",
+									cancelButtonText : "No, cancel it!",
+									closeOnConfirm : false,
+									closeOnCancel : false
+								},
+								function(isConfirm) {
+									if (isConfirm) {
+										var leaveId = item.leaveId;
+										var approveLeaveurl = $scope.webserviceshost
+												+ 'hr/leave/approve/'
+												+ leaveId
+												+ '/' + managerid;
+
+										$http({
+											method : "POST",
+											url : approveLeaveurl
+										})
+												.then(
+														function mySucces(
+																response) {
+
+															var managerid = 3;// hard
+															// coded
+															// as
+															// of now
+															var pendingapproval = $scope.webserviceshost
+																	+ 'hr/leave/pendingApproval/'
+																	+ managerid;
+
+															$http(
+																	{
+																		method : "GET",
+																		url : pendingapproval
+																	})
+																	.then(
+																			function mySucces(
+																					response) {
+																				console
+																						.log(response.data);
+																				if (response != 'undefiend'
+																						&& response != "") {
+
+																					$scope.allUsers = response.data;
+																					$scope.pageSize = 7;
+																					$scope.allItems = $scope.allUsers;
+																					$scope.reverse = false;
+
+																					$scope.resetAll = function() {
+																						$scope.filteredList = $scope.allItems;
+																						$scope.employeeId = '';
+																						$scope.firstName = '';
+																						$scope.lastName = '';
+																						$scope.fromDate = '';
+																						$scope.toDate = '';
+																						$scope.noOfDays = ''
+																						$scope.searchText = '';
+																						$scope.currentPage = 0;
+																						$scope.Header = [
+																								'',
+																								'',
+																								'',
+																								'',
+																								'',
+																								'',
+																								'' ];
+																					}
+
+																					$scope.search = function() {
+																						$scope.filteredList = filteredListService
+																								.searched(
+																										$scope.allItems,
+																										$scope.searchText);
+
+																						if ($scope.searchText == '') {
+																							$scope.filteredList = $scope.allItems;
+																						}
+																						$scope
+																								.pagination();
+																					}
+
+																					$scope.pagination = function() {
+																						$scope.ItemsByPage = filteredListService
+																								.paged(
+																										$scope.filteredList,
+																										$scope.pageSize);
+																					};
+
+																					$scope.setPage = function() {
+																						$scope.currentPage = this.n;
+																					};
+
+																					$scope.firstPage = function() {
+																						$scope.currentPage = 0;
+																					};
+
+																					$scope.lastPage = function() {
+																						$scope.currentPage = $scope.ItemsByPage.length - 1;
+																					};
+
+																					$scope.range = function(
+																							input,
+																							total) {
+																						var ret = [];
+																						if (!total) {
+																							total = input;
+																							input = 0;
+																						}
+																						for (var i = input; i < total; i++) {
+																							if (i != 0
+																									&& i != total - 1) {
+																								ret
+																										.push(i);
+																							}
+																						}
+																						return ret;
+																					};
+																					$scope.sort = function(
+																							sortBy) {
+																						$scope
+																								.resetAll();
+
+																						$scope.columnToOrder = sortBy;
+
+																						// $Filter
+																						// -
+																						// Standard
+																						// Service
+																						$scope.filteredList = $filter(
+																								'orderBy')
+																								(
+																										$scope.filteredList,
+																										$scope.columnToOrder,
+																										$scope.reverse);
+
+																						if ($scope.reverse)
+																							iconName = 'glyphicon glyphicon-chevron-up';
+																						else
+																							iconName = 'glyphicon glyphicon-chevron-down';
+
+																						if (sortBy === 'EmployeeId') {
+																							$scope.Header[0] = iconName;
+																						} else if (sortBy === 'firstName') {
+																							$scope.Header[1] = iconName;
+																						} else if (sortBy === 'lastName') {
+																							$scope.Header[2] = iconName;
+																						} else if (sortBy === 'leaveStatus') {
+																							$scope.Header[3] = iconName;
+																						} else {
+																							$scope.Header[4] = iconName;
+																						}
+
+																						$scope.reverse = !$scope.reverse;
+
+																						$scope
+																								.pagination();
+																					};
+																					$scope
+																							.sort('firstName');
+
+																					// console.log($scope.allUsers.length);
+																				}
+																			},
+																			function myError(
+																					response) {
+																				console
+																						.log(response);
+																			});
+															swal(
+																	"Approved",
+																	"leave has been approved.)",
+																	"success");
+														},
+														function myError(
+																response) {
+															console
+																	.log(response);
+														});
+									} else {
+										swal("Cancelled",
+												"Request has been cancelled.)",
+												"error");
+									}
+								});
+					}
+					$scope.rejectLeave = function(item) {
+
+						swal(
+								{
+									title : "Are you sure?",
+									text : "Reject leave ",
+									showCancelButton : true,
+									confirmButtonColor : "#DD6B55",
+									confirmButtonText : "Yes, Reject it!",
+									cancelButtonText : "No, cancel it!",
+									closeOnConfirm : false,
+									closeOnCancel : false
+								},
+								function(isConfirm) {
+									if (isConfirm) {
+										var leaveId = item.leaveId;
+										var rejecctLeaveurl = $scope.webserviceshost
+												+ 'hr/leave/reject/'
+												+ leaveId
+												+ '/' + managerid;
+
+										$http({
+											method : "POST",
+											url : rejecctLeaveurl
+										})
+												.then(
+														function mySucces(
+																response) {
+
+															var managerid = 3;// hard
+															// coded
+															// as
+															// of
+															// now
+															var pendingapproval = $scope.webserviceshost
+																	+ 'hr/leave/pendingApproval/'
+																	+ managerid;
+
+															$http(
+																	{
+																		method : "GET",
+																		url : pendingapproval
+																	})
+																	.then(
+																			function mySucces(
+																					response) {
+																				console
+																						.log(response.data);
+																				if (response != 'undefiend'
+																						&& response != "") {
+
+																					$scope.allUsers = response.data;
+																					$scope.pageSize = 7;
+																					$scope.allItems = $scope.allUsers;
+																					$scope.reverse = false;
+
+																					$scope.resetAll = function() {
+																						$scope.filteredList = $scope.allItems;
+																						$scope.employeeId = '';
+																						$scope.firstName = '';
+																						$scope.lastName = '';
+																						$scope.fromDate = '';
+																						$scope.toDate = '';
+																						$scope.noOfDays = ''
+																						$scope.searchText = '';
+																						$scope.currentPage = 0;
+																						$scope.Header = [
+																								'',
+																								'',
+																								'',
+																								'',
+																								'',
+																								'',
+																								'' ];
+																					}
+
+																					$scope.search = function() {
+																						$scope.filteredList = filteredListService
+																								.searched(
+																										$scope.allItems,
+																										$scope.searchText);
+
+																						if ($scope.searchText == '') {
+																							$scope.filteredList = $scope.allItems;
+																						}
+																						$scope
+																								.pagination();
+																					}
+
+																					$scope.pagination = function() {
+																						$scope.ItemsByPage = filteredListService
+																								.paged(
+																										$scope.filteredList,
+																										$scope.pageSize);
+																					};
+
+																					$scope.setPage = function() {
+																						$scope.currentPage = this.n;
+																					};
+
+																					$scope.firstPage = function() {
+																						$scope.currentPage = 0;
+																					};
+
+																					$scope.lastPage = function() {
+																						$scope.currentPage = $scope.ItemsByPage.length - 1;
+																					};
+
+																					$scope.range = function(
+																							input,
+																							total) {
+																						var ret = [];
+																						if (!total) {
+																							total = input;
+																							input = 0;
+																						}
+																						for (var i = input; i < total; i++) {
+																							if (i != 0
+																									&& i != total - 1) {
+																								ret
+																										.push(i);
+																							}
+																						}
+																						return ret;
+																					};
+																					$scope.sort = function(
+																							sortBy) {
+																						$scope
+																								.resetAll();
+
+																						$scope.columnToOrder = sortBy;
+
+																						// $Filter
+																						// -
+																						// Standard
+																						// Service
+																						$scope.filteredList = $filter(
+																								'orderBy')
+																								(
+																										$scope.filteredList,
+																										$scope.columnToOrder,
+																										$scope.reverse);
+
+																						if ($scope.reverse)
+																							iconName = 'glyphicon glyphicon-chevron-up';
+																						else
+																							iconName = 'glyphicon glyphicon-chevron-down';
+
+																						if (sortBy === 'EmployeeId') {
+																							$scope.Header[0] = iconName;
+																						} else if (sortBy === 'firstName') {
+																							$scope.Header[1] = iconName;
+																						} else if (sortBy === 'lastName') {
+																							$scope.Header[2] = iconName;
+																						} else if (sortBy === 'leaveStatus') {
+																							$scope.Header[3] = iconName;
+																						} else {
+																							$scope.Header[4] = iconName;
+																						}
+
+																						$scope.reverse = !$scope.reverse;
+
+																						$scope
+																								.pagination();
+																					};
+																					$scope
+																							.sort('firstName');
+
+																					// console.log($scope.allUsers.length);
+																				}
+																			},
+																			function myError(
+																					response) {
+																				console
+																						.log(response);
+																			});
+
+														},
+														function myError(
+																response) {
+															console
+																	.log(response);
+														})
+										swal("Rejected",
+												"leave has been rejected.)",
+												"success");
+									} else {
+										swal("Cancelled",
+												"Request has been cancelled.)",
+												"error");
+									}
+								});
+					}
 				})
 		// controller for leave applied history top table
 		.controller(
-				'leavetypehistorytable',
-				function($scope, $filter, $sce, ngTableParams,
-						LeaveTypeHistoryService) {
-
-					// Get Recent Items Widget Data
-					this.total_leave = LeaveTypeHistoryService.total_leave;
-					this.leavetype = LeaveTypeHistoryService.leavetype;
-					this.leaveavailed = LeaveTypeHistoryService.leaveavailed;
-					this.leavepending = LeaveTypeHistoryService.leavepending;
-					this.leaveavalible = LeaveTypeHistoryService.leaveavalible;
-
-					this.riResult = LeaveTypeHistoryService.getRecentitem(
-							this.total_leave, this.leavetype,
-							this.leaveavailed, this.leavepending,
-							this.leaveavalible);
-					$scope.leavedetails = this.riResult;
-
-					$scope.updatehistorydata = function() {
-						var leave = $scope.confirmed;
-						console.log(leave);
-						var leavedetails = $scope.leavedetails.list;
-						console.log(leavedetails);
-						angular.forEach($scope.leavedetails.list, function(
-								value, index) {
-							if (value.leavetype === leave) {
-								$('.btn-icon').css({
-									"display" : "block"
-								});
-								$scope.leaveAvaild = value.leaveavailed;
-								$scope.leavepending = value.leavepending;
-								$scope.leaveavalible = value.leaveavalible;
-							}
-						});
+				'leavebalancecontroller',
+				function($scope, $filter, $sce, ngTableParams, $http) {
+					$scope.today = function() {
+						$scope.dt = new Date();
 
 					};
+					$scope.today();
+
+					$scope.myDate = new Date();
+
+					$scope.toggleMin = function() {
+						$scope.minDate = new Date($scope.myDate.getFullYear(),
+								$scope.myDate.getMonth() - 11, $scope.myDate
+										.getDate());
+
+					};
+					$scope.toggleMin();
+
+					$scope.open = function($event, calId) {
+						$event.preventDefault();
+						$event.stopPropagation();
+						if (calId === 1) {
+							$scope.opened = true;
+							$scope.opened2 = false;
+
+						}
+						if (calId === 2) {
+							$scope.opened2 = true;
+							$scope.opened = false;
+
+						}
+
+					};
+
+					$scope.dateOptions = {
+						formatYear : 'yy',
+						startingDay : 1
+					};
+
+					$scope.formats = [ 'dd-MMMM-yyyy', 'yyyy-MM-dd',
+							'dd.MM.yyyy', 'shortDate' ];
+					$scope.format = $scope.formats[1];
+
+					var employeeid = 12;// hardcode
+					var date = new Date();
+					var year = date.getFullYear();
+					var leavebalanceurl = $scope.webserviceshost
+							+ 'hr/leave/balance/' + employeeid + '/' + year;
+					var employeeDetails = $scope.webserviceshost
+							+ 'hr/employee/find/' + employeeid;
+					$http({
+						method : "GET",
+						url : leavebalanceurl
+					}).then(function mySucces(response) {
+
+						if (response != 'undefiend' && response != "") {
+							$scope.leaveupdates = response.data;
+						}
+					}, function myError(response) {
+						console.log(response);
+					});
+					$http({
+						method : "GET",
+						url : employeeDetails
+					})
+							.then(
+									function mySucces(response) {
+
+										if (response != 'undefiend'
+												&& response != "") {
+											$scope.employeeid = response.data.employeeId;
+											$scope.employeename = response.data.firstName
+													+ ' '
+													+ response.data.lastName;
+											;
+											$scope.employeedepartment = response.data.department.departmentName;
+											$scope.employeedepartmentId = response.data.department.departmentId;
+											$scope.employeeemail = response.data.emailId;
+											/*
+											 * $scope.leaveTaken=response.data.employeeId;
+											 * $scope.remainLeaves=response.data.employeeId;
+											 */
+											$scope.managername = response.data.manager.firstName
+													+ ' '
+													+ response.data.manager.lastName;
+											$scope.managerid = response.data.manager.employeeId
+											$scope.manageremail = response.data.manager.emailId;
+											$scope.managerid = response.data.manager.employeeId;
+										}
+									}, function myError(response) {
+										console.log(response);
+									});
+					$scope.updateleavesdetails = function() {
+
+						$scope.totalLeaves = $scope.itemSelected.eligible;
+						console.log("Selected Value: "
+								+ $scope.itemSelected.leaveBalanceId
+								+ "\nSelected Text: "
+								+ $scope.itemSelected.eligible);
+					}
+					$scope.refreshLeavetaken = function() {
+						var startdate = $scope.dtPopup;
+						var enddate = $scope.dtPopup1;
+						var date2 = new Date(startdate);
+						var date1 = new Date(enddate);
+						if (startdate > enddate) {
+							swal("Error",
+									"From date should be less than to date.)",
+									"error");
+							return;
+						}
+
+						var timeDiff = Math.abs(date2.getTime()
+								- date1.getTime());
+						$scope.leaveTaken = Math.ceil(timeDiff
+								/ (1000 * 3600 * 24)) + 1;
+						if ($scope.totalLeaves != ''
+								|| $scope.totalLeaves != 'undefiend') {
+							var remainLeaves = $scope.totalLeaves
+									- $scope.leaveTaken;
+							if (remainLeaves < 0) {
+								swal("Error",
+										"You cant take number of leaves .)",
+										"error");
+								return;
+							}
+							$scope.remainLeaves = $scope.totalLeaves
+									- $scope.leaveTaken;
+						}
+
+					}
+					$scope.applyleave = function() {
+						var employeeid = $scope.employeeid;
+						var employeename = $scope.employeename;
+						var employeedepartment = $scope.demployeedepartment;
+						var employeedepartmentId = $scope.employeedepartmentId;
+						var employeeemail = $scope.employeeemail;
+						/*
+						 * var leaveTaken=response.data.employeeId; var
+						 * remainLeaves=response.data.employeeId;
+						 */
+						var managername = $scope.managername;
+						var managerid = $scope.managerid;
+						var manageremail = $scope.manageremail;
+
+						var leaveType = $scope.itemSelected.leaveType;
+						;
+						var startyear = $scope.dtPopup.getFullYear();
+						var startmonth = $scope.dtPopup.getMonth();
+						if (startmonth.toString().length == 1) {
+							startmonth = '0' + startmonth;
+						}
+						var startday = $scope.dtPopup.getDay();
+						if (startday.toString().length == 1) {
+							startday = '0' + startday;
+						}
+						var startdate = startyear + '-' + startmonth + '-'
+								+ startday;
+						var endyear = $scope.dtPopup.getFullYear();
+						var endmonth = $scope.dtPopup.getMonth();
+						if (endmonth.toString().length == 1) {
+							endmonth = '0' + endmonth;
+						}
+						var endday = $scope.dtPopup.getDay();
+						if (endday.toString().length == 1) {
+							endday = '0' + endday;
+						}
+						var enddate = endyear + '-' + endmonth + '-' + endday;
+						var leavetaken = $scope.leaveTaken;
+						var comments = "leave applied";
+
+						var applyleaveurl = $scope.webserviceshost
+								+ 'hr/leave/apply/' + employeeid + '/'
+								+ leaveType + '/' + startdate + '/' + enddate
+								+ '/' + leavetaken + '/' + comments;
+						$http({
+							method : "POST",
+							url : applyleaveurl
+						}).then(
+								function mySucces(response) {
+
+									swal("Successfull",
+											"Your leave has been submitted.)",
+											"success");
+									$scope.totalLeaves = '';
+									$scope.leaveTaken = '';
+									$scope.itemSelected = {};
+									$scope.dtPopup = '';
+									$scope.dtPopup1 = '';
+									$scope.remainLeaves = '';
+								}, function myError(response) {
+									console.log(response);
+								});
+
+						/*
+						 * apply/{employeeId}/{leaveType}/{fromDate}/{toDate}/{noOfDays}/{comments}
+						 */}
+				})
+		.controller(
+				'leavetypehistorytable',
+				function($scope, $filter, $sce, ngTableParams, $http,
+						filteredListService) {
+					var employeeid = 12;
+					var leavehistory = $scope.webserviceshost
+							+ 'hr/leave/history/' + employeeid;
+					$http({
+						method : "GET",
+						url : leavehistory
+					})
+							.then(
+									function mySucces(response) {
+										console.log(response.data);
+										if (response != 'undefiend'
+												&& response != "") {
+
+											$scope.allUsers = response.data;
+											$scope.pageSize = 7;
+											$scope.allItems = $scope.allUsers;
+											$scope.reverse = false;
+
+											$scope.resetAll = function() {
+												$scope.filteredList = $scope.allItems;
+												$scope.employeeId = '';
+												$scope.firstName = '';
+												$scope.lastName = '';
+												$scope.emailId = '';
+												$scope.joiningdate = ''
+												$scope.searchText = '';
+												$scope.currentPage = 0;
+												$scope.Header = [ '', '', '',
+														'', '', '', '' ];
+											}
+
+											$scope.search = function() {
+												$scope.filteredList = filteredListService
+														.searched(
+																$scope.allItems,
+																$scope.searchText);
+
+												if ($scope.searchText == '') {
+													$scope.filteredList = $scope.allItems;
+												}
+												$scope.pagination();
+											}
+
+											$scope.pagination = function() {
+												$scope.ItemsByPage = filteredListService
+														.paged(
+																$scope.filteredList,
+																$scope.pageSize);
+											};
+
+											$scope.setPage = function() {
+												$scope.currentPage = this.n;
+											};
+
+											$scope.firstPage = function() {
+												$scope.currentPage = 0;
+											};
+
+											$scope.lastPage = function() {
+												$scope.currentPage = $scope.ItemsByPage.length - 1;
+											};
+
+											$scope.range = function(input,
+													total) {
+												var ret = [];
+												if (!total) {
+													total = input;
+													input = 0;
+												}
+												for (var i = input; i < total; i++) {
+													if (i != 0
+															&& i != total - 1) {
+														ret.push(i);
+													}
+												}
+												return ret;
+											};
+
+											$scope.sort = function(sortBy) {
+												$scope.resetAll();
+
+												$scope.columnToOrder = sortBy;
+
+												// $Filter
+												// -
+												// Standard
+												// Service
+												$scope.filteredList = $filter(
+														'orderBy')(
+														$scope.filteredList,
+														$scope.columnToOrder,
+														$scope.reverse);
+
+												if ($scope.reverse)
+													iconName = 'glyphicon glyphicon-chevron-up';
+												else
+													iconName = 'glyphicon glyphicon-chevron-down';
+
+												if (sortBy === 'EmpId') {
+													$scope.Header[0] = iconName;
+												} else if (sortBy === 'name') {
+													$scope.Header[1] = iconName;
+												} else if (sortBy === 'fromDate') {
+													$scope.Header[2] = iconName;
+												} else if (sortBy === 'toDate') {
+													$scope.Header[3] = iconName;
+												} else if (sortBy === 'totalDays') {
+													$scope.Header[4] = iconName;
+												} else if (sortBy === 'leaveType') {
+													$scope.Header[5] = iconName;
+												} else if (sortBy === 'leaveStatus') {
+													$scope.Header[6] = iconName;
+												} else if (sortBy === 'department') {
+													$scope.Header[7] = iconName;
+												} else if (sortBy === 'approvedBy') {
+													$scope.Header[8] = iconName;
+												} else {
+													$scope.Header[1] = iconName;
+												}
+
+												$scope.reverse = !$scope.reverse;
+
+												$scope.pagination();
+											};
+
+											// By
+											// Default
+											// sort
+											// ny
+											// Name
+											$scope.sort('name');
+
+											// console.log($scope.allUsers.length);
+										}
+									}, function myError(response) {
+										console.log(response);
+									});
+
 				})
 
 		// =========================================================================
@@ -302,6 +1096,62 @@ materialAdmin
 					$scope.currentPage = 1;
 					$scope.itemsPerPage = $scope.viewby;
 					$scope.maxSize = 5;
+				})
+
+		.controller(
+				'customerprogramcontroller',
+				function($scope, $filter, filteredListService, $http) {
+					var allcustomer = $scope.webserviceshost
+							+ 'hr/customer/all';
+					var referencedata = $scope.webserviceshost
+							+ 'hr/refData/list';
+					$http({
+						method : "GET",
+						url : referencedata
+					}).then(function mySucces(response) {
+
+						if (response != 'undefiend' && response != "") {
+							$scope.customerProgramCodelist = response.data;
+						}
+					}, function myError(response) {
+						console.log(response);
+					});
+					$http({
+						method : "GET",
+						url : allcustomer
+					}).then(function mySucces(response) {
+
+						if (response != 'undefiend' && response != "") {
+							$scope.customers = response.data;
+						}
+					}, function myError(response) {
+						console.log(response);
+					});
+					$scope.createCPC = function() {
+
+						var customerProgType = $scope.customerProgCodeType;
+						var customerprogName = $scope.customerprogName;
+						var customerId = $scope.customerId;
+						var createCPC = $scope.webserviceshost
+								+ 'hr/customerProgram/create/' + customerId
+								+ '/' + customerprogName + '/'
+								+ customerProgType;
+
+						$http({
+							method : "POST",
+							url : createCPC
+						})
+								.then(
+										function mySucces(response) {
+											swal(
+													"Customer Program created SuccessFully!",
+													"", "success");
+
+										}, function myError(response) {
+											console.log(response);
+										});
+					}
+
 				})
 		.controller(
 				'editUserController',
@@ -1252,6 +2102,775 @@ materialAdmin
 
 					var referenceData = $scope.webserviceshost
 							+ 'hr/refData/list';
+					var allcustomer = $scope.webserviceshost
+							+ 'hr/customer/all';
+					var allDepartment = $scope.webserviceshost
+							+ "hr/department/all";
+					var allcpc = $scope.webserviceshost
+							+ "hr/customerProgram/all";
+					$scope.name = 'World';
+
+					$scope.countries = [ {
+						name : 'Afghanistan',
+						code : 'AF'
+					}, {
+						name : 'Åland Islands',
+						code : 'AX'
+					}, {
+						name : 'Albania',
+						code : 'AL'
+					}, {
+						name : 'Algeria',
+						code : 'DZ'
+					}, {
+						name : 'American Samoa',
+						code : 'AS'
+					}, {
+						name : 'Andorra',
+						code : 'AD'
+					}, {
+						name : 'Angola',
+						code : 'AO'
+					}, {
+						name : 'Anguilla',
+						code : 'AI'
+					}, {
+						name : 'Antarctica',
+						code : 'AQ'
+					}, {
+						name : 'Antigua and Barbuda',
+						code : 'AG'
+					}, {
+						name : 'Argentina',
+						code : 'AR'
+					}, {
+						name : 'Armenia',
+						code : 'AM'
+					}, {
+						name : 'Aruba',
+						code : 'AW'
+					}, {
+						name : 'Australia',
+						code : 'AU'
+					}, {
+						name : 'Austria',
+						code : 'AT'
+					}, {
+						name : 'Azerbaijan',
+						code : 'AZ'
+					}, {
+						name : 'Bahamas',
+						code : 'BS'
+					}, {
+						name : 'Bahrain',
+						code : 'BH'
+					}, {
+						name : 'Bangladesh',
+						code : 'BD'
+					}, {
+						name : 'Barbados',
+						code : 'BB'
+					}, {
+						name : 'Belarus',
+						code : 'BY'
+					}, {
+						name : 'Belgium',
+						code : 'BE'
+					}, {
+						name : 'Belize',
+						code : 'BZ'
+					}, {
+						name : 'Benin',
+						code : 'BJ'
+					}, {
+						name : 'Bermuda',
+						code : 'BM'
+					}, {
+						name : 'Bhutan',
+						code : 'BT'
+					}, {
+						name : 'Bolivia',
+						code : 'BO'
+					}, {
+						name : 'Bosnia and Herzegovina',
+						code : 'BA'
+					}, {
+						name : 'Botswana',
+						code : 'BW'
+					}, {
+						name : 'Bouvet Island',
+						code : 'BV'
+					}, {
+						name : 'Brazil',
+						code : 'BR'
+					}, {
+						name : 'British Indian Ocean Territory',
+						code : 'IO'
+					}, {
+						name : 'Brunei Darussalam',
+						code : 'BN'
+					}, {
+						name : 'Bulgaria',
+						code : 'BG'
+					}, {
+						name : 'Burkina Faso',
+						code : 'BF'
+					}, {
+						name : 'Burundi',
+						code : 'BI'
+					}, {
+						name : 'Cambodia',
+						code : 'KH'
+					}, {
+						name : 'Cameroon',
+						code : 'CM'
+					}, {
+						name : 'Canada',
+						code : 'CA'
+					}, {
+						name : 'Cape Verde',
+						code : 'CV'
+					}, {
+						name : 'Cayman Islands',
+						code : 'KY'
+					}, {
+						name : 'Central African Republic',
+						code : 'CF'
+					}, {
+						name : 'Chad',
+						code : 'TD'
+					}, {
+						name : 'Chile',
+						code : 'CL'
+					}, {
+						name : 'China',
+						code : 'CN'
+					}, {
+						name : 'Christmas Island',
+						code : 'CX'
+					}, {
+						name : 'Cocos (Keeling) Islands',
+						code : 'CC'
+					}, {
+						name : 'Colombia',
+						code : 'CO'
+					}, {
+						name : 'Comoros',
+						code : 'KM'
+					}, {
+						name : 'Congo',
+						code : 'CG'
+					}, {
+						name : 'Congo, The Democratic Republic of the',
+						code : 'CD'
+					}, {
+						name : 'Cook Islands',
+						code : 'CK'
+					}, {
+						name : 'Costa Rica',
+						code : 'CR'
+					}, {
+						name : 'Cote D\'Ivoire',
+						code : 'CI'
+					}, {
+						name : 'Croatia',
+						code : 'HR'
+					}, {
+						name : 'Cuba',
+						code : 'CU'
+					}, {
+						name : 'Cyprus',
+						code : 'CY'
+					}, {
+						name : 'Czech Republic',
+						code : 'CZ'
+					}, {
+						name : 'Denmark',
+						code : 'DK'
+					}, {
+						name : 'Djibouti',
+						code : 'DJ'
+					}, {
+						name : 'Dominica',
+						code : 'DM'
+					}, {
+						name : 'Dominican Republic',
+						code : 'DO'
+					}, {
+						name : 'Ecuador',
+						code : 'EC'
+					}, {
+						name : 'Egypt',
+						code : 'EG'
+					}, {
+						name : 'El Salvador',
+						code : 'SV'
+					}, {
+						name : 'Equatorial Guinea',
+						code : 'GQ'
+					}, {
+						name : 'Eritrea',
+						code : 'ER'
+					}, {
+						name : 'Estonia',
+						code : 'EE'
+					}, {
+						name : 'Ethiopia',
+						code : 'ET'
+					}, {
+						name : 'Falkland Islands (Malvinas)',
+						code : 'FK'
+					}, {
+						name : 'Faroe Islands',
+						code : 'FO'
+					}, {
+						name : 'Fiji',
+						code : 'FJ'
+					}, {
+						name : 'Finland',
+						code : 'FI'
+					}, {
+						name : 'France',
+						code : 'FR'
+					}, {
+						name : 'French Guiana',
+						code : 'GF'
+					}, {
+						name : 'French Polynesia',
+						code : 'PF'
+					}, {
+						name : 'French Southern Territories',
+						code : 'TF'
+					}, {
+						name : 'Gabon',
+						code : 'GA'
+					}, {
+						name : 'Gambia',
+						code : 'GM'
+					}, {
+						name : 'Georgia',
+						code : 'GE'
+					}, {
+						name : 'Germany',
+						code : 'DE'
+					}, {
+						name : 'Ghana',
+						code : 'GH'
+					}, {
+						name : 'Gibraltar',
+						code : 'GI'
+					}, {
+						name : 'Greece',
+						code : 'GR'
+					}, {
+						name : 'Greenland',
+						code : 'GL'
+					}, {
+						name : 'Grenada',
+						code : 'GD'
+					}, {
+						name : 'Guadeloupe',
+						code : 'GP'
+					}, {
+						name : 'Guam',
+						code : 'GU'
+					}, {
+						name : 'Guatemala',
+						code : 'GT'
+					}, {
+						name : 'Guernsey',
+						code : 'GG'
+					}, {
+						name : 'Guinea',
+						code : 'GN'
+					}, {
+						name : 'Guinea-Bissau',
+						code : 'GW'
+					}, {
+						name : 'Guyana',
+						code : 'GY'
+					}, {
+						name : 'Haiti',
+						code : 'HT'
+					}, {
+						name : 'Heard Island and Mcdonald Islands',
+						code : 'HM'
+					}, {
+						name : 'Holy See (Vatican City State)',
+						code : 'VA'
+					}, {
+						name : 'Honduras',
+						code : 'HN'
+					}, {
+						name : 'Hong Kong',
+						code : 'HK'
+					}, {
+						name : 'Hungary',
+						code : 'HU'
+					}, {
+						name : 'Iceland',
+						code : 'IS'
+					}, {
+						name : 'India',
+						code : 'IN'
+					}, {
+						name : 'Indonesia',
+						code : 'ID'
+					}, {
+						name : 'Iran, Islamic Republic Of',
+						code : 'IR'
+					}, {
+						name : 'Iraq',
+						code : 'IQ'
+					}, {
+						name : 'Ireland',
+						code : 'IE'
+					}, {
+						name : 'Isle of Man',
+						code : 'IM'
+					}, {
+						name : 'Israel',
+						code : 'IL'
+					}, {
+						name : 'Italy',
+						code : 'IT'
+					}, {
+						name : 'Jamaica',
+						code : 'JM'
+					}, {
+						name : 'Japan',
+						code : 'JP'
+					}, {
+						name : 'Jersey',
+						code : 'JE'
+					}, {
+						name : 'Jordan',
+						code : 'JO'
+					}, {
+						name : 'Kazakhstan',
+						code : 'KZ'
+					}, {
+						name : 'Kenya',
+						code : 'KE'
+					}, {
+						name : 'Kiribati',
+						code : 'KI'
+					}, {
+						name : 'Korea, Democratic People\'s Republic of',
+						code : 'KP'
+					}, {
+						name : 'Korea, Republic of',
+						code : 'KR'
+					}, {
+						name : 'Kuwait',
+						code : 'KW'
+					}, {
+						name : 'Kyrgyzstan',
+						code : 'KG'
+					}, {
+						name : 'Lao People\'s Democratic Republic',
+						code : 'LA'
+					}, {
+						name : 'Latvia',
+						code : 'LV'
+					}, {
+						name : 'Lebanon',
+						code : 'LB'
+					}, {
+						name : 'Lesotho',
+						code : 'LS'
+					}, {
+						name : 'Liberia',
+						code : 'LR'
+					}, {
+						name : 'Libyan Arab Jamahiriya',
+						code : 'LY'
+					}, {
+						name : 'Liechtenstein',
+						code : 'LI'
+					}, {
+						name : 'Lithuania',
+						code : 'LT'
+					}, {
+						name : 'Luxembourg',
+						code : 'LU'
+					}, {
+						name : 'Macao',
+						code : 'MO'
+					}, {
+						name : 'Macedonia, The Former Yugoslav Republic of',
+						code : 'MK'
+					}, {
+						name : 'Madagascar',
+						code : 'MG'
+					}, {
+						name : 'Malawi',
+						code : 'MW'
+					}, {
+						name : 'Malaysia',
+						code : 'MY'
+					}, {
+						name : 'Maldives',
+						code : 'MV'
+					}, {
+						name : 'Mali',
+						code : 'ML'
+					}, {
+						name : 'Malta',
+						code : 'MT'
+					}, {
+						name : 'Marshall Islands',
+						code : 'MH'
+					}, {
+						name : 'Martinique',
+						code : 'MQ'
+					}, {
+						name : 'Mauritania',
+						code : 'MR'
+					}, {
+						name : 'Mauritius',
+						code : 'MU'
+					}, {
+						name : 'Mayotte',
+						code : 'YT'
+					}, {
+						name : 'Mexico',
+						code : 'MX'
+					}, {
+						name : 'Micronesia, Federated States of',
+						code : 'FM'
+					}, {
+						name : 'Moldova, Republic of',
+						code : 'MD'
+					}, {
+						name : 'Monaco',
+						code : 'MC'
+					}, {
+						name : 'Mongolia',
+						code : 'MN'
+					}, {
+						name : 'Montserrat',
+						code : 'MS'
+					}, {
+						name : 'Morocco',
+						code : 'MA'
+					}, {
+						name : 'Mozambique',
+						code : 'MZ'
+					}, {
+						name : 'Myanmar',
+						code : 'MM'
+					}, {
+						name : 'Namibia',
+						code : 'NA'
+					}, {
+						name : 'Nauru',
+						code : 'NR'
+					}, {
+						name : 'Nepal',
+						code : 'NP'
+					}, {
+						name : 'Netherlands',
+						code : 'NL'
+					}, {
+						name : 'Netherlands Antilles',
+						code : 'AN'
+					}, {
+						name : 'New Caledonia',
+						code : 'NC'
+					}, {
+						name : 'New Zealand',
+						code : 'NZ'
+					}, {
+						name : 'Nicaragua',
+						code : 'NI'
+					}, {
+						name : 'Niger',
+						code : 'NE'
+					}, {
+						name : 'Nigeria',
+						code : 'NG'
+					}, {
+						name : 'Niue',
+						code : 'NU'
+					}, {
+						name : 'Norfolk Island',
+						code : 'NF'
+					}, {
+						name : 'Northern Mariana Islands',
+						code : 'MP'
+					}, {
+						name : 'Norway',
+						code : 'NO'
+					}, {
+						name : 'Oman',
+						code : 'OM'
+					}, {
+						name : 'Pakistan',
+						code : 'PK'
+					}, {
+						name : 'Palau',
+						code : 'PW'
+					}, {
+						name : 'Palestinian Territory, Occupied',
+						code : 'PS'
+					}, {
+						name : 'Panama',
+						code : 'PA'
+					}, {
+						name : 'Papua New Guinea',
+						code : 'PG'
+					}, {
+						name : 'Paraguay',
+						code : 'PY'
+					}, {
+						name : 'Peru',
+						code : 'PE'
+					}, {
+						name : 'Philippines',
+						code : 'PH'
+					}, {
+						name : 'Pitcairn',
+						code : 'PN'
+					}, {
+						name : 'Poland',
+						code : 'PL'
+					}, {
+						name : 'Portugal',
+						code : 'PT'
+					}, {
+						name : 'Puerto Rico',
+						code : 'PR'
+					}, {
+						name : 'Qatar',
+						code : 'QA'
+					}, {
+						name : 'Reunion',
+						code : 'RE'
+					}, {
+						name : 'Romania',
+						code : 'RO'
+					}, {
+						name : 'Russian Federation',
+						code : 'RU'
+					}, {
+						name : 'Rwanda',
+						code : 'RW'
+					}, {
+						name : 'Saint Helena',
+						code : 'SH'
+					}, {
+						name : 'Saint Kitts and Nevis',
+						code : 'KN'
+					}, {
+						name : 'Saint Lucia',
+						code : 'LC'
+					}, {
+						name : 'Saint Pierre and Miquelon',
+						code : 'PM'
+					}, {
+						name : 'Saint Vincent and the Grenadines',
+						code : 'VC'
+					}, {
+						name : 'Samoa',
+						code : 'WS'
+					}, {
+						name : 'San Marino',
+						code : 'SM'
+					}, {
+						name : 'Sao Tome and Principe',
+						code : 'ST'
+					}, {
+						name : 'Saudi Arabia',
+						code : 'SA'
+					}, {
+						name : 'Senegal',
+						code : 'SN'
+					}, {
+						name : 'Serbia and Montenegro',
+						code : 'CS'
+					}, {
+						name : 'Seychelles',
+						code : 'SC'
+					}, {
+						name : 'Sierra Leone',
+						code : 'SL'
+					}, {
+						name : 'Singapore',
+						code : 'SG'
+					}, {
+						name : 'Slovakia',
+						code : 'SK'
+					}, {
+						name : 'Slovenia',
+						code : 'SI'
+					}, {
+						name : 'Solomon Islands',
+						code : 'SB'
+					}, {
+						name : 'Somalia',
+						code : 'SO'
+					}, {
+						name : 'South Africa',
+						code : 'ZA'
+					}, {
+						name : 'South Georgia and the South Sandwich Islands',
+						code : 'GS'
+					}, {
+						name : 'Spain',
+						code : 'ES'
+					}, {
+						name : 'Sri Lanka',
+						code : 'LK'
+					}, {
+						name : 'Sudan',
+						code : 'SD'
+					}, {
+						name : 'Suriname',
+						code : 'SR'
+					}, {
+						name : 'Svalbard and Jan Mayen',
+						code : 'SJ'
+					}, {
+						name : 'Swaziland',
+						code : 'SZ'
+					}, {
+						name : 'Sweden',
+						code : 'SE'
+					}, {
+						name : 'Switzerland',
+						code : 'CH'
+					}, {
+						name : 'Syrian Arab Republic',
+						code : 'SY'
+					}, {
+						name : 'Taiwan, Province of China',
+						code : 'TW'
+					}, {
+						name : 'Tajikistan',
+						code : 'TJ'
+					}, {
+						name : 'Tanzania, United Republic of',
+						code : 'TZ'
+					}, {
+						name : 'Thailand',
+						code : 'TH'
+					}, {
+						name : 'Timor-Leste',
+						code : 'TL'
+					}, {
+						name : 'Togo',
+						code : 'TG'
+					}, {
+						name : 'Tokelau',
+						code : 'TK'
+					}, {
+						name : 'Tonga',
+						code : 'TO'
+					}, {
+						name : 'Trinidad and Tobago',
+						code : 'TT'
+					}, {
+						name : 'Tunisia',
+						code : 'TN'
+					}, {
+						name : 'Turkey',
+						code : 'TR'
+					}, {
+						name : 'Turkmenistan',
+						code : 'TM'
+					}, {
+						name : 'Turks and Caicos Islands',
+						code : 'TC'
+					}, {
+						name : 'Tuvalu',
+						code : 'TV'
+					}, {
+						name : 'Uganda',
+						code : 'UG'
+					}, {
+						name : 'Ukraine',
+						code : 'UA'
+					}, {
+						name : 'United Arab Emirates',
+						code : 'AE'
+					}, {
+						name : 'United Kingdom',
+						code : 'GB'
+					}, {
+						name : 'United States',
+						code : 'US'
+					}, {
+						name : 'United States Minor Outlying Islands',
+						code : 'UM'
+					}, {
+						name : 'Uruguay',
+						code : 'UY'
+					}, {
+						name : 'Uzbekistan',
+						code : 'UZ'
+					}, {
+						name : 'Vanuatu',
+						code : 'VU'
+					}, {
+						name : 'Venezuela',
+						code : 'VE'
+					}, {
+						name : 'Vietnam',
+						code : 'VN'
+					}, {
+						name : 'Virgin Islands, British',
+						code : 'VG'
+					}, {
+						name : 'Virgin Islands, U.S.',
+						code : 'VI'
+					}, {
+						name : 'Wallis and Futuna',
+						code : 'WF'
+					}, {
+						name : 'Western Sahara',
+						code : 'EH'
+					}, {
+						name : 'Yemen',
+						code : 'YE'
+					}, {
+						name : 'Zambia',
+						code : 'ZM'
+					}, {
+						name : 'Zimbabwe',
+						code : 'ZW'
+					} ];
+
+					$http({
+						method : "GET",
+						url : allDepartment
+					}).then(function mySucces(response) {
+
+						$scope.departments = response.data;
+
+					}, function myError(response) {
+						console.log(response);
+					});
+					$http({
+						method : "GET",
+						url : allcpc
+					}).then(function mySucces(response) {
+
+						$scope.cpc = response.data;
+
+					}, function myError(response) {
+						console.log(response);
+					});
+					$http({
+						method : "GET",
+						url : allcustomer
+					}).then(function mySucces(response) {
+
+						$scope.customers = response.data;
+
+					}, function myError(response) {
+						console.log(response);
+					});
 					$http({
 						method : "GET",
 						url : referenceData
@@ -1272,10 +2891,15 @@ materialAdmin
 						var customerProgramId = $scope.customerprogramcode;
 						var projectType = $scope.customerproject;
 						var projectStatus = $scope.projectstatus;
+						var customer = $scope.customerid;
+						var department = $scope.departmentid;
+						var country = $scope.country.name;
+						/* /{projectName}/{customerId}/{customerProgramId}/{departmentId}/{projectType}/{projectStatus}/{location */
 						var projectadd = $scope.webserviceshost + 'hr/project';
 						var additional = '/create/' + projectName + '/'
-								+ customerProgramId + '/' + projectType + '/'
-								+ projectStatus;
+								+ customer + '/' + +customerProgramId + '/'
+								+ department + '/' + projectType + '/'
+								+ projectStatus + '/' + country;
 						projectadd = projectadd + additional;
 						$http({
 							method : "POST",
@@ -1292,6 +2916,9 @@ materialAdmin
 							$scope.customerproject = {};
 							$scope.projectstatus = {};
 							$scope.customerprogramcode = '';
+							$scope.departmentid = {};
+							$scope.country = {};
+							$scope.customer = {};
 
 						}, function myError(response) {
 							console.log(response);
@@ -1434,11 +3061,1031 @@ materialAdmin
 						$("#editprojectdata").show();
 						$scope.projectid = item.projectid;
 						$scope.projectname = item.projectName;
-						$scope.customerprojectcode = item.customerProjectCode;
+						$scope.customerprogramcode = item.customerProgram.customerProgramId;
 						$scope.customerproject = item.projectType;
 						$scope.projectstatus = item.projectStatus;
+						$scope.customerid = item.customerProgram.customer.customerId;
+						$scope.departmentid = item.department.departmentId;
+						$scope.country = item.location;
 						var referenceData = $scope.webserviceshost
 								+ 'hr/refData/list';
+						var allcustomer = $scope.webserviceshost
+								+ 'hr/customer/all';
+						var allDepartment = $scope.webserviceshost
+								+ "hr/department/all";
+						var allcpc = $scope.webserviceshost
+								+ "hr/customerProgram/all";
+						$scope.name = 'World';
+
+						$scope.countries = [
+								{
+									name : 'Afghanistan',
+									code : 'AF'
+								},
+								{
+									name : 'Åland Islands',
+									code : 'AX'
+								},
+								{
+									name : 'Albania',
+									code : 'AL'
+								},
+								{
+									name : 'Algeria',
+									code : 'DZ'
+								},
+								{
+									name : 'American Samoa',
+									code : 'AS'
+								},
+								{
+									name : 'Andorra',
+									code : 'AD'
+								},
+								{
+									name : 'Angola',
+									code : 'AO'
+								},
+								{
+									name : 'Anguilla',
+									code : 'AI'
+								},
+								{
+									name : 'Antarctica',
+									code : 'AQ'
+								},
+								{
+									name : 'Antigua and Barbuda',
+									code : 'AG'
+								},
+								{
+									name : 'Argentina',
+									code : 'AR'
+								},
+								{
+									name : 'Armenia',
+									code : 'AM'
+								},
+								{
+									name : 'Aruba',
+									code : 'AW'
+								},
+								{
+									name : 'Australia',
+									code : 'AU'
+								},
+								{
+									name : 'Austria',
+									code : 'AT'
+								},
+								{
+									name : 'Azerbaijan',
+									code : 'AZ'
+								},
+								{
+									name : 'Bahamas',
+									code : 'BS'
+								},
+								{
+									name : 'Bahrain',
+									code : 'BH'
+								},
+								{
+									name : 'Bangladesh',
+									code : 'BD'
+								},
+								{
+									name : 'Barbados',
+									code : 'BB'
+								},
+								{
+									name : 'Belarus',
+									code : 'BY'
+								},
+								{
+									name : 'Belgium',
+									code : 'BE'
+								},
+								{
+									name : 'Belize',
+									code : 'BZ'
+								},
+								{
+									name : 'Benin',
+									code : 'BJ'
+								},
+								{
+									name : 'Bermuda',
+									code : 'BM'
+								},
+								{
+									name : 'Bhutan',
+									code : 'BT'
+								},
+								{
+									name : 'Bolivia',
+									code : 'BO'
+								},
+								{
+									name : 'Bosnia and Herzegovina',
+									code : 'BA'
+								},
+								{
+									name : 'Botswana',
+									code : 'BW'
+								},
+								{
+									name : 'Bouvet Island',
+									code : 'BV'
+								},
+								{
+									name : 'Brazil',
+									code : 'BR'
+								},
+								{
+									name : 'British Indian Ocean Territory',
+									code : 'IO'
+								},
+								{
+									name : 'Brunei Darussalam',
+									code : 'BN'
+								},
+								{
+									name : 'Bulgaria',
+									code : 'BG'
+								},
+								{
+									name : 'Burkina Faso',
+									code : 'BF'
+								},
+								{
+									name : 'Burundi',
+									code : 'BI'
+								},
+								{
+									name : 'Cambodia',
+									code : 'KH'
+								},
+								{
+									name : 'Cameroon',
+									code : 'CM'
+								},
+								{
+									name : 'Canada',
+									code : 'CA'
+								},
+								{
+									name : 'Cape Verde',
+									code : 'CV'
+								},
+								{
+									name : 'Cayman Islands',
+									code : 'KY'
+								},
+								{
+									name : 'Central African Republic',
+									code : 'CF'
+								},
+								{
+									name : 'Chad',
+									code : 'TD'
+								},
+								{
+									name : 'Chile',
+									code : 'CL'
+								},
+								{
+									name : 'China',
+									code : 'CN'
+								},
+								{
+									name : 'Christmas Island',
+									code : 'CX'
+								},
+								{
+									name : 'Cocos (Keeling) Islands',
+									code : 'CC'
+								},
+								{
+									name : 'Colombia',
+									code : 'CO'
+								},
+								{
+									name : 'Comoros',
+									code : 'KM'
+								},
+								{
+									name : 'Congo',
+									code : 'CG'
+								},
+								{
+									name : 'Congo, The Democratic Republic of the',
+									code : 'CD'
+								},
+								{
+									name : 'Cook Islands',
+									code : 'CK'
+								},
+								{
+									name : 'Costa Rica',
+									code : 'CR'
+								},
+								{
+									name : 'Cote D\'Ivoire',
+									code : 'CI'
+								},
+								{
+									name : 'Croatia',
+									code : 'HR'
+								},
+								{
+									name : 'Cuba',
+									code : 'CU'
+								},
+								{
+									name : 'Cyprus',
+									code : 'CY'
+								},
+								{
+									name : 'Czech Republic',
+									code : 'CZ'
+								},
+								{
+									name : 'Denmark',
+									code : 'DK'
+								},
+								{
+									name : 'Djibouti',
+									code : 'DJ'
+								},
+								{
+									name : 'Dominica',
+									code : 'DM'
+								},
+								{
+									name : 'Dominican Republic',
+									code : 'DO'
+								},
+								{
+									name : 'Ecuador',
+									code : 'EC'
+								},
+								{
+									name : 'Egypt',
+									code : 'EG'
+								},
+								{
+									name : 'El Salvador',
+									code : 'SV'
+								},
+								{
+									name : 'Equatorial Guinea',
+									code : 'GQ'
+								},
+								{
+									name : 'Eritrea',
+									code : 'ER'
+								},
+								{
+									name : 'Estonia',
+									code : 'EE'
+								},
+								{
+									name : 'Ethiopia',
+									code : 'ET'
+								},
+								{
+									name : 'Falkland Islands (Malvinas)',
+									code : 'FK'
+								},
+								{
+									name : 'Faroe Islands',
+									code : 'FO'
+								},
+								{
+									name : 'Fiji',
+									code : 'FJ'
+								},
+								{
+									name : 'Finland',
+									code : 'FI'
+								},
+								{
+									name : 'France',
+									code : 'FR'
+								},
+								{
+									name : 'French Guiana',
+									code : 'GF'
+								},
+								{
+									name : 'French Polynesia',
+									code : 'PF'
+								},
+								{
+									name : 'French Southern Territories',
+									code : 'TF'
+								},
+								{
+									name : 'Gabon',
+									code : 'GA'
+								},
+								{
+									name : 'Gambia',
+									code : 'GM'
+								},
+								{
+									name : 'Georgia',
+									code : 'GE'
+								},
+								{
+									name : 'Germany',
+									code : 'DE'
+								},
+								{
+									name : 'Ghana',
+									code : 'GH'
+								},
+								{
+									name : 'Gibraltar',
+									code : 'GI'
+								},
+								{
+									name : 'Greece',
+									code : 'GR'
+								},
+								{
+									name : 'Greenland',
+									code : 'GL'
+								},
+								{
+									name : 'Grenada',
+									code : 'GD'
+								},
+								{
+									name : 'Guadeloupe',
+									code : 'GP'
+								},
+								{
+									name : 'Guam',
+									code : 'GU'
+								},
+								{
+									name : 'Guatemala',
+									code : 'GT'
+								},
+								{
+									name : 'Guernsey',
+									code : 'GG'
+								},
+								{
+									name : 'Guinea',
+									code : 'GN'
+								},
+								{
+									name : 'Guinea-Bissau',
+									code : 'GW'
+								},
+								{
+									name : 'Guyana',
+									code : 'GY'
+								},
+								{
+									name : 'Haiti',
+									code : 'HT'
+								},
+								{
+									name : 'Heard Island and Mcdonald Islands',
+									code : 'HM'
+								},
+								{
+									name : 'Holy See (Vatican City State)',
+									code : 'VA'
+								},
+								{
+									name : 'Honduras',
+									code : 'HN'
+								},
+								{
+									name : 'Hong Kong',
+									code : 'HK'
+								},
+								{
+									name : 'Hungary',
+									code : 'HU'
+								},
+								{
+									name : 'Iceland',
+									code : 'IS'
+								},
+								{
+									name : 'India',
+									code : 'IN'
+								},
+								{
+									name : 'Indonesia',
+									code : 'ID'
+								},
+								{
+									name : 'Iran, Islamic Republic Of',
+									code : 'IR'
+								},
+								{
+									name : 'Iraq',
+									code : 'IQ'
+								},
+								{
+									name : 'Ireland',
+									code : 'IE'
+								},
+								{
+									name : 'Isle of Man',
+									code : 'IM'
+								},
+								{
+									name : 'Israel',
+									code : 'IL'
+								},
+								{
+									name : 'Italy',
+									code : 'IT'
+								},
+								{
+									name : 'Jamaica',
+									code : 'JM'
+								},
+								{
+									name : 'Japan',
+									code : 'JP'
+								},
+								{
+									name : 'Jersey',
+									code : 'JE'
+								},
+								{
+									name : 'Jordan',
+									code : 'JO'
+								},
+								{
+									name : 'Kazakhstan',
+									code : 'KZ'
+								},
+								{
+									name : 'Kenya',
+									code : 'KE'
+								},
+								{
+									name : 'Kiribati',
+									code : 'KI'
+								},
+								{
+									name : 'Korea, Democratic People\'s Republic of',
+									code : 'KP'
+								},
+								{
+									name : 'Korea, Republic of',
+									code : 'KR'
+								},
+								{
+									name : 'Kuwait',
+									code : 'KW'
+								},
+								{
+									name : 'Kyrgyzstan',
+									code : 'KG'
+								},
+								{
+									name : 'Lao People\'s Democratic Republic',
+									code : 'LA'
+								},
+								{
+									name : 'Latvia',
+									code : 'LV'
+								},
+								{
+									name : 'Lebanon',
+									code : 'LB'
+								},
+								{
+									name : 'Lesotho',
+									code : 'LS'
+								},
+								{
+									name : 'Liberia',
+									code : 'LR'
+								},
+								{
+									name : 'Libyan Arab Jamahiriya',
+									code : 'LY'
+								},
+								{
+									name : 'Liechtenstein',
+									code : 'LI'
+								},
+								{
+									name : 'Lithuania',
+									code : 'LT'
+								},
+								{
+									name : 'Luxembourg',
+									code : 'LU'
+								},
+								{
+									name : 'Macao',
+									code : 'MO'
+								},
+								{
+									name : 'Macedonia, The Former Yugoslav Republic of',
+									code : 'MK'
+								},
+								{
+									name : 'Madagascar',
+									code : 'MG'
+								},
+								{
+									name : 'Malawi',
+									code : 'MW'
+								},
+								{
+									name : 'Malaysia',
+									code : 'MY'
+								},
+								{
+									name : 'Maldives',
+									code : 'MV'
+								},
+								{
+									name : 'Mali',
+									code : 'ML'
+								},
+								{
+									name : 'Malta',
+									code : 'MT'
+								},
+								{
+									name : 'Marshall Islands',
+									code : 'MH'
+								},
+								{
+									name : 'Martinique',
+									code : 'MQ'
+								},
+								{
+									name : 'Mauritania',
+									code : 'MR'
+								},
+								{
+									name : 'Mauritius',
+									code : 'MU'
+								},
+								{
+									name : 'Mayotte',
+									code : 'YT'
+								},
+								{
+									name : 'Mexico',
+									code : 'MX'
+								},
+								{
+									name : 'Micronesia, Federated States of',
+									code : 'FM'
+								},
+								{
+									name : 'Moldova, Republic of',
+									code : 'MD'
+								},
+								{
+									name : 'Monaco',
+									code : 'MC'
+								},
+								{
+									name : 'Mongolia',
+									code : 'MN'
+								},
+								{
+									name : 'Montserrat',
+									code : 'MS'
+								},
+								{
+									name : 'Morocco',
+									code : 'MA'
+								},
+								{
+									name : 'Mozambique',
+									code : 'MZ'
+								},
+								{
+									name : 'Myanmar',
+									code : 'MM'
+								},
+								{
+									name : 'Namibia',
+									code : 'NA'
+								},
+								{
+									name : 'Nauru',
+									code : 'NR'
+								},
+								{
+									name : 'Nepal',
+									code : 'NP'
+								},
+								{
+									name : 'Netherlands',
+									code : 'NL'
+								},
+								{
+									name : 'Netherlands Antilles',
+									code : 'AN'
+								},
+								{
+									name : 'New Caledonia',
+									code : 'NC'
+								},
+								{
+									name : 'New Zealand',
+									code : 'NZ'
+								},
+								{
+									name : 'Nicaragua',
+									code : 'NI'
+								},
+								{
+									name : 'Niger',
+									code : 'NE'
+								},
+								{
+									name : 'Nigeria',
+									code : 'NG'
+								},
+								{
+									name : 'Niue',
+									code : 'NU'
+								},
+								{
+									name : 'Norfolk Island',
+									code : 'NF'
+								},
+								{
+									name : 'Northern Mariana Islands',
+									code : 'MP'
+								},
+								{
+									name : 'Norway',
+									code : 'NO'
+								},
+								{
+									name : 'Oman',
+									code : 'OM'
+								},
+								{
+									name : 'Pakistan',
+									code : 'PK'
+								},
+								{
+									name : 'Palau',
+									code : 'PW'
+								},
+								{
+									name : 'Palestinian Territory, Occupied',
+									code : 'PS'
+								},
+								{
+									name : 'Panama',
+									code : 'PA'
+								},
+								{
+									name : 'Papua New Guinea',
+									code : 'PG'
+								},
+								{
+									name : 'Paraguay',
+									code : 'PY'
+								},
+								{
+									name : 'Peru',
+									code : 'PE'
+								},
+								{
+									name : 'Philippines',
+									code : 'PH'
+								},
+								{
+									name : 'Pitcairn',
+									code : 'PN'
+								},
+								{
+									name : 'Poland',
+									code : 'PL'
+								},
+								{
+									name : 'Portugal',
+									code : 'PT'
+								},
+								{
+									name : 'Puerto Rico',
+									code : 'PR'
+								},
+								{
+									name : 'Qatar',
+									code : 'QA'
+								},
+								{
+									name : 'Reunion',
+									code : 'RE'
+								},
+								{
+									name : 'Romania',
+									code : 'RO'
+								},
+								{
+									name : 'Russian Federation',
+									code : 'RU'
+								},
+								{
+									name : 'Rwanda',
+									code : 'RW'
+								},
+								{
+									name : 'Saint Helena',
+									code : 'SH'
+								},
+								{
+									name : 'Saint Kitts and Nevis',
+									code : 'KN'
+								},
+								{
+									name : 'Saint Lucia',
+									code : 'LC'
+								},
+								{
+									name : 'Saint Pierre and Miquelon',
+									code : 'PM'
+								},
+								{
+									name : 'Saint Vincent and the Grenadines',
+									code : 'VC'
+								},
+								{
+									name : 'Samoa',
+									code : 'WS'
+								},
+								{
+									name : 'San Marino',
+									code : 'SM'
+								},
+								{
+									name : 'Sao Tome and Principe',
+									code : 'ST'
+								},
+								{
+									name : 'Saudi Arabia',
+									code : 'SA'
+								},
+								{
+									name : 'Senegal',
+									code : 'SN'
+								},
+								{
+									name : 'Serbia and Montenegro',
+									code : 'CS'
+								},
+								{
+									name : 'Seychelles',
+									code : 'SC'
+								},
+								{
+									name : 'Sierra Leone',
+									code : 'SL'
+								},
+								{
+									name : 'Singapore',
+									code : 'SG'
+								},
+								{
+									name : 'Slovakia',
+									code : 'SK'
+								},
+								{
+									name : 'Slovenia',
+									code : 'SI'
+								},
+								{
+									name : 'Solomon Islands',
+									code : 'SB'
+								},
+								{
+									name : 'Somalia',
+									code : 'SO'
+								},
+								{
+									name : 'South Africa',
+									code : 'ZA'
+								},
+								{
+									name : 'South Georgia and the South Sandwich Islands',
+									code : 'GS'
+								},
+								{
+									name : 'Spain',
+									code : 'ES'
+								},
+								{
+									name : 'Sri Lanka',
+									code : 'LK'
+								},
+								{
+									name : 'Sudan',
+									code : 'SD'
+								},
+								{
+									name : 'Suriname',
+									code : 'SR'
+								},
+								{
+									name : 'Svalbard and Jan Mayen',
+									code : 'SJ'
+								},
+								{
+									name : 'Swaziland',
+									code : 'SZ'
+								},
+								{
+									name : 'Sweden',
+									code : 'SE'
+								},
+								{
+									name : 'Switzerland',
+									code : 'CH'
+								},
+								{
+									name : 'Syrian Arab Republic',
+									code : 'SY'
+								},
+								{
+									name : 'Taiwan, Province of China',
+									code : 'TW'
+								},
+								{
+									name : 'Tajikistan',
+									code : 'TJ'
+								},
+								{
+									name : 'Tanzania, United Republic of',
+									code : 'TZ'
+								},
+								{
+									name : 'Thailand',
+									code : 'TH'
+								},
+								{
+									name : 'Timor-Leste',
+									code : 'TL'
+								},
+								{
+									name : 'Togo',
+									code : 'TG'
+								},
+								{
+									name : 'Tokelau',
+									code : 'TK'
+								},
+								{
+									name : 'Tonga',
+									code : 'TO'
+								},
+								{
+									name : 'Trinidad and Tobago',
+									code : 'TT'
+								},
+								{
+									name : 'Tunisia',
+									code : 'TN'
+								},
+								{
+									name : 'Turkey',
+									code : 'TR'
+								},
+								{
+									name : 'Turkmenistan',
+									code : 'TM'
+								},
+								{
+									name : 'Turks and Caicos Islands',
+									code : 'TC'
+								},
+								{
+									name : 'Tuvalu',
+									code : 'TV'
+								},
+								{
+									name : 'Uganda',
+									code : 'UG'
+								},
+								{
+									name : 'Ukraine',
+									code : 'UA'
+								},
+								{
+									name : 'United Arab Emirates',
+									code : 'AE'
+								},
+								{
+									name : 'United Kingdom',
+									code : 'GB'
+								},
+								{
+									name : 'United States',
+									code : 'US'
+								},
+								{
+									name : 'United States Minor Outlying Islands',
+									code : 'UM'
+								}, {
+									name : 'Uruguay',
+									code : 'UY'
+								}, {
+									name : 'Uzbekistan',
+									code : 'UZ'
+								}, {
+									name : 'Vanuatu',
+									code : 'VU'
+								}, {
+									name : 'Venezuela',
+									code : 'VE'
+								}, {
+									name : 'Vietnam',
+									code : 'VN'
+								}, {
+									name : 'Virgin Islands, British',
+									code : 'VG'
+								}, {
+									name : 'Virgin Islands, U.S.',
+									code : 'VI'
+								}, {
+									name : 'Wallis and Futuna',
+									code : 'WF'
+								}, {
+									name : 'Western Sahara',
+									code : 'EH'
+								}, {
+									name : 'Yemen',
+									code : 'YE'
+								}, {
+									name : 'Zambia',
+									code : 'ZM'
+								}, {
+									name : 'Zimbabwe',
+									code : 'ZW'
+								} ];
+
+						$http({
+							method : "GET",
+							url : allDepartment
+						}).then(function mySucces(response) {
+
+							$scope.departments = response.data;
+
+						}, function myError(response) {
+							console.log(response);
+						});
+						$http({
+							method : "GET",
+							url : allcpc
+						}).then(function mySucces(response) {
+
+							$scope.cpc = response.data;
+
+						}, function myError(response) {
+							console.log(response);
+						});
+						$http({
+							method : "GET",
+							url : allcustomer
+						}).then(function mySucces(response) {
+
+							$scope.customers = response.data;
+
+						}, function myError(response) {
+							console.log(response);
+						});
+						$http({
+							method : "GET",
+							url : referenceData
+						})
+								.then(
+										function mySucces(response) {
+
+											console.log(response.data);
+											$scope.customerprojectype = response.data.ProjectType;
+
+											$scope.projectStatus = response.data.ProjectStatus;
+											console.log($scope.projectStatus);
+
+										}, function myError(response) {
+											console.log(response);
+										});
+
 						$http({
 							method : "GET",
 							url : referenceData
@@ -1461,13 +4108,17 @@ materialAdmin
 					$scope.updateprojectdata = function() {
 						var projectid = $scope.projectid;
 						var projectName = $scope.projectname;
-						var customerprojectcode = $scope.customerprojectcode;
+						var customerid=$scope.customerid;
+						var departmentid=$scope.departmentid;
+						var customerprogramcode=$scope.customerprogramcode;
+						var customerproject=$scope.customerproject;
+						var country=$scope.country.name;
 						var projectType = $scope.customerproject;
-						var projectStatus = $scope.projectstatus;
+						var projectStatus = $scope.projectstatus;'/update/{projectid}/{projectName}/{customerId}/{customerProgramId}/{departmentId}/{projectType}/{projectStatus}/{location}'
 						var projectadd = $scope.webserviceshost + 'hr/project';
 						var additional = '/update/' + projectid + '/'
-								+ projectName + '/' + customerprojectcode + '/'
-								+ projectType + '/' + projectStatus;
+								+ projectName + '/'+customerid +'/' + customerprogramcode + '/'+departmentid +'/'
+								+ projectType + '/' + projectStatus+'/'+country;
 						projectadd = projectadd + additional;
 						$http({
 							method : "POST",
@@ -1639,40 +4290,6 @@ materialAdmin
 																console
 																		.log(response);
 															});
-											$scope.editprojects = function(item) {
-												$("#editprojectdata").show();
-												$scope.projectid = item.projectid;
-												$scope.projectname = item.projectName;
-												$scope.customerprojectcode = item.customerProjectCode;
-												$scope.customerproject = item.projectType;
-												$scope.projectstatus = item.projectStatus;
-												var referenceData = $scope.webserviceshost
-														+ 'hr/refData/list';
-												$http({
-													method : "GET",
-													url : referenceData
-												})
-														.then(
-																function mySucces(
-																		response) {
-
-																	console
-																			.log(response.data);
-																	$scope.customerprojectype = response.data.ProjectType;
-																	console
-																			.log($scope.customerprojectype);
-																	$scope.projectStatus = response.data.ProjectStatus;
-																	console
-																			.log($scope.projectStatus);
-
-																},
-																function myError(
-																		response) {
-																	console
-																			.log(response);
-																});
-
-											}
 
 											swal({
 												title : "Project Updated Successfully",
@@ -5697,6 +8314,13 @@ function searchUtil(item, toSearch) {
 						toSearch.toLowerCase()) > -1
 				|| item.projectStatus.toLowerCase().indexOf(
 						toSearch.toLowerCase()) > -1 || item.zipCode == toSearch) ? true
+				: false;
+
+	} else if (item.leaveId != undefined) {
+
+		return (item.employee.lastName.toLowerCase().indexOf(
+				toSearch.toLowerCase()) > -1 || item.employee.firstName
+				.toLowerCase().indexOf(toSearch.toLowerCase()) > -1) ? true
 				: false;
 
 	}

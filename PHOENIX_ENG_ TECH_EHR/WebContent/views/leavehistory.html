@@ -11,143 +11,104 @@
 		data-ng-class="{ 'toggled': mactrl.sidebarToggle.right === true }"></aside>
 
 	<section id="content">
-		<div class="container c-alt">
+		<div class="container c-alt" ng-controller='leavetypehistorytable'>
 			<div class="block-header">
 				<h2>
 					Leave Summary <small></small>
 				</h2>
 			</div>
 			<div>
-				<div class="" ng-controller="leavetypehistorytable as leaveupdates">
-					<table class="">
-						<thead>
-							<tr  >
-								<th class='col-sm-4'>Leave Type</th>
-								<th class='col-sm-4'>Leave Availed</th>
-								<th class='col-sm-4'>Leave Pending</th>
-								<th class='col-sm-4'>Leave Available</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr class="" ng-repeat=" x in leaveupdates.riResult.list" style="border: 1px solid #EDECEC;">
+				<div class="card">
+					<div class="card-header">
+						<h2>
+							Leaves Historical data <small></small>
+						</h2>
+					</div>
+					<div class='table-responsive'>
+						<!-- <div class="input-group">
+									<input class="form-control" ng-model="searchText"
+										placeholder="Search" type="search" ng-change="search()" /> <span
+										class="input-group-addon"> <span
+										class="glyphicon glyphicon-search"></span>
+									</span>
+								</div> -->
+						<table class="table  table-hover data-table myTable">
+							<thead>
+								<tr>
+									<th class="EmpId"><i class="zmdi zmdi-label zmdi-hc-fw">
+									</i><a href="#" ng-click="sort('employeeId',$event)">Employee
+											Id <span class="{{Header[0]}}"></span>
+									</a></th>
+									<th class="name"><i
+										class="zmdi zmdi-assignment-account zmdi-hc-fw"></i><a
+										ng-click="sort('firstName')" href="#"> First Name<span
+											class="{{Header[1]}}"></span>
+									</a></th>
 
-								<!-- <div class="form-group">
-										<div class="fg-line">
+									<th class="Email"><i class="zmdi zmdi-city zmdi-hc-fw"></i><a
+										ng-click="sort('lastName')" href="#"> Last Name <span
+											class="{{Header[2]}}"></span>
+									</a></th>
+									<th class="Email"><i class="zmdi zmdi-city zmdi-hc-fw"></i><a
+										ng-click="sort('fromDate')" href="#"> From date <span
+											class="{{Header[3]}}"></span>
+									</a></th>
+									<th class="Email"><i class="zmdi zmdi-city zmdi-hc-fw"></i><a
+										ng-click="sort('toDate')" href="#"> To Date <span
+											class="{{Header[4]}}"></span>
+									</a></th>
+									<th class="Email"><i class="zmdi zmdi-city zmdi-hc-fw"></i><a
+										ng-click="sort('noOfDays')" href="#"> Total days <span
+											class="{{Header[5]}}"></span>
+									</a></th>
+									<th class="Email"><i class="zmdi zmdi-city zmdi-hc-fw"></i><a
+										ng-click="sort('leaveType')" href="#"> Leave Type <span
+											class="{{Header[6]}}"></span>
+									</a></th>
+									<th class="Email"><i class="zmdi zmdi-city zmdi-hc-fw"></i><a
+										ng-click="sort('leaveStatus')" href="#"> Status <span
+											class="{{Header[7]}}"></span>
+									</a></th>
+									<!-- <th class="Email"><i class="zmdi zmdi-city zmdi-hc-fw"></i><a
+										ng-click="sort('department')" href="#"> Department <span
+											class="{{Header[7]}}"></span>
+									</a></th> -->
+									<!-- 	<th class="Email"><i class="zmdi zmdi-city zmdi-hc-fw"></i><a
+										ng-click="sort('department')" href="#"> Approved By <span
+											class="{{Header[7]}}"></span>
+									</a></th> -->
 
-											<div class="select">
+								</tr>
+							</thead>
+							<tbody>
+								<tr
+									ng-repeat="item in ItemsByPage[currentPage] | orderBy:columnToOrder:reverse">
+									<td>{{item.employee.employeeId}}</td>
+									<td>{{item.employee.firstName}}</td>
+									<td>{{item.employee.lastName}}</td>
+									<td>{{item.fromDate}}</td>
+									<td>{{item.toDate}}</td>
+									<td>{{item.noOfDays}}</td>
+									<td>{{item.leaveType}}</td>
+									<td>{{item.leaveStatus}}</td>
+									
+								</tr>
+							</tbody>
+						</table>
+						<ul class="pagination pagination-sm">
+							<li ng-class="{active:0}"><a href="#" ng-click="firstPage()">First</a></li>
+							<li ng-repeat="n in range(ItemsByPage.length)"><a href="#"
+								ng-click="setPage()" ng-bind="n+1">1</a></li>
+							<li><a href="#" ng-click="lastPage()">Last</a></li>
+						</ul>
 
-												<select class="form-control" ng-options="leavetype as size.name for size in sizes"
-													ng-model="item" ng-change="update()"></select>
-												<select class="form-control" ng-change="updatehistorydata()"
-													ng-model="confirmed">
-													<option value="" disabled="" selected="" class="ng-binding">Please
-														select the value</option>
-													<option ng-repeat=" x in leaveupdates.riResult.list">{{x.leavetype}}</option>
-												</select>
 
-												 <select class="form-control"
-													ng-options="leaveupdates.riResult.list as size.leavetype for size in sizes"
-													ng-model="selectedItem" ng-change="updatehistorydata()"></select>
 
-												 <select class="form-control">
-													<option value="Select leave type" ng-change="updatehistorydata()" data-ng-repeat="w in leaveupdates.riResult.list">{{w.leavetype}}</option>
-													
-												</select> 
+					</div>
 
-										<!-- 	</div>
-										</div>
-									</div> -->
-								<td class='col-sm-4'><span style="color: Black;">{{x.leavetype}}</span></td>
-								<td class='col-sm-4'><span style="color: orange;">{{x.leaveavailed}}</span></td>
-								<td class='col-sm-4'><span style="color: red;">{{x.leavepending}}</span></td>
-								<td class='col-sm-4'><span style="color: green;">{{x.leaveavalible}}</span></td>
-							</tr>
-							<!-- <tr class="info">
-								<td>3</td>
-								<td>Sebastian</td>
-								<td>Johnston</td>
-								<td>@sebastian</td>
-								<td>Jaycee</td>
-							</tr>
-							<tr class="warning c-white">
-								<td>4</td>
-								<td>Mitchell</td>
-								<td>Christin</td>
-								<td>@mitchell4u</td>
-								<td>AdskiDeAnus</td>
-							</tr>
-							<tr class="success c-white">
-								<td>2</td>
-								<td>Madeleine</td>
-								<td>Hollaway</td>
-								<td>@hollway</td>
-								<td>Cheese</td>
-							</tr>
-							<tr class="danger c-white">
-								<td>5</td>
-								<td>Elizabeth</td>
-								<td>Belkitt</td>
-								<td>@belkitt</td>
-								<td>Goat</td>
-							</tr> -->
-						</tbody>
-					</table>
+
 				</div>
 			</div>
-			<div class="card">
-				<div class="card-header">
-					<h2>
-						Leaves Historical data <small></small>
-					</h2>
-				</div>
-
-				<div class="table-responsive"
-					data-ng-controller="leaveHistory as hictrl">
-					<table class="table table-condensed">
-						<thead>
-							<tr>
-
-								<th>EMP ID</th>
-								<th>Name</th>
-								<th>From Date</th>
-								<th>To Date</th>
-								<th>Total days</th>
-								<th>Leave type</th>
-								<th>Status</th>
-								<th>Department</th>
-								<th>Approved By</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr
-								data-ng-repeat="w in hictrl.riResult.list.slice(((currentPage-1)*itemsPerPage), ((currentPage)*itemsPerPage))">
-								<td class="f-500 c-cyan">{{ w.id }}</td>
-								<td>{{ w.name }}</td>
-								<td>{{ w.from_date }}</td>
-								<td>{{ w.to_date }}</td>
-								<td>{{ w.total_days }}</td>
-								<td>{{ w.leavetype }}</td>
-								<td>{{ w.status }}</td>
-								<td>{{ w.department }}</td>
-								<td>{{ w.approvedBy }}</td>
-								<!-- <td><button swal-timesheet-success-msg
-										class="btn bgm-orange btn-icon waves-effect waves-circle">
-										<i class="zmdi zmdi-check"></i>
-									</button>&nbsp;&nbsp;|&nbsp;&nbsp;
-									<button swal-timesheet-cancel-msg
-										class="btn bgm-cyan btn-icon waves-effect waves-circle">
-										<i class="zmdi zmdi-close"></i>
-									</button></td> -->
-							</tr>
-						</tbody>
-					</table>
-					<ul uib-pagination boundary-links="true" total-items="totalItems"
-						ng-model="currentPage" class="pagination-sm"
-						previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;"
-						last-text="&raquo;"></ul>
-				</div>
-			</div>
-
 		</div>
 
 	</section>

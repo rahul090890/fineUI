@@ -76,14 +76,13 @@ materialAdmin
 						'$resource',
 						function($resource) {
 							this.getRecentitem = function(total_leave,
-									leavetype, leaveavailed, leavepending,
+									leavetype, leavepending,
 									leaveavalible) {
 								var recentitemList = $resource("data/leavestatusdetails.json");
 
 								return recentitemList.get({
 									total_leave : total_leave,
 									leavetype : leavetype,
-									leaveavailed : leaveavailed,
 									leavepending : leavepending,
 									leaveavalible : leaveavalible
 								})
