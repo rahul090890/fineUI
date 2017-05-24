@@ -18,67 +18,162 @@
 				</h2>
 			</div> -->
 
-			<div class="card" data-ng-controller="DatepickerDemoCtrl">
+			<div class="card" data-ng-controller="cpceditcontroller">
 				<div class="card-header">
 					<h2>
-						Update Customer Program Code(CPC)<small></small>
+						Update Customer Program Code<small></small>
 					</h2>
 					<div class="card-body card-padding">
-						<div class='row'>
+						<div class='table-responsive'>
+							<div class="input-group">
+								<input class="form-control" ng-model="searchText"
+									placeholder="Search" type="search" ng-change="search()" /> <span
+									class="input-group-addon"> <span
+									class="glyphicon glyphicon-search"></span>
+								</span>
+							</div>
+							<table class="table  table-hover data-table myTable">
+								<thead>
+									<tr>
+										<th class="EmpId"><i class="zmdi zmdi-label zmdi-hc-fw">
+										</i><a href="#" ng-click="sort('customerProgramId',$event)">Customer
+												Program Id <span class="{{Header[0]}}"></span>
+										</a></th>
+										<th class="name"><i
+											class="zmdi zmdi-assignment-account zmdi-hc-fw"></i><a
+											ng-click="sort('customer')" href="#"> Customer<span
+												class="{{Header[1]}}"></span>
+										</a></th>
+
+										<th class="Email"><i class="zmdi zmdi-city zmdi-hc-fw"></i><a
+											ng-click="sort('customerProgramCode')" href="#"> Customer
+												Program Name <span class="{{Header[2]}}"></span>
+										</a></th>
+										<th class="Email"><i class="zmdi zmdi-city zmdi-hc-fw"></i><a
+											ng-click="sort('customerProgramType')" href="#"> Customer
+												Program Type <span class="{{Header[3]}}"></span>
+										</a></th>
+										<th class="Email">
+											<!-- <a ng-click="sort('lastName')" href="#"> --> <a>
+												Actions <span class="{{Header[4]}}"></span>
+										</a>
+										</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr
+										ng-repeat="item in ItemsByPage[currentPage] | orderBy:columnToOrder:reverse">
+										<td>{{item.customerProgramId}}</td>
+										<td>{{item.customer.customerName}}</td>
+										<td>{{item.customerProgramCode}}</td>
+										<td>{{item.customerProgramType}}</td>
+										<td>
+											<p>
+												<span><a ng-click="editcpcDetails(item)">Edit</a></span>
+												&nbsp;| &nbsp; <span><a href='#'>Delete</a></span>
+											</p>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+							<ul class="pagination pagination-sm">
+								<li ng-class="{active:0}"><a href="#"
+									ng-click="firstPage()">First</a></li>
+								<li ng-repeat="n in range(ItemsByPage.length)"><a href="#"
+									ng-click="setPage()" ng-bind="n+1">1</a></li>
+								<li><a href="#" ng-click="lastPage()">Last</a></li>
+							</ul>
+
+
+
+						</div>
+
+						<div class='row' id='updatecpcDetails'
+							style='border: 1px grey solid !important'>
 							<div class='col-sm-4'>
 								<div class="form-group">
-									<span class="input-group-addon"><i class="zmdi zmdi-label zmdi-hc-fw"> </i>Customer Program Code Id </span>
+									<span class="input-group-addon"><i
+										class="zmdi zmdi-label zmdi-hc-fw"> </i>Customer Program Id </span>
 									<div class="fg-line"></div>
 								</div>
-								
+
 								<div class="form-group">
-									<span class="input-group-addon"><i class="zmdi zmdi-functions zmdi-hc-fw"> </i>Customer Program Code Name</span>
+									<span class="input-group-addon"><i
+										class="zmdi zmdi-camera-front zmdi-hc-fw"> </i>Customer</span>
 									<div class="fg-line"></div>
 								</div>
-								
+
 								<div class="form-group">
-									<span class="input-group-addon"><i class="zmdi zmdi-functions zmdi-hc-fw"> </i>Customer Program Code Type</span>
+									<span class="input-group-addon"><i
+										class="zmdi zmdi-camera-front zmdi-hc-fw"> </i>Customer
+										Program Name</span>
 									<div class="fg-line"></div>
 								</div>
-								
-							</div>	
-							
-							<div class='col-sm-6'>
 								<div class="form-group">
-									<div class="fg-line">
-										<input type="text" class="form-control" placeholder="Enter Customer Program Code Id" value='phoenixCPC_Id'>
-									</div>	
+									<span class="input-group-addon"><i
+										class="zmdi zmdi-camera-front zmdi-hc-fw"> </i>Customer
+										Program Type</span>
+									<div class="fg-line"></div>
 								</div>
-								
+							</div>
+
+							<div class='col-sm-4'>
 								<div class="form-group">
 									<div class="fg-line">
-										<input type="text" class="form-control" placeholder="Enter Customer Program Code Name"  value='phoenixCPC_Name'>
-									</div>	
-								</div>
-								
-								<div class="form-group">
-									<div class="fg-line">
-										<input type="text" class="form-control" placeholder="Enter Customer Program Code Type"  value='phoenixCPC_Type'>
+										<input type="text" class="form-control"
+											placeholder="Customer Program Id"
+											ng-model='customerProgramId' disabled>
 									</div>
-								
-								<br/>
-								<br/>
+								</div>
+
+								<div class="form-group">
+									<div class="fg-line">
+										<div class="select">
+											<select class="form-control" ng-model='customerid'
+												ng-options="customer.customerId  as customer.customerName    for customer in customers"></select>
+
+										</div>
+									</div>
+								</div>
+								<div class="form-group">
+									<div class="fg-line">
+										<input type="text" class="form-control"
+											placeholder="Customer Program Id"
+											ng-model='customerProgramCode2'>
+
+									</div>
+								</div>
+								<br />
+								<div class="form-group">
+									<div class="fg-line">
+										<div class="select">
+											<select class="form-control" ng-model='customerProgramType'
+												ng-options="customerProgramCode.groupKey  as customerProgramCode.groupValue    for customerProgramCode in customerProgramCodelist.customerProgramType">
+
+											</select>
+										</div>
+									</div>
+								</div>
 								<div class="form-group">
 									<span>
-										<button class="btn btn-primary btn-icon-text waves-effect">
-										<i class="zmdi zmdi-check-all"></i> Update Customer Program Code</button>
-													
-										<button class="btn btn-danger btn-icon-text waves-effect">
- 										<i class="zmdi zmdi-close"></i> Cancel</button>
+										<button class="btn btn-primary btn-icon-text waves-effect"
+											ng-click='savecpcDetails()'>
+											<i class="zmdi zmdi-check-all"></i> Update
+										</button>
+
+										<button class="btn btn-danger btn-icon-text waves-effect"
+											ng-click='clearRole();'>
+											<i class="zmdi zmdi-close"></i> Cancel
+										</button>
 									</span>
 								</div>
-							</div>	
-							
+							</div>
+
 						</div>
 					</div>
 				</div>
+
 			</div>
-		</div>
 		</div>
 	</section>
 </section>

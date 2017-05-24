@@ -1097,7 +1097,313 @@ materialAdmin
 					$scope.itemsPerPage = $scope.viewby;
 					$scope.maxSize = 5;
 				})
+		.controller(
+				'cpceditcontroller',
+				function($scope, $filter, filteredListService, $http) {
+					var allcpc = $scope.webserviceshost
+							+ 'hr/customerProgram/all';
+					$('#updatecpcDetails').hide();
+					$http({
+						method : "GET",
+						url : allcpc
+					})
+							.then(
+									function mySucces(response) {
 
+										$scope.allUsers = response.data;
+										$scope.pageSize = 7;
+										$scope.allItems = $scope.allUsers;
+										$scope.reverse = false;
+
+										$scope.resetAll = function() {
+											$scope.filteredList = $scope.allItems;
+											$scope.customerProgramId = '';
+											$scope.customer = '';
+											$scope.customerProgramCode = '';
+											$scope.customerProgramType = '';
+
+											$scope.searchText = '';
+											$scope.currentPage = 0;
+											$scope.Header = [ '', '', '', '',
+													'', '', '' ];
+										}
+
+										$scope.search = function() {
+											$scope.filteredList = filteredListService
+													.searched($scope.allItems,
+															$scope.searchText);
+
+											if ($scope.searchText == '') {
+												$scope.filteredList = $scope.allItems;
+											}
+											$scope.pagination();
+										}
+
+										$scope.pagination = function() {
+											$scope.ItemsByPage = filteredListService
+													.paged($scope.filteredList,
+															$scope.pageSize);
+										};
+
+										$scope.setPage = function() {
+											$scope.currentPage = this.n;
+										};
+
+										$scope.firstPage = function() {
+											$scope.currentPage = 0;
+										};
+
+										$scope.lastPage = function() {
+											$scope.currentPage = $scope.ItemsByPage.length - 1;
+										};
+
+										$scope.range = function(input, total) {
+											var ret = [];
+											if (!total) {
+												total = input;
+												input = 0;
+											}
+											for (var i = input; i < total; i++) {
+												if (i != 0 && i != total - 1) {
+													ret.push(i);
+												}
+											}
+											return ret;
+										};
+
+										$scope.resetcpcuser = function() {
+											$('#updatecpcDetails').hide();
+										}
+										$scope.sort = function(sortBy) {
+											$scope.resetAll();
+
+											$scope.columnToOrder = sortBy;
+
+											// $Filter
+											// -
+											// Standard
+											// Service
+											$scope.filteredList = $filter(
+													'orderBy')(
+													$scope.filteredList,
+													$scope.columnToOrder,
+													$scope.reverse);
+
+											if ($scope.reverse)
+												iconName = 'glyphicon glyphicon-chevron-up';
+											else
+												iconName = 'glyphicon glyphicon-chevron-down';
+
+											if (sortBy === 'customerProgramId') {
+												$scope.Header[0] = iconName;
+											} else if (sortBy === 'customerName') {
+												$scope.Header[1] = iconName;
+											} else if (sortBy === 'customerProgramCode') {
+												$scope.Header[2] = iconName;
+											} else if (sortBy === 'customerProgramType') {
+												$scope.Header[3] = iconName;
+											} else {
+												$scope.Header[2] = iconName;
+											}
+
+											$scope.reverse = !$scope.reverse;
+
+											$scope.pagination();
+										};
+
+										// By
+										// Default
+										// sort
+										// ny
+										// Name
+										$scope.sort('name');
+
+									}, function myError(response) {
+										console.log(response);
+									});
+
+					$scope.editcpcDetails = function(item) {
+						$scope.customerProgramId = item.customerProgramId;
+						$scope.customerid = item.customer.customerId;
+						$scope.customerProgramCode2 = item.customerProgramCode;
+						$scope.customerProgramType = item.customerProgramType;
+
+						var allcustomer = $scope.webserviceshost
+								+ 'hr/customer/all';
+						var referencedata = $scope.webserviceshost
+								+ 'hr/refData/list';
+						$http({
+							method : "GET",
+							url : referencedata
+						}).then(function mySucces(response) {
+
+							if (response != 'undefiend' && response != "") {
+								$scope.customerProgramCodelist = response.data;
+							}
+						}, function myError(response) {
+							console.log(response);
+						});
+						$http({
+							method : "GET",
+							url : allcustomer
+						}).then(function mySucces(response) {
+
+							if (response != 'undefiend' && response != "") {
+								$scope.customers = response.data;
+							}
+						}, function myError(response) {
+							console.log(response);
+						});
+						$('#updatecpcDetails').show();
+						
+						$scope.savecpcDetails=function(){
+							var customerProgramId=$scope.customerProgramId;
+							var customerprogName = $scope.customerprogName;
+							var customerId = $scope.customerid;
+							var customerProgramCode2=$scope.customerProgramCode2;
+							var customerProgramType=$scope.customerProgramType;
+							var savecpcurl=$scope.webserviceshost+'hr/customerProgram'
+								
+							var additional='/update/'+customerProgramId+'/'+customerId+'/'+customerProgramCode2+'/'+customerProgramType;
+							savecpcurl+=additional;
+							$http({
+								method : "POST",
+								url : savecpcurl
+							}).then(function mySucces(response) {
+
+								var allcpc = $scope.webserviceshost
+										+ 'hr/customerProgram/all';
+								$('#updatecpcDetails').hide();
+								$http({
+									method : "GET",
+									url : allcpc
+								})
+										.then(
+												function mySucces(response) {
+
+													$scope.allUsers = response.data;
+													$scope.pageSize = 7;
+													$scope.allItems = $scope.allUsers;
+													$scope.reverse = false;
+
+													$scope.resetAll = function() {
+														$scope.filteredList = $scope.allItems;
+														$scope.customerProgramId = '';
+														$scope.customer = '';
+														$scope.customerProgramCode = '';
+														$scope.customerProgramType = '';
+
+														$scope.searchText = '';
+														$scope.currentPage = 0;
+														$scope.Header = [ '', '', '', '',
+																'', '', '' ];
+													}
+
+													$scope.search = function() {
+														$scope.filteredList = filteredListService
+																.searched($scope.allItems,
+																		$scope.searchText);
+
+														if ($scope.searchText == '') {
+															$scope.filteredList = $scope.allItems;
+														}
+														$scope.pagination();
+													}
+
+													$scope.pagination = function() {
+														$scope.ItemsByPage = filteredListService
+																.paged($scope.filteredList,
+																		$scope.pageSize);
+													};
+
+													$scope.setPage = function() {
+														$scope.currentPage = this.n;
+													};
+
+													$scope.firstPage = function() {
+														$scope.currentPage = 0;
+													};
+
+													$scope.lastPage = function() {
+														$scope.currentPage = $scope.ItemsByPage.length - 1;
+													};
+
+													$scope.range = function(input, total) {
+														var ret = [];
+														if (!total) {
+															total = input;
+															input = 0;
+														}
+														for (var i = input; i < total; i++) {
+															if (i != 0 && i != total - 1) {
+																ret.push(i);
+															}
+														}
+														return ret;
+													};
+
+													$scope.resetcpcuser = function() {
+														$('#updatecpcDetails').hide();
+													}
+													$scope.sort = function(sortBy) {
+														$scope.resetAll();
+
+														$scope.columnToOrder = sortBy;
+
+														// $Filter
+														// -
+														// Standard
+														// Service
+														$scope.filteredList = $filter(
+																'orderBy')(
+																$scope.filteredList,
+																$scope.columnToOrder,
+																$scope.reverse);
+
+														if ($scope.reverse)
+															iconName = 'glyphicon glyphicon-chevron-up';
+														else
+															iconName = 'glyphicon glyphicon-chevron-down';
+
+														if (sortBy === 'customerProgramId') {
+															$scope.Header[0] = iconName;
+														} else if (sortBy === 'customerName') {
+															$scope.Header[1] = iconName;
+														} else if (sortBy === 'customerProgramCode') {
+															$scope.Header[2] = iconName;
+														} else if (sortBy === 'customerProgramType') {
+															$scope.Header[3] = iconName;
+														} else {
+															$scope.Header[2] = iconName;
+														}
+
+														$scope.reverse = !$scope.reverse;
+
+														$scope.pagination();
+													};
+
+													// By
+													// Default
+													// sort
+													// ny
+													// Name
+													$scope.sort('name');
+
+												}, function myError(response) {
+													console.log(response);
+												});
+
+								swal(
+										"Customer Program updated SuccessFully!",
+										"", "success");
+								
+							}, function myError(response) {
+								console.log(response);
+							});
+						}
+
+					}
+				})
 		.controller(
 				'customerprogramcontroller',
 				function($scope, $filter, filteredListService, $http) {
@@ -4108,17 +4414,20 @@ materialAdmin
 					$scope.updateprojectdata = function() {
 						var projectid = $scope.projectid;
 						var projectName = $scope.projectname;
-						var customerid=$scope.customerid;
-						var departmentid=$scope.departmentid;
-						var customerprogramcode=$scope.customerprogramcode;
-						var customerproject=$scope.customerproject;
-						var country=$scope.country.name;
+						var customerid = $scope.customerid;
+						var departmentid = $scope.departmentid;
+						var customerprogramcode = $scope.customerprogramcode;
+						var customerproject = $scope.customerproject;
+						var country = $scope.country.name;
 						var projectType = $scope.customerproject;
-						var projectStatus = $scope.projectstatus;'/update/{projectid}/{projectName}/{customerId}/{customerProgramId}/{departmentId}/{projectType}/{projectStatus}/{location}'
+						var projectStatus = $scope.projectstatus;
+						'/update/{projectid}/{projectName}/{customerId}/{customerProgramId}/{departmentId}/{projectType}/{projectStatus}/{location}'
 						var projectadd = $scope.webserviceshost + 'hr/project';
 						var additional = '/update/' + projectid + '/'
-								+ projectName + '/'+customerid +'/' + customerprogramcode + '/'+departmentid +'/'
-								+ projectType + '/' + projectStatus+'/'+country;
+								+ projectName + '/' + customerid + '/'
+								+ customerprogramcode + '/' + departmentid
+								+ '/' + projectType + '/' + projectStatus + '/'
+								+ country;
 						projectadd = projectadd + additional;
 						$http({
 							method : "POST",
@@ -8320,6 +8629,15 @@ function searchUtil(item, toSearch) {
 
 		return (item.employee.lastName.toLowerCase().indexOf(
 				toSearch.toLowerCase()) > -1 || item.employee.firstName
+				.toLowerCase().indexOf(toSearch.toLowerCase()) > -1) ? true
+				: false;
+
+	}
+	else if (item.customerProgramId != undefined) {
+
+		return (item.customer.customerName.toLowerCase().indexOf(
+				toSearch.toLowerCase()) > -1 || item.customerProgramCode
+				.toLowerCase().indexOf(toSearch.toLowerCase()) > -1|| item.customerProgramType
 				.toLowerCase().indexOf(toSearch.toLowerCase()) > -1) ? true
 				: false;
 
