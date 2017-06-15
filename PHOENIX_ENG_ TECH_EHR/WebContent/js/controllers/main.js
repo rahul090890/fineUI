@@ -215,13 +215,589 @@ materialAdmin
 		// =========================================================================
 		// Recent Items Widget
 		// =========================================================================
+		.controller(
+				'timesheetcontroller',
+				function($scope, $filter, $sce, ngTableParams, $http,
+						filteredListService) {
 
+					$scope.onlyNumbers = /^\d+$/;
+
+					$scope.divIterator = [ 1 ];
+					$scope.totalhourhead = '';
+					$scope.today = function() {
+						$scope.dt = new Date();
+
+					};
+					$scope.today();
+
+					$scope.myDate = new Date();
+
+					$scope.toggleMin = function() {
+						$scope.minDate = new Date($scope.myDate.getFullYear(),
+								$scope.myDate.getMonth() - 11, $scope.myDate
+										.getDate());
+
+					};
+					$scope.toggleMin();
+
+					$scope.open = function($event, calId) {
+						$event.preventDefault();
+						$event.stopPropagation();
+						if (calId === 1) {
+							$scope.opened = true;
+							$scope.opened2 = false;
+
+						}
+						if (calId === 2) {
+							$scope.opened2 = true;
+							$scope.opened = false;
+
+						}
+
+					};
+					this.onlyWeekendsPredicate = function(date) {
+						var day = $scope.myDate.getDay();
+						return day === 0 || day === 6;
+					};
+					$scope.dateOptions = {
+						formatYear : 'yy',
+						startingDay : 1
+					};
+
+					$scope.formats = [ 'dd-MMMM-yyyy', 'yyyy-MM-dd',
+							'dd.MM.yyyy', 'shortDate' ];
+					$scope.format = $scope.formats[1];
+					$scope.changeweekselected = function() {
+						var startdate = $scope.dtPopup;
+						var date2 = new Date(startdate);
+
+						Date.prototype.addDays = function(days) {
+							var dat = new Date(this.valueOf());
+							dat.setDate(dat.getDate() + days);
+							return dat;
+						}
+
+						var dat = startdate
+						var date1 = dat.addDays(6);// new Date(enddate);
+						$scope.dtPopup1 = date1;
+
+						if (startdate > date1) {
+							swal("Error",
+									"From date should be less than to date.)",
+									"error");
+							return;
+						}
+
+						if (date2.getDay() != 1 || date1.getDay() != 0) {
+							swal(
+									"Error",
+									"Starte date should be selected as monday and end date should be seleted as sunday )",
+									"error");
+							return;
+						}
+
+						var startyyyy = date2.getFullYear();
+						var startdd = date2.getDate();
+						var startmm = date2.getMonth()
+						var endyyyy = date1.getFullYear();
+						var enddd = date1.getDate();
+						var totalNoOfDays = new Date(startyyyy, startmm + 1, 0)
+								.getDate();
+						var endmm = date1.getMonth();
+						;
+						if (startdd < 10) {
+							startdd = '0' + startdd;
+						}
+						if (startmm < 10) {
+							startmm = '0' + startmm;
+						}
+						if (enddd < 10) {
+							enddd = '0' + enddd;
+						}
+						if (endmm < 10) {
+							endmm = '0' + endmm;
+						}
+
+						$scope.start = startyyyy + '-' + startmm + '-'
+								+ startdd;
+						$scope.end = endyyyy + '-' + endmm + '-' + enddd;
+						$scope.weeksdetails = "selected week as "
+								+ $scope.start + "  to  " + $scope.end;
+						var weeksdetails = [ 'MON', 'TUE', 'WED', 'THUR',
+								'FRI', 'SAT', 'SUN' ];
+
+						var weekday = [];
+						for (var x = 0; x < 7; x++) {
+
+							if (startdd > totalNoOfDays) {
+								startdd = 1;
+								startmm = startmm + 1;
+								if (startmm > 12) {
+									startmm = 1;
+								}
+							}
+							var dateandDay = {
+								'day' : "",
+								'date' : ""
+							};
+							dateandDay.day = startdd + '(' + weeksdetails[x]
+									+ ')'
+							dateandDay.date = startdd + '-' + startmm + '-'
+									+ startyyyy;
+							weekday.push(dateandDay);
+							startdd++;
+						}
+						$scope.weekdays = weekday;
+						$scope.totalhourhead = "Total hours";
+					}
+					var employeeid = 5;
+					var employeeDetails = $scope.webserviceshost
+							+ 'hr/employee/find/' + employeeid;
+					var customeDetails = $scope.webserviceshost
+							+ 'hr/customer/all/';
+					var departments = $scope.webserviceshost
+							+ 'hr/department/all';
+
+					var taskdata = $scope.webserviceshost + 'hr/task/all';
+					var allcpc = $scope.webserviceshost
+							+ "hr/customerProgram/all";
+					var allproject = $scope.webserviceshost + 'hr/project/all';
+					$http({
+						method : "GET",
+						url : employeeDetails
+					})
+							.then(
+									function mySucces(response) {
+
+										if (response != 'undefiend'
+												&& response != "") {
+											$scope.employeeid = response.data.employeeId;
+											$scope.employeename = response.data.firstName
+													+ ' '
+													+ response.data.lastName;
+											;
+											$scope.employeedesignation = response.data.designation;
+											$scope.employeelocation = response.data.address;
+											$scope.employeeType = response.data.employeeType;
+											$scope.employeedepartment = response.data.department.departmentName;
+											$scope.employeedepartmentId = response.data.department.departmentId;
+											$scope.employeeemail = response.data.emailId;
+											/*
+											 * $scope.leaveTaken=response.data.employeeId;
+											 * $scope.remainLeaves=response.data.employeeId;
+											 */
+											/*
+											 * $scope.managername =
+											 * response.data.manager.firstName + ' ' +
+											 * response.data.manager.lastName;
+											 */
+											/*
+											 * $scope.managerid =
+											 * response.data.manager.employeeId
+											 * $scope.manageremail =
+											 * response.data.manager.emailId;
+											 * $scope.managerid =
+											 * response.data.manager.employeeId;
+											 */
+										}
+									}, function myError(response) {
+										console.log(response);
+									});
+					$http({
+						method : "GET",
+						url : taskdata
+					}).then(function mySucces(response) {
+						$scope.tasks = response.data;
+					}, function myError(response) {
+						console.log(response);
+					});
+					$http({
+						method : "GET",
+						url : customeDetails
+					}).then(function mySucces(response) {
+						$scope.customers = response.data;
+					}, function myError(response) {
+						console.log(response);
+					});
+					$http({
+						method : "GET",
+						url : departments
+					}).then(function mySucces(response) {
+						$scope.departments = response.data;
+					}, function myError(response) {
+						console.log(response);
+					});
+					$http({
+						method : "GET",
+						url : allproject
+					}).then(function mySucces(response) {
+						$scope.projects = response.data;
+					}, function myError(response) {
+						console.log(response);
+					});
+					$http({
+						method : "GET",
+						url : allcpc
+					}).then(function mySucces(response) {
+						$scope.cpcs = response.data;
+					}, function myError(response) {
+						console.log(response);
+					});
+					$scope.updateTotalhour = function() {
+
+					}
+					$scope.taskList = [];
+
+					$scope.collectData = {
+
+						"employeeId" : "",
+						"startDateOfWeek" : "",
+						"endDateOfWeek" : "",
+						"timesheets" : $scope.multipleTimeSheetList,
+						"comments" : $scope.comments
+					}
+
+					var myTaskName;
+					$scope.commonCollect = function(data) {
+						var temp = data.split("&&");
+
+						if (temp[0] === "customer") {
+							$scope.taskName.customerId = temp[1];
+
+						} else if (temp[0] === "cpc") {
+							$scope.taskName.customerProgramId = temp[1];
+
+						} else if (temp[0] === "department") {
+							$scope.taskName.departmentId = temp[1];
+
+						} else if (temp[0] === "task") {
+							myTaskName = temp[1];
+							$scope.taskName.taskName = temp[2];
+
+						} else if (temp[0] === "cpc") {
+							$scope.taskName.taskId = temp[1];
+
+						} else if (temp[0] === "project") {
+							$scope.taskName.projectId = temp[1];
+
+						} else if (temp[0] === "hours") {
+							$scope.taskName.hours = temp[1];
+
+						}
+
+					}
+					$scope.check = 'NO';
+					$scope.deleteval = [];
+					$scope.ids = {};
+
+					$scope.deleteRow = function() {
+						console.log($scope.ids);
+						var obj = $scope.ids;
+
+						for ( var key in obj) {
+							if (obj.hasOwnProperty(key)) {
+
+								var val = obj[key];
+								if (val) {
+									$scope.divIterator.pop(key);
+									obj.key = false;
+								}
+								console.log(val);
+							}
+						}
+						/*
+						 * var pushval = $scope.deleteval.length; for (var x =
+						 * 0; x < pushval; x++) {
+						 * $scope.divIterator.pop(deleteval); }
+						 */
+
+					}
+					$scope.saveTimeSheet = function() {
+						$scope.collectData.comments = $scope.usercomments;
+						// var usercomments=$scope.usercomments;
+						$scope.taskDetail = {};
+						// $scope.totalHour+=parseInt(dayhour);
+						$scope.taskDetail[myTaskName] = $scope.timeSheetList;
+						// $scope.collectData.timeSheets = $scope.taskDetail;
+						// $scope.timeSheetList.push($scope.timesheet);
+						$scope.totalHours = 0;
+						for (var x = 0; x < $scope.timeSheetList.length; x++) {
+							$scope.totalHours += parseInt($scope.timeSheetList[x].hours);
+						}
+
+						if ($scope.totalHours != 40) {
+
+							swal(
+									{
+										title : "Your total hours are not 40 ! Proceed if fine",
+										text : "Submitting Timesheet ",
+										showCancelButton : true,
+										confirmButtonColor : "#DD6B55",
+										confirmButtonText : "Yes, Submit it!",
+										cancelButtonText : "No, cancel it!",
+										closeOnConfirm : false,
+										closeOnCancel : false
+									},
+									function(isConfirm) {
+										if (isConfirm) {
+											if ($scope.timeSheetList.length > 0
+													&& $scope.isadded) {
+												$scope.multipleTimeSheetList[myTaskName] = $scope.timeSheetList;
+
+												$scope.timeSheetList = [];
+											}
+											$scope.collectData.timesheets = $scope.multipleTimeSheetList;
+											// $scope.timeSheetList = [];
+											// $scope.collectData.timeSheets =
+											// $scope.multipleTimeSheetList;
+
+											var timesheeturl = $scope.webserviceshost
+													+ "hr/timesheet/save/"
+													+ JSON
+															.stringify($scope.collectData);
+											$http({
+												method : "POST",
+												url : timesheeturl
+											})
+													.then(
+															function mySucces(
+																	response) {
+																$scope.weeksdetails = {};
+																$scope.divIterator = [ 1 ];
+																$scope.customer = {};
+																$scope.department = {};
+																$scope.taskdetail = {};
+																$scope.cpcdetails = {};
+																$scope.taskdetails = {};
+																$scope.daydetails = {};
+																$scope.taskName = {
+																	"customerId" : "",
+																	"customerProgramId" : "",
+																	"departmentId" : "",
+																	"projectId" : "",
+																	"taskName" : "",
+																	"hours" : "",
+																	"timesheetDate" : ""
+																}
+																$scope.collectData = {
+
+																	"employeeId" : "",
+																	"startDateOfWeek" : "",
+																	"endDateOfWeek" : "",
+																	"timesheets" : $scope.multipleTimeSheetList,
+																	"comments" : $scope.comments
+																}
+																$scope.comments = "";
+																console
+																		.log(response);
+																swal("timesheet submitted");
+															},
+															function myError(
+																	response) {
+																console
+																		.log(response);
+															});
+										} else {
+											swal(
+													"Cancelled",
+													"Request has been cancelled.)",
+													"error");
+										}
+									})
+						} else {
+
+							swal(
+									{
+										title : "Are you sure",
+										text : "Submitting Timesheet ",
+										showCancelButton : true,
+										confirmButtonColor : "#DD6B55",
+										confirmButtonText : "Yes, Submit it!",
+										cancelButtonText : "No, cancel it!",
+										closeOnConfirm : false,
+										closeOnCancel : false
+									},
+									function(isConfirm) {
+										if (isConfirm) {
+											if ($scope.timeSheetList.length > 0
+													&& $scope.isadded) {
+												$scope.multipleTimeSheetList[myTaskName] = $scope.timeSheetList;
+
+												// $scope.collectData.timeSheets
+												// =
+												// $scope.multipleTimeSheetList
+												$scope.timeSheetList = [];
+											}
+											// $scope.timeSheetList = [];
+											$scope.collectData.timesheets = $scope.multipleTimeSheetList;
+											var timesheeturl = $scope.webserviceshost
+													+ "hr/timesheet/save/"
+													+ JSON
+															.stringify($scope.collectData);
+											$http({
+												method : "POST",
+												url : timesheeturl
+											})
+													.then(
+															function mySucces(
+																	response) {
+																console
+																		.log(response);
+																swal("timesheet submitted");
+															},
+															function myError(
+																	response) {
+																$scope.weeksdetails = "";
+																$scope.divIterator = [ 1 ];
+																$scope.customer = "";
+																$scope.department = "";
+																$scope.taskdetail = "";
+																$scope.cpcdetails = "";
+																$scope.taskdetails = "";
+																$scope.daydetails = "";
+																$scope.taskName = {
+																	"customerId" : "",
+																	"customerProgramId" : "",
+																	"departmentId" : "",
+																	"projectId" : "",
+																	"taskName" : "",
+																	"hours" : "",
+																	"timesheetDate" : ""
+																}
+																$scope.collectData = {
+
+																	"employeeId" : "",
+																	"startDateOfWeek" : "",
+																	"endDateOfWeek" : "",
+																	"timesheets" : $scope.multipleTimeSheetList,
+																	"comments" : $scope.comments
+																}
+																$scope.comments = "";
+																console
+																		.log(response);
+															});
+										} else {
+											swal(
+													"Cancelled",
+													"Request has been cancelled.)",
+													"error");
+										}
+									})
+
+						}
+						console.log(JSON.stringify($scope.collectData));
+					}
+
+					$scope.multipleTimeSheetList = {};
+					$scope.timeSheetList = [];
+					$scope.updatemodel = function(weekday, dayhour) {
+						$scope.taskName.timesheetDate = weekday;
+						$scope.collectData.employeeId = $scope.employeeid
+						$scope.collectData.startDateOfWeek = $scope.start;
+						$scope.collectData.endDateOfWeek = $scope.end;
+						$scope.timesheet = {};
+						if (dayhour === "")
+							dayhour = 0;
+
+						// var exist = false;
+						/*
+						 * for (var i = 0; i < $scope.timeSheetList.length; i++) {
+						 * 
+						 * var timeSheet =
+						 * $scope.timeSheetList[i][$scope.taskName.taskId]; if
+						 * (timeSheet != undefined) { if (timeSheet.customerId
+						 * === $scope.taskName.customerId &&
+						 * timeSheet.timesheetDate===$scope.taskName.timesheetDate &&
+						 * timeSheet.customerProgramId ===
+						 * $scope.taskName.customerProgramId &&
+						 * timeSheet.departmentId ===
+						 * $scope.taskName.departmentId && timeSheet.projectId
+						 * === $scope.taskName.projectId && timeSheet.taskId ===
+						 * $scope.taskName.taskId && timeSheet.taskName ===
+						 * $scope.taskName.taskName && dayhour != undefined) {
+						 * 
+						 * $scope.taskName.hours = dayhour;
+						 * $scope.timeSheetList.push($scope.timesheet); exist =
+						 * true; } else $scope.timeSheetList.pop(); break; } }
+						 */
+						// $scope.taskName
+						$scope.isadded = true;
+						$scope.totalHours = 0;
+						if (dayhour != undefined)
+							$scope.taskName.hours = dayhour;
+						$scope.timesheet = $scope.taskName;
+						/*
+						 * for (var i = 0; i < $scope.timesheetlist.length; i++) {
+						 * var timeSheetdata = $scope.timeSheetList[i]; var keys =
+						 * Object.keys(timeSheetdata); $scope.totalHours =
+						 * $scope.totalHours +
+						 * parseInt(timeSheetdata[keys[0]].hours);
+						 * 
+						 * for (var j = 0; j < timeSheetdata.length; j++) { var
+						 * dateData = timeSheetdata[j]; var hours =
+						 * dataDate.hours; $scope.totalHours =$scope.totalHours+
+						 * hours; } }
+						 */
+
+						$scope.timeSheetList.push($scope.timesheet);
+
+						$scope.taskName = {
+							"customerId" : $scope.taskName.customerId,
+							"customerProgramId" : $scope.taskName.customerProgramId,
+							"departmentId" : $scope.taskName.departmentId,
+							"projectId" : $scope.taskName.projectId,
+							"taskName" : $scope.taskName.taskName,
+							"hours" : "",
+							"timesheetDate" : ""
+						}
+
+					}
+
+					// /$scope.taskName.daata.@id
+
+					// $scope.taskName = {};
+
+					$scope.taskName = {
+						"customerId" : "",
+						"customerProgramId" : "",
+						"departmentId" : "",
+						"projectId" : "",
+						"taskName" : "",
+						"hours" : "",
+						"timesheetDate" : ""
+					}
+
+					$scope.multipleTimeSheetList = {};
+					$scope.addRow = function() {
+						$scope.isadded = false;
+						if ($scope.timeSheetList.length > 0) {
+							$scope.multipleTimeSheetList[$scope.taskName.taskId] = $scope.timeSheetList;
+							$scope.timeSheetList = [];
+						}
+						$scope.timeSheetList = [];
+						var pushval = $scope.divIterator.length;
+						$scope.divIterator.push(++pushval);
+						$scope.totalHours = {};
+						$scope.taskName = {
+							"customerId" : "",
+							"customerProgramId" : "",
+							"departmentId" : "",
+							"projectId" : "",
+							"taskId" : "",
+							"taskName" : "",
+							"hours" : "",
+							"timesheetDate" : ""
+						}
+
+					};
+
+				})
 		.controller(
 				'recentitemCtrl',
 				function($scope, $filter, $sce, ngTableParams, $http,
 						filteredListService) {
 
-					var managerid = 3;// hard coded as of now
+					var managerid = 70;// hard coded as of now
 					var pendingapproval = $scope.webserviceshost
 							+ 'hr/leave/pendingApproval/' + managerid;
 
@@ -372,7 +948,7 @@ materialAdmin
 														function mySucces(
 																response) {
 
-															var managerid = 3;// hard
+															var managerid = 70;// hard
 															// coded
 															// as
 															// of now
@@ -564,7 +1140,7 @@ materialAdmin
 														function mySucces(
 																response) {
 
-															var managerid = 3;// hard
+															var managerid = 70;// hard
 															// coded
 															// as
 															// of
@@ -774,7 +1350,7 @@ materialAdmin
 							'dd.MM.yyyy', 'shortDate' ];
 					$scope.format = $scope.formats[1];
 
-					var employeeid = 12;// hardcode
+					var employeeid = 5;// hardcode
 					var date = new Date();
 					var year = date.getFullYear();
 					var leavebalanceurl = $scope.webserviceshost
@@ -933,7 +1509,7 @@ materialAdmin
 				'leavetypehistorytable',
 				function($scope, $filter, $sce, ngTableParams, $http,
 						filteredListService) {
-					var employeeid = 12;
+					var employeeid = 5;
 					var leavehistory = $scope.webserviceshost
 							+ 'hr/leave/history/' + employeeid;
 					$http({
@@ -1255,151 +1831,181 @@ materialAdmin
 							console.log(response);
 						});
 						$('#updatecpcDetails').show();
-						
-						$scope.savecpcDetails=function(){
-							var customerProgramId=$scope.customerProgramId;
+
+						$scope.savecpcDetails = function() {
+							var customerProgramId = $scope.customerProgramId;
 							var customerprogName = $scope.customerprogName;
 							var customerId = $scope.customerid;
-							var customerProgramCode2=$scope.customerProgramCode2;
-							var customerProgramType=$scope.customerProgramType;
-							var savecpcurl=$scope.webserviceshost+'hr/customerProgram'
-								
-							var additional='/update/'+customerProgramId+'/'+customerId+'/'+customerProgramCode2+'/'+customerProgramType;
-							savecpcurl+=additional;
+							var customerProgramCode2 = $scope.customerProgramCode2;
+							var customerProgramType = $scope.customerProgramType;
+							var savecpcurl = $scope.webserviceshost
+									+ 'hr/customerProgram'
+
+							var additional = '/update/' + customerProgramId
+									+ '/' + customerId + '/'
+									+ customerProgramCode2 + '/'
+									+ customerProgramType;
+							savecpcurl += additional;
 							$http({
 								method : "POST",
 								url : savecpcurl
-							}).then(function mySucces(response) {
+							})
+									.then(
+											function mySucces(response) {
 
-								var allcpc = $scope.webserviceshost
-										+ 'hr/customerProgram/all';
-								$('#updatecpcDetails').hide();
-								$http({
-									method : "GET",
-									url : allcpc
-								})
-										.then(
-												function mySucces(response) {
+												var allcpc = $scope.webserviceshost
+														+ 'hr/customerProgram/all';
+												$('#updatecpcDetails').hide();
+												$http({
+													method : "GET",
+													url : allcpc
+												})
+														.then(
+																function mySucces(
+																		response) {
 
-													$scope.allUsers = response.data;
-													$scope.pageSize = 7;
-													$scope.allItems = $scope.allUsers;
-													$scope.reverse = false;
+																	$scope.allUsers = response.data;
+																	$scope.pageSize = 7;
+																	$scope.allItems = $scope.allUsers;
+																	$scope.reverse = false;
 
-													$scope.resetAll = function() {
-														$scope.filteredList = $scope.allItems;
-														$scope.customerProgramId = '';
-														$scope.customer = '';
-														$scope.customerProgramCode = '';
-														$scope.customerProgramType = '';
+																	$scope.resetAll = function() {
+																		$scope.filteredList = $scope.allItems;
+																		$scope.customerProgramId = '';
+																		$scope.customer = '';
+																		$scope.customerProgramCode = '';
+																		$scope.customerProgramType = '';
 
-														$scope.searchText = '';
-														$scope.currentPage = 0;
-														$scope.Header = [ '', '', '', '',
-																'', '', '' ];
-													}
+																		$scope.searchText = '';
+																		$scope.currentPage = 0;
+																		$scope.Header = [
+																				'',
+																				'',
+																				'',
+																				'',
+																				'',
+																				'',
+																				'' ];
+																	}
 
-													$scope.search = function() {
-														$scope.filteredList = filteredListService
-																.searched($scope.allItems,
-																		$scope.searchText);
+																	$scope.search = function() {
+																		$scope.filteredList = filteredListService
+																				.searched(
+																						$scope.allItems,
+																						$scope.searchText);
 
-														if ($scope.searchText == '') {
-															$scope.filteredList = $scope.allItems;
-														}
-														$scope.pagination();
-													}
+																		if ($scope.searchText == '') {
+																			$scope.filteredList = $scope.allItems;
+																		}
+																		$scope
+																				.pagination();
+																	}
 
-													$scope.pagination = function() {
-														$scope.ItemsByPage = filteredListService
-																.paged($scope.filteredList,
-																		$scope.pageSize);
-													};
+																	$scope.pagination = function() {
+																		$scope.ItemsByPage = filteredListService
+																				.paged(
+																						$scope.filteredList,
+																						$scope.pageSize);
+																	};
 
-													$scope.setPage = function() {
-														$scope.currentPage = this.n;
-													};
+																	$scope.setPage = function() {
+																		$scope.currentPage = this.n;
+																	};
 
-													$scope.firstPage = function() {
-														$scope.currentPage = 0;
-													};
+																	$scope.firstPage = function() {
+																		$scope.currentPage = 0;
+																	};
 
-													$scope.lastPage = function() {
-														$scope.currentPage = $scope.ItemsByPage.length - 1;
-													};
+																	$scope.lastPage = function() {
+																		$scope.currentPage = $scope.ItemsByPage.length - 1;
+																	};
 
-													$scope.range = function(input, total) {
-														var ret = [];
-														if (!total) {
-															total = input;
-															input = 0;
-														}
-														for (var i = input; i < total; i++) {
-															if (i != 0 && i != total - 1) {
-																ret.push(i);
-															}
-														}
-														return ret;
-													};
+																	$scope.range = function(
+																			input,
+																			total) {
+																		var ret = [];
+																		if (!total) {
+																			total = input;
+																			input = 0;
+																		}
+																		for (var i = input; i < total; i++) {
+																			if (i != 0
+																					&& i != total - 1) {
+																				ret
+																						.push(i);
+																			}
+																		}
+																		return ret;
+																	};
 
-													$scope.resetcpcuser = function() {
-														$('#updatecpcDetails').hide();
-													}
-													$scope.sort = function(sortBy) {
-														$scope.resetAll();
+																	$scope.resetcpcuser = function() {
+																		$(
+																				'#updatecpcDetails')
+																				.hide();
+																	}
+																	$scope.sort = function(
+																			sortBy) {
+																		$scope
+																				.resetAll();
 
-														$scope.columnToOrder = sortBy;
+																		$scope.columnToOrder = sortBy;
 
-														// $Filter
-														// -
-														// Standard
-														// Service
-														$scope.filteredList = $filter(
-																'orderBy')(
-																$scope.filteredList,
-																$scope.columnToOrder,
-																$scope.reverse);
+																		// $Filter
+																		// -
+																		// Standard
+																		// Service
+																		$scope.filteredList = $filter(
+																				'orderBy')
+																				(
+																						$scope.filteredList,
+																						$scope.columnToOrder,
+																						$scope.reverse);
 
-														if ($scope.reverse)
-															iconName = 'glyphicon glyphicon-chevron-up';
-														else
-															iconName = 'glyphicon glyphicon-chevron-down';
+																		if ($scope.reverse)
+																			iconName = 'glyphicon glyphicon-chevron-up';
+																		else
+																			iconName = 'glyphicon glyphicon-chevron-down';
 
-														if (sortBy === 'customerProgramId') {
-															$scope.Header[0] = iconName;
-														} else if (sortBy === 'customerName') {
-															$scope.Header[1] = iconName;
-														} else if (sortBy === 'customerProgramCode') {
-															$scope.Header[2] = iconName;
-														} else if (sortBy === 'customerProgramType') {
-															$scope.Header[3] = iconName;
-														} else {
-															$scope.Header[2] = iconName;
-														}
+																		if (sortBy === 'customerProgramId') {
+																			$scope.Header[0] = iconName;
+																		} else if (sortBy === 'customerName') {
+																			$scope.Header[1] = iconName;
+																		} else if (sortBy === 'customerProgramCode') {
+																			$scope.Header[2] = iconName;
+																		} else if (sortBy === 'customerProgramType') {
+																			$scope.Header[3] = iconName;
+																		} else {
+																			$scope.Header[2] = iconName;
+																		}
 
-														$scope.reverse = !$scope.reverse;
+																		$scope.reverse = !$scope.reverse;
 
-														$scope.pagination();
-													};
+																		$scope
+																				.pagination();
+																	};
 
-													// By
-													// Default
-													// sort
-													// ny
-													// Name
-													$scope.sort('name');
+																	// By
+																	// Default
+																	// sort
+																	// ny
+																	// Name
+																	$scope
+																			.sort('name');
 
-												}, function myError(response) {
-													console.log(response);
-												});
+																},
+																function myError(
+																		response) {
+																	console
+																			.log(response);
+																});
 
-								swal(
-										"Customer Program updated SuccessFully!",
-										"", "success");
-								
-							}, function myError(response) {
-								console.log(response);
-							});
+												swal(
+														"Customer Program updated SuccessFully!",
+														"", "success");
+
+											}, function myError(response) {
+												console.log(response);
+											});
 						}
 
 					}
@@ -8098,25 +8704,782 @@ materialAdmin
 				})
 		.controller(
 				'timesheethistory',
-				function($scope, $filter, $sce, ngTableParams,
-						TimeSheetHistoryService) {
-					this.id = TimeSheetHistoryService.id;
-					this.name = TimeSheetHistoryService.name;
-					this.fromDate = TimeSheetHistoryService.from_date;
-					this.toDate = TimeSheetHistoryService.to_date;
-					this.totalDays = TimeSheetHistoryService.total_days;
-					this.department = TimeSheetHistoryService.department;
-					this.status = TimeSheetHistoryService.status;
-					this.reporting_manager = TimeSheetHistoryService.reporting_manager
-					this.approvedBy = TimeSheetHistoryService.approvedBy;
-					this.riResult = TimeSheetHistoryService.getRecentitem(
-							this.id, this.name, this.from_date, this.todate,
-							this.total_hour, this.department, this.status);
-					$scope.totalItems = this.riResult.length;
-					$scope.viewby = 10;
-					$scope.currentPage = 1;
-					$scope.itemsPerPage = $scope.viewby;
-					$scope.maxSize = 10;
+				function($scope, $filter, $sce, ngTableParams, $http,
+						$uibModal, $rootScope, filteredListService) {
+					var employeeid = 5;
+					var date2 = new Date();
+					var startyyyy = date2.getFullYear();
+					var startdd = date2.getDate();
+					var startmm = date2.getMonth()
+					var endyyyy = date2.getFullYear();
+					var enddd = date2.getDate();
+					var totalNoOfDays = new Date(startyyyy, startmm + 1, 0)
+							.getDate();
+					var endmm = date2.getMonth();
+					;
+
+					if (startmm < 10) {
+						startmm = '0' + startmm;
+					}
+					if (endmm < 10) {
+						endmm = '0' + endmm;
+					}
+
+					$scope.start = startyyyy + '-' + startmm + '-' + 01;
+					$scope.end = endyyyy + '-' + endmm + '-' + totalNoOfDays;
+					var timesheethistory = $scope.webserviceshost
+							+ 'hr/timesheet/summary/' + employeeid + "/"
+							+ $scope.start + "/" + $scope.end;
+					$http({
+						method : "GET",
+						url : timesheethistory
+					})
+							.then(
+									function mySucces(response) {
+										console.log(response.data);
+										if (response != 'undefiend'
+												&& response != "") {
+
+											$scope.allUsers = response.data;
+											$scope.pageSize = 7;
+											$scope.allItems = $scope.allUsers;
+											$scope.reverse = false;
+
+											$scope.resetAll = function() {
+												$scope.filteredList = $scope.allItems;
+												$scope.employeeId = '';
+
+												$scope.firstName = '';
+												$scope.lastName = '';
+												$scope.weekStartDate = '';
+												$scope.weekEndDate = '';
+												$scope.totalHours = '';
+												$scope.timesheetStatus = '';
+												$scope.currentPage = 0;
+												$scope.Header = [ '', '', '',
+														'', '', '', '' ];
+											}
+
+											$scope.search = function() {
+												$scope.filteredList = filteredListService
+														.searched(
+																$scope.allItems,
+																$scope.searchText);
+
+												if ($scope.searchText == '') {
+													$scope.filteredList = $scope.allItems;
+												}
+												$scope.pagination();
+											}
+
+											$scope.pagination = function() {
+												$scope.ItemsByPage = filteredListService
+														.paged(
+																$scope.filteredList,
+																$scope.pageSize);
+											};
+
+											$scope.setPage = function() {
+												$scope.currentPage = this.n;
+											};
+
+											$scope.firstPage = function() {
+												$scope.currentPage = 0;
+											};
+
+											$scope.lastPage = function() {
+												$scope.currentPage = $scope.ItemsByPage.length - 1;
+											};
+
+											$scope.range = function(input,
+													total) {
+												var ret = [];
+												if (!total) {
+													total = input;
+													input = 0;
+												}
+												for (var i = input; i < total; i++) {
+													if (i != 0
+															&& i != total - 1) {
+														ret.push(i);
+													}
+												}
+												return ret;
+											};
+
+											$scope.sort = function(sortBy) {
+												$scope.resetAll();
+
+												$scope.columnToOrder = sortBy;
+
+												// $Filter
+												// -
+												// Standard
+												// Service
+												$scope.filteredList = $filter(
+														'orderBy')(
+														$scope.filteredList,
+														$scope.columnToOrder,
+														$scope.reverse);
+
+												if ($scope.reverse)
+													iconName = 'glyphicon glyphicon-chevron-up';
+												else
+													iconName = 'glyphicon glyphicon-chevron-down';
+
+												if (sortBy === 'EmpId') {
+													$scope.Header[0] = iconName;
+												} else if (sortBy === 'firstName') {
+													$scope.Header[1] = iconName;
+												} else if (sortBy === 'lastName') {
+													$scope.Header[2] = iconName;
+												} else if (sortBy === 'weekStartDate') {
+													$scope.Header[3] = iconName;
+												} else if (sortBy === 'weekEndDate') {
+													$scope.Header[4] = iconName;
+												} else if (sortBy === 'totalHours') {
+													$scope.Header[5] = iconName;
+												} else if (sortBy === 'timesheetStatus') {
+													$scope.Header[6] = iconName;
+												} else {
+													$scope.Header[1] = iconName;
+												}
+
+												$scope.reverse = !$scope.reverse;
+
+												$scope.pagination();
+											};
+
+											// By
+											// Default
+											// sort
+											// ny
+											// Name
+											$scope.sort('name');
+
+											// console.log($scope.allUsers.length);
+										}
+									}, function myError(response) {
+										console.log(response);
+									});
+
+					$scope.showDetails = function(employeeid, argStart, argEnd) {
+						var modalInstance = $uibModal.open({
+							templateUrl : 'views/timesheetDetails.html',
+							controller : 'timesheethistoryDetails',
+							backdrop : 'static',
+							keyboard : false,
+							resolve : {
+								userData : function() {
+									var x = {
+										'employeeid' : employeeid,
+										'startDate' : argStart,
+										'endDate' : argEnd
+									}
+									return x;
+								}
+							}
+						});
+						modalInstance.result.then(function(selectedItem) {
+							$scope.selected = selectedItem;
+						})
+					}
+
+				}
+
+		/*
+		 * function($scope, $filter, $sce, ngTableParams,
+		 * TimeSheetHistoryService) { this.id = TimeSheetHistoryService.id;
+		 * this.name = TimeSheetHistoryService.name; this.fromDate =
+		 * TimeSheetHistoryService.from_date; this.toDate =
+		 * TimeSheetHistoryService.to_date; this.totalDays =
+		 * TimeSheetHistoryService.total_days; this.department =
+		 * TimeSheetHistoryService.department; this.status =
+		 * TimeSheetHistoryService.status; this.reporting_manager =
+		 * TimeSheetHistoryService.reporting_manager this.approvedBy =
+		 * TimeSheetHistoryService.approvedBy; this.riResult =
+		 * TimeSheetHistoryService.getRecentitem( this.id, this.name,
+		 * this.from_date, this.todate, this.total_hour, this.department,
+		 * this.status); $scope.totalItems = this.riResult.length; $scope.viewby =
+		 * 10; $scope.currentPage = 1; $scope.itemsPerPage = $scope.viewby;
+		 * $scope.maxSize = 10; }
+		 */)
+		.controller(
+				'timesheetapproval',
+				function($scope, $filter, $sce, ngTableParams, $http,
+						$uibModal, $rootScope, filteredListService) {
+					var managerid = 5;
+					var date2 = new Date();
+					var startyyyy = date2.getFullYear();
+					var startdd = date2.getDate();
+					var startmm = date2.getMonth()
+					var endyyyy = date2.getFullYear();
+					var enddd = date2.getDate();
+					var totalNoOfDays = new Date(startyyyy, startmm + 1, 0)
+							.getDate();
+					var endmm = date2.getMonth();
+					;
+
+					if (startmm < 10) {
+						startmm = '0' + startmm;
+					}
+					if (endmm < 10) {
+						endmm = '0' + endmm;
+					}
+
+					$scope.start = startyyyy + '-' + startmm + '-' + 01;
+					$scope.end = endyyyy + '-' + endmm + '-' + totalNoOfDays;
+					var timesheettoapprove = $scope.webserviceshost
+							+ 'hr/timesheet/timesheetsToApprove/' + 70;
+					$http({
+						method : "GET",
+						url : timesheettoapprove
+					})
+							.then(
+									function mySucces(response) {
+										console.log(response.data);
+										if (response != 'undefiend'
+												&& response != "") {
+
+											$scope.allUsers = response.data;
+											$scope.pageSize = 7;
+											$scope.allItems = $scope.allUsers;
+											$scope.reverse = false;
+
+											$scope.resetAll = function() {
+												$scope.filteredList = $scope.allItems;
+												$scope.employeeId = '';
+
+												$scope.firstName = '';
+												$scope.lastName = '';
+												$scope.weekStartDate = '';
+												$scope.weekEndDate = '';
+												$scope.totalHours = '';
+												$scope.timesheetStatus = '';
+												$scope.currentPage = 0;
+												$scope.Header = [ '', '', '',
+														'', '', '', '' ];
+											}
+
+											$scope.search = function() {
+												$scope.filteredList = filteredListService
+														.searched(
+																$scope.allItems,
+																$scope.searchText);
+
+												if ($scope.searchText == '') {
+													$scope.filteredList = $scope.allItems;
+												}
+												$scope.pagination();
+											}
+
+											$scope.pagination = function() {
+												$scope.ItemsByPage = filteredListService
+														.paged(
+																$scope.filteredList,
+																$scope.pageSize);
+											};
+
+											$scope.setPage = function() {
+												$scope.currentPage = this.n;
+											};
+
+											$scope.firstPage = function() {
+												$scope.currentPage = 0;
+											};
+
+											$scope.lastPage = function() {
+												$scope.currentPage = $scope.ItemsByPage.length - 1;
+											};
+
+											$scope.range = function(input,
+													total) {
+												var ret = [];
+												if (!total) {
+													total = input;
+													input = 0;
+												}
+												for (var i = input; i < total; i++) {
+													if (i != 0
+															&& i != total - 1) {
+														ret.push(i);
+													}
+												}
+												return ret;
+											};
+
+											$scope.sort = function(sortBy) {
+												$scope.resetAll();
+
+												$scope.columnToOrder = sortBy;
+
+												// $Filter
+												// -
+												// Standard
+												// Service
+												$scope.filteredList = $filter(
+														'orderBy')(
+														$scope.filteredList,
+														$scope.columnToOrder,
+														$scope.reverse);
+
+												if ($scope.reverse)
+													iconName = 'glyphicon glyphicon-chevron-up';
+												else
+													iconName = 'glyphicon glyphicon-chevron-down';
+
+												if (sortBy === 'EmpId') {
+													$scope.Header[0] = iconName;
+												} else if (sortBy === 'firstName') {
+													$scope.Header[1] = iconName;
+												} else if (sortBy === 'lastName') {
+													$scope.Header[2] = iconName;
+												} else if (sortBy === 'weekStartDate') {
+													$scope.Header[3] = iconName;
+												} else if (sortBy === 'weekEndDate') {
+													$scope.Header[4] = iconName;
+												} else if (sortBy === 'totalHours') {
+													$scope.Header[5] = iconName;
+												} else if (sortBy === 'timesheetStatus') {
+													$scope.Header[6] = iconName;
+												} else {
+													$scope.Header[1] = iconName;
+												}
+
+												$scope.reverse = !$scope.reverse;
+
+												$scope.pagination();
+											};
+
+											// By
+											// Default
+											// sort
+											// ny
+											// Name
+											$scope.sort('name');
+
+											// console.log($scope.allUsers.length);
+										}
+									}, function myError(response) {
+										console.log(response);
+									});
+					$scope.approveTimeSheet = function(item) {
+
+						swal(
+								{
+									title : "Are you sure?",
+									text : "Approve Timesheet ",
+									showCancelButton : true,
+									confirmButtonColor : "#DD6B55",
+									confirmButtonText : "Yes, Approve it!",
+									cancelButtonText : "No, cancel it!",
+									closeOnConfirm : false,
+									closeOnCancel : false
+								},
+								function(isConfirm) {
+									if (isConfirm) {
+										var employeeId = item.id.employeeId;
+										var weekStartDate = item.id.weekStartDate;
+										var weekEndDate = item.id.weekEndDate;
+										var approveLeaveurl = $scope.webserviceshost
+												+ 'hr/timesheet/approve/'
+												+ employeeId
+												+ '/'
+												+ weekStartDate
+												+ '/'
+												+ weekEndDate;
+
+										$http({
+											method : "POST",
+											url : approveLeaveurl
+										})
+												.then(
+														function mySucces(
+																response) {
+
+															var managerid = 70;// hard
+															// coded
+															// as
+															// of now
+															var timesheettoapprove = $scope.webserviceshost
+																	+ 'hr/timesheet/timesheetsToApprove/'
+																	+ 70;
+
+															$http(
+																	{
+																		method : "GET",
+																		url : timesheettoapprove
+																	})
+																	.then(
+																			function mySucces(
+																					response) {
+																				console
+																						.log(response.data);
+																				if (response != 'undefiend'
+																						&& response != "") {
+
+																					$scope.allUsers = response.data;
+																					$scope.pageSize = 7;
+																					$scope.allItems = $scope.allUsers;
+																					$scope.reverse = false;
+
+																					$scope.resetAll = function() {
+																						$scope.filteredList = $scope.allItems;
+																						$scope.employeeId = '';
+																						$scope.firstName = '';
+																						$scope.lastName = '';
+																						$scope.fromDate = '';
+																						$scope.toDate = '';
+																						$scope.noOfDays = ''
+																						$scope.searchText = '';
+																						$scope.currentPage = 0;
+																						$scope.Header = [
+																								'',
+																								'',
+																								'',
+																								'',
+																								'',
+																								'',
+																								'' ];
+																					}
+
+																					$scope.search = function() {
+																						$scope.filteredList = filteredListService
+																								.searched(
+																										$scope.allItems,
+																										$scope.searchText);
+
+																						if ($scope.searchText == '') {
+																							$scope.filteredList = $scope.allItems;
+																						}
+																						$scope
+																								.pagination();
+																					}
+
+																					$scope.pagination = function() {
+																						$scope.ItemsByPage = filteredListService
+																								.paged(
+																										$scope.filteredList,
+																										$scope.pageSize);
+																					};
+
+																					$scope.setPage = function() {
+																						$scope.currentPage = this.n;
+																					};
+
+																					$scope.firstPage = function() {
+																						$scope.currentPage = 0;
+																					};
+
+																					$scope.lastPage = function() {
+																						$scope.currentPage = $scope.ItemsByPage.length - 1;
+																					};
+
+																					$scope.range = function(
+																							input,
+																							total) {
+																						var ret = [];
+																						if (!total) {
+																							total = input;
+																							input = 0;
+																						}
+																						for (var i = input; i < total; i++) {
+																							if (i != 0
+																									&& i != total - 1) {
+																								ret
+																										.push(i);
+																							}
+																						}
+																						return ret;
+																					};
+																					$scope.sort = function(
+																							sortBy) {
+																						$scope
+																								.resetAll();
+
+																						$scope.columnToOrder = sortBy;
+
+																						// $Filter
+																						// -
+																						// Standard
+																						// Service
+																						$scope.filteredList = $filter(
+																								'orderBy')
+																								(
+																										$scope.filteredList,
+																										$scope.columnToOrder,
+																										$scope.reverse);
+
+																						if ($scope.reverse)
+																							iconName = 'glyphicon glyphicon-chevron-up';
+																						else
+																							iconName = 'glyphicon glyphicon-chevron-down';
+
+																						if (sortBy === 'EmployeeId') {
+																							$scope.Header[0] = iconName;
+																						} else if (sortBy === 'firstName') {
+																							$scope.Header[1] = iconName;
+																						} else if (sortBy === 'lastName') {
+																							$scope.Header[2] = iconName;
+																						} else if (sortBy === 'timesheetStatus') {
+																							$scope.Header[3] = iconName;
+																						} else {
+																							$scope.Header[4] = iconName;
+																						}
+
+																						$scope.reverse = !$scope.reverse;
+
+																						$scope
+																								.pagination();
+																					};
+																					$scope
+																							.sort('firstName');
+
+																					// console.log($scope.allUsers.length);
+																				}
+																			},
+																			function myError(
+																					response) {
+																				console
+																						.log(response);
+																			});
+															swal(
+																	"Approved",
+																	"Timesheet has been approved.)",
+																	"success");
+														},
+														function myError(
+																response) {
+															console
+																	.log(response);
+														});
+									} else {
+										swal("Cancelled",
+												"Request has been cancelled.)",
+												"error");
+									}
+								});
+					}
+					$scope.rejecttimeSheet = function(item) {
+
+						swal(
+								{
+									title : "Are you sure?",
+									text : "Reject Timesheet ",
+									showCancelButton : true,
+									confirmButtonColor : "#DD6B55",
+									confirmButtonText : "Yes, Reject it!",
+									cancelButtonText : "No, cancel it!",
+									closeOnConfirm : false,
+									closeOnCancel : false
+								},
+								function(isConfirm) {
+									if (isConfirm) {
+										var employeeId = item.id.employeeId;
+										var weekStartDate = item.id.weekStartDate;
+										var weekEndDate = item.id.weekEndDate;
+										var rejeccttimesheet = $scope.webserviceshost
+												+ 'hr/timesheet/reject/'
+												+ employeeId
+												+ '/'
+												+ weekStartDate
+												+ '/'
+												+ weekEndDate;
+
+										$http({
+											method : "POST",
+											url : rejeccttimesheet
+										})
+												.then(
+														function mySucces(
+																response) {
+
+															var managerid = 70;// hard
+															// coded
+															// as
+															// of
+															// now
+															var timesheettoapprove = $scope.webserviceshost
+																	+ 'hr/timesheet/timesheetsToApprove/'
+																	+ 70;
+
+															$http(
+																	{
+																		method : "GET",
+																		url : timesheettoapprove
+																	})
+																	.then(
+																			function mySucces(
+																					response) {
+																				console
+																						.log(response.data);
+																				if (response != 'undefiend'
+																						&& response != "") {
+
+																					$scope.allUsers = response.data;
+																					$scope.pageSize = 7;
+																					$scope.allItems = $scope.allUsers;
+																					$scope.reverse = false;
+
+																					$scope.resetAll = function() {
+																						$scope.filteredList = $scope.allItems;
+																						$scope.employeeId = '';
+																						$scope.firstName = '';
+																						$scope.lastName = '';
+																						$scope.fromDate = '';
+																						$scope.toDate = '';
+																						$scope.noOfDays = ''
+																						$scope.searchText = '';
+																						$scope.currentPage = 0;
+																						$scope.Header = [
+																								'',
+																								'',
+																								'',
+																								'',
+																								'',
+																								'',
+																								'' ];
+																					}
+
+																					$scope.search = function() {
+																						$scope.filteredList = filteredListService
+																								.searched(
+																										$scope.allItems,
+																										$scope.searchText);
+
+																						if ($scope.searchText == '') {
+																							$scope.filteredList = $scope.allItems;
+																						}
+																						$scope
+																								.pagination();
+																					}
+
+																					$scope.pagination = function() {
+																						$scope.ItemsByPage = filteredListService
+																								.paged(
+																										$scope.filteredList,
+																										$scope.pageSize);
+																					};
+
+																					$scope.setPage = function() {
+																						$scope.currentPage = this.n;
+																					};
+
+																					$scope.firstPage = function() {
+																						$scope.currentPage = 0;
+																					};
+
+																					$scope.lastPage = function() {
+																						$scope.currentPage = $scope.ItemsByPage.length - 1;
+																					};
+
+																					$scope.range = function(
+																							input,
+																							total) {
+																						var ret = [];
+																						if (!total) {
+																							total = input;
+																							input = 0;
+																						}
+																						for (var i = input; i < total; i++) {
+																							if (i != 0
+																									&& i != total - 1) {
+																								ret
+																										.push(i);
+																							}
+																						}
+																						return ret;
+																					};
+																					$scope.sort = function(
+																							sortBy) {
+																						$scope
+																								.resetAll();
+
+																						$scope.columnToOrder = sortBy;
+
+																						// $Filter
+																						// -
+																						// Standard
+																						// Service
+																						$scope.filteredList = $filter(
+																								'orderBy')
+																								(
+																										$scope.filteredList,
+																										$scope.columnToOrder,
+																										$scope.reverse);
+
+																						if ($scope.reverse)
+																							iconName = 'glyphicon glyphicon-chevron-up';
+																						else
+																							iconName = 'glyphicon glyphicon-chevron-down';
+
+																						if (sortBy === 'EmployeeId') {
+																							$scope.Header[0] = iconName;
+																						} else if (sortBy === 'firstName') {
+																							$scope.Header[1] = iconName;
+																						} else if (sortBy === 'lastName') {
+																							$scope.Header[2] = iconName;
+																						} else if (sortBy === 'timesheetStatus') {
+																							$scope.Header[3] = iconName;
+																						} else {
+																							$scope.Header[4] = iconName;
+																						}
+
+																						$scope.reverse = !$scope.reverse;
+
+																						$scope
+																								.pagination();
+																					};
+																					$scope
+																							.sort('firstName');
+
+																					// console.log($scope.allUsers.length);
+																				}
+																			},
+																			function myError(
+																					response) {
+																				console
+																						.log(response);
+																			});
+
+														},
+														function myError(
+																response) {
+															console
+																	.log(response);
+														})
+										swal(
+												"Rejected",
+												"Timesheet has been rejected.)",
+												"success");
+									} else {
+										swal(
+												"Cancelled",
+												"Timesheet has been cancelled.)",
+												"error");
+									}
+								});
+					}
+
+				})
+		.controller(
+				'timesheethistoryDetails',
+				function($scope, $rootScope, $uibModalInstance, userData) {
+					$scope.items = userData;
+					$scope.selected = {
+						item : $scope.items[0]
+					};
+					console.log(userData);
+					var employeeId = userData.employeeid;
+					var startDate = userData.startDate;
+					var endDate = userData.endDate;
+					$scope.cancelbutton = function() {
+						$rootScope.modalInstance.close();
+					};
+					var timesheetDetail = $scope.webserviceshost
+							+ 'hr/timesheet/details/' + employeeId + "/"
+							+ $scope.startDate + "/" + endDate;
+
 				})
 		.controller(
 				'recentpostCtrl',
@@ -8632,12 +9995,12 @@ function searchUtil(item, toSearch) {
 				.toLowerCase().indexOf(toSearch.toLowerCase()) > -1) ? true
 				: false;
 
-	}
-	else if (item.customerProgramId != undefined) {
+	} else if (item.customerProgramId != undefined) {
 
 		return (item.customer.customerName.toLowerCase().indexOf(
-				toSearch.toLowerCase()) > -1 || item.customerProgramCode
-				.toLowerCase().indexOf(toSearch.toLowerCase()) > -1|| item.customerProgramType
+				toSearch.toLowerCase()) > -1
+				|| item.customerProgramCode.toLowerCase().indexOf(
+						toSearch.toLowerCase()) > -1 || item.customerProgramType
 				.toLowerCase().indexOf(toSearch.toLowerCase()) > -1) ? true
 				: false;
 

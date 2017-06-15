@@ -1,6 +1,8 @@
 /*
  * Following CSS codes are used only for demo purpose thus you can remove them completly whenever you want. 
  */
+ .dialogdemoThemeInheritance .container {
+  text-align: center; }
 .glyphicon {
     position: relative;
     top: 1px;
