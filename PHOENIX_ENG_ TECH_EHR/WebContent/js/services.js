@@ -33,6 +33,108 @@ materialAdmin
 		} ])
 
 		// =========================================================================
+		// Authorizatoin
+		// =========================================================================
+
+		.service('bestsellingService', [ '$resource', function($resource) {
+			this.getBestselling = function(img, name, range) {
+				var gbList = $resource("data/best-selling.json");
+
+				return gbList.get({
+					img : img,
+					name : name,
+					range : range,
+				});
+			}
+		} ])
+		.service(
+				'apiCalling',
+				[
+						'$http','$resource',
+						
+						function($http,$resource) {
+							var response;
+							var authenticate = function(credentials,authUrl) {
+
+								var headers = credentials ? {
+									authorization : "Basic "
+											+ btoa(credentials.username + ":"
+													+ credentials.password)
+								} : {};
+								var url = '';
+								if (credentials != undefined)
+									url = authUrl 
+
+								$http.get(url, {
+									headers : headers
+								}).success(function(data1) {
+								//	console.log(header);
+									console.log(data1);
+									response=data1;
+									// console.log(data1.data.token;);
+									// console.log(data)
+									// $rootScope.employeeGlobleData=data1;
+									// $rootScope.authenticated = true;
+									return data1;
+									
+								}).error(function() {
+									// $rootScope.authenticated = false;
+									// $rootScope.authenticated = false;
+								});
+
+								
+
+								
+							}
+
+							/*$scope.authenticate = function(authUrl,
+									credentials, callback) {
+
+								var headers = credentials ? {
+									authorization : "Basic "
+											+ btoa(credentials.username + ":"
+													+ credentials.password)
+								} : {};
+								var url = '';
+								if (credentials != undefined)
+									url = authUrl + credentials.username;
+
+								$http.get(url, {
+									headers : headers
+								}).success(function(data1, header) {
+									console.log(header);
+									console.log(data1);
+									// console.log(data1.data.token;);
+									// console.log(data)
+									// $rootScope.employeeGlobleData=data1;
+									// $rootScope.authenticated = true;
+
+									callback && callback();
+								}).error(function() {
+									// $rootScope.authenticated = false;
+									callback && callback();
+									// $rootScope.authenticated = false;
+								});
+
+							}*/
+
+							/*
+							 * var dataList; var headers = credentials ? {
+							 * authorization : "Basic " +
+							 * btoa(credentials.username + ":" +
+							 * credentials.password) } : {}; var url = ''; if
+							 * (credentials != undefined) url = authUrl +
+							 * credentials.username;
+							 * 
+							 * $http.get(url, { headers : headers
+							 * }).success(function(data1, header) { dataList =
+							 * data1;
+							 * 
+							 * callback && callback(); }).error(function() {
+							 * callback && callback(); }); return dataList;
+							 */
+						} ])
+		// =========================================================================
 		// Todo List Widget Data
 		// =========================================================================
 
@@ -76,8 +178,7 @@ materialAdmin
 						'$resource',
 						function($resource) {
 							this.getRecentitem = function(total_leave,
-									leavetype, leavepending,
-									leaveavalible) {
+									leavetype, leavepending, leaveavalible) {
 								var recentitemList = $resource("data/leavestatusdetails.json");
 
 								return recentitemList.get({
@@ -143,7 +244,7 @@ materialAdmin
 				return retVal;
 			};
 		})
-		
+
 		.service(
 				'LeaveHistoryService',
 				[
@@ -421,4 +522,8 @@ materialAdmin
 			}
 
 			return gs;
+		})
+
+		.service('timesheetservice', function() {
+
 		})

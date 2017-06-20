@@ -10423,6 +10423,7 @@ h6 small,
   left: 0;
   top: 0;
   padding: 0 11px;
+  background-color: white;
 }
 
 #header:not(.sidebar-toggled).header-up {

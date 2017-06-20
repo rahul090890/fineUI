@@ -1,13 +1,30 @@
 materialAdmin
-		.config(function($stateProvider, $urlRouterProvider) {
-			$urlRouterProvider.otherwise("/home");
-
+		.config(function($stateProvider, $urlRouterProvider,$windowProvider) {
+			// $urlRouterProvider.otherwise("/home");
+			 var $window = $windowProvider.$get();
+			$urlRouterProvider.otherwise("/");
+			//var homeurl='views/home.html';
+			/*if(!$window.sessionStorage.getItem("Access-Token") || !$window.sessionStorage.getItem("AuthKey") || !$window.sessionStorage.getItem("EmployeeId")){
+				homeurl='views/home.html';
+			}
+			$route.reload();*/
+			/*else if(1==$window.sessionStorage.getItem("roleId")){
+				homeurl='views/home.html';
+			}
+			else if(1==$window.sessionStorage.getItem("roleId")){
+				homeurl='views/home.html';
+			}
+			else if(1==$window.sessionStorage.getItem("roleId")){
+				homeurl='views/home.html';
+			}*/
 			$stateProvider
-
-					// ------------------------------
-					// HOME
-					// ------------------------------
-
+			
+			
+			.state('/', {
+				url : '/',
+				templateUrl : 'views/login.html'
+			})
+				
 					.state(
 							'home',
 							{
@@ -79,15 +96,15 @@ materialAdmin
 						url : '/adddepartment',
 						templateUrl : 'views/adddepartment.html'
 					})
-					.state('headers.updateuserdetails',{
+					.state('headers.updateuserdetails', {
 						url : '/updateuserdetails',
 						templateUrl : 'views/updateuserdetails.html'
-						
+
 					})
-					.state('headers.updatetask',{
+					.state('headers.updatetask', {
 						url : '/updatetask',
 						templateUrl : 'views/updatetask.html'
-						
+
 					})
 					.state('headers.editdepartment', {
 						url : '/editdepartment',
@@ -97,7 +114,7 @@ materialAdmin
 						url : '/addrole',
 						templateUrl : 'views/addrole.html'
 					})
-					.state('headers.approveLeave', {  
+					.state('headers.approveLeave', {
 						url : '/approveLeave',
 						templateUrl : 'views/approveLeave.html'
 					})
@@ -145,7 +162,7 @@ materialAdmin
 						url : '/timesheethistory',
 						templateUrl : 'views/timesheethistory.html'
 					})
-					
+
 					.state('headers.taskoperations', {
 						url : '/taskoperations',
 						templateUrl : 'views/taskoperations.html'
@@ -621,10 +638,10 @@ materialAdmin
 		});
 
 materialAdmin.config(function($httpProvider) {
-    // Enable cross domain calls
-    $httpProvider.defaults.useXDomain = true;
-
-    // Remove the header used to identify ajax call that would prevent CORS from
+	// Enable cross domain calls
+	// Remove the header used to identify ajax call that would prevent CORS from
 	// working
-    delete $httpProvider.defaults.headers.common['X-Requested-With'];
+	$httpProvider.defaults.xsrfCookieName = 'csrftoken';
+    $httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken';
+	
 });

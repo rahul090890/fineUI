@@ -8,6 +8,7 @@ var materialAdmin = angular.module('materialAdmin', [
     'nouislider',
     'ngTable'
 ])
+
 materialAdmin.directive('numbersOnly', function () {
     return {
         require: 'ngModel',

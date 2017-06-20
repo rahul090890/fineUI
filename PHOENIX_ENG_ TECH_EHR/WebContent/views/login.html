@@ -1,0 +1,49 @@
+
+
+	<script src="js/index.js"></script>
+
+<div id="content">
+
+	<!-- Form Mixin-->
+	<!-- Input Mixin-->
+	<!-- Button Mixin-->
+	<!-- Pen Title-->
+	<div class="pen-title">
+		<h1>Pheonix Engineering Services</h1>
+	</div>
+	<!-- Form Module-->
+	<div class="module form-module">
+		<div class="toggle">
+			<i class="fa fa-times fa-pencil"></i>
+			<div class="tooltip">Click Me</div>
+		</div>
+		<div class="form">
+			<h2>Login to your account</h2>
+			<div class="alert alert-danger" ng-show="error">There was a
+				problem logging in. Please try again.</div>
+			<form role="form" ng-submit="login()">
+				<input type="text" placeholder="Username"  id="username" name="username" ng-model="credentials.username" /> <input
+					type="password" placeholder="Password"  id="password" name="password" ng-model="credentials.password"/>
+				<button type="submit" >Login</button>
+			</form>
+			<li ng-show="authenticated"></li>
+		</div>
+		<div class="form">
+			<h2>Create an account</h2>
+			<form>
+				<input type="text" placeholder="Username" /> <input type="password"
+					placeholder="Password" /> <input type="email"
+					placeholder="Email Address" /> <input type="tel"
+					placeholder="Phone Number" />
+				<button>Register</button>
+			</form>
+		</div>
+		<div class="cta">
+			<a href="">Forgot your password?</a>
+		</div>
+	</div>
+
+
+
+</div>
+

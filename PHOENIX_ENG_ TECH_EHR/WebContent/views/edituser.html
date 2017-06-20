@@ -55,7 +55,10 @@
 												ng-click="sort('employementStatus')" href="#"> Status <span
 													class="{{Header[4]}}"></span>
 											</a></th>
-
+											<th class="Email"><a
+												ng-click="sort('employementStatus')" href="#"> Designation <span
+													class="{{Header[4]}}"></span>
+											</a></th>
 											<th class="Email">
 												<!-- <a ng-click="sort('lastName')" href="#"> --> <a>
 													Actions <span class="{{Header[5]}}"></span>
@@ -71,11 +74,14 @@
 											<td>{{item.lastName}}</td>
 											<td>{{item.dateOfJoin}}</td>
 											<td>{{item.employementStatus}}</td>
+											<td>{{item.designation}}</td>
 											<td>
 												<p>
 													<span><a href="#" ng-click="edituserdetails(item)">Edit</a></span>
-													&nbsp;| &nbsp; <span><a ng-click="deleteuserdetails(item.employeeId)" href='#'>Delete</a></span> &nbsp;|
-													&nbsp;<span><a href='#' ng-click="resetPassword(item.employeeId)" >Reset Pswd</a></span>
+													&nbsp;| &nbsp; <span><a
+														ng-click="deleteuserdetails(item.employeeId)" href='#'>Delete</a></span>
+													&nbsp;| &nbsp;<span><a href='#'
+														ng-click="resetPassword(item.employeeId)">Reset Pswd</a></span>
 												</p>
 											</td>
 										</tr>
@@ -136,8 +142,8 @@
 											<div class="fg-line">
 
 												<div class="select">
-													<select class="form-control" ng-model='designation'
-														ng-options="roles.roleName as roles.roleName   for roles in rolesdata"></select>
+													<select class="form-control" ng-model='roleId'
+														ng-options="roles.roleid as roles.roleName   for roles in rolesdata"></select>
 
 													<!-- <select class="form-control" ng-model='designation'>
 														<option value=''>Select Designation</option>
@@ -317,15 +323,12 @@
 								<div class="form-group" style="margin-top: 5px;">
 									<div class="fg-line">
 
-										<div class="date-picker input-group dp-blue"
-											>
+										<div class="date-picker input-group dp-blue">
 											<span class="input-group-addon"><i
 												class="zmdi zmdi-calendar ma-icon"></i></span>
-											<div class="fg-line"
-												>
-												<input type="text" 
-													readonly class="form-control"
-													ng-model="dtPopup"  />
+											<div class="fg-line">
+												<input type="text" readonly class="form-control"
+													ng-model="dtPopup" />
 											</div>
 
 										</div>

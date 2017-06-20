@@ -1,13 +1,95 @@
-materialAdmin
-		// =========================================================================
-		// Base controller for common functions
-		// =========================================================================
+materialAdmin		/*
+		 * function($timeout, $state, $scope, growlService,$location) {
+		 * $scope.webserviceshost = 'http://localhost:8080/'; // Detact Mobile
+		 * Browser
+		 * 
+		 * $scope.login = function() { var employeeLoginid=$scope.loginid;
+		 * if(employeeLoginid===""||employeeLoginid==undefined){ swal("Id cant
+		 * be blank") return; } var
+		 * loginemployee=$scope.webserviceshost+"/hr/employee/findByloginId/"+employeeLoginid;
+		 * $location.path("/home"); } })
+		 */
+.controller(
+		'logincontroller',
+		function($rootScope, $scope, $http, $location, $window) {
+			$scope.webserviceshost = 'http://localhost:8080/';
+			
+				if(!$window.sessionStorage.getItem("Access-Token") || !$window.sessionStorage.getItem("AuthKey") || !$window.sessionStorage.getItem("EmployeeId")){
+				    $location.path('/login');
+				}
 
+				var authenticate = function(authUrl,credentials, callback) {
+
+					var headers = credentials ? {
+						authorization : "Basic "
+								+ btoa(credentials.username + ":"
+										+ credentials.password)
+					} : {};
+					var url='';
+					if(credentials!=undefined)
+						url=authUrl+credentials.username;
+					
+						
+					$http.get(url, {
+						headers : headers
+					}).success(function(data1, status, resHeaders) {
+						//console.log(data1);
+						//console.log(resHeaders)
+						$window.sessionStorage.setItem("Access-Token",resHeaders('xsrf-token'));
+					    $window.sessionStorage.setItem("AuthKey", resHeaders('authorization'));
+					    $window.sessionStorage.setItem("EmployeeId", data1.employeeId);
+					    $window.sessionStorage.setItem("roleId", data1.role.roleid);
+					    $window.sessionStorage.setItem("roleName", data1.role.roleName);
+					    $window.sessionStorage.setItem("firstName", data1.firstName);
+					    $window.sessionStorage.setItem("lastName", data1.lastName);
+					    							   // console.log(resHeaders('xsrf-token'),resHeaders('authorization'));
+							$rootScope.employeeGlobleData=data1;
+							$rootScope.firstName=$window.sessionStorage.getItem("firstName");;
+							$rootScope.lastNme=$window.sessionStorage.getItem("lastName");;
+							$rootScope.authenticated = true;
+						
+						callback && callback();
+					}).error(function() {
+						$rootScope.authenticated = false;
+						callback && callback();
+						$rootScope.authenticated = false;
+					});
+
+				}
+
+				//authenticate();
+				$scope.credentials = {};
+				$scope.login = function() {
+					var authurl=$scope.webserviceshost +"hr/employee/findByloginId/"
+					var data=authenticate(authurl,$scope.credentials, function() {
+						if ($rootScope.authenticated) {
+							if("Resource"===$window.sessionStorage.getItem("roleName")){
+								$location.path("/headers/applyLeave");
+								$window.location.reload();
+							$scope.error = false;
+							}
+							else{
+								$location.path("/home");
+								$window.location.reload();
+							}
+						} else {
+							$location.path("/login");
+							$scope.error = true;
+						}
+					});
+					console.log(data);
+				};
+
+			
+		})
 		.controller(
 				'materialadminCtrl',
 				function($timeout, $state, $scope, growlService) {
+
 					// Welcome Message
-					growlService.growl('Welcome ADAM!', 'inverse')
+				    var firstName=$window.sessionStorage.getItem("firstName");
+				    var lastName=$window.sessionStorage.getItem("lastName");
+					growlService.growl('Welcome'+firstName+'  '+lastName, 'inverse')
 					$scope.webserviceshost = 'http://localhost:8080/';
 					// Detact Mobile Browser
 					if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i
@@ -15,7 +97,8 @@ materialAdmin
 						angular.element('html').addClass('ismobile');
 					}
 
-					// By default Sidbars are hidden in boxed layout and in wide
+					// By default Sidbars are hidden in boxed layout and in
+					// wide
 					// layout only the right sidebar is hidden.
 					this.sidebarToggle = {
 						left : false,
@@ -70,7 +153,7 @@ materialAdmin
 		// =========================================================================
 		.controller(
 				'headerCtrl',
-				function($timeout, messageService) {
+				function($timeout, messageService, $location, $window,$scope) {
 
 					// Top Search
 					this.openSearch = function() {
@@ -126,6 +209,33 @@ materialAdmin
 					}
 
 					// Clear Local Storage
+					this.logoutUser = function() {
+
+						// Get confirmation, if confirmed clear the localStorage
+						//$location.path("/login");
+						$window.sessionStorage.clear();
+						window.location.href='/PHOENIX_ENG__TECH_EHR/'
+/*
+						swal(
+								{
+									title : "Are u sure to logout?",
+									text : "Logging out ",
+									showCancelButton : true,
+									confirmButtonColor : "#DD6B55",
+									confirmButtonText : "Yes, Logout!",
+									cancelButtonText : "No, cancel it!",
+									closeOnConfirm : false,
+									closeOnCancel : true
+								},
+								function(isConfirm) {
+									if (isConfirm) {
+										 $window.sessionStorage.clear();
+										 $location.path('/login');
+									} 
+								})
+					
+*/
+					}
 					this.clearLocalStorage = function() {
 
 						// Get confirmation, if confirmed clear the localStorage
@@ -145,7 +255,6 @@ materialAdmin
 								});
 
 					}
-
 					// Fullscreen View
 					this.fullScreen = function() {
 						// Launch
@@ -217,8 +326,19 @@ materialAdmin
 		// =========================================================================
 		.controller(
 				'timesheetcontroller',
-				function($scope, $filter, $sce, ngTableParams, $http,
-						filteredListService) {
+				function($scope, $filter, $sce, ngTableParams, $http,$rootScope,
+						filteredListService,$window) {
+					
+					function gettingDetails() {
+						$scope.$on(function(x) {
+							console.log('a');
+
+						});
+					}
+					$scope.$on(function(x) {
+						console.log('a');
+
+					});
 
 					$scope.onlyNumbers = /^\d+$/;
 
@@ -350,7 +470,7 @@ materialAdmin
 						$scope.weekdays = weekday;
 						$scope.totalhourhead = "Total hours";
 					}
-					var employeeid = 5;
+					var employeeid = $window.sessionStorage.getItem("EmployeeId");;
 					var employeeDetails = $scope.webserviceshost
 							+ 'hr/employee/find/' + employeeid;
 					var customeDetails = $scope.webserviceshost
@@ -364,7 +484,11 @@ materialAdmin
 					var allproject = $scope.webserviceshost + 'hr/project/all';
 					$http({
 						method : "GET",
-						url : employeeDetails
+						url : employeeDetails,
+						headers: {
+							'XSRF-TOKEN':$window.sessionStorage.getItem("Access-Token"),
+							'authorization':$window.sessionStorage.getItem("AuthKey")
+						}
 					})
 							.then(
 									function mySucces(response) {
@@ -405,7 +529,11 @@ materialAdmin
 									});
 					$http({
 						method : "GET",
-						url : taskdata
+						url : taskdata,
+						headers: {
+							'XSRF-TOKEN':$window.sessionStorage.getItem("Access-Token"),
+							'authorization':$window.sessionStorage.getItem("AuthKey")
+						}
 					}).then(function mySucces(response) {
 						$scope.tasks = response.data;
 					}, function myError(response) {
@@ -413,7 +541,11 @@ materialAdmin
 					});
 					$http({
 						method : "GET",
-						url : customeDetails
+						url : customeDetails,
+						headers: {
+							'XSRF-TOKEN':$window.sessionStorage.getItem("Access-Token"),
+							'authorization':$window.sessionStorage.getItem("AuthKey")
+						}
 					}).then(function mySucces(response) {
 						$scope.customers = response.data;
 					}, function myError(response) {
@@ -421,7 +553,11 @@ materialAdmin
 					});
 					$http({
 						method : "GET",
-						url : departments
+						url : departments,
+						headers: {
+							'XSRF-TOKEN':$window.sessionStorage.getItem("Access-Token"),
+							'authorization':$window.sessionStorage.getItem("AuthKey")
+						}
 					}).then(function mySucces(response) {
 						$scope.departments = response.data;
 					}, function myError(response) {
@@ -429,7 +565,11 @@ materialAdmin
 					});
 					$http({
 						method : "GET",
-						url : allproject
+						url : allproject,
+						headers: {
+							'XSRF-TOKEN':$window.sessionStorage.getItem("Access-Token"),
+							'authorization':$window.sessionStorage.getItem("AuthKey")
+						}
 					}).then(function mySucces(response) {
 						$scope.projects = response.data;
 					}, function myError(response) {
@@ -437,7 +577,11 @@ materialAdmin
 					});
 					$http({
 						method : "GET",
-						url : allcpc
+						url : allcpc,
+						headers: {
+							'XSRF-TOKEN':$window.sessionStorage.getItem("Access-Token"),
+							'authorization':$window.sessionStorage.getItem("AuthKey")
+						}
 					}).then(function mySucces(response) {
 						$scope.cpcs = response.data;
 					}, function myError(response) {
@@ -557,7 +701,11 @@ materialAdmin
 															.stringify($scope.collectData);
 											$http({
 												method : "POST",
-												url : timesheeturl
+												url : timesheeturl,
+												headers: {
+													'XSRF-TOKEN':$window.sessionStorage.getItem("Access-Token"),
+													'authorization':$window.sessionStorage.getItem("AuthKey")
+												}
 											})
 													.then(
 															function mySucces(
@@ -636,7 +784,11 @@ materialAdmin
 															.stringify($scope.collectData);
 											$http({
 												method : "POST",
-												url : timesheeturl
+												url : timesheeturl,
+												headers: {
+													'XSRF-TOKEN':$window.sessionStorage.getItem("Access-Token"),
+													'authorization':$window.sessionStorage.getItem("AuthKey")
+												}
 											})
 													.then(
 															function mySucces(
@@ -794,16 +946,22 @@ materialAdmin
 				})
 		.controller(
 				'recentitemCtrl',
-				function($scope, $filter, $sce, ngTableParams, $http,
-						filteredListService) {
-
-					var managerid = 70;// hard coded as of now
+				function($scope, $filter,$window, $sce, ngTableParams, $http,$location,
+						filteredListService,$rootScope) {
+					if(!$window.sessionStorage.getItem("Access-Token") || !$window.sessionStorage.getItem("AuthKey") || !$window.sessionStorage.getItem("EmployeeId")){
+					    $location.path('/login');
+					}
+					var employeeid = $window.sessionStorage.getItem("EmployeeId");  // hard coded as of now
 					var pendingapproval = $scope.webserviceshost
-							+ 'hr/leave/pendingApproval/' + managerid;
+							+ 'hr/leave/pendingApproval/' + employeeid;
 
 					$http({
 						method : "GET",
-						url : pendingapproval
+						url : pendingapproval,
+						headers: {
+							'XSRF-TOKEN':$window.sessionStorage.getItem("Access-Token"),
+							'authorization':$window.sessionStorage.getItem("AuthKey")
+						}
 					})
 							.then(
 									function mySucces(response) {
@@ -942,13 +1100,17 @@ materialAdmin
 
 										$http({
 											method : "POST",
-											url : approveLeaveurl
+											url : approveLeaveurl,
+											headers: {
+												'XSRF-TOKEN':$window.sessionStorage.getItem("Access-Token"),
+												'authorization':$window.sessionStorage.getItem("AuthKey")
+											}
 										})
 												.then(
 														function mySucces(
 																response) {
 
-															var managerid = 70;// hard
+															var managerid = $window.sessionStorage.getItem("EmployeeId");;// hard
 															// coded
 															// as
 															// of now
@@ -959,7 +1121,11 @@ materialAdmin
 															$http(
 																	{
 																		method : "GET",
-																		url : pendingapproval
+																		url : pendingapproval,
+																		headers: {
+																			'XSRF-TOKEN':$window.sessionStorage.getItem("Access-Token"),
+																			'authorization':$window.sessionStorage.getItem("AuthKey")
+																		}
 																	})
 																	.then(
 																			function mySucces(
@@ -1134,13 +1300,17 @@ materialAdmin
 
 										$http({
 											method : "POST",
-											url : rejecctLeaveurl
+											url : rejecctLeaveurl,
+											headers: {
+												'XSRF-TOKEN':$window.sessionStorage.getItem("Access-Token"),
+												'authorization':$window.sessionStorage.getItem("AuthKey")
+											}
 										})
 												.then(
 														function mySucces(
 																response) {
 
-															var managerid = 70;// hard
+															var managerid = $window.sessionStorage.getItem("EmployeeId");;// hard
 															// coded
 															// as
 															// of
@@ -1152,7 +1322,11 @@ materialAdmin
 															$http(
 																	{
 																		method : "GET",
-																		url : pendingapproval
+																		url : pendingapproval,
+																		headers: {
+																			'XSRF-TOKEN':$window.sessionStorage.getItem("Access-Token"),
+																			'authorization':$window.sessionStorage.getItem("AuthKey")
+																		}
 																	})
 																	.then(
 																			function mySucces(
@@ -1308,7 +1482,10 @@ materialAdmin
 		// controller for leave applied history top table
 		.controller(
 				'leavebalancecontroller',
-				function($scope, $filter, $sce, ngTableParams, $http) {
+				function($scope, $filter, $sce, ngTableParams, $http,$rootScope,$window,$location) {
+					if(!$window.sessionStorage.getItem("Access-Token") || !$window.sessionStorage.getItem("AuthKey") || !$window.sessionStorage.getItem("EmployeeId")){
+					    $location.path('/login');
+					}
 					$scope.today = function() {
 						$scope.dt = new Date();
 
@@ -1350,7 +1527,7 @@ materialAdmin
 							'dd.MM.yyyy', 'shortDate' ];
 					$scope.format = $scope.formats[1];
 
-					var employeeid = 5;// hardcode
+					var employeeid = $window.sessionStorage.getItem("EmployeeId");;
 					var date = new Date();
 					var year = date.getFullYear();
 					var leavebalanceurl = $scope.webserviceshost
@@ -1359,7 +1536,11 @@ materialAdmin
 							+ 'hr/employee/find/' + employeeid;
 					$http({
 						method : "GET",
-						url : leavebalanceurl
+						url : leavebalanceurl,
+						headers: {
+							'XSRF-TOKEN':$window.sessionStorage.getItem("Access-Token"),
+							'authorization':$window.sessionStorage.getItem("AuthKey")
+						}
 					}).then(function mySucces(response) {
 
 						if (response != 'undefiend' && response != "") {
@@ -1370,7 +1551,11 @@ materialAdmin
 					});
 					$http({
 						method : "GET",
-						url : employeeDetails
+						url : employeeDetails,
+						headers: {
+							'XSRF-TOKEN':$window.sessionStorage.getItem("Access-Token"),
+							'authorization':$window.sessionStorage.getItem("AuthKey")
+						}
 					})
 							.then(
 									function mySucces(response) {
@@ -1484,7 +1669,11 @@ materialAdmin
 								+ '/' + leavetaken + '/' + comments;
 						$http({
 							method : "POST",
-							url : applyleaveurl
+							url : applyleaveurl,
+							headers: {
+								'XSRF-TOKEN':$window.sessionStorage.getItem("Access-Token"),
+								'authorization':$window.sessionStorage.getItem("AuthKey")
+							}
 						}).then(
 								function mySucces(response) {
 
@@ -1507,14 +1696,21 @@ materialAdmin
 				})
 		.controller(
 				'leavetypehistorytable',
-				function($scope, $filter, $sce, ngTableParams, $http,
+				function($scope, $filter, $sce, ngTableParams, $http,$rootScope,$window,$location,
 						filteredListService) {
-					var employeeid = 5;
+					if(!$window.sessionStorage.getItem("Access-Token") || !$window.sessionStorage.getItem("AuthKey") || !$window.sessionStorage.getItem("EmployeeId")){
+					    $location.path('/login');
+					}
+					var employeeid = $window.sessionStorage.getItem("EmployeeId");;
 					var leavehistory = $scope.webserviceshost
 							+ 'hr/leave/history/' + employeeid;
 					$http({
 						method : "GET",
-						url : leavehistory
+						url : leavehistory,
+						headers: {
+							'XSRF-TOKEN':$window.sessionStorage.getItem("Access-Token"),
+							'authorization':$window.sessionStorage.getItem("AuthKey")
+						}
 					})
 							.then(
 									function mySucces(response) {
@@ -1675,13 +1871,20 @@ materialAdmin
 				})
 		.controller(
 				'cpceditcontroller',
-				function($scope, $filter, filteredListService, $http) {
+				function($scope, $filter, filteredListService, $http,$window,$location) {
+					if(!$window.sessionStorage.getItem("Access-Token") || !$window.sessionStorage.getItem("AuthKey") || !$window.sessionStorage.getItem("EmployeeId")){
+					    $location.path('/login');
+					}
 					var allcpc = $scope.webserviceshost
 							+ 'hr/customerProgram/all';
 					$('#updatecpcDetails').hide();
 					$http({
 						method : "GET",
-						url : allcpc
+						url : allcpc,
+						headers: {
+							'XSRF-TOKEN':$window.sessionStorage.getItem("Access-Token"),
+							'authorization':$window.sessionStorage.getItem("AuthKey")
+						}
 					})
 							.then(
 									function mySucces(response) {
@@ -1810,7 +2013,11 @@ materialAdmin
 								+ 'hr/refData/list';
 						$http({
 							method : "GET",
-							url : referencedata
+							url : referencedata,
+							headers: {
+								'XSRF-TOKEN':$window.sessionStorage.getItem("Access-Token"),
+								'authorization':$window.sessionStorage.getItem("AuthKey")
+							}
 						}).then(function mySucces(response) {
 
 							if (response != 'undefiend' && response != "") {
@@ -1821,7 +2028,11 @@ materialAdmin
 						});
 						$http({
 							method : "GET",
-							url : allcustomer
+							url : allcustomer,
+							headers: {
+								'XSRF-TOKEN':$window.sessionStorage.getItem("Access-Token"),
+								'authorization':$window.sessionStorage.getItem("AuthKey")
+							}
 						}).then(function mySucces(response) {
 
 							if (response != 'undefiend' && response != "") {
@@ -1848,7 +2059,11 @@ materialAdmin
 							savecpcurl += additional;
 							$http({
 								method : "POST",
-								url : savecpcurl
+								url : savecpcurl,
+								headers: {
+									'XSRF-TOKEN':$window.sessionStorage.getItem("Access-Token"),
+									'authorization':$window.sessionStorage.getItem("AuthKey")
+								}
 							})
 									.then(
 											function mySucces(response) {
@@ -1858,7 +2073,11 @@ materialAdmin
 												$('#updatecpcDetails').hide();
 												$http({
 													method : "GET",
-													url : allcpc
+													url : allcpc,
+													headers: {
+														'XSRF-TOKEN':$window.sessionStorage.getItem("Access-Token"),
+														'authorization':$window.sessionStorage.getItem("AuthKey")
+													}
 												})
 														.then(
 																function mySucces(
@@ -2012,14 +2231,21 @@ materialAdmin
 				})
 		.controller(
 				'customerprogramcontroller',
-				function($scope, $filter, filteredListService, $http) {
+				function($scope, $filter, filteredListService, $http,$window,$location) {
+					if(!$window.sessionStorage.getItem("Access-Token") || !$window.sessionStorage.getItem("AuthKey") || !$window.sessionStorage.getItem("EmployeeId")){
+					    $location.path('/login');
+					}
 					var allcustomer = $scope.webserviceshost
 							+ 'hr/customer/all';
 					var referencedata = $scope.webserviceshost
 							+ 'hr/refData/list';
 					$http({
 						method : "GET",
-						url : referencedata
+						url : referencedata,
+						headers: {
+							'XSRF-TOKEN':$window.sessionStorage.getItem("Access-Token"),
+							'authorization':$window.sessionStorage.getItem("AuthKey")
+						}
 					}).then(function mySucces(response) {
 
 						if (response != 'undefiend' && response != "") {
@@ -2030,7 +2256,11 @@ materialAdmin
 					});
 					$http({
 						method : "GET",
-						url : allcustomer
+						url : allcustomer,
+						headers: {
+							'XSRF-TOKEN':$window.sessionStorage.getItem("Access-Token"),
+							'authorization':$window.sessionStorage.getItem("AuthKey")
+						}
 					}).then(function mySucces(response) {
 
 						if (response != 'undefiend' && response != "") {
@@ -2051,7 +2281,11 @@ materialAdmin
 
 						$http({
 							method : "POST",
-							url : createCPC
+							url : createCPC,
+							headers: {
+								'XSRF-TOKEN':$window.sessionStorage.getItem("Access-Token"),
+								'authorization':$window.sessionStorage.getItem("AuthKey")
+							}
 						})
 								.then(
 										function mySucces(response) {
@@ -2067,13 +2301,20 @@ materialAdmin
 				})
 		.controller(
 				'editUserController',
-				function($scope, $filter, filteredListService, $http) {
+				function($scope, $filter, filteredListService, $http,$window,$location) {
+					if(!$window.sessionStorage.getItem("Access-Token") || !$window.sessionStorage.getItem("AuthKey") || !$window.sessionStorage.getItem("EmployeeId")){
+					    $location.path('/login');
+					}
 					$('#edituser').hide();
 					var allusersURL = $scope.webserviceshost
 							+ 'hr/employee/all';
 					$http({
 						method : "GET",
-						url : allusersURL
+						url : allusersURL,
+						headers: {
+							'XSRF-TOKEN':$window.sessionStorage.getItem("Access-Token"),
+							'authorization':$window.sessionStorage.getItem("AuthKey")
+						}
 					})
 							.then(
 									function mySucces(response) {
@@ -2173,7 +2414,11 @@ materialAdmin
 																$http(
 																		{
 																			method : "POST",
-																			url : deleteemployee
+																			url : deleteemployee,
+																			headers: {
+																				'XSRF-TOKEN':$window.sessionStorage.getItem("Access-Token"),
+																				'authorization':$window.sessionStorage.getItem("AuthKey")
+																			}
 																		})
 																		.then(
 																				function mySucces(
@@ -2184,7 +2429,11 @@ materialAdmin
 																					$http(
 																							{
 																								method : "GET",
-																								url : allusersURL
+																								url : allusersURL,
+																								headers: {
+																									'XSRF-TOKEN':$window.sessionStorage.getItem("Access-Token"),
+																									'authorization':$window.sessionStorage.getItem("AuthKey")
+																								}
 																							})
 																							.then(
 																									function mySucces(
@@ -2383,7 +2632,11 @@ materialAdmin
 																$http(
 																		{
 																			method : "DELETE",
-																			url : deleteemployee
+																			url : deleteemployee,
+																			headers: {
+																				'XSRF-TOKEN':$window.sessionStorage.getItem("Access-Token"),
+																				'authorization':$window.sessionStorage.getItem("AuthKey")
+																			}
 																		})
 																		.then(
 																				function mySucces(
@@ -2394,7 +2647,11 @@ materialAdmin
 																					$http(
 																							{
 																								method : "GET",
-																								url : allusersURL
+																								url : allusersURL,
+																								headers: {
+																									'XSRF-TOKEN':$window.sessionStorage.getItem("Access-Token"),
+																									'authorization':$window.sessionStorage.getItem("AuthKey")
+																								}
 																							})
 																							.then(
 																									function mySucces(
@@ -2620,6 +2877,7 @@ materialAdmin
 												$scope.employeeStatus = item.employeeStatus;
 												$scope.userDepartmentId = item.department.departmentId;
 												$scope.managerId = item.manager.employeeId;
+												$scope.roleId = item.role.roleid;
 												$scope.designation = item.designation;
 												$scope.dtPopup = item.dateOfJoin;
 												$scope.statusVal = [ {
@@ -2644,7 +2902,11 @@ materialAdmin
 
 												$http({
 													method : "GET",
-													url : roles
+													url : roles,
+													headers: {
+														'XSRF-TOKEN':$window.sessionStorage.getItem("Access-Token"),
+														'authorization':$window.sessionStorage.getItem("AuthKey")
+													}
 												})
 														.then(
 																function mySucces(
@@ -2663,7 +2925,11 @@ materialAdmin
 																});
 												$http({
 													method : "GET",
-													url : departments
+													url : departments,
+													headers: {
+														'XSRF-TOKEN':$window.sessionStorage.getItem("Access-Token"),
+														'authorization':$window.sessionStorage.getItem("AuthKey")
+													}
 												})
 														.then(
 																function mySucces(
@@ -2682,7 +2948,11 @@ materialAdmin
 																});
 												$http({
 													method : "GET",
-													url : managers
+													url : managers,
+													headers: {
+														'XSRF-TOKEN':$window.sessionStorage.getItem("Access-Token"),
+														'authorization':$window.sessionStorage.getItem("AuthKey")
+													}
 												})
 														.then(
 																function mySucces(
@@ -2711,6 +2981,7 @@ materialAdmin
 												var managerId = $scope.managerId;
 												var address = $scope.address;
 												var designation = $scope.designation;
+												var roleid = $scope.roleId;
 												var employeeType = $scope.employeeType;
 												var userdepartmentId = $scope.userDepartmentId;
 												var employeeStatus = $scope.employeeStatus;
@@ -2729,13 +3000,17 @@ materialAdmin
 														+ employeeType + '/'
 														+ userdepartmentId
 														+ '/' + employeeStatus
-														+ '/' + date;
+														+ '/' + date+ '/' + roleid;
 												updateEmployee = updateEmployee
 														+ addition;
 
 												$http({
 													method : "POST",
-													url : updateEmployee
+													url : updateEmployee,
+													headers: {
+														'XSRF-TOKEN':$window.sessionStorage.getItem("Access-Token"),
+														'authorization':$window.sessionStorage.getItem("AuthKey")
+													}
 												})
 														.then(
 																function mySucces(
@@ -2748,7 +3023,11 @@ materialAdmin
 																	$http(
 																			{
 																				method : "GET",
-																				url : allusersURL
+																				url : allusersURL,
+																				headers: {
+																					'XSRF-TOKEN':$window.sessionStorage.getItem("Access-Token"),
+																					'authorization':$window.sessionStorage.getItem("AuthKey")
+																				}
 																			})
 																			.then(
 																					function mySucces(
@@ -2774,6 +3053,7 @@ materialAdmin
 																								$scope.firstName = '';
 																								$scope.lastName = '';
 																								$scope.emailId = '';
+																								$scope.roleId = '';
 																								$scope.joiningdate = ''
 																								$scope.searchText = '';
 																								$scope.currentPage = 0;
@@ -2952,14 +3232,22 @@ materialAdmin
 				})
 		.controller(
 				'addtaskcontroller',
-				function($scope, $filter, $http) {
+				function($scope, $filter, $http,$window,$location
+						) {
+					if(!$window.sessionStorage.getItem("Access-Token") || !$window.sessionStorage.getItem("AuthKey") || !$window.sessionStorage.getItem("EmployeeId")){
+					    $location.path('/login');
+					}
 					var alldepartmentURL = $scope.webserviceshost
 							+ 'hr/department/all';
 					var allcustomer = $scope.webserviceshost
 							+ 'hr/customer/all';
 					$http({
 						method : "GET",
-						url : alldepartmentURL
+						url : alldepartmentURL,
+						headers: {
+							'XSRF-TOKEN':$window.sessionStorage.getItem("Access-Token"),
+							'authorization':$window.sessionStorage.getItem("AuthKey")
+						}
 					}).then(function mySucces(response) {
 						console.log(response.data);
 						if (response != 'undefiend' && response != "") {
@@ -2970,7 +3258,11 @@ materialAdmin
 					});
 					$http({
 						method : "GET",
-						url : allcustomer
+						url : allcustomer,
+						headers: {
+							'XSRF-TOKEN':$window.sessionStorage.getItem("Access-Token"),
+							'authorization':$window.sessionStorage.getItem("AuthKey")
+						}
 					}).then(function mySucces(response) {
 						console.log(response.data);
 						if (response != 'undefiend' && response != "") {
@@ -2989,7 +3281,11 @@ materialAdmin
 
 						$http({
 							method : "POST",
-							url : addTask
+							url : addTask,
+							headers: {
+								'XSRF-TOKEN':$window.sessionStorage.getItem("Access-Token"),
+								'authorization':$window.sessionStorage.getItem("AuthKey")
+							}
 						}).then(function mySucces(response) {
 							swal({
 								title : "Task Added Successfully",
@@ -3010,7 +3306,10 @@ materialAdmin
 
 		.controller(
 				'addprojectcontroller',
-				function($scope, $filter, filteredListService, $http) {
+				function($scope, $filter, filteredListService, $http,$window,$location) {
+					if(!$window.sessionStorage.getItem("Access-Token") || !$window.sessionStorage.getItem("AuthKey") || !$window.sessionStorage.getItem("EmployeeId")){
+					    $location.path('/login');
+					}
 
 					var referenceData = $scope.webserviceshost
 							+ 'hr/refData/list';
@@ -3755,7 +4054,11 @@ materialAdmin
 
 					$http({
 						method : "GET",
-						url : allDepartment
+						url : allDepartment,
+						headers: {
+							'XSRF-TOKEN':$window.sessionStorage.getItem("Access-Token"),
+							'authorization':$window.sessionStorage.getItem("AuthKey")
+						}
 					}).then(function mySucces(response) {
 
 						$scope.departments = response.data;
@@ -3765,7 +4068,11 @@ materialAdmin
 					});
 					$http({
 						method : "GET",
-						url : allcpc
+						url : allcpc,
+						headers: {
+							'XSRF-TOKEN':$window.sessionStorage.getItem("Access-Token"),
+							'authorization':$window.sessionStorage.getItem("AuthKey")
+						}
 					}).then(function mySucces(response) {
 
 						$scope.cpc = response.data;
@@ -3775,7 +4082,11 @@ materialAdmin
 					});
 					$http({
 						method : "GET",
-						url : allcustomer
+						url : allcustomer,
+						headers: {
+							'XSRF-TOKEN':$window.sessionStorage.getItem("Access-Token"),
+							'authorization':$window.sessionStorage.getItem("AuthKey")
+						}
 					}).then(function mySucces(response) {
 
 						$scope.customers = response.data;
@@ -3785,7 +4096,11 @@ materialAdmin
 					});
 					$http({
 						method : "GET",
-						url : referenceData
+						url : referenceData,
+						headers: {
+							'XSRF-TOKEN':$window.sessionStorage.getItem("Access-Token"),
+							'authorization':$window.sessionStorage.getItem("AuthKey")
+						}
 					}).then(function mySucces(response) {
 
 						console.log(response.data);
@@ -3815,7 +4130,11 @@ materialAdmin
 						projectadd = projectadd + additional;
 						$http({
 							method : "POST",
-							url : projectadd
+							url : projectadd,
+							headers: {
+								'XSRF-TOKEN':$window.sessionStorage.getItem("Access-Token"),
+								'authorization':$window.sessionStorage.getItem("AuthKey")
+							}
 						}).then(function mySucces(response) {
 
 							console.log(response.data);
@@ -3840,12 +4159,19 @@ materialAdmin
 				})
 		.controller(
 				'editprojectdetails',
-				function($scope, $filter, filteredListService, $http) {
+				function($scope, $filter, filteredListService, $http,$window,$location) {
+					if(!$window.sessionStorage.getItem("Access-Token") || !$window.sessionStorage.getItem("AuthKey") || !$window.sessionStorage.getItem("EmployeeId")){
+					    $location.path('/login');
+					}
 					var allTask = $scope.webserviceshost + 'hr/project/all';
 					$("#editprojectdata").hide();
 					$http({
 						method : "GET",
-						url : allTask
+						url : allTask,
+						headers: {
+							'XSRF-TOKEN':$window.sessionStorage.getItem("Access-Token"),
+							'authorization':$window.sessionStorage.getItem("AuthKey")
+						}
 					})
 							.then(
 									function mySucces(response) {
@@ -4953,7 +5279,11 @@ materialAdmin
 
 						$http({
 							method : "GET",
-							url : allDepartment
+							url : allDepartment,
+							headers: {
+								'XSRF-TOKEN':$window.sessionStorage.getItem("Access-Token"),
+								'authorization':$window.sessionStorage.getItem("AuthKey")
+							}
 						}).then(function mySucces(response) {
 
 							$scope.departments = response.data;
@@ -4963,7 +5293,11 @@ materialAdmin
 						});
 						$http({
 							method : "GET",
-							url : allcpc
+							url : allcpc,
+							headers: {
+								'XSRF-TOKEN':$window.sessionStorage.getItem("Access-Token"),
+								'authorization':$window.sessionStorage.getItem("AuthKey")
+							}
 						}).then(function mySucces(response) {
 
 							$scope.cpc = response.data;
@@ -4973,7 +5307,11 @@ materialAdmin
 						});
 						$http({
 							method : "GET",
-							url : allcustomer
+							url : allcustomer,
+							headers: {
+								'XSRF-TOKEN':$window.sessionStorage.getItem("Access-Token"),
+								'authorization':$window.sessionStorage.getItem("AuthKey")
+							}
 						}).then(function mySucces(response) {
 
 							$scope.customers = response.data;
@@ -4983,7 +5321,11 @@ materialAdmin
 						});
 						$http({
 							method : "GET",
-							url : referenceData
+							url : referenceData,
+							headers: {
+								'XSRF-TOKEN':$window.sessionStorage.getItem("Access-Token"),
+								'authorization':$window.sessionStorage.getItem("AuthKey")
+							}
 						})
 								.then(
 										function mySucces(response) {
@@ -5000,7 +5342,11 @@ materialAdmin
 
 						$http({
 							method : "GET",
-							url : referenceData
+							url : referenceData,
+							headers: {
+								'XSRF-TOKEN':$window.sessionStorage.getItem("Access-Token"),
+								'authorization':$window.sessionStorage.getItem("AuthKey")
+							}
 						})
 								.then(
 										function mySucces(response) {
@@ -5037,7 +5383,11 @@ materialAdmin
 						projectadd = projectadd + additional;
 						$http({
 							method : "POST",
-							url : projectadd
+							url : projectadd,
+							headers: {
+								'XSRF-TOKEN':$window.sessionStorage.getItem("Access-Token"),
+								'authorization':$window.sessionStorage.getItem("AuthKey")
+							}
 						})
 								.then(
 										function mySucces(response) {
@@ -5049,7 +5399,11 @@ materialAdmin
 											$("#editprojectdata").hide();
 											$http({
 												method : "GET",
-												url : allTask
+												url : allTask,
+												headers: {
+													'XSRF-TOKEN':$window.sessionStorage.getItem("Access-Token"),
+													'authorization':$window.sessionStorage.getItem("AuthKey")
+												}
 											})
 													.then(
 															function mySucces(
@@ -5220,13 +5574,20 @@ materialAdmin
 				})
 		.controller(
 				'edittaskcontroller',
-				function($scope, $filter, filteredListService, $http) {
+				function($scope, $filter, filteredListService, $http,$window,$location) {
+					if(!$window.sessionStorage.getItem("Access-Token") || !$window.sessionStorage.getItem("AuthKey") || !$window.sessionStorage.getItem("EmployeeId")){
+					    $location.path('/login');
+					}
 					var allTask = $scope.webserviceshost + 'hr/task/all';
 
 					$('#updatetask').hide();
 					$http({
 						method : "GET",
-						url : allTask
+						url : allTask,
+						headers: {
+							'XSRF-TOKEN':$window.sessionStorage.getItem("Access-Token"),
+							'authorization':$window.sessionStorage.getItem("AuthKey")
+						}
 					})
 							.then(
 									function mySucces(response) {
@@ -5356,7 +5717,11 @@ materialAdmin
 								+ 'hr/customer/all';
 						$http({
 							method : "GET",
-							url : alldepartmentURL
+							url : alldepartmentURL,
+							headers: {
+								'XSRF-TOKEN':$window.sessionStorage.getItem("Access-Token"),
+								'authorization':$window.sessionStorage.getItem("AuthKey")
+							}
 						}).then(function mySucces(response) {
 							console.log(response.data);
 							if (response != 'undefiend' && response != "") {
@@ -5367,7 +5732,11 @@ materialAdmin
 						});
 						$http({
 							method : "GET",
-							url : allcustomer
+							url : allcustomer,
+							headers: {
+								'XSRF-TOKEN':$window.sessionStorage.getItem("Access-Token"),
+								'authorization':$window.sessionStorage.getItem("AuthKey")
+							}
 						}).then(function mySucces(response) {
 							console.log(response.data);
 							if (response != 'undefiend' && response != "") {
@@ -5391,7 +5760,11 @@ materialAdmin
 						taskUpdate = taskUpdate + add;
 						$http({
 							method : "POST",
-							url : taskUpdate
+							url : taskUpdate,
+							headers: {
+								'XSRF-TOKEN':$window.sessionStorage.getItem("Access-Token"),
+								'authorization':$window.sessionStorage.getItem("AuthKey")
+							}
 						})
 								.then(
 										function mySucces(response) {
@@ -5403,7 +5776,11 @@ materialAdmin
 											$('#updatetask').hide();
 											$http({
 												method : "GET",
-												url : allTask
+												url : allTask,
+												headers: {
+													'XSRF-TOKEN':$window.sessionStorage.getItem("Access-Token"),
+													'authorization':$window.sessionStorage.getItem("AuthKey")
+												}
 											})
 													.then(
 															function mySucces(
@@ -5562,12 +5939,19 @@ materialAdmin
 				})
 		.controller(
 				'editRollcontroller',
-				function($scope, $filter, filteredListService, $http) {
+				function($scope, $filter, filteredListService, $http,$window,$location) {
+					if(!$window.sessionStorage.getItem("Access-Token") || !$window.sessionStorage.getItem("AuthKey") || !$window.sessionStorage.getItem("EmployeeId")){
+					    $location.path('/login');
+					}
 					var getroll = $scope.webserviceshost + 'hr/role/all';
 					$('#updateRoleDetails').hide();
 					$http({
 						method : "GET",
-						url : getroll
+						url : getroll,
+						headers: {
+							'XSRF-TOKEN':$window.sessionStorage.getItem("Access-Token"),
+							'authorization':$window.sessionStorage.getItem("AuthKey")
+						}
 					})
 							.then(
 									function mySucces(response) {
@@ -5726,7 +6110,11 @@ materialAdmin
 								+ roleName + '/' + parentRole;
 						$http({
 							method : "POST",
-							url : updaterole
+							url : updaterole,
+							headers: {
+								'XSRF-TOKEN':$window.sessionStorage.getItem("Access-Token"),
+								'authorization':$window.sessionStorage.getItem("AuthKey")
+							}
 						})
 								.then(
 										function mySucces(response) {
@@ -5735,7 +6123,11 @@ materialAdmin
 											$('#updateRoleDetails').hide();
 											$http({
 												method : "GET",
-												url : getroller
+												url : getroller,
+												headers: {
+													'XSRF-TOKEN':$window.sessionStorage.getItem("Access-Token"),
+													'authorization':$window.sessionStorage.getItem("AuthKey")
+												}
 											})
 													.then(
 															function mySucces(
@@ -5930,7 +6322,11 @@ materialAdmin
 														+ parentRole;
 												$http({
 													method : "POST",
-													url : updaterole
+													url : updaterole,
+													headers: {
+														'XSRF-TOKEN':$window.sessionStorage.getItem("Access-Token"),
+														'authorization':$window.sessionStorage.getItem("AuthKey")
+													}
 												})
 														.then(
 																function mySucces(
@@ -5943,7 +6339,11 @@ materialAdmin
 																	$http(
 																			{
 																				method : "GET",
-																				url : getroll
+																				url : getroll,
+																				headers: {
+																					'XSRF-TOKEN':$window.sessionStorage.getItem("Access-Token"),
+																					'authorization':$window.sessionStorage.getItem("AuthKey")
+																				}
 																			})
 																			.then(
 																					function mySucces(
@@ -5972,12 +6372,19 @@ materialAdmin
 
 				})
 
-		.controller('addrollcontroller', function($scope, $filter, $http) {
+		.controller('addrollcontroller', function($scope, $filter, $http,$window,$location) {
+			if(!$window.sessionStorage.getItem("Access-Token") || !$window.sessionStorage.getItem("AuthKey") || !$window.sessionStorage.getItem("EmployeeId")){
+			    $location.path('/login');
+			}
 			var getroll = $scope.webserviceshost + 'hr/role/all';
 
 			$http({
 				method : "GET",
-				url : getroll
+				url : getroll,
+				headers: {
+					'XSRF-TOKEN':$window.sessionStorage.getItem("Access-Token"),
+					'authorization':$window.sessionStorage.getItem("AuthKey")
+				}
 			}).then(function mySucces(response) {
 				console.log(response.data);
 				$scope.rolls = response.data;
@@ -5994,7 +6401,11 @@ materialAdmin
 				addroll = addroll + createRoll;
 				$http({
 					method : "POST",
-					url : addroll
+					url : addroll,
+					headers: {
+						'XSRF-TOKEN':$window.sessionStorage.getItem("Access-Token"),
+						'authorization':$window.sessionStorage.getItem("AuthKey")
+					}
 				}).then(function mySucces(response) {
 					console.log(response.data);
 					$scope.rolls = response.data;
@@ -6018,13 +6429,20 @@ materialAdmin
 
 		.controller(
 				'editdepartmentcontroller',
-				function($scope, $filter, filteredListService, $http) {
+				function($scope, $filter, filteredListService, $http,$window,$location) {
+					if(!$window.sessionStorage.getItem("Access-Token") || !$window.sessionStorage.getItem("AuthKey") || !$window.sessionStorage.getItem("EmployeeId")){
+					    $location.path('/login');
+					}
 					$('#departmentupdatedetails').hide();
 					var allusersURL = $scope.webserviceshost
 							+ 'hr/department/all';
 					$http({
 						method : "GET",
-						url : allusersURL
+						url : allusersURL,
+						headers: {
+							'XSRF-TOKEN':$window.sessionStorage.getItem("Access-Token"),
+							'authorization':$window.sessionStorage.getItem("AuthKey")
+						}
 					})
 							.then(
 									function mySucces(response) {
@@ -6166,7 +6584,11 @@ materialAdmin
 								+ 'hr/department/all';
 						$http({
 							method : "GET",
-							url : allusersURL
+							url : allusersURL,
+							headers: {
+								'XSRF-TOKEN':$window.sessionStorage.getItem("Access-Token"),
+								'authorization':$window.sessionStorage.getItem("AuthKey")
+							}
 						}).then(function mySucces(response) {
 							$scope.departments = response.data;
 
@@ -6177,7 +6599,11 @@ materialAdmin
 								+ 'hr/employee/managers';
 						$http({
 							method : "GET",
-							url : allManager
+							url : allManager,
+							headers: {
+								'XSRF-TOKEN':$window.sessionStorage.getItem("Access-Token"),
+								'authorization':$window.sessionStorage.getItem("AuthKey")
+							}
 						}).then(function mySucces(response) {
 							$scope.managersList = response.data;
 						}, function myError(response) {
@@ -6199,7 +6625,11 @@ materialAdmin
 							addDepartment = addDepartment + additional;
 							$http({
 								method : "POST",
-								url : addDepartment
+								url : addDepartment,
+								headers: {
+									'XSRF-TOKEN':$window.sessionStorage.getItem("Access-Token"),
+									'authorization':$window.sessionStorage.getItem("AuthKey")
+								}
 							})
 									.then(
 											function mySucces(response) {
@@ -6212,7 +6642,11 @@ materialAdmin
 														+ 'hr/department/all';
 												$http({
 													method : "GET",
-													url : allusersURL
+													url : allusersURL,
+													headers: {
+														'XSRF-TOKEN':$window.sessionStorage.getItem("Access-Token"),
+														'authorization':$window.sessionStorage.getItem("AuthKey")
+													}
 												})
 														.then(
 																function mySucces(
@@ -6378,7 +6812,10 @@ materialAdmin
 				})
 		.controller(
 				'allManagerCTRL',
-				function($scope, $filter, $sce, ngTableParams, $http) {
+				function($scope, $filter, $sce, ngTableParams, $http,$window,$location) {
+					if(!$window.sessionStorage.getItem("Access-Token") || !$window.sessionStorage.getItem("AuthKey") || !$window.sessionStorage.getItem("EmployeeId")){
+					    $location.path('/login');
+					}
 
 					$scope.today = function() {
 						$scope.dt = new Date();
@@ -6430,7 +6867,11 @@ materialAdmin
 
 					$http({
 						method : "GET",
-						url : roles
+						url : roles,
+						headers: {
+							'XSRF-TOKEN':$window.sessionStorage.getItem("Access-Token"),
+							'authorization':$window.sessionStorage.getItem("AuthKey")
+						}
 					}).then(function mySucces(response) {
 						console.log(response.data);
 						if (response != 'undefiend' && response != "") {
@@ -6441,7 +6882,11 @@ materialAdmin
 					});
 					$http({
 						method : "GET",
-						url : departments
+						url : departments,
+						headers: {
+							'XSRF-TOKEN':$window.sessionStorage.getItem("Access-Token"),
+							'authorization':$window.sessionStorage.getItem("AuthKey")
+						}
 					}).then(function mySucces(response) {
 						console.log(response.data);
 						if (response != 'undefiend' && response != "") {
@@ -6452,7 +6897,11 @@ materialAdmin
 					});
 					$http({
 						method : "GET",
-						url : managers
+						url : managers,
+						headers: {
+							'XSRF-TOKEN':$window.sessionStorage.getItem("Access-Token"),
+							'authorization':$window.sessionStorage.getItem("AuthKey")
+						}
 					}).then(function mySucces(response) {
 						console.log(response.data);
 						if (response != 'undefiend' && response != "") {
@@ -6485,7 +6934,8 @@ materialAdmin
 						var loginPassword = $scope.loginPassword;
 						var managerId = $scope.managerId;
 						var address = $scope.address;
-						var designation = $scope.designation;
+						var roleid = $scope.role;
+						var designation=$scope.designation;
 						var employeeType = $scope.employeeType;
 						var userdepartmentId = $scope.userDepartmentId;
 						var employeeStatus = $scope.employeeStatus;
@@ -6496,11 +6946,15 @@ materialAdmin
 								+ '/' + managerId + '/' + address + '/'
 								+ designation + '/' + employeeType + '/'
 								+ userdepartmentId + '/' + employeeStatus + '/'
-								+ date;
+								+ date+'/'+roleid;
 						createEmployee = createEmployee + addition;
 						$http({
 							method : "POST",
-							url : createEmployee
+							url : createEmployee,
+							headers: {
+								'XSRF-TOKEN':$window.sessionStorage.getItem("Access-Token"),
+								'authorization':$window.sessionStorage.getItem("AuthKey")
+							}
 						}).then(function mySucces(response) {
 							console.log(response.data);
 							$scope.rolls = response.data;
@@ -6518,7 +6972,8 @@ materialAdmin
 							$scope.loginPassword = '';
 							$scope.managerId = '';
 							$scope.address = '';
-							$scope.designation = {};
+							$scope.roleid='';
+							$scope.designation = '';
 							$scope.employeeType = {};
 							$scope.userDepartmentId = {};
 							$scope.dtPopup = {};
@@ -6530,7 +6985,10 @@ materialAdmin
 				})
 		.controller(
 				'adddepartmentcontroller',
-				function($scope, $filter, $http) {
+				function($scope, $filter, $http,$window,$location) {
+					if(!$window.sessionStorage.getItem("Access-Token") || !$window.sessionStorage.getItem("AuthKey") || !$window.sessionStorage.getItem("EmployeeId")){
+					    $location.path('/login');
+					}
 
 					var departmentcontroller = $scope.webserviceshost
 							+ 'hr/department/all';
@@ -6539,7 +6997,11 @@ materialAdmin
 
 					$http({
 						method : "GET",
-						url : departmentcontroller
+						url : departmentcontroller,
+						headers: {
+							'XSRF-TOKEN':$window.sessionStorage.getItem("Access-Token"),
+							'authorization':$window.sessionStorage.getItem("AuthKey")
+						}
 					}).then(function mySucces(response) {
 						console.log(response.data);
 						$scope.departments = response.data;
@@ -6576,7 +7038,11 @@ materialAdmin
 						addDepartment = addDepartment + additional;
 						$http({
 							method : "POST",
-							url : addDepartment
+							url : addDepartment,
+							headers: {
+								'XSRF-TOKEN':$window.sessionStorage.getItem("Access-Token"),
+								'authorization':$window.sessionStorage.getItem("AuthKey")
+							}
 						}).then(function mySucces(response) {
 							console.log(response.data);
 							swal({
@@ -6599,13 +7065,20 @@ materialAdmin
 				})
 		.controller(
 				'editcustomercontroller',
-				function($scope, $filter, filteredListService, $http) {
+				function($scope, $filter, filteredListService, $http,$window,$location) {
+					if(!$window.sessionStorage.getItem("Access-Token") || !$window.sessionStorage.getItem("AuthKey") || !$window.sessionStorage.getItem("EmployeeId")){
+					    $location.path('/login');
+					}
 					$('#updateCustomerData').hide();
 					var allcustomer = $scope.webserviceshost
 							+ 'hr/customer/all';
 					$http({
 						method : "GET",
-						url : allcustomer
+						url : allcustomer,
+						headers: {
+							'XSRF-TOKEN':$window.sessionStorage.getItem("Access-Token"),
+							'authorization':$window.sessionStorage.getItem("AuthKey")
+						}
 					})
 							.then(
 									function mySucces(response) {
@@ -7644,7 +8117,11 @@ materialAdmin
 													+ '/' + zipCode;
 											$http({
 												method : "POST",
-												url : updatecustomer
+												url : updatecustomer,
+												headers: {
+													'XSRF-TOKEN':$window.sessionStorage.getItem("Access-Token"),
+													'authorization':$window.sessionStorage.getItem("AuthKey")
+												}
 											})
 													.then(
 															function mySucces(
@@ -7652,7 +8129,11 @@ materialAdmin
 																$http(
 																		{
 																			method : "GET",
-																			url : allcustomer
+																			url : allcustomer,
+																			headers: {
+																				'XSRF-TOKEN':$window.sessionStorage.getItem("Access-Token"),
+																				'authorization':$window.sessionStorage.getItem("AuthKey")
+																			}
 																		})
 																		.then(
 																				function mySucces(
@@ -7883,7 +8364,10 @@ materialAdmin
 
 		.controller(
 				'addcustomercontroller',
-				function($scope, $filter, $sce, ngTableParams, $http) {
+				function($scope, $filter, $sce, ngTableParams, $http,$window,$location) {
+					if(!$window.sessionStorage.getItem("Access-Token") || !$window.sessionStorage.getItem("AuthKey") || !$window.sessionStorage.getItem("EmployeeId")){
+					    $location.path('/login');
+					}
 					$scope.submitemployee = function() {
 						var customerName = $scope.customerName;
 						var customerAddress = $scope.customerAddress;
@@ -7896,7 +8380,11 @@ materialAdmin
 								+ customerCountry + '/' + customerZip + '';
 						$http({
 							method : "POST",
-							url : createCustomer
+							url : createCustomer,
+							headers: {
+								'XSRF-TOKEN':$window.sessionStorage.getItem("Access-Token"),
+								'authorization':$window.sessionStorage.getItem("AuthKey")
+							}
 						}).then(function mySucces(response) {
 							console.log(response.data);
 							swal({
@@ -8661,7 +9149,7 @@ materialAdmin
 
 		.controller(
 				'leaveHistory',
-				function($scope, $filter, $sce, ngTableParams,
+				function($scope, $filter, $sce, ngTableParams,$window,
 						LeaveHistoryService) {
 					this.id = LeaveHistoryService.id;
 					this.name = LeaveHistoryService.name;
@@ -8683,7 +9171,7 @@ materialAdmin
 				})
 		.controller(
 				'timesheet',
-				function($scope, $filter, $sce, ngTableParams, TimeSheetService) {
+				function($scope, $filter, $sce, ngTableParams, TimeSheetService,$window) {
 					this.id = TimeSheetService.id;
 					this.name = TimeSheetService.name;
 					this.fromDate = TimeSheetService.from_date;
@@ -8704,9 +9192,12 @@ materialAdmin
 				})
 		.controller(
 				'timesheethistory',
-				function($scope, $filter, $sce, ngTableParams, $http,
-						$uibModal, $rootScope, filteredListService) {
-					var employeeid = 5;
+				function($scope, $filter, $sce, ngTableParams, $http,$window,
+						$location, $uibModal, $rootScope, filteredListService) {
+					if(!$window.sessionStorage.getItem("Access-Token") || !$window.sessionStorage.getItem("AuthKey") || !$window.sessionStorage.getItem("EmployeeId")){
+					    $location.path('/login');
+					}
+					var employeeid = $window.sessionStorage.getItem("EmployeeId");;
 					var date2 = new Date();
 					var startyyyy = date2.getFullYear();
 					var startdd = date2.getDate();
@@ -8732,7 +9223,11 @@ materialAdmin
 							+ $scope.start + "/" + $scope.end;
 					$http({
 						method : "GET",
-						url : timesheethistory
+						url : timesheethistory,
+						headers: {
+							'XSRF-TOKEN':$window.sessionStorage.getItem("Access-Token"),
+							'authorization':$window.sessionStorage.getItem("AuthKey")
+						}
 					})
 							.then(
 									function mySucces(response) {
@@ -8864,25 +9359,35 @@ materialAdmin
 									});
 
 					$scope.showDetails = function(employeeid, argStart, argEnd) {
-						var modalInstance = $uibModal.open({
-							templateUrl : 'views/timesheetDetails.html',
-							controller : 'timesheethistoryDetails',
-							backdrop : 'static',
-							keyboard : false,
-							resolve : {
-								userData : function() {
-									var x = {
-										'employeeid' : employeeid,
-										'startDate' : argStart,
-										'endDate' : argEnd
-									}
-									return x;
-								}
-							}
-						});
-						modalInstance.result.then(function(selectedItem) {
-							$scope.selected = selectedItem;
-						})
+						// $window.location.path='headers.timesheet';
+
+						$scope.$emit('eventName');
+						$scope.$broadcast('eventName');
+
+						/*
+						 * var modalInstance = $uibModal.open({ templateUrl :
+						 * 'views/timesheet.html', controller :
+						 * 'timesheethistoryDetails', backdrop : 'static',
+						 * keyboard : false, resolve : { userData : function() {
+						 * var x = { 'employeeid' : employeeid, 'startDate' :
+						 * argStart, 'endDate' : argEnd } return x; } } });
+						 */
+						/*
+						 * return { restrict: 'E', link: function(scope,
+						 * element, attrs) { // some ode }, templateUrl:
+						 * function(elem,attrs) { return attrs.templateUrl ||
+						 * 'view/timesheet.html' } }
+						 */
+						/*
+						 * var modalInstance = $uibModal.open({ templateUrl :
+						 * 'views/timesheetDetails.html', controller :
+						 * 'timesheethistoryDetails', backdrop : 'static',
+						 * keyboard : false, resolve : { userData : function() {
+						 * var x = { 'employeeid' : employeeid, 'startDate' :
+						 * argStart, 'endDate' : argEnd } return x; } } });
+						 * modalInstance.result.then(function(selectedItem) {
+						 * $scope.selected = selectedItem; })
+						 */
 					}
 
 				}
@@ -8906,9 +9411,12 @@ materialAdmin
 		 */)
 		.controller(
 				'timesheetapproval',
-				function($scope, $filter, $sce, ngTableParams, $http,
-						$uibModal, $rootScope, filteredListService) {
-					var managerid = 5;
+				function($scope, $filter, $sce,$window, ngTableParams, $http,$location,
+						$uibModal, $rootScope, filteredListService,$window) {
+					if(!$window.sessionStorage.getItem("Access-Token") || !$window.sessionStorage.getItem("AuthKey") || !$window.sessionStorage.getItem("EmployeeId")){
+					    $location.path('/login');
+					}
+					var employeeid = $window.sessionStorage.getItem("EmployeeId");
 					var date2 = new Date();
 					var startyyyy = date2.getFullYear();
 					var startdd = date2.getDate();
@@ -8930,10 +9438,14 @@ materialAdmin
 					$scope.start = startyyyy + '-' + startmm + '-' + 01;
 					$scope.end = endyyyy + '-' + endmm + '-' + totalNoOfDays;
 					var timesheettoapprove = $scope.webserviceshost
-							+ 'hr/timesheet/timesheetsToApprove/' + 70;
+							+ 'hr/timesheet/timesheetsToApprove/' + employeeid;
 					$http({
 						method : "GET",
-						url : timesheettoapprove
+						url : timesheettoapprove,
+						headers: {
+							'XSRF-TOKEN':$window.sessionStorage.getItem("Access-Token"),
+							'authorization':$window.sessionStorage.getItem("AuthKey")
+						}
 					})
 							.then(
 									function mySucces(response) {
@@ -9091,13 +9603,17 @@ materialAdmin
 
 										$http({
 											method : "POST",
-											url : approveLeaveurl
+											url : approveLeaveurl,
+											headers: {
+												'XSRF-TOKEN':$window.sessionStorage.getItem("Access-Token"),
+												'authorization':$window.sessionStorage.getItem("AuthKey")
+											}
 										})
 												.then(
 														function mySucces(
 																response) {
 
-															var managerid = 70;// hard
+															var managerid = $window.sessionStorage.getItem("EmployeeId");// hard
 															// coded
 															// as
 															// of now
@@ -9108,7 +9624,11 @@ materialAdmin
 															$http(
 																	{
 																		method : "GET",
-																		url : timesheettoapprove
+																		url : timesheettoapprove,
+																		headers: {
+																			'XSRF-TOKEN':$window.sessionStorage.getItem("Access-Token"),
+																			'authorization':$window.sessionStorage.getItem("AuthKey")
+																		}
 																	})
 																	.then(
 																			function mySucces(
@@ -9288,13 +9808,17 @@ materialAdmin
 
 										$http({
 											method : "POST",
-											url : rejeccttimesheet
+											url : rejeccttimesheet,
+											headers: {
+												'XSRF-TOKEN':$window.sessionStorage.getItem("Access-Token"),
+												'authorization':$window.sessionStorage.getItem("AuthKey")
+											}
 										})
 												.then(
 														function mySucces(
 																response) {
 
-															var managerid = 70;// hard
+															var managerid = $window.sessionStorage.getItem("EmployeeId");;// hard
 															// coded
 															// as
 															// of
@@ -9306,7 +9830,11 @@ materialAdmin
 															$http(
 																	{
 																		method : "GET",
-																		url : timesheettoapprove
+																		url : timesheettoapprove,
+																		headers: {
+																			'XSRF-TOKEN':$window.sessionStorage.getItem("Access-Token"),
+																			'authorization':$window.sessionStorage.getItem("AuthKey")
+																		}
 																	})
 																	.then(
 																			function mySucces(
@@ -9464,7 +9992,7 @@ materialAdmin
 				})
 		.controller(
 				'timesheethistoryDetails',
-				function($scope, $rootScope, $uibModalInstance, userData) {
+				function($scope, $rootScope, $uibModalInstance, userData,$window) {
 					$scope.items = userData;
 					$scope.selected = {
 						item : $scope.items[0]
@@ -9547,15 +10075,6 @@ materialAdmin
 		// =================================================
 		// LOGIN
 		// =================================================
-
-		.controller('loginCtrl', function() {
-
-			// Status
-
-			this.login = 1;
-			this.register = 0;
-			this.forgot = 0;
-		})
 
 		// =================================================
 		// CALENDAR

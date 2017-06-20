@@ -4,7 +4,7 @@
 <!--[if IE 9 ]><html class="ie9" data-ng-app="materialAdmin" data-ng-controller="materialadminCtrl as mactrl"><![endif]-->
 <![if IE 9 ]>
 <html data-ng-app="materialAdmin"
-	data-ng-controller="materialadminCtrl as mactrl">
+	data-ng-controller="logincontroller as mactrl">
 <![endif]>
 
 <head>
@@ -145,6 +145,7 @@
 	<script src="js/underscore.js"></script>
 	<script src="js/controllers/main.js"></script>
 	<script src="js/services.js"></script>
+	
 	<script src="js/templates.js"></script>
 	<script src="js/controllers/ui-bootstrap.js"></script>
 	<script src="js/controllers/table.js"></script>
@@ -164,4 +165,3 @@
 </html>
 
 
-</html>

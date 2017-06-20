@@ -63,9 +63,9 @@
 										<div class="fg-line">
 
 											<div class="select">
-												<select class="form-control" ng-model='designation'>
-													<option value=''>Select Designation</option>
-													<option value='{{roles.roleName}}'
+												<select class="form-control" ng-model='role'>
+													<option value=''>Select Role</option>
+													<option value='{{roles.roleid}}'
 														ng-repeat='roles in rolesdata'>{{roles.roleName}}</option>
 
 												</select>
@@ -75,26 +75,7 @@
 								</div>
 							</div>
 							<br>
-							<div class="input-group">
-								<span class="input-group-addon"><i
-									class="zmdi zmdi-accounts-alt zmdi-hc-fw"></i></span>
-								<div class="fg-line">
-									<div class="form-group">
-										<div class="fg-line">
 
-											<div class="select">
-												<select class="form-control" name="empstatus"
-													ng-model='employeeStatus'>
-													<option value=''>Select Status</option>
-													<option value='active'>Active</option>
-													<option value='inactive'>InActive</option>
-
-												</select>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
 							<div class="form-group" style="margin-top: 5px;">
 								<div class="fg-line">
 
@@ -114,6 +95,15 @@
 
 									</div>
 
+								</div>
+							</div>
+							<div class="input-group">
+								<span class="input-group-addon"><i
+									class="zmdi zmdi-accounts-list-alt zmdi-hc-fw"></i></span>
+								<!-- zmdi zmdi-local-phone -->
+								<div class="fg-line">
+									<input type="text" class="form-control" ng-model="designation"
+										placeholder="Select Designation">
 								</div>
 							</div>
 							<!-- <div class="input-group">
@@ -189,7 +179,26 @@
 									</div>
 								</div>
 							</div>
+							<div class="input-group">
+								<span class="input-group-addon"><i
+									class="zmdi zmdi-accounts-alt zmdi-hc-fw"></i></span>
+								<div class="fg-line">
+									<div class="form-group">
+										<div class="fg-line">
 
+											<div class="select">
+												<select class="form-control" name="empstatus"
+													ng-model='employeeStatus'>
+													<option value=''>Select Status</option>
+													<option value='active'>Active</option>
+													<option value='inactive'>InActive</option>
+
+												</select>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
 						</div>
 
 						<div class="col-sm-4">
