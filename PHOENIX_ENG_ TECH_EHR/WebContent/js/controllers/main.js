@@ -214,7 +214,7 @@ materialAdmin		/*
 						// Get confirmation, if confirmed clear the localStorage
 						//$location.path("/login");
 						$window.sessionStorage.clear();
-						window.location.href='/PHOENIX_ENG__TECH_EHR/'
+						$location.path('/login');
 /*
 						swal(
 								{
@@ -970,7 +970,7 @@ materialAdmin		/*
 												&& response != "") {
 
 											$scope.allUsers = response.data;
-											$scope.pageSize = 7;
+											$scope.pageSize =25;
 											$scope.allItems = $scope.allUsers;
 											$scope.reverse = false;
 
@@ -1078,11 +1078,11 @@ materialAdmin		/*
 										console.log(response);
 									});
 					$scope.approveLeave = function(item) {
-
+						var managerid = $window.sessionStorage.getItem("EmployeeId");
 						swal(
 								{
 									title : "Are you sure?",
-									text : "Approve leave ",
+									text : "Confirm Leave Approval ",
 									showCancelButton : true,
 									confirmButtonColor : "#DD6B55",
 									confirmButtonText : "Yes, Approve it!",
@@ -1110,7 +1110,7 @@ materialAdmin		/*
 														function mySucces(
 																response) {
 
-															var managerid = $window.sessionStorage.getItem("EmployeeId");;// hard
+														
 															// coded
 															// as
 															// of now
@@ -1136,7 +1136,7 @@ materialAdmin		/*
 																						&& response != "") {
 
 																					$scope.allUsers = response.data;
-																					$scope.pageSize = 7;
+																					$scope.pageSize = 25;
 																					$scope.allItems = $scope.allUsers;
 																					$scope.reverse = false;
 
@@ -1337,7 +1337,7 @@ materialAdmin		/*
 																						&& response != "") {
 
 																					$scope.allUsers = response.data;
-																					$scope.pageSize = 7;
+																					$scope.pageSize = 25;
 																					$scope.allItems = $scope.allUsers;
 																					$scope.reverse = false;
 
@@ -1719,7 +1719,7 @@ materialAdmin		/*
 												&& response != "") {
 
 											$scope.allUsers = response.data;
-											$scope.pageSize = 7;
+											$scope.pageSize = 25;
 											$scope.allItems = $scope.allUsers;
 											$scope.reverse = false;
 
@@ -1890,7 +1890,7 @@ materialAdmin		/*
 									function mySucces(response) {
 
 										$scope.allUsers = response.data;
-										$scope.pageSize = 7;
+										$scope.pageSize = 50;
 										$scope.allItems = $scope.allUsers;
 										$scope.reverse = false;
 
@@ -2084,7 +2084,7 @@ materialAdmin		/*
 																		response) {
 
 																	$scope.allUsers = response.data;
-																	$scope.pageSize = 7;
+																	$scope.pageSize = 50;
 																	$scope.allItems = $scope.allUsers;
 																	$scope.reverse = false;
 
@@ -2323,7 +2323,7 @@ materialAdmin		/*
 												&& response != "") {
 
 											$scope.allUsers = response.data;
-											$scope.pageSize = 7;
+											$scope.pageSize = 150;
 											$scope.allItems = $scope.allUsers;
 											$scope.reverse = false;
 
@@ -2444,7 +2444,7 @@ materialAdmin		/*
 																												&& response != "") {
 
 																											$scope.allUsers = response.data;
-																											$scope.pageSize = 7;
+																											$scope.pageSize = 150;
 																											$scope.allItems = $scope.allUsers;
 																											$scope.reverse = false;
 
@@ -2662,7 +2662,7 @@ materialAdmin		/*
 																												&& response != "") {
 
 																											$scope.allUsers = response.data;
-																											$scope.pageSize = 7;
+																											$scope.pageSize = 150;
 																											$scope.allItems = $scope.allUsers;
 																											$scope.reverse = false;
 
@@ -3043,7 +3043,7 @@ materialAdmin		/*
 																								&& response != "") {
 
 																							$scope.allUsers = response.data;
-																							$scope.pageSize = 7;
+																							$scope.pageSize = 150;
 																							$scope.allItems = $scope.allUsers;
 																							$scope.reverse = false;
 
@@ -4183,7 +4183,7 @@ materialAdmin		/*
 												&& response != "") {
 
 											$scope.allUsers = response.data;
-											$scope.pageSize = 7;
+											$scope.pageSize = 150;
 											$scope.allItems = $scope.allUsers;
 											$scope.reverse = false;
 
@@ -5418,7 +5418,7 @@ materialAdmin		/*
 																		&& response != "") {
 
 																	$scope.allUsers = response.data;
-																	$scope.pageSize = 7;
+																	$scope.pageSize = 150;
 																	$scope.allItems = $scope.allUsers;
 																	$scope.reverse = false;
 
@@ -5596,7 +5596,7 @@ materialAdmin		/*
 												&& response != "") {
 
 											$scope.allUsers = response.data;
-											$scope.pageSize = 7;
+											$scope.pageSize = 150;
 											$scope.allItems = $scope.allUsers;
 											$scope.reverse = false;
 
@@ -5796,7 +5796,7 @@ materialAdmin		/*
 																		closeOnCancel : false
 																	});
 																	$scope.allUsers = response.data;
-																	$scope.pageSize = 7;
+																	$scope.pageSize = 150;
 																	$scope.allItems = $scope.allUsers;
 																	$scope.reverse = false;
 
@@ -5960,7 +5960,7 @@ materialAdmin		/*
 												&& response != "") {
 
 											$scope.allUsers = response.data;
-											$scope.pageSize = 7;
+											$scope.pageSize = 30;
 											$scope.allItems = $scope.allUsers;
 											$scope.reverse = false;
 
@@ -6146,7 +6146,7 @@ materialAdmin		/*
 																		closeOnCancel : false
 																	});
 																	$scope.newusers = response.data;
-																	$scope.pageSize = 7;
+																	$scope.pageSize = 30;
 																	$scope.allItems = $scope.newusers;
 																	$scope.reverse = false;
 
@@ -6451,7 +6451,7 @@ materialAdmin		/*
 												&& response != "") {
 
 											$scope.allUsers = response.data;
-											$scope.pageSize = 7;
+											$scope.pageSize = 30;
 											$scope.allItems = $scope.allUsers;
 											$scope.reverse = false;
 
@@ -6663,7 +6663,7 @@ materialAdmin		/*
 																		});
 
 																		$scope.allUsers = response.data;
-																		$scope.pageSize = 7;
+																		$scope.pageSize = 30;
 																		$scope.allItems = $scope.allUsers;
 																		$scope.reverse = false;
 
@@ -7084,7 +7084,7 @@ materialAdmin		/*
 									function mySucces(response) {
 										console.log(response.data);
 										$scope.allCoustomer = response.data;
-										$scope.pageSize = 7;
+										$scope.pageSize = 30;
 										$scope.allItems = $scope.allCoustomer;
 										$scope.reverse = false;
 
@@ -8142,7 +8142,7 @@ materialAdmin		/*
 																							'#updateCustomerData')
 																							.hide();
 																					$scope.allCoustomer = response.data;
-																					$scope.pageSize = 7;
+																					$scope.pageSize = 30;
 																					$scope.allItems = $scope.allCoustomer;
 																					$scope.reverse = false;
 
@@ -9236,7 +9236,7 @@ materialAdmin		/*
 												&& response != "") {
 
 											$scope.allUsers = response.data;
-											$scope.pageSize = 7;
+											$scope.pageSize = 50;
 											$scope.allItems = $scope.allUsers;
 											$scope.reverse = false;
 
@@ -9454,7 +9454,7 @@ materialAdmin		/*
 												&& response != "") {
 
 											$scope.allUsers = response.data;
-											$scope.pageSize = 7;
+											$scope.pageSize = 30;
 											$scope.allItems = $scope.allUsers;
 											$scope.reverse = false;
 
@@ -9593,7 +9593,7 @@ materialAdmin		/*
 										var employeeId = item.id.employeeId;
 										var weekStartDate = item.id.weekStartDate;
 										var weekEndDate = item.id.weekEndDate;
-										var approveLeaveurl = $scope.webserviceshost
+										var approvetimesheet = $scope.webserviceshost
 												+ 'hr/timesheet/approve/'
 												+ employeeId
 												+ '/'
@@ -9603,7 +9603,7 @@ materialAdmin		/*
 
 										$http({
 											method : "POST",
-											url : approveLeaveurl,
+											url : approvetimesheet,
 											headers: {
 												'XSRF-TOKEN':$window.sessionStorage.getItem("Access-Token"),
 												'authorization':$window.sessionStorage.getItem("AuthKey")
@@ -9619,7 +9619,7 @@ materialAdmin		/*
 															// of now
 															var timesheettoapprove = $scope.webserviceshost
 																	+ 'hr/timesheet/timesheetsToApprove/'
-																	+ 70;
+																	+ managerid;
 
 															$http(
 																	{
@@ -9639,7 +9639,7 @@ materialAdmin		/*
 																						&& response != "") {
 
 																					$scope.allUsers = response.data;
-																					$scope.pageSize = 7;
+																					$scope.pageSize = 30;
 																					$scope.allItems = $scope.allUsers;
 																					$scope.reverse = false;
 
@@ -9845,7 +9845,7 @@ materialAdmin		/*
 																						&& response != "") {
 
 																					$scope.allUsers = response.data;
-																					$scope.pageSize = 7;
+																					$scope.pageSize = 30;
 																					$scope.allItems = $scope.allUsers;
 																					$scope.reverse = false;
 

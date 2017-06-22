@@ -2981,7 +2981,8 @@ th {
 .table > thead > tr > td,
 .table > tbody > tr > td,
 .table > tfoot > tr > td {
-  padding: 10px;
+ padding: 5px 10px;
+  font-size: 12px;
   line-height: 1.42857143;
   vertical-align: top;
   border-top: 1px solid #f0f0f0;
@@ -10130,7 +10131,7 @@ h6 small,
 
 @media (min-width: 1200px) {
   body.sw-toggled #content {
-    padding-left: 268px;
+   padding-left: 235px;
   }
 }
 
@@ -15332,4 +15333,17 @@ a.thumbnail.active {
 .breadcrumb {
   border-bottom: 1px solid #E5E5E5;
   border-radius: 0;
+}
+#mCSB_2_scrollbar_vertical{
+ right:px;
+}
+.mCustomScrollBox{
+ max-width:95%;
+}
+#sidebar .sidebar-inner {    
+    width: 250px;
+}
+
+#sidebar{
+ width:235px;
 }

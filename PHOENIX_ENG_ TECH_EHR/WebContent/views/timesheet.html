@@ -105,10 +105,9 @@
 													class="zmdi zmdi-calendar ma-icon"></i></span>
 												<div class="fg-line"
 													ng-class="{ 'fg-toggled': opened2 == true }">
-													<input  type="text" readonly uib-datepicker-popup="{{format}}"
-														class="form-control" 
-														 ng-model="dtPopup1" 
-														md-date-filter="onlyWeekendsPredicate" />
+													<input type="text" readonly
+														uib-datepicker-popup="{{format}}" class="form-control"
+														ng-model="dtPopup1" md-date-filter="onlyWeekendsPredicate" />
 												</div>
 
 											</div>
@@ -126,30 +125,30 @@
 							<br />
 							<!-- timesheet Content 1 starts  -->
 							<div class='row' id='timeHead'>
-								
-									
-										<div class='col-sm-1' style="padding-left: 5px">
-											<span style="color: black">All</span>
 
-										</div>
-								
-								
-								<div class='col-sm-2'>
+
+								<div class='col-sm-1' style="padding-left: 5px">
+									<span style="color: black">All</span>
+
+								</div>
+
+
+								<div class='col-sm-1'>
 									<p>
 										<span style="color: green"><i
 											class="zmdi zmdi-alarm-add"></i><a ng-click="addRow()"><span
-												style="color: green"> Add</span></a></span>&nbsp;&nbsp;|&nbsp;&nbsp;<span
-											style="color: red"><i class="zmdi zmdi-alarm-off"></i></span><a
+												style="color: green"> Add</span></a></span>
+									</p>
+								</div>
+
+								<div class='col-sm-1'>
+									<p>
+										<span style="color: red"><i class="zmdi zmdi-alarm-off"></i></span><a
 											ng-click="deleteRow()"><span style="color: red">
 												Delete</span></a>
 									</p>
 								</div>
-								<div class='col-sm-2'>
-									<p id='deleteWorkLog'>
-										<!-- <a><i class="zmdi zmdi-alarm-off"></i> Delete</a> -->
-									</p>
-								</div>
-								<div class='col-sm-7'>
+								<div class='col-sm-9'>
 									<p class='text-center'>
 										<i class="zmdi zmdi-alarm-add"></i> <span style="color: black">Time</span>
 									</p>
@@ -167,8 +166,9 @@
 												<div class='form-group'>
 													<div class="fg-line">
 														<label class="checkbox checkbox-inline m-r-20"
-															id='checkAll'> <input type="checkbox" ng-model="ids[divindex]"
-															value="option1"> <i class="input-helper"></i>
+															id='checkAll'> <input type="checkbox"
+															ng-model="ids[divindex]" value="option1"> <i
+															class="input-helper"></i>
 														</label>
 													</div>
 												</div>
@@ -242,8 +242,7 @@
 												<div class="form-group">
 													<div class="fg-line">
 														<div class="select">
-															<select class="form-control"
-																ng-model='taskdetails'
+															<select class="form-control" ng-model='taskdetails'
 																ng-change="commonCollect(taskdetails)">
 																<option selected>Select Project Type</option>
 																<option ng-repeat='task in tasks'
