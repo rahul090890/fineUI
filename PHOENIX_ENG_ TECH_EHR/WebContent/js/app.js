@@ -16,7 +16,10 @@ materialAdmin.directive('numbersOnly', function () {
             function fromUser(text) {
                 if (text) {
                     var transformedInput = text.replace(/[^0-9]/g, '');
-
+                    if(parseInt(transformedInput)>9 ||parseInt(transformedInput)<1){
+                    	ngModelCtrl.$setViewValue('');
+                        ngModelCtrl.$render();
+                    }
                     if (transformedInput !== text) {
                         ngModelCtrl.$setViewValue(transformedInput);
                         ngModelCtrl.$render();

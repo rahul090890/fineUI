@@ -136,19 +136,19 @@
 								<div class='col-sm-1'>
 									<p>
 										<span style="color: green"><i
-											class="zmdi zmdi-alarm-add"></i><a ng-click="addRow()"><span
+											class="zmdi zmdi-alarm-add"></i><a ng-click="addRow(task,daydetails)"><span
 												style="color: green"> Add</span></a></span>
 									</p>
 								</div>
 
-								<div class='col-sm-1'>
+								<div class='col-sm-2'>
 									<p>
 										<span style="color: red"><i class="zmdi zmdi-alarm-off"></i></span><a
 											ng-click="deleteRow()"><span style="color: red">
 												Delete</span></a>
 									</p>
 								</div>
-								<div class='col-sm-9'>
+								<div class='col-sm-8'>
 									<p class='text-center'>
 										<i class="zmdi zmdi-alarm-add"></i> <span style="color: black">Time</span>
 									</p>
@@ -179,11 +179,10 @@
 												<div class="form-group">
 													<div class="fg-line">
 														<div class="select">
-															<select class="form-control" ng-model='customer'
-																ng-change="commonCollect(customer)">
+															<select class="form-control" ng-model='task[divindex-1]["customer"]'>
 																<option selected>Select Customer</option>
 																<option ng-repeat='customer in customers'
-																	value='customer&&{{customer.customerId}}'>{{customer.customerName}}</option>
+																	value='{{customer.customerId}}'>{{customer.customerName}}</option>
 
 															</select>
 														</div>
@@ -195,11 +194,10 @@
 												<div class="form-group">
 													<div class="fg-line">
 														<div class="select">
-															<select class="form-control" ng-model='department'
-																ng-change="commonCollect(department)">
+															<select class="form-control" ng-model='task[divindex-1]["department"]'>
 																<option selected>Select Department</option>
 																<option ng-repeat='department in departments'
-																	value='department&&{{department.departmentId}}'>{{department.departmentName}}</option>
+																	value='{{department.departmentId}}'>{{department.departmentName}}</option>
 
 															</select>
 														</div>
@@ -212,11 +210,10 @@
 												<div class="form-group">
 													<div class="fg-line">
 														<div class="select">
-															<select class="form-control" ng-model='taskdetail'
-																ng-change="commonCollect(taskdetail)">
+															<select class="form-control" ng-model='task[divindex-1]["projectId"]'>
 																<option selected>Select Project</option>
 																<option ng-repeat='project in projects'
-																	value='project&&{{project.projectid}}'>{{project.projectName}}</option>
+																	value='{{project.projectid}}'>{{project.projectName}}</option>
 
 															</select>
 														</div>
@@ -227,11 +224,10 @@
 												<div class="form-group">
 													<div class="fg-line">
 														<div class="select">
-															<select class="form-control" ng-model='cpcdetails'
-																ng-change="commonCollect(cpcdetails)">
+															<select class="form-control" ng-model='task[divindex-1]["cpcdetails"]'>
 																<option selected>Select CPC</option>
 																<option ng-repeat='cpc in cpcs'
-																	value='cpc&&{{cpc.customerProgramId}}'>{{cpc.customerProgramCode}}</option>
+																	value='{{cpc.customerProgramId}}'>{{cpc.customerProgramCode}}</option>
 
 															</select>
 														</div>
@@ -242,11 +238,10 @@
 												<div class="form-group">
 													<div class="fg-line">
 														<div class="select">
-															<select class="form-control" ng-model='taskdetails'
-																ng-change="commonCollect(taskdetails)">
+															<select class="form-control" ng-model='task[divindex-1]["taskdetails"]'>
 																<option selected>Select Project Type</option>
 																<option ng-repeat='task in tasks'
-																	value='task&&{{task.taskId}}&&{{task.taskName}}'>{{task.taskName}}</option>
+																	value='{{task.taskId}}&&{{task.taskName}}'>{{task.taskName}}</option>
 
 															</select>
 														</div>
@@ -261,8 +256,7 @@
 													<div class="form-group">
 														<div class="fg-line">
 															<input type="text" class="form-control"
-																ng-model="daydetails" numbers-only
-																ng-change="updatemodel(week.date,daydetails)">
+																ng-model="daydetails[divindex-1][week.date]" numbers-only>
 														</div>
 													</div>
 												</div>
@@ -313,11 +307,11 @@
 								<div class="form-group">
 									<span>
 										<button class="btn btn-primary btn-icon-text waves-effect"
-											ng-click="saveTimeSheet()">
+											ng-click="saveTimeSheet(task,daydetails)">
 											<i class="zmdi zmdi-check-all"></i> Submit
 										</button>
 
-										<button class="btn btn-danger btn-icon-text waves-effect">
+										<button class="btn btn-danger btn-icon-text waves-effect" ng-click="clearTimeSheet()">
 											<i class="zmdi zmdi-close"></i> Clear
 										</button>
 									</span>
