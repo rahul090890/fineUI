@@ -10992,7 +10992,7 @@ body:not(.sw-toggled) #sidebar {
 }
 
 .dropdown-menu > li > a {
-  padding: 8px 17px;
+  padding: 1px 3px;
   -webkit-transition: background-color;
   -o-transition: background-color;
   transition: background-color;
@@ -13837,7 +13837,6 @@ input:focus {
   margin-left: 0 !important;
   z-index: 1;
   cursor: pointer;
-  opacity: 0;
   filter: alpha(opacity=0);
   margin-top: 0;
 }

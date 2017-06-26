@@ -1910,7 +1910,7 @@ materialAdmin
 		.controller(
 				'cpceditcontroller',
 				function($scope, $filter, filteredListService, $http, $window,
-						$location) {
+						$anchorScroll, $location) {
 					if (!$window.sessionStorage.getItem("Access-Token")
 							|| !$window.sessionStorage.getItem("AuthKey")
 							|| !$window.sessionStorage.getItem("EmployeeId")) {
@@ -1944,7 +1944,7 @@ materialAdmin
 											$scope.customer = '';
 											$scope.customerProgramCode = '';
 											$scope.customerProgramType = '';
-
+											$scope.projects = '';
 											$scope.searchText = '';
 											$scope.currentPage = 0;
 											$scope.Header = [ '', '', '', '',
@@ -2025,6 +2025,9 @@ materialAdmin
 												$scope.Header[2] = iconName;
 											} else if (sortBy === 'customerProgramType') {
 												$scope.Header[3] = iconName;
+											} 
+											else if (sortBy === 'projects') {
+												$scope.Header[4] = iconName;
 											} else {
 												$scope.Header[2] = iconName;
 											}
@@ -2092,7 +2095,8 @@ materialAdmin
 							console.log(response);
 						});
 						$('#updatecpcDetails').show();
-
+						$location.hash('updatecpcDetails');
+						$anchorScroll();
 						$scope.savecpcDetails = function() {
 							var customerProgramId = $scope.customerProgramId;
 							var customerprogName = $scope.customerprogName;
@@ -2298,24 +2302,15 @@ materialAdmin
 							+ 'hr/customer/all';
 					var referencedata = $scope.webserviceshost
 							+ 'hr/refData/list';
-					$http(
-							{
-								method : "GET",
-								url : referencedata,
-								headers : {
-									'XSRF-TOKEN' : $window.sessionStorage
-											.getItem("Access-Token"),
-									'authorization' : $window.sessionStorage
-											.getItem("AuthKey")
-								}
-							}).then(function mySucces(response) {
+					var allproject = $scope.webserviceshost + 'hr/project/all';
 
-						if (response != 'undefiend' && response != "") {
-							$scope.customerProgramCodelist = response.data;
-						}
-					}, function myError(response) {
-						console.log(response);
-					});
+					$scope.example14model = [];
+					$scope.example14settings = {
+						scrollableHeight : '200px',
+						scrollable : true,
+						enableSearch : true
+					};
+
 					$http(
 							{
 								method : "GET",
@@ -2334,15 +2329,111 @@ materialAdmin
 					}, function myError(response) {
 						console.log(response);
 					});
-					$scope.createCPC = function() {
+					$http(
+							{
+								method : "GET",
+								url : referencedata,
+								headers : {
+									'XSRF-TOKEN' : $window.sessionStorage
+											.getItem("Access-Token"),
+									'authorization' : $window.sessionStorage
+											.getItem("AuthKey")
+								}
+							}).then(function mySucces(response) {
 
+						if (response != 'undefiend' && response != "") {
+							$scope.customerProgramCodelist = response.data;
+						}
+					}, function myError(response) {
+						console.log(response);
+					});
+
+					$http(
+							{
+								method : "GET",
+								url : allproject,
+								headers : {
+									'XSRF-TOKEN' : $window.sessionStorage
+											.getItem("Access-Token"),
+									'authorization' : $window.sessionStorage
+											.getItem("AuthKey")
+								}
+							}).then(function mySucces(response) {
+
+						if (response != 'undefiend' && response != "") {
+							$scope.projects = response.data;
+							var projectData = [];
+
+							for (var x = 0; x < $scope.projects.length; x++) {
+								var updata = $scope.projects[x];
+								var jsonproj = {
+									'label' : '',
+									'id' : ''
+								}
+								Object.keys(updata).forEach(function(key) {
+									if ('projectid' != key) {
+										jsonproj.label = updata[key];
+									} else if ('projectName' != key) {
+										jsonproj.id = updata[key];
+									}
+
+								});
+								projectData.push(jsonproj);
+
+							}
+							console.log(projectData)
+							$scope.example14data = projectData;
+							$scope.example2settings = {
+								displayProp : 'id'
+							};
+
+						}
+					}, function myError(response) {
+						console.log(response);
+					});
+					$http(
+							{
+								method : "GET",
+								url : referencedata,
+								headers : {
+									'XSRF-TOKEN' : $window.sessionStorage
+											.getItem("Access-Token"),
+									'authorization' : $window.sessionStorage
+											.getItem("AuthKey")
+								}
+							}).then(function mySucces(response) {
+
+						if (response != 'undefiend' && response != "") {
+							$scope.customerProgramCodelist = response.data;
+						}
+					}, function myError(response) {
+						console.log(response);
+					});
+
+					$scope.createCPC = function() {
+						console.log($scope.example14model);
+						var length = $scope.example14model.length;
+						if (length < 1) {
+							swal("Kindly select at Least 1 project");
+							return;
+						}
+						var projectids = '';
+						angular.forEach($scope.example14model, function(key,
+								val) {
+							projectids += key.id + ',';
+
+						})
+						projectids = projectids.substring(0,
+								projectids.length - 1);
+
+						console.log(projectids);
 						var customerProgType = $scope.customerProgCodeType;
 						var customerprogName = $scope.customerprogName;
 						var customerId = $scope.customerId;
 						var createCPC = $scope.webserviceshost
 								+ 'hr/customerProgram/create/' + customerId
 								+ '/' + customerprogName + '/'
-								+ customerProgType;
+								+ customerProgType + '/' + projectids;
 
 						$http(
 								{
@@ -2370,7 +2461,7 @@ materialAdmin
 		.controller(
 				'editUserController',
 				function($scope, $filter, filteredListService, $http, $window,
-						$location) {
+						$location, $anchorScroll) {
 					if (!$window.sessionStorage.getItem("Access-Token")
 							|| !$window.sessionStorage.getItem("AuthKey")
 							|| !$window.sessionStorage.getItem("EmployeeId")) {
@@ -2947,7 +3038,11 @@ materialAdmin
 														'dd.MM.yyyy',
 														'shortDate' ];
 												$scope.format = $scope.formats[1];
+
 												$('#edituser').show();
+
+												$location.hash('edituser');
+												$anchorScroll();
 												$scope.employeeId = item.employeeId;
 												$scope.firstName = item.firstName;
 												$scope.lastName = item.lastName;
@@ -2958,11 +3053,14 @@ materialAdmin
 												$scope.employeeType = item.employeeType;
 												$scope.employeeStatus = item.employementStatus;
 												$scope.userDepartmentId = item.department.departmentId;
-												$scope.employeeCode=item.employeeCode;
+												$scope.employeeCode = item.employeeCode;
 												$scope.managerId = item.manager.employeeId;
 												$scope.roleId = item.role.roleid;
 												$scope.designation = item.designation;
-												/*$scope.dtPopup = item.dateOfJoin;*/
+												/*
+												 * $scope.dtPopup =
+												 * item.dateOfJoin;
+												 */
 												$scope.statusVal = [ {
 													name : 'Active',
 													value : 'active'
@@ -3105,9 +3203,10 @@ materialAdmin
 												var employeeStatus = $scope.employeeStatus;
 												var employeeCode = $scope.employeeCode;
 												var date = $scope.dtPopup;
-												
+
 												var date2 = new Date(date);
-												var startyyyy = date2.getFullYear();
+												var startyyyy = date2
+														.getFullYear();
 												var startdd = date2.getDate();
 												var startmm = date2.getMonth() + 1;
 												if (startmm < 10) {
@@ -3116,14 +3215,18 @@ materialAdmin
 												if (startdd < 10) {
 													startdd = '0' + startdd;
 												}
-												var doj=startyyyy+'-'+startmm+'-'+startdd;
+												var doj = startyyyy + '-'
+														+ startmm + '-'
+														+ startdd;
 												var updateEmployee = $scope.webserviceshost
 														+ 'hr/employee/update/';
-												
-												/*@PostMapping("update/{employeeId}/{firstName}/{lastName}" +
-														"/{emailId}/{loginId}/{loginPassword}/{managerId}/" +
-														"{address}/{designation}/{employeeType}/" +
-														"{departmentId}/{employementStatus}/{dateOfJoin}")*/
+
+												/*
+												 * @PostMapping("update/{employeeId}/{firstName}/{lastName}" +
+												 * "/{emailId}/{loginId}/{loginPassword}/{managerId}/" +
+												 * "{address}/{designation}/{employeeType}/" +
+												 * "{departmentId}/{employementStatus}/{dateOfJoin}")
+												 */
 
 												var addition = employeeId + '/'
 														+ firstName + '/'
@@ -3138,7 +3241,8 @@ materialAdmin
 														+ userdepartmentId
 														+ '/' + employeeStatus
 														+ '/' + doj + '/'
-														+ roleid+'/'+employeeStatus;
+														+ roleid + '/'
+														+ employeeStatus;
 												updateEmployee = updateEmployee
 														+ addition;
 
@@ -4331,7 +4435,7 @@ materialAdmin
 		.controller(
 				'editprojectdetails',
 				function($scope, $filter, filteredListService, $http, $window,
-						$location) {
+						$anchorScroll, $location) {
 					if (!$window.sessionStorage.getItem("Access-Token")
 							|| !$window.sessionStorage.getItem("AuthKey")
 							|| !$window.sessionStorage.getItem("EmployeeId")) {
@@ -4474,6 +4578,8 @@ materialAdmin
 									});
 					$scope.editprojects = function(item) {
 						$("#editprojectdata").show();
+						$location.hash('editprojectdata');
+						$anchorScroll();
 						$scope.projectid = item.projectid;
 						$scope.projectname = item.projectName;
 						$scope.customerprogramcode = item.customerProgram.customerProgramId;
@@ -5773,7 +5879,7 @@ materialAdmin
 		.controller(
 				'edittaskcontroller',
 				function($scope, $filter, filteredListService, $http, $window,
-						$location) {
+						$anchorScroll, $location) {
 					if (!$window.sessionStorage.getItem("Access-Token")
 							|| !$window.sessionStorage.getItem("AuthKey")
 							|| !$window.sessionStorage.getItem("EmployeeId")) {
@@ -5909,7 +6015,8 @@ materialAdmin
 									});
 					$scope.edittaskDetails = function(item) {
 						$('#updatetask').show();
-
+						$location.hash('updatetask');
+						$anchorScroll();
 						$scope.taskId = item.taskId;
 						$scope.taskName = item.taskName;
 						$scope.departmentid = item.department.departmentId;
@@ -6156,7 +6263,7 @@ materialAdmin
 		.controller(
 				'editRollcontroller',
 				function($scope, $filter, filteredListService, $http, $window,
-						$location) {
+						$anchorScroll, $location) {
 					if (!$window.sessionStorage.getItem("Access-Token")
 							|| !$window.sessionStorage.getItem("AuthKey")
 							|| !$window.sessionStorage.getItem("EmployeeId")) {
@@ -6201,6 +6308,9 @@ materialAdmin
 													item) {
 												$('#updateRoleDetails').show();
 												$scope.roleid = item.roleid;
+												$location
+														.hash('updateRoleDetails');
+												$anchorScroll();
 												$scope.roleName = item.roleName;
 												if (item.parentRole == 'undefined'
 														|| item.parentRole == undefined
@@ -6829,7 +6939,7 @@ materialAdmin
 		.controller(
 				'editdepartmentcontroller',
 				function($scope, $filter, filteredListService, $http, $window,
-						$location) {
+						$anchorScroll, $location) {
 					if (!$window.sessionStorage.getItem("Access-Token")
 							|| !$window.sessionStorage.getItem("AuthKey")
 							|| !$window.sessionStorage.getItem("EmployeeId")) {
@@ -6968,13 +7078,15 @@ materialAdmin
 						$('#departmentupdatedetails').show();
 						$scope.departmentid = item.departmentId;
 						$scope.departmentName = item.departmentName;
+						$location.hash('departmentupdatedetails');
+						$anchorScroll();
 						if (item.manager == 'undefined'
 								|| item.manager == undefined
 								|| item.manager == null
 								|| item.manager == 'null') {
 							$scope.managerId = {};
 						} else {
-							$scope.managerId = item.manager.employeeId;
+							$scope.managerId = item.manager;
 						}
 						if (item.parentDepartment == 'undefined'
 								|| item.parentDepartment == undefined
@@ -7383,7 +7495,7 @@ materialAdmin
 						var roleid = $scope.role;
 						var designation = $scope.designation;
 						var employeeType = $scope.employeeType;
-						var employeeCodedetail=$scope.employeeCode;
+						var employeeCodedetail = $scope.employeeCode;
 						var userdepartmentId = $scope.userDepartmentId;
 						var employeeStatus = $scope.employeeStatus;
 						var createEmployee = $scope.webserviceshost
@@ -7393,7 +7505,8 @@ materialAdmin
 								+ '/' + managerId + '/' + address + '/'
 								+ designation + '/' + employeeType + '/'
 								+ userdepartmentId + '/' + employeeStatus + '/'
-								+ date + '/' + roleid+'/'+employeeCodedetail;
+								+ date + '/' + roleid + '/'
+								+ employeeCodedetail;
 						createEmployee = createEmployee + addition;
 						$http(
 								{
@@ -7427,8 +7540,8 @@ materialAdmin
 							$scope.employeeType = {};
 							$scope.userDepartmentId = {};
 							$scope.dtPopup = '';
-							$scope.employeeCode='';
-							$scope.employeeType={};
+							$scope.employeeCode = '';
+							$scope.employeeType = {};
 							$scope.employeeStatus = {};
 							$location.path('/headers/edituser');
 						}, function myError(response) {
@@ -7470,10 +7583,17 @@ materialAdmin
 					}, function myError(response) {
 						console.log(response);
 					});
-					$http({
-						method : "GET",
-						url : managersdata
-					}).then(function mySucces(response) {
+					$http(
+							{
+								method : "GET",
+								url : managersdata,
+								headers : {
+									'XSRF-TOKEN' : $window.sessionStorage
+											.getItem("Access-Token"),
+									'authorization' : $window.sessionStorage
+											.getItem("AuthKey")
+								}
+							}).then(function mySucces(response) {
 						console.log(response.data);
 
 						$scope.managers = response.data;
@@ -7527,7 +7647,7 @@ materialAdmin
 		.controller(
 				'editcustomercontroller',
 				function($scope, $filter, filteredListService, $http, $window,
-						$location) {
+						$anchorScroll, $location) {
 					if (!$window.sessionStorage.getItem("Access-Token")
 							|| !$window.sessionStorage.getItem("AuthKey")
 							|| !$window.sessionStorage.getItem("EmployeeId")) {
@@ -7581,6 +7701,9 @@ materialAdmin
 										$scope.editcustomerdetails = function(
 												item) {
 											$('#updateCustomerData').show();
+											$location
+													.hash('updateCustomerData');
+											$anchorScroll();
 											console.log(item);
 
 											$scope.customerID = item.customerId;
@@ -10987,7 +11110,7 @@ function searchUtil(item, toSearch) {
 	} else if (item.departmentName != undefined) {
 		return (item.departmentName.toLowerCase().indexOf(
 				toSearch.toLowerCase()) > -1
-				|| item.manager.parentDepartment.toLowerCase().indexOf(
+				|| item.parentDepartment.departmentName.toLowerCase().indexOf(
 						toSearch.toLowerCase()) > -1 || item.zipCode == toSearch) ? true
 				: false;
 	} else if (item.roleName != undefined) {

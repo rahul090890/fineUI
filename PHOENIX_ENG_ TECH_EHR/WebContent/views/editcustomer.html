@@ -37,31 +37,31 @@
 									<thead>
 										<tr>
 											<th class="EmpId"><i class="zmdi zmdi-label zmdi-hc-fw">
-											</i><a href="#" ng-click="sort('customerId',$event)">ID <span
+											</i><a href="" ng-click="sort('customerId',$event)">ID <span
 													class="{{Header[0]}}"></span>
 											</a></th>
 											<th class="name"><i
 												class="zmdi zmdi-assignment-account zmdi-hc-fw"></i><a
-												ng-click="sort('customerNamme')" href="#"> Customer Name<span
+												ng-click="sort('customerNamme')" href=""> Customer Name<span
 													class="{{Header[1]}}"></span>
 											</a></th>
 
 											<th class="Email"><i class="zmdi zmdi-city zmdi-hc-fw"></i><a
-												ng-click="sort('zipCode')" href="#"> Zip Code <span
+												ng-click="sort('zipCode')" href=""> Zip Code <span
 													class="{{Header[2]}}"></span>
 											</a></th>
 
 											<th class="Email"><i class="zmdi zmdi-globe zmdi-hc-fw">
-											</i><a ng-click="sort('country')" href="#">Country <span
+											</i><a ng-click="sort('country')" href="">Country <span
 													class="{{Header[3]}}"></span>
 											</a></th>
 											<th class="Email"><i class="zmdi zmdi-globe zmdi-hc-fw">
-											</i><a ng-click="sort('address')" href="#"> Address <span
+											</i><a ng-click="sort('address')" href=""> Address <span
 													class="{{Header[4]}}"></span>
 											</a></th>
 
 											<th class="Email">
-												<!-- <a ng-click="sort('lastName')" href="#"> --> <a>
+												<!-- <a ng-click="sort('lastName')" href=""> --> <a>
 													Actions <span class="{{Header[5]}}"></span>
 											</a>
 											</th>
@@ -85,11 +85,11 @@
 									</tbody>
 								</table>
 								<ul class="pagination pagination-sm">
-									<li ng-class="{active:0}"><a href="#"
+									<li ng-class="{active:0}"><a href=""
 										ng-click="firstPage()">First</a></li>
-									<li ng-repeat="n in range(ItemsByPage.length)"><a href="#"
+									<li ng-repeat="n in range(ItemsByPage.length)"><a href=""
 										ng-click="setPage()" ng-bind="n+1">1</a></li>
-									<li><a href="#" ng-click="lastPage()">Last</a></li>
+									<li><a href="" ng-click="lastPage()">Last</a></li>
 								</ul>
 
 								

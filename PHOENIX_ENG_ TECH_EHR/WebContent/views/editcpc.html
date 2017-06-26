@@ -36,26 +36,29 @@
 								<thead>
 									<tr>
 										<th class="EmpId"><i class="zmdi zmdi-label zmdi-hc-fw">
-										</i><a href="#" ng-click="sort('customerProgramId',$event)">Customer
-												Program Id <span class="{{Header[0]}}"></span>
+										</i><a href="" ng-click="sort('customerProgramId',$event)">Id <span class="{{Header[0]}}"></span>
 										</a></th>
 										<th class="name"><i
 											class="zmdi zmdi-assignment-account zmdi-hc-fw"></i><a
-											ng-click="sort('customer')" href="#"> Customer<span
+											ng-click="sort('customer')" href=""> Customer<span
 												class="{{Header[1]}}"></span>
 										</a></th>
 
 										<th class="Email"><i class="zmdi zmdi-city zmdi-hc-fw"></i><a
-											ng-click="sort('customerProgramCode')" href="#"> Customer
+											ng-click="sort('customerProgramCode')" href="">
 												Program Name <span class="{{Header[2]}}"></span>
 										</a></th>
 										<th class="Email"><i class="zmdi zmdi-city zmdi-hc-fw"></i><a
-											ng-click="sort('customerProgramType')" href="#"> Customer
+											ng-click="sort('customerProgramType')" href="">
 												Program Type <span class="{{Header[3]}}"></span>
 										</a></th>
+										<th class="Email"><i class="zmdi zmdi-city zmdi-hc-fw"></i><a
+											 href="">
+												Projects <span class="{{Header[4]}}"></span>
+										</a></th>
 										<th class="Email">
-											<!-- <a ng-click="sort('lastName')" href="#"> --> <a>
-												Actions <span class="{{Header[4]}}"></span>
+											<!-- <a ng-click="sort('lastName')" href=""> --> <a>
+												Actions <span class="{{Header[5]}}"></span>
 										</a>
 										</th>
 									</tr>
@@ -67,6 +70,9 @@
 										<td>{{item.customer.customerName}}</td>
 										<td>{{item.customerProgramCode}}</td>
 										<td>{{item.customerProgramType}}</td>
+										<td><span ng-repeat="project in item.projects">
+										<p>{{project.projectName}}</p>
+										</span></td>
 										<td>
 											<p>
 												<span><a ng-click="editcpcDetails(item)">Edit</a></span>
@@ -77,11 +83,11 @@
 								</tbody>
 							</table>
 							<ul class="pagination pagination-sm">
-								<li ng-class="{active:0}"><a href="#"
+								<li ng-class="{active:0}"><a href=""
 									ng-click="firstPage()">First</a></li>
-								<li ng-repeat="n in range(ItemsByPage.length)"><a href="#"
+								<li ng-repeat="n in range(ItemsByPage.length)"><a href=""
 									ng-click="setPage()" ng-bind="n+1">1</a></li>
-								<li><a href="#" ng-click="lastPage()">Last</a></li>
+								<li><a href="" ng-click="lastPage()">Last</a></li>
 							</ul>
 
 
