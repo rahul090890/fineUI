@@ -70,7 +70,7 @@
 										<td>{{item.customer.customerName}}</td>
 										<td>{{item.customerProgramCode}}</td>
 										<td>{{item.customerProgramType}}</td>
-										<td><span ng-repeat="project in item.projects">
+										<td><span ng-repeat="project in item.projects" ng-model='projectids'>
 										<p>{{project.projectName}}</p>
 										</span></td>
 										<td>

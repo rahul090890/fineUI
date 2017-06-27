@@ -195,7 +195,7 @@
 												show-weeks="false" ng-model="dtPopup" is-open="opened"
 												min-date="minDate" datepicker-options="dateOptions"
 												ng-required="true" close-text="Close"
-												placeholder="Select Date" ng-change="refreshLeavetaken()"/>
+												placeholder="Select Date" ng-change="refreshLeavetaken()" />
 										</div>
 
 									</div>
@@ -287,7 +287,12 @@
 										ID </i></span>
 								<div class="fg-line"></div>
 							</div>
-
+							<br>
+							<div class="form-group">
+								<span class="input-group-addon"><i class="">Comments
+								</i></span>
+								<div class="fg-line"></div>
+							</div>
 
 						</div>
 
@@ -318,12 +323,20 @@
 								</div>
 
 							</div>
+							<br>
+							
+							<div class="form-group">
+								<div class="fg-line">
+									<textArea type="text" class="form-control" ng-model='comments'
+										></textArea>
+								</div>
+
+							</div>
 						</div>
 					</div>
 					<div class="row">
 						<button class="btn bgm-lightblue waves-effect"
-							 style="float: right;"
-							ng-click='applyleave()'>Apply</button>
+							style="float: right;" ng-click='applyleave()'>Apply</button>
 					</div>
 				</div>
 

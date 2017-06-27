@@ -38,26 +38,21 @@
 								<table class="table  table-hover data-table myTable">
 									<thead>
 										<tr>
-											<th class="EmpId"><i class="zmdi zmdi-label zmdi-hc-fw">
-											</i><a href="" ng-click="sort('projectId')">ID <span
+											<th class="EmpId"><a href="" ng-click="sort('projectId')">ID <span
 													class="{{Header[0]}}"></span>
 											</a></th>
-											<th class="name"><i
-												class="zmdi zmdi-assignment zmdi-hc-fw"></i><a
+											<th class="name"><a
 												ng-click="sort('projectName')" href=""> Project Name<span
 													class="{{Header[1]}}"></span>
 											</a></th>
-											<th class="Email"><i class="zmdi zmdi-label zmdi-hc-fw">
-											</i><a ng-click="sort('customerProjectCode')" href="">
+											 <th class="Email"><a ng-click="sort('customerProjectCode')" href="">
 													Program Code <span class="{{Header[2]}}"></span>
 											</a></th>
-											<th class="Email"><i
-												class="zmdi zmdi-assignment zmdi-hc-fw"> </i> <a
-												ng-click="sort('projectType')" href=""> Project Type <span
+											<th class="Email"> <a
+												ng-click="sort('projectType')" href=""> Type <span
 													class="{{Header[3]}}"></span>
 											</a></th>
-											<th class="Email"><i
-												class="zmdi zmdi-exposure zmdi-hc-fw"> </i><a
+											<th class="Email"><a
 												ng-click="sort('projectStatus')" href=""> Status <span
 													class="{{Header[4]}}"></span>
 											</a></th>
@@ -73,8 +68,8 @@
 										<tr
 											ng-repeat="item in ItemsByPage[currentPage] | orderBy:columnToOrder:reverse">
 											<td>{{item.projectid}}</td>
-											<td>{{item.projectName}}</td>
-											<td>{{item.customerProgram.customerProgramCode}}</td>
+											<td>{{item.projectName}}</td> 
+											<td>{{item.customerProjectCode}}</td> 
 											<td>{{item.projectType}}</td>
 											<td>{{item.projectStatus}}</td>
 											<td>
@@ -127,11 +122,12 @@
 									</span>
 									<div class="fg-line"></div>
 								</div>
-								<div class="form-group">
+								 <div class="form-group">
 									<span class="input-group-addon"><i
-										class="zmdi zmdi-label zmdi-hc-fw"> </i>Customer Program Code</span>
+										class="zmdi zmdi-label zmdi-hc-fw"> </i>Program Code</span>
 									<div class="fg-line"></div>
-								</div>
+								</div> 
+								<br>
 								<div class="form-group">
 									<span class="input-group-addon"> <i
 										class="zmdi zmdi-assignment zmdi-hc-fw"> </i>Project Type
@@ -145,6 +141,7 @@
 									</span>
 									<div class="fg-line"></div>
 								</div>
+								<br>
 								<div class="form-group">
 									<span class="input-group-addon"><i
 										class="zmdi zmdi-globe zmdi-hc-fw"></i>Country</span>
@@ -180,6 +177,7 @@
 										</div>
 									</div>
 								</div>
+								<br>
 								<div class="form-group">
 									<div class="fg-line">
 										<div class="select">
@@ -192,23 +190,23 @@
 								</div>
 								<br />
 
-								<div class="form-group">
+								<!-- <div class="form-group">
 									<div class="fg-line">
 										<div class="select">
 											<select class="form-control" ng-model='customerprogramcode'
 												ng-options="programcode.customerProgramId  as programcode.customerProgramCode    for programcode in cpc"></select>
 										</div>
 									</div>
-								</div>
+								</div> -->
 
-								<!-- <div class="form-group">
+								<div class="form-group">
 									<div class="fg-line">
-										<input type="text" class="form-control" ng-model='customerprojectcode'
+										<input type="text" class="form-control" ng-model='customerprogramcode'
 											placeholder="Customer Program Code Id">
 
 									</div>
-								</div> -->
-
+								</div> 
+<br>
 								<div class="form-group">
 									<div class="fg-line">
 										<div class="select">

@@ -1087,412 +1087,423 @@ materialAdmin
 								.getItem("EmployeeId");
 						swal(
 								{
+
 									title : "Are you sure?",
 									text : "Confirm Leave Approval ",
+									type : "input",
+									inputPlaceholder : "approver Comments",
 									showCancelButton : true,
-									confirmButtonColor : "#DD6B55",
+									confirmButtonColor : "#4caf50",
 									confirmButtonText : "Yes, Approve it!",
 									cancelButtonText : "No, cancel it!",
 									closeOnConfirm : false,
-									closeOnCancel : false
+									closeOnCancel : true
 								},
-								function(isConfirm) {
-									if (isConfirm) {
-										var leaveId = item.leaveId;
-										var approveLeaveurl = $scope.webserviceshost
-												+ 'hr/leave/approve/'
-												+ leaveId
-												+ '/' + managerid;
+								function(inputValue) {
+									if (inputValue === false)
+										return false;
 
-										$http(
-												{
-													method : "POST",
-													url : approveLeaveurl,
-													headers : {
-														'XSRF-TOKEN' : $window.sessionStorage
-																.getItem("Access-Token"),
-														'authorization' : $window.sessionStorage
-																.getItem("AuthKey")
-													}
-												})
-												.then(
-														function mySucces(
-																response) {
+									$scope.managerComments = inputValue === "" ? "No Comments"
+											: inputValue;
 
-															// coded
-															// as
-															// of now
-															var pendingapproval = $scope.webserviceshost
-																	+ 'hr/leave/pendingApproval/'
-																	+ managerid;
+									var leaveId = item.leaveId;
+									var approveLeaveurl = $scope.webserviceshost
+											+ 'hr/leave/approve/'
+											+ leaveId
+											+ '/'
+											+ managerid
+											+ '/'
+											+ $scope.managerComments;
 
-															$http(
-																	{
-																		method : "GET",
-																		url : pendingapproval,
-																		headers : {
-																			'XSRF-TOKEN' : $window.sessionStorage
-																					.getItem("Access-Token"),
-																			'authorization' : $window.sessionStorage
-																					.getItem("AuthKey")
-																		}
-																	})
-																	.then(
-																			function mySucces(
-																					response) {
-																				console
-																						.log(response.data);
-																				if (response != 'undefiend'
-																						&& response != "") {
+									$http(
+											{
+												method : "POST",
+												url : approveLeaveurl,
+												headers : {
+													'XSRF-TOKEN' : $window.sessionStorage
+															.getItem("Access-Token"),
+													'authorization' : $window.sessionStorage
+															.getItem("AuthKey")
+												}
+											})
+											.then(
+													function mySucces(response) {
 
-																					$scope.allUsers = response.data;
-																					$scope.pageSize = 25;
-																					$scope.allItems = $scope.allUsers;
-																					$scope.reverse = false;
+														// coded
+														// as
+														// of now
+														var pendingapproval = $scope.webserviceshost
+																+ 'hr/leave/pendingApproval/'
+																+ managerid;
 
-																					$scope.resetAll = function() {
-																						$scope.filteredList = $scope.allItems;
-																						$scope.employeeId = '';
-																						$scope.firstName = '';
-																						$scope.lastName = '';
-																						$scope.fromDate = '';
-																						$scope.toDate = '';
-																						$scope.noOfDays = ''
-																						$scope.searchText = '';
-																						$scope.currentPage = 0;
-																						$scope.Header = [
-																								'',
-																								'',
-																								'',
-																								'',
-																								'',
-																								'',
-																								'' ];
-																					}
+														$http(
+																{
+																	method : "GET",
+																	url : pendingapproval,
+																	headers : {
+																		'XSRF-TOKEN' : $window.sessionStorage
+																				.getItem("Access-Token"),
+																		'authorization' : $window.sessionStorage
+																				.getItem("AuthKey")
+																	}
+																})
+																.then(
+																		function mySucces(
+																				response) {
+																			console
+																					.log(response.data);
+																			if (response != 'undefiend'
+																					&& response != "") {
 
-																					$scope.search = function() {
-																						$scope.filteredList = filteredListService
-																								.searched(
-																										$scope.allItems,
-																										$scope.searchText);
+																				$scope.allUsers = response.data;
+																				$scope.pageSize = 25;
+																				$scope.allItems = $scope.allUsers;
+																				$scope.reverse = false;
 
-																						if ($scope.searchText == '') {
-																							$scope.filteredList = $scope.allItems;
-																						}
-																						$scope
-																								.pagination();
-																					}
-
-																					$scope.pagination = function() {
-																						$scope.ItemsByPage = filteredListService
-																								.paged(
-																										$scope.filteredList,
-																										$scope.pageSize);
-																					};
-
-																					$scope.setPage = function() {
-																						$scope.currentPage = this.n;
-																					};
-
-																					$scope.firstPage = function() {
-																						$scope.currentPage = 0;
-																					};
-
-																					$scope.lastPage = function() {
-																						$scope.currentPage = $scope.ItemsByPage.length - 1;
-																					};
-
-																					$scope.range = function(
-																							input,
-																							total) {
-																						var ret = [];
-																						if (!total) {
-																							total = input;
-																							input = 0;
-																						}
-																						for (var i = input; i < total; i++) {
-																							if (i != 0
-																									&& i != total - 1) {
-																								ret
-																										.push(i);
-																							}
-																						}
-																						return ret;
-																					};
-																					$scope.sort = function(
-																							sortBy) {
-																						$scope
-																								.resetAll();
-
-																						$scope.columnToOrder = sortBy;
-
-																						// $Filter
-																						// -
-																						// Standard
-																						// Service
-																						$scope.filteredList = $filter(
-																								'orderBy')
-																								(
-																										$scope.filteredList,
-																										$scope.columnToOrder,
-																										$scope.reverse);
-
-																						if ($scope.reverse)
-																							iconName = 'glyphicon glyphicon-chevron-up';
-																						else
-																							iconName = 'glyphicon glyphicon-chevron-down';
-
-																						if (sortBy === 'EmployeeId') {
-																							$scope.Header[0] = iconName;
-																						} else if (sortBy === 'firstName') {
-																							$scope.Header[1] = iconName;
-																						} else if (sortBy === 'lastName') {
-																							$scope.Header[2] = iconName;
-																						} else if (sortBy === 'leaveStatus') {
-																							$scope.Header[3] = iconName;
-																						} else {
-																							$scope.Header[4] = iconName;
-																						}
-
-																						$scope.reverse = !$scope.reverse;
-
-																						$scope
-																								.pagination();
-																					};
-																					$scope
-																							.sort('firstName');
-
-																					// console.log($scope.allUsers.length);
+																				$scope.resetAll = function() {
+																					$scope.filteredList = $scope.allItems;
+																					$scope.employeeId = '';
+																					$scope.firstName = '';
+																					$scope.lastName = '';
+																					$scope.fromDate = '';
+																					$scope.toDate = '';
+																					$scope.noOfDays = ''
+																					$scope.searchText = '';
+																					$scope.currentPage = 0;
+																					$scope.Header = [
+																							'',
+																							'',
+																							'',
+																							'',
+																							'',
+																							'',
+																							'' ];
 																				}
-																			},
-																			function myError(
-																					response) {
-																				console
-																						.log(response);
-																			});
-															swal(
-																	"Approved",
-																	"leave has been approved.)",
-																	"success");
-														},
-														function myError(
-																response) {
-															console
-																	.log(response);
-														});
-									} else {
-										swal("Cancelled",
-												"Request has been cancelled.)",
-												"error");
-									}
+
+																				$scope.search = function() {
+																					$scope.filteredList = filteredListService
+																							.searched(
+																									$scope.allItems,
+																									$scope.searchText);
+
+																					if ($scope.searchText == '') {
+																						$scope.filteredList = $scope.allItems;
+																					}
+																					$scope
+																							.pagination();
+																				}
+
+																				$scope.pagination = function() {
+																					$scope.ItemsByPage = filteredListService
+																							.paged(
+																									$scope.filteredList,
+																									$scope.pageSize);
+																				};
+
+																				$scope.setPage = function() {
+																					$scope.currentPage = this.n;
+																				};
+
+																				$scope.firstPage = function() {
+																					$scope.currentPage = 0;
+																				};
+
+																				$scope.lastPage = function() {
+																					$scope.currentPage = $scope.ItemsByPage.length - 1;
+																				};
+
+																				$scope.range = function(
+																						input,
+																						total) {
+																					var ret = [];
+																					if (!total) {
+																						total = input;
+																						input = 0;
+																					}
+																					for (var i = input; i < total; i++) {
+																						if (i != 0
+																								&& i != total - 1) {
+																							ret
+																									.push(i);
+																						}
+																					}
+																					return ret;
+																				};
+																				$scope.sort = function(
+																						sortBy) {
+																					$scope
+																							.resetAll();
+
+																					$scope.columnToOrder = sortBy;
+
+																					// $Filter
+																					// -
+																					// Standard
+																					// Service
+																					$scope.filteredList = $filter(
+																							'orderBy')
+																							(
+																									$scope.filteredList,
+																									$scope.columnToOrder,
+																									$scope.reverse);
+
+																					if ($scope.reverse)
+																						iconName = 'glyphicon glyphicon-chevron-up';
+																					else
+																						iconName = 'glyphicon glyphicon-chevron-down';
+
+																					if (sortBy === 'EmployeeId') {
+																						$scope.Header[0] = iconName;
+																					} else if (sortBy === 'firstName') {
+																						$scope.Header[1] = iconName;
+																					} else if (sortBy === 'lastName') {
+																						$scope.Header[2] = iconName;
+																					} else if (sortBy === 'leaveStatus') {
+																						$scope.Header[3] = iconName;
+																					} else {
+																						$scope.Header[4] = iconName;
+																					}
+
+																					$scope.reverse = !$scope.reverse;
+
+																					$scope
+																							.pagination();
+																				};
+																				$scope
+																						.sort('firstName');
+
+																				// console.log($scope.allUsers.length);
+																			}
+																			swal(
+																					"Approved",
+																					"leave has been approved.)",
+																					"success");
+																		},
+																		function myError(
+																				response) {
+																			console
+																					.log(response);
+																		});
+
+													},
+													function myError(response) {
+														console.log(response);
+													});
+
 								});
 					}
 					$scope.rejectLeave = function(item) {
 
 						swal(
 								{
+
 									title : "Are you sure?",
-									text : "Reject leave ",
+									text : "Confirm rejection Leave ",
+									type : "input",
+									inputPlaceholder : "Rejecter Comments",
 									showCancelButton : true,
-									confirmButtonColor : "#DD6B55",
+									confirmButtonColor : "#F44336",
 									confirmButtonText : "Yes, Reject it!",
 									cancelButtonText : "No, cancel it!",
 									closeOnConfirm : false,
-									closeOnCancel : false
+									closeOnCancel : true
 								},
-								function(isConfirm) {
-									if (isConfirm) {
-										var leaveId = item.leaveId;
-										var rejecctLeaveurl = $scope.webserviceshost
-												+ 'hr/leave/reject/'
-												+ leaveId
-												+ '/' + managerid;
+								function(inputValue) {
+									if (inputValue === false)
+										return false;
+									var managerid = $window.sessionStorage
+											.getItem("EmployeeId");
+									$scope.managerrejectComments = inputValue === "" ? "No Comments"
+											: inputValue;
 
-										$http(
-												{
-													method : "POST",
-													url : rejecctLeaveurl,
-													headers : {
-														'XSRF-TOKEN' : $window.sessionStorage
-																.getItem("Access-Token"),
-														'authorization' : $window.sessionStorage
-																.getItem("AuthKey")
-													}
-												})
-												.then(
-														function mySucces(
-																response) {
+									var leaveId = item.leaveId;
+									var rejecctLeaveurl = $scope.webserviceshost
+											+ 'hr/leave/reject/'
+											+ leaveId
+											+ '/'
+											+ managerid
+											+ '/'
+											+ $scope.managerrejectComments;
 
-															var managerid = $window.sessionStorage
-																	.getItem("EmployeeId");
-															;// hard
-															// coded
-															// as
-															// of
-															// now
-															var pendingapproval = $scope.webserviceshost
-																	+ 'hr/leave/pendingApproval/'
-																	+ managerid;
+									$http(
+											{
+												method : "POST",
+												url : rejecctLeaveurl,
+												headers : {
+													'XSRF-TOKEN' : $window.sessionStorage
+															.getItem("Access-Token"),
+													'authorization' : $window.sessionStorage
+															.getItem("AuthKey")
+												}
+											})
+											.then(
+													function mySucces(response) {
 
-															$http(
-																	{
-																		method : "GET",
-																		url : pendingapproval,
-																		headers : {
-																			'XSRF-TOKEN' : $window.sessionStorage
-																					.getItem("Access-Token"),
-																			'authorization' : $window.sessionStorage
-																					.getItem("AuthKey")
-																		}
-																	})
-																	.then(
-																			function mySucces(
-																					response) {
-																				console
-																						.log(response.data);
-																				if (response != 'undefiend'
-																						&& response != "") {
+														var managerid = $window.sessionStorage
+																.getItem("EmployeeId");
+														;// hard
+														// coded
+														// as
+														// of
+														// now
+														var pendingapproval = $scope.webserviceshost
+																+ 'hr/leave/pendingApproval/'
+																+ managerid;
 
-																					$scope.allUsers = response.data;
-																					$scope.pageSize = 25;
-																					$scope.allItems = $scope.allUsers;
-																					$scope.reverse = false;
+														$http(
+																{
+																	method : "GET",
+																	url : pendingapproval,
+																	headers : {
+																		'XSRF-TOKEN' : $window.sessionStorage
+																				.getItem("Access-Token"),
+																		'authorization' : $window.sessionStorage
+																				.getItem("AuthKey")
+																	}
+																})
+																.then(
+																		function mySucces(
+																				response) {
+																			console
+																					.log(response.data);
+																			if (response != 'undefiend'
+																					&& response != "") {
 
-																					$scope.resetAll = function() {
-																						$scope.filteredList = $scope.allItems;
-																						$scope.employeeId = '';
-																						$scope.firstName = '';
-																						$scope.lastName = '';
-																						$scope.fromDate = '';
-																						$scope.toDate = '';
-																						$scope.noOfDays = ''
-																						$scope.searchText = '';
-																						$scope.currentPage = 0;
-																						$scope.Header = [
-																								'',
-																								'',
-																								'',
-																								'',
-																								'',
-																								'',
-																								'' ];
-																					}
+																				$scope.allUsers = response.data;
+																				$scope.pageSize = 25;
+																				$scope.allItems = $scope.allUsers;
+																				$scope.reverse = false;
 
-																					$scope.search = function() {
-																						$scope.filteredList = filteredListService
-																								.searched(
-																										$scope.allItems,
-																										$scope.searchText);
-
-																						if ($scope.searchText == '') {
-																							$scope.filteredList = $scope.allItems;
-																						}
-																						$scope
-																								.pagination();
-																					}
-
-																					$scope.pagination = function() {
-																						$scope.ItemsByPage = filteredListService
-																								.paged(
-																										$scope.filteredList,
-																										$scope.pageSize);
-																					};
-
-																					$scope.setPage = function() {
-																						$scope.currentPage = this.n;
-																					};
-
-																					$scope.firstPage = function() {
-																						$scope.currentPage = 0;
-																					};
-
-																					$scope.lastPage = function() {
-																						$scope.currentPage = $scope.ItemsByPage.length - 1;
-																					};
-
-																					$scope.range = function(
-																							input,
-																							total) {
-																						var ret = [];
-																						if (!total) {
-																							total = input;
-																							input = 0;
-																						}
-																						for (var i = input; i < total; i++) {
-																							if (i != 0
-																									&& i != total - 1) {
-																								ret
-																										.push(i);
-																							}
-																						}
-																						return ret;
-																					};
-																					$scope.sort = function(
-																							sortBy) {
-																						$scope
-																								.resetAll();
-
-																						$scope.columnToOrder = sortBy;
-
-																						// $Filter
-																						// -
-																						// Standard
-																						// Service
-																						$scope.filteredList = $filter(
-																								'orderBy')
-																								(
-																										$scope.filteredList,
-																										$scope.columnToOrder,
-																										$scope.reverse);
-
-																						if ($scope.reverse)
-																							iconName = 'glyphicon glyphicon-chevron-up';
-																						else
-																							iconName = 'glyphicon glyphicon-chevron-down';
-
-																						if (sortBy === 'EmployeeId') {
-																							$scope.Header[0] = iconName;
-																						} else if (sortBy === 'firstName') {
-																							$scope.Header[1] = iconName;
-																						} else if (sortBy === 'lastName') {
-																							$scope.Header[2] = iconName;
-																						} else if (sortBy === 'leaveStatus') {
-																							$scope.Header[3] = iconName;
-																						} else {
-																							$scope.Header[4] = iconName;
-																						}
-
-																						$scope.reverse = !$scope.reverse;
-
-																						$scope
-																								.pagination();
-																					};
-																					$scope
-																							.sort('firstName');
-
-																					// console.log($scope.allUsers.length);
+																				$scope.resetAll = function() {
+																					$scope.filteredList = $scope.allItems;
+																					$scope.employeeId = '';
+																					$scope.firstName = '';
+																					$scope.lastName = '';
+																					$scope.fromDate = '';
+																					$scope.toDate = '';
+																					$scope.noOfDays = ''
+																					$scope.searchText = '';
+																					$scope.currentPage = 0;
+																					$scope.Header = [
+																							'',
+																							'',
+																							'',
+																							'',
+																							'',
+																							'',
+																							'' ];
 																				}
-																			},
-																			function myError(
-																					response) {
-																				console
-																						.log(response);
-																			});
 
-														},
-														function myError(
-																response) {
-															console
-																	.log(response);
-														})
-										swal("Rejected",
-												"leave has been rejected.)",
-												"success");
-									} else {
-										swal("Cancelled",
-												"Request has been cancelled.)",
-												"error");
-									}
+																				$scope.search = function() {
+																					$scope.filteredList = filteredListService
+																							.searched(
+																									$scope.allItems,
+																									$scope.searchText);
+
+																					if ($scope.searchText == '') {
+																						$scope.filteredList = $scope.allItems;
+																					}
+																					$scope
+																							.pagination();
+																				}
+
+																				$scope.pagination = function() {
+																					$scope.ItemsByPage = filteredListService
+																							.paged(
+																									$scope.filteredList,
+																									$scope.pageSize);
+																				};
+
+																				$scope.setPage = function() {
+																					$scope.currentPage = this.n;
+																				};
+
+																				$scope.firstPage = function() {
+																					$scope.currentPage = 0;
+																				};
+
+																				$scope.lastPage = function() {
+																					$scope.currentPage = $scope.ItemsByPage.length - 1;
+																				};
+
+																				$scope.range = function(
+																						input,
+																						total) {
+																					var ret = [];
+																					if (!total) {
+																						total = input;
+																						input = 0;
+																					}
+																					for (var i = input; i < total; i++) {
+																						if (i != 0
+																								&& i != total - 1) {
+																							ret
+																									.push(i);
+																						}
+																					}
+																					return ret;
+																				};
+																				$scope.sort = function(
+																						sortBy) {
+																					$scope
+																							.resetAll();
+
+																					$scope.columnToOrder = sortBy;
+
+																					// $Filter
+																					// -
+																					// Standard
+																					// Service
+																					$scope.filteredList = $filter(
+																							'orderBy')
+																							(
+																									$scope.filteredList,
+																									$scope.columnToOrder,
+																									$scope.reverse);
+
+																					if ($scope.reverse)
+																						iconName = 'glyphicon glyphicon-chevron-up';
+																					else
+																						iconName = 'glyphicon glyphicon-chevron-down';
+
+																					if (sortBy === 'EmployeeId') {
+																						$scope.Header[0] = iconName;
+																					} else if (sortBy === 'firstName') {
+																						$scope.Header[1] = iconName;
+																					} else if (sortBy === 'lastName') {
+																						$scope.Header[2] = iconName;
+																					} else if (sortBy === 'leaveStatus') {
+																						$scope.Header[3] = iconName;
+																					} else {
+																						$scope.Header[4] = iconName;
+																					}
+
+																					$scope.reverse = !$scope.reverse;
+
+																					$scope
+																							.pagination();
+																				};
+																				$scope
+																						.sort('firstName');
+
+																				// console.log($scope.allUsers.length);
+																			}
+																			swal(
+																					"Rejected",
+																					"leave has been rejected.)",
+																					"success");
+																		},
+																		function myError(
+																				response) {
+																			console
+																					.log(response);
+																		});
+
+													},
+													function myError(response) {
+														console.log(response);
+													})
+
 								});
 					}
 				})
@@ -1657,6 +1668,7 @@ materialAdmin
 						var employeedepartment = $scope.demployeedepartment;
 						var employeedepartmentId = $scope.employeedepartmentId;
 						var employeeemail = $scope.employeeemail;
+						var comments = $scope.comments;
 						/*
 						 * var leaveTaken=response.data.employeeId; var
 						 * remainLeaves=response.data.employeeId;
@@ -1689,7 +1701,6 @@ materialAdmin
 						}
 						var enddate = endyear + '-' + endmonth + '-' + endday;
 						var leavetaken = $scope.leaveTaken;
-						var comments = "leave applied";
 
 						var applyleaveurl = $scope.webserviceshost
 								+ 'hr/leave/apply/' + employeeid + '/'
@@ -1717,6 +1728,7 @@ materialAdmin
 									$scope.dtPopup = '';
 									$scope.dtPopup1 = '';
 									$scope.remainLeaves = '';
+									$scope.comments = '';
 								}, function myError(response) {
 									console.log(response);
 								});
@@ -2025,8 +2037,7 @@ materialAdmin
 												$scope.Header[2] = iconName;
 											} else if (sortBy === 'customerProgramType') {
 												$scope.Header[3] = iconName;
-											} 
-											else if (sortBy === 'projects') {
+											} else if (sortBy === 'projects') {
 												$scope.Header[4] = iconName;
 											} else {
 												$scope.Header[2] = iconName;
@@ -4384,10 +4395,11 @@ materialAdmin
 					}, function myError(response) {
 						console.log(response);
 					});
-
+					/*"/create/{projectName}/{customerId}/{customerProgramId}/{departmentId}" +
+					"/{projectType}/{projectStatus}/{location}/{customerProjectCode}"*/
 					$scope.addprojecttocustomer = function() {
 						var projectName = $scope.projectname;
-						var customerProgramId = $scope.customerprogramcode;
+						var customerProgramId = $scope.customerprogramid; 
 						var projectType = $scope.customerproject;
 						var projectStatus = $scope.projectstatus;
 						var customer = $scope.customerid;
@@ -4396,9 +4408,9 @@ materialAdmin
 						/* /{projectName}/{customerId}/{customerProgramId}/{departmentId}/{projectType}/{projectStatus}/{location */
 						var projectadd = $scope.webserviceshost + 'hr/project';
 						var additional = '/create/' + projectName + '/'
-								+ customer + '/' + +customerProgramId + '/'
-								+ department + '/' + projectType + '/'
-								+ projectStatus + '/' + country;
+								+ customer + '/' + '1' + '/' + department + '/'
+								+ projectType + '/' + projectStatus + '/'
+								+ country + '/' + customerProgramId;
 						projectadd = projectadd + additional;
 						$http(
 								{
@@ -4552,8 +4564,6 @@ materialAdmin
 													$scope.Header[0] = iconName;
 												} else if (sortBy === 'projectName') {
 													$scope.Header[1] = iconName;
-												} else if (sortBy === 'customerProjectCode') {
-													$scope.Header[2] = iconName;
 												} else if (sortBy === 'projectType') {
 													$scope.Header[3] = iconName;
 												} else if (sortBy === 'projectStatus') {
@@ -4582,10 +4592,15 @@ materialAdmin
 						$anchorScroll();
 						$scope.projectid = item.projectid;
 						$scope.projectname = item.projectName;
-						$scope.customerprogramcode = item.customerProgram.customerProgramId;
+						$scope.customerprogramcode =item.customerProjectCode;
+						$scope.customerid=item.customer.customerId;
 						$scope.customerproject = item.projectType;
 						$scope.projectstatus = item.projectStatus;
-						$scope.customerid = item.customerProgram.customer.customerId;
+						$scope.departmentid=item.department.departmentId;
+						/*
+						 * $scope.customerid =
+						 * item.customerProgram.customer.customerId;
+						 */
 						$scope.departmentid = item.department.departmentId;
 						$scope.country = item.location;
 						var referenceData = $scope.webserviceshost
@@ -5667,17 +5682,16 @@ materialAdmin
 						var customerid = $scope.customerid;
 						var departmentid = $scope.departmentid;
 						var customerprogramcode = $scope.customerprogramcode;
-						var customerproject = $scope.customerproject;
 						var country = $scope.country.name;
 						var projectType = $scope.customerproject;
-						var projectStatus = $scope.projectstatus;
-						'/update/{projectid}/{projectName}/{customerId}/{customerProgramId}/{departmentId}/{projectType}/{projectStatus}/{location}'
+						var projectStatus = $scope.projectstatus;/*
+						/update/{projectid}/{projectName}/{customerId}/{customerProgramId}/{departmentId}/{projectType}/{projectStatus}/{location}/{customerProjectCode}*/
+						/* '/update/{projectid}/{projectName}/{customerId}/{customerProgramId}/{departmentId}/{projectType}/{projectStatus}/{location}' */
 						var projectadd = $scope.webserviceshost + 'hr/project';
 						var additional = '/update/' + projectid + '/'
-								+ projectName + '/' + customerid + '/'
-								+ customerprogramcode + '/' + departmentid
-								+ '/' + projectType + '/' + projectStatus + '/'
-								+ country;
+								+ projectName + '/' + customerid + '/'+'1'+'/'
+								+ departmentid + '/' + projectType + '/'
+								+ projectStatus + '/' + country+'/'+customerprogramcode;
 						projectadd = projectadd + additional;
 						$http(
 								{

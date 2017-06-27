@@ -20,7 +20,7 @@
 	href="vendors/bower_components/material-design-iconic-font/dist/css/material-design-iconic-font.min.css"
 	rel="stylesheet">
 <link
-	href="vendors/bower_components/bootstrap-sweetalert/lib/sweet-alert.css"
+	href="vendors/bower_components/bootstrap-sweetalert/lib/sweetalert.css"
 	rel="stylesheet">
 <link
 	href="vendors/bower_components/angular-loading-bar/src/loading-bar.css"
@@ -112,7 +112,7 @@
 	<script
 		src="vendors/bower_components/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js"></script>
 	<script
-		src="vendors/bower_components/bootstrap-sweetalert/lib/sweet-alert.min.js"></script>
+		src="vendors/bower_components/bootstrap-sweetalert/lib/sweetalert-dev.js"></script>
 	<script src="vendors/bower_components/Waves/dist/waves.min.js"></script>
 	<script src="vendors/bootstrap-growl/bootstrap-growl.min.js"></script>
 	<script src="vendors/bower_components/ng-table/dist/ng-table.min.js"></script>
