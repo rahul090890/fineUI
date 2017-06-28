@@ -2060,6 +2060,78 @@ materialAdmin
 									});
 
 					$scope.editcpcDetails = function(item) {
+
+						var allproject = $scope.webserviceshost
+								+ 'hr/project/all';
+						$http(
+								{
+									method : "GET",
+									url : allproject,
+									headers : {
+										'XSRF-TOKEN' : $window.sessionStorage
+												.getItem("Access-Token"),
+										'authorization' : $window.sessionStorage
+												.getItem("AuthKey")
+									}
+								})
+								.then(
+										function mySucces(response) {
+
+											if (response != 'undefiend'
+													&& response != "") {
+												$scope.allproject = response.data;
+												var projectData = [ $scope.projectids ];
+
+												for (var x = 0; x < $scope.projects.length; x++) {
+													$scope.example14model = [];
+													$scope.example14settings = {
+														scrollableHeight : '200px',
+														scrollable : true,
+														enableSearch : true
+													};
+													var updata = $scope.projects[x];
+													var jsonproj = {
+														'label' : '',
+														'id' : ''
+													}
+													Object
+															.keys(updata)
+															.forEach(
+																	function(
+																			key) {
+																		if ('projectid' != key) {
+																			jsonproj.label = updata[key];
+																		} else if ('projectName' != key) {
+																			jsonproj.id = updata[key];
+																		}
+
+																	});
+													projectData.push(jsonproj);
+													$scope.example14data = projectData;
+													$scope.example2settings = {
+														displayProp : 'id'
+													};
+												}
+											}
+										}, function myError(response) {
+											console.log(response);
+										});
+						/*
+						 * var projectData = [$scope.projectids];
+						 * 
+						 * for (var x = 0; x < $scope.projects.length; x++) {
+						 * $scope.example14model = []; $scope.example14settings = {
+						 * scrollableHeight : '200px', scrollable : true,
+						 * enableSearch : true }; var updata =
+						 * $scope.projects[x]; var jsonproj = { 'label' : '',
+						 * 'id' : '' } Object.keys(updata).forEach(function(key) {
+						 * if ('projectid' != key) { jsonproj.label =
+						 * updata[key]; } else if ('projectName' != key) {
+						 * jsonproj.id = updata[key]; }
+						 * 
+						 * }); projectData.push(jsonproj);
+						 */
+
 						$scope.customerProgramId = item.customerProgramId;
 						$scope.customerid = item.customer.customerId;
 						$scope.customerProgramCode2 = item.customerProgramCode;
@@ -4395,11 +4467,13 @@ materialAdmin
 					}, function myError(response) {
 						console.log(response);
 					});
-					/*"/create/{projectName}/{customerId}/{customerProgramId}/{departmentId}" +
-					"/{projectType}/{projectStatus}/{location}/{customerProjectCode}"*/
+					/*
+					 * "/create/{projectName}/{customerId}/{customerProgramId}/{departmentId}" +
+					 * "/{projectType}/{projectStatus}/{location}/{customerProjectCode}"
+					 */
 					$scope.addprojecttocustomer = function() {
 						var projectName = $scope.projectname;
-						var customerProgramId = $scope.customerprogramid; 
+						var customerProgramId = $scope.customerprogramid;
 						var projectType = $scope.customerproject;
 						var projectStatus = $scope.projectstatus;
 						var customer = $scope.customerid;
@@ -4592,11 +4666,11 @@ materialAdmin
 						$anchorScroll();
 						$scope.projectid = item.projectid;
 						$scope.projectname = item.projectName;
-						$scope.customerprogramcode =item.customerProjectCode;
-						$scope.customerid=item.customer.customerId;
+						$scope.customerprogramcode = item.customerProjectCode;
+						$scope.customerid = item.customer.customerId;
 						$scope.customerproject = item.projectType;
 						$scope.projectstatus = item.projectStatus;
-						$scope.departmentid=item.department.departmentId;
+						$scope.departmentid = item.department.departmentId;
 						/*
 						 * $scope.customerid =
 						 * item.customerProgram.customer.customerId;
@@ -5676,22 +5750,27 @@ materialAdmin
 										});
 
 					}
+					$scope.cancelprojectUpdate = function() {
+						$("#editprojectdata").hide();
+					}
 					$scope.updateprojectdata = function() {
 						var projectid = $scope.projectid;
 						var projectName = $scope.projectname;
 						var customerid = $scope.customerid;
 						var departmentid = $scope.departmentid;
 						var customerprogramcode = $scope.customerprogramcode;
-						var country = $scope.country.name;
+						var country = $scope.country;
 						var projectType = $scope.customerproject;
 						var projectStatus = $scope.projectstatus;/*
-						/update/{projectid}/{projectName}/{customerId}/{customerProgramId}/{departmentId}/{projectType}/{projectStatus}/{location}/{customerProjectCode}*/
+																	 * /update/{projectid}/{projectName}/{customerId}/{customerProgramId}/{departmentId}/{projectType}/{projectStatus}/{location}/{customerProjectCode}
+																	 */
 						/* '/update/{projectid}/{projectName}/{customerId}/{customerProgramId}/{departmentId}/{projectType}/{projectStatus}/{location}' */
 						var projectadd = $scope.webserviceshost + 'hr/project';
 						var additional = '/update/' + projectid + '/'
-								+ projectName + '/' + customerid + '/'+'1'+'/'
-								+ departmentid + '/' + projectType + '/'
-								+ projectStatus + '/' + country+'/'+customerprogramcode;
+								+ projectName + '/' + customerid + '/' + '1'
+								+ '/' + departmentid + '/' + projectType + '/'
+								+ projectStatus + '/' + country + '/'
+								+ customerprogramcode;
 						projectadd = projectadd + additional;
 						$http(
 								{

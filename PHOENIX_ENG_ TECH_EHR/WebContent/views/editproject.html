@@ -38,23 +38,22 @@
 								<table class="table  table-hover data-table myTable">
 									<thead>
 										<tr>
-											<th class="EmpId"><a href="" ng-click="sort('projectId')">ID <span
+											<th class="EmpId"><a href=""
+												ng-click="sort('projectId')">ID <span
 													class="{{Header[0]}}"></span>
 											</a></th>
-											<th class="name"><a
-												ng-click="sort('projectName')" href=""> Project Name<span
-													class="{{Header[1]}}"></span>
-											</a></th>
-											 <th class="Email"><a ng-click="sort('customerProjectCode')" href="">
-													Program Code <span class="{{Header[2]}}"></span>
-											</a></th>
-											<th class="Email"> <a
-												ng-click="sort('projectType')" href=""> Type <span
-													class="{{Header[3]}}"></span>
+											<th class="name"><a ng-click="sort('projectName')"
+												href=""> Project Name<span class="{{Header[1]}}"></span>
 											</a></th>
 											<th class="Email"><a
-												ng-click="sort('projectStatus')" href=""> Status <span
-													class="{{Header[4]}}"></span>
+												ng-click="sort('customerProjectCode')" href=""> Program
+													Code <span class="{{Header[2]}}"></span>
+											</a></th>
+											<th class="Email"><a ng-click="sort('projectType')"
+												href=""> Type <span class="{{Header[3]}}"></span>
+											</a></th>
+											<th class="Email"><a ng-click="sort('projectStatus')"
+												href=""> Status <span class="{{Header[4]}}"></span>
 											</a></th>
 
 											<th class="Email">
@@ -68,8 +67,8 @@
 										<tr
 											ng-repeat="item in ItemsByPage[currentPage] | orderBy:columnToOrder:reverse">
 											<td>{{item.projectid}}</td>
-											<td>{{item.projectName}}</td> 
-											<td>{{item.customerProjectCode}}</td> 
+											<td>{{item.projectName}}</td>
+											<td>{{item.customerProjectCode}}</td>
 											<td>{{item.projectType}}</td>
 											<td>{{item.projectStatus}}</td>
 											<td>
@@ -122,11 +121,11 @@
 									</span>
 									<div class="fg-line"></div>
 								</div>
-								 <div class="form-group">
+								<div class="form-group">
 									<span class="input-group-addon"><i
 										class="zmdi zmdi-label zmdi-hc-fw"> </i>Program Code</span>
 									<div class="fg-line"></div>
-								</div> 
+								</div>
 								<br>
 								<div class="form-group">
 									<span class="input-group-addon"> <i
@@ -201,12 +200,13 @@
 
 								<div class="form-group">
 									<div class="fg-line">
-										<input type="text" class="form-control" ng-model='customerprogramcode'
+										<input type="text" class="form-control"
+											ng-model='customerprogramcode'
 											placeholder="Customer Program Code Id">
 
 									</div>
-								</div> 
-<br>
+								</div>
+								<br>
 								<div class="form-group">
 									<div class="fg-line">
 										<div class="select">
@@ -239,11 +239,12 @@
 								<br />
 								<div class="form-group">
 									<div class="fg-line">
-										<br> <select class="form-control" ng-model="country"
-											ng-options="country.name for country in countries track by country.code">
-											<option value="">-- Select a Country --</option>
-										</select>
-
+										<div class="select">
+											<select class="form-control" ng-model="country"
+												ng-options="country.name as country.name for country in countries">
+												<option value="">-- Select a Country --</option>
+											</select>
+										</div>
 										<!-- <div class="flagstrap" id="select_country"
 											ng-model='customerCountry' data-input-name="NewBuyer_country"
 											data-selected-country=""></div> -->
@@ -259,8 +260,9 @@
 											<i class="zmdi zmdi-check-all"></i> Update Project
 										</button>
 
-										<button class="btn btn-danger btn-icon-text waves-effect">
-											<i class="zmdi zmdi-close"></i> Clear
+										<button class="btn btn-danger btn-icon-text waves-effect"
+											ng-click="cancelprojectUpdate()">
+											<i class="zmdi zmdi-close"></i> Cancel
 										</button>
 									</span>
 								</div>

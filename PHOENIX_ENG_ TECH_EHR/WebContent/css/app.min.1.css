@@ -13235,7 +13235,7 @@ a.lv-footer:hover {
 .table > thead > tr > td:last-child,
 .table > tbody > tr > td:last-child,
 .table > tfoot > tr > td:last-child {
-  padding-right: 30px;
+  padding-right: 2px;
 }
 
 .table > tbody > tr.active > td,

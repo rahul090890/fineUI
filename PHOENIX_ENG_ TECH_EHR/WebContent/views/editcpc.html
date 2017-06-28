@@ -36,7 +36,8 @@
 								<thead>
 									<tr>
 										<th class="EmpId"><i class="zmdi zmdi-label zmdi-hc-fw">
-										</i><a href="" ng-click="sort('customerProgramId',$event)">Id <span class="{{Header[0]}}"></span>
+										</i><a href="" ng-click="sort('customerProgramId',$event)">Id
+												<span class="{{Header[0]}}"></span>
 										</a></th>
 										<th class="name"><i
 											class="zmdi zmdi-assignment-account zmdi-hc-fw"></i><a
@@ -45,16 +46,15 @@
 										</a></th>
 
 										<th class="Email"><i class="zmdi zmdi-city zmdi-hc-fw"></i><a
-											ng-click="sort('customerProgramCode')" href="">
-												Program Name <span class="{{Header[2]}}"></span>
+											ng-click="sort('customerProgramCode')" href=""> Program
+												Name <span class="{{Header[2]}}"></span>
 										</a></th>
 										<th class="Email"><i class="zmdi zmdi-city zmdi-hc-fw"></i><a
-											ng-click="sort('customerProgramType')" href="">
-												Program Type <span class="{{Header[3]}}"></span>
+											ng-click="sort('customerProgramType')" href=""> Program
+												Type <span class="{{Header[3]}}"></span>
 										</a></th>
 										<th class="Email"><i class="zmdi zmdi-city zmdi-hc-fw"></i><a
-											 href="">
-												Projects <span class="{{Header[4]}}"></span>
+											href=""> Projects <span class="{{Header[4]}}"></span>
 										</a></th>
 										<th class="Email">
 											<!-- <a ng-click="sort('lastName')" href=""> --> <a>
@@ -70,8 +70,9 @@
 										<td>{{item.customer.customerName}}</td>
 										<td>{{item.customerProgramCode}}</td>
 										<td>{{item.customerProgramType}}</td>
-										<td><span ng-repeat="project in item.projects" ng-model='projectids'>
-										<p>{{project.projectName}}</p>
+										<td><span ng-repeat="project in item.projects"
+											ng-model='projectids'>
+												<p>{{project.projectName}}</p>
 										</span></td>
 										<td>
 											<p>
@@ -83,8 +84,7 @@
 								</tbody>
 							</table>
 							<ul class="pagination pagination-sm">
-								<li ng-class="{active:0}"><a href=""
-									ng-click="firstPage()">First</a></li>
+								<li ng-class="{active:0}"><a href="" ng-click="firstPage()">First</a></li>
 								<li ng-repeat="n in range(ItemsByPage.length)"><a href=""
 									ng-click="setPage()" ng-bind="n+1">1</a></li>
 								<li><a href="" ng-click="lastPage()">Last</a></li>
@@ -99,7 +99,7 @@
 							<div class='col-sm-4'>
 								<div class="form-group">
 									<span class="input-group-addon"><i
-										class="zmdi zmdi-label zmdi-hc-fw"> </i>Customer Program Id </span>
+										class="zmdi zmdi-label zmdi-hc-fw"> </i>Id </span>
 									<div class="fg-line"></div>
 								</div>
 
@@ -108,17 +108,19 @@
 										class="zmdi zmdi-camera-front zmdi-hc-fw"> </i>Customer</span>
 									<div class="fg-line"></div>
 								</div>
-
 								<div class="form-group">
 									<span class="input-group-addon"><i
-										class="zmdi zmdi-camera-front zmdi-hc-fw"> </i>Customer
-										Program Name</span>
+										class="zmdi zmdi-camera-front zmdi-hc-fw"> </i> Projects </span>
 									<div class="fg-line"></div>
 								</div>
 								<div class="form-group">
 									<span class="input-group-addon"><i
-										class="zmdi zmdi-camera-front zmdi-hc-fw"> </i>Customer
-										Program Type</span>
+										class="zmdi zmdi-camera-front zmdi-hc-fw"> </i> Program Name</span>
+									<div class="fg-line"></div>
+								</div>
+								<div class="form-group">
+									<span class="input-group-addon"><i
+										class="zmdi zmdi-camera-front zmdi-hc-fw"> </i> Program Type</span>
 									<div class="fg-line"></div>
 								</div>
 							</div>
@@ -143,6 +145,21 @@
 								</div>
 								<div class="form-group">
 									<div class="fg-line">
+										<div ng-dropdown-multiselect="" options="example14data"
+											selected-model="example14model" checkboxes="true"
+											extra-settings="example14settings"></div>
+
+										<!-- <div class="select">
+											<select chosen multiple data-placeholder="Select a Project..." class="w-100" ng-model='project'
+												ng-options="projectdetails.projectid  as projectdetails.projectName    for projectdetails in projects">
+
+											</select>
+
+										</div> -->
+									</div>
+								</div>
+								<div class="form-group">
+									<div class="fg-line">
 										<input type="text" class="form-control"
 											placeholder="Customer Program Id"
 											ng-model='customerProgramCode2'>
@@ -160,6 +177,7 @@
 										</div>
 									</div>
 								</div>
+								<br>
 								<div class="form-group">
 									<span>
 										<button class="btn btn-primary btn-icon-text waves-effect"
