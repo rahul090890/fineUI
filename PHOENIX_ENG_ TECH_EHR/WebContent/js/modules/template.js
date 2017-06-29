@@ -58,7 +58,7 @@
 
 					var template = '<div class="multiselect-parent  dropdown-multiselect">';
 					template += '<div class="dropdown-toggle select form-control " ng-class="settings.buttonClasses" ng-click="toggleDropdown()">{{getButtonText()}}&nbsp;</div>';
-					template += '<ul class="dropdown-menu dropdown-menu-form fg-line" ng-style="{display: open ? \'block\' : \'none\', height : settings.scrollable ? settings.scrollableHeight : \'auto\' }" style="overflow: scroll" >';
+					template += '<ul class="dropdown-menu dropdown-menu-form fg-line" ng-style="{display: open ? \'block\' : \'none\', height : settings.scrollable ? settings.scrollableHeight : \'200px\' }" style="overflow: scroll" >';
 					template += '<li ng-hide="!settings.showCheckAll || settings.selectionLimit > 0"><a data-ng-click="selectAll()"><span class="glyphicon glyphicon-ok"></span>  {{texts.checkAll}}</a>';
 					template += '<li ng-show="settings.showUncheckAll"><a data-ng-click="deselectAll();"><span class="glyphicon glyphicon-remove"></span>   {{texts.uncheckAll}}</a></li>';
 					template += '<li ng-hide="(!settings.showCheckAll || settings.selectionLimit > 0) && !settings.showUncheckAll" class="divider"></li>';
@@ -119,7 +119,7 @@
 						displayProp : 'label',
 						idProp : 'id',
 						externalIdProp : 'id',
-						enableSearch : false,
+						enableSearch : true,
 						selectionLimit : 0,
 						showCheckAll : true,
 						showUncheckAll : true,
@@ -219,6 +219,7 @@
 					};
 
 					$scope.getButtonText = function() {
+						if($scope.selectedModel!=undefined){
 						if ($scope.settings.dynamicTitle
 								&& ($scope.selectedModel.length > 0 || (angular
 										.isObject($scope.selectedModel) && _
@@ -283,7 +284,7 @@
 						} else {
 							return $scope.texts.buttonDefaultText;
 						}
-					};
+					}};
 
 					$scope.getPropertyForObject = function(object, property) {
 						if (angular.isDefined(object)

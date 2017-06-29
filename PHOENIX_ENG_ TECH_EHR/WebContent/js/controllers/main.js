@@ -2060,9 +2060,31 @@ materialAdmin
 									});
 
 					$scope.editcpcDetails = function(item) {
-
+						$scope.example14model = [];
 						var allproject = $scope.webserviceshost
 								+ 'hr/project/all';
+						for (var x = 0; x < item.projects.length; x++) {
+							var updata = item.projects[x];
+							var jsonproj = {
+								'label' : '',
+								'id' : ''
+							}
+							Object.keys(updata).forEach(function(key) {
+								if ('projectid' === key) {
+									jsonproj.id = updata[key];
+								} else if ('projectName' === key) {
+									jsonproj.label = updata[key];
+								}
+
+							});
+							$scope.example14model.push(jsonproj);
+						}
+
+						$scope.example14settings = {
+							scrollableHeight : '200px',
+							scrollable : true,
+							enableSearch : true
+						};
 						$http(
 								{
 									method : "GET",
@@ -2079,16 +2101,10 @@ materialAdmin
 
 											if (response != 'undefiend'
 													&& response != "") {
-												$scope.allproject = response.data;
-												var projectData = [ $scope.projectids ];
+												$scope.projects = response.data;
+												var projectData = [];
 
 												for (var x = 0; x < $scope.projects.length; x++) {
-													$scope.example14model = [];
-													$scope.example14settings = {
-														scrollableHeight : '200px',
-														scrollable : true,
-														enableSearch : true
-													};
 													var updata = $scope.projects[x];
 													var jsonproj = {
 														'label' : '',
@@ -2107,11 +2123,14 @@ materialAdmin
 
 																	});
 													projectData.push(jsonproj);
-													$scope.example14data = projectData;
-													$scope.example2settings = {
-														displayProp : 'id'
-													};
+
 												}
+												console.log(projectData)
+												$scope.example14data = projectData;
+												$scope.example2settings = {
+													displayProp : 'id'
+												};
+
 											}
 										}, function myError(response) {
 											console.log(response);
@@ -2181,6 +2200,21 @@ materialAdmin
 						$location.hash('updatecpcDetails');
 						$anchorScroll();
 						$scope.savecpcDetails = function() {
+
+							var length = $scope.example14model.length;
+							if (length < 1) {
+								swal("Kindly select at Least 1 project");
+								return;
+							}
+							var projectids = '';
+							angular.forEach($scope.example14model, function(
+									key, val) {
+								projectids += key.id + ',';
+
+							})
+							projectids = projectids.substring(0,
+									projectids.length - 1);
+
 							var customerProgramId = $scope.customerProgramId;
 							var customerprogName = $scope.customerprogName;
 							var customerId = $scope.customerid;
@@ -2192,7 +2226,7 @@ materialAdmin
 							var additional = '/update/' + customerProgramId
 									+ '/' + customerId + '/'
 									+ customerProgramCode2 + '/'
-									+ customerProgramType;
+									+ customerProgramType + '/' + projectids;
 							savecpcurl += additional;
 							$http(
 									{
@@ -10062,17 +10096,25 @@ materialAdmin
 					$scope.showDetails = function(employeeid, argStart, argEnd) {
 						// $window.location.path='headers.timesheet';
 
-						$scope.$emit('eventName');
-						$scope.$broadcast('eventName');
+						
+/*
+						var modalInstance = $uibModal.open({
+							templateUrl : 'views/timesheetDetails.html',
+							controller : 'timesheethistoryDetails',
+							backdrop : 'static',
+							keyboard : false,
+							resolve : {
+								userData : function() {
+									var x = {
+										'employeeid' : employeeid,
+										'startDate' : argStart,
+										'endDate' : argEnd
+									}
+									return x;
+								}
+							}
+						});*/
 
-						/*
-						 * var modalInstance = $uibModal.open({ templateUrl :
-						 * 'views/timesheet.html', controller :
-						 * 'timesheethistoryDetails', backdrop : 'static',
-						 * keyboard : false, resolve : { userData : function() {
-						 * var x = { 'employeeid' : employeeid, 'startDate' :
-						 * argStart, 'endDate' : argEnd } return x; } } });
-						 */
 						/*
 						 * return { restrict: 'E', link: function(scope,
 						 * element, attrs) { // some ode }, templateUrl:
@@ -10713,22 +10755,39 @@ materialAdmin
 				})
 		.controller(
 				'timesheethistoryDetails',
-				function($scope, $rootScope, $uibModalInstance, userData,
+				function($scope, $rootScope, $uibModalInstance, userData,$http,
 						$window) {
 					$scope.items = userData;
 					$scope.selected = {
 						item : $scope.items[0]
 					};
-					console.log(userData);
-					var employeeId = userData.employeeid;
-					var startDate = userData.startDate;
-					var endDate = userData.endDate;
+					var employeeId = $scope.items.employeeid;
+					var startDate = $scope.items.startDate;
+					var endDate = $scope.items.endDate;
 					$scope.cancelbutton = function() {
 						$rootScope.modalInstance.close();
 					};
-					var timesheetDetail = $scope.webserviceshost
-							+ 'hr/timesheet/details/' + employeeId + "/"
-							+ $scope.startDate + "/" + endDate;
+					$scope.webserviceshost = 'http://localhost:8080/';
+					var timesheetDetail = $scope.webserviceshost+'hr/timesheet/details/' + employeeId + "/"
+							+ startDate + "/" + endDate;
+
+					$http(
+							{
+								method : "GET",
+								url : timesheetDetail,
+								headers : {
+									'XSRF-TOKEN' : $window.sessionStorage
+											.getItem("Access-Token"),
+									'authorization' : $window.sessionStorage
+											.getItem("AuthKey")
+								}
+							}).then(function mySucces(response) {
+
+						if (response != 'undefiend' && response != "") {
+							$scope.timesheetfullDetails=response.data;
+							console.log(response);
+						}
+					})
 
 				})
 		.controller(
