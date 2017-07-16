@@ -37,6 +37,8 @@
 <link
 	href="https://cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css"
 	rel="stylesheet">
+	
+	
 
 </head>
 
@@ -160,6 +162,8 @@
 	<script src="js/modules/components.js"></script>
 	<script src="js/modules/calendar.js"></script>
 	<script src="js/modules/demo.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+	<script src="js/validation-frontend.js"></script>
 
 </body>
 </html>

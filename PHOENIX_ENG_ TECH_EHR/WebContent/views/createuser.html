@@ -11,13 +11,17 @@
 		data-ng-class="{ 'toggled': mactrl.sidebarToggle.right === true }"></aside>
 	<section id="content" class="page-view ng-scope" data-ui-view="">
 		<div class="container ng-scope">
-			<div class="block-header">
+			<!-- <div class="block-header">
 				<h2>New User Creation</h2>
 
-			</div>
+			</div> -->
 
 			<div class="card" ng-controller="allManagerCTRL as ctrl">
-
+				<div class="card-header">
+					<h2>
+						New User Creation<small></small>
+					</h2>
+				</div>
 
 				<div class="card-body card-padding">
 					<div class="row">
@@ -30,8 +34,9 @@
 										<div class="fg-line">
 
 											<div class="select">
-												<select class="form-control" ng-model='employeeType'>
-													<option value=''>Select EmployeeType</option>
+												<select class="form-control" ng-model='employeeType'
+													onchange="validateInstantInputgroup(this)"
+													id='employeeType'>
 													<option value='{{data.groupKey}}'
 														ng-repeat='data in referenceData.employeeType'>{{data.groupValue}}</option>
 
@@ -46,9 +51,13 @@
 								<span class="input-group-addon"><i
 									class="zmdi zmdi-account"></i></span>
 								<div class="fg-line">
-									<input type="text" class="form-control" ng-model='employeeId'
-										placeholder="Employee Id" readonly
-										title='will take care in backend'>
+									<div class="form-group">
+										<div class="fg-line">
+											<input type="text" class="form-control" ng-model='employeeId'
+												placeholder="Employee Id" readonly
+												title='will take care in backend'>
+										</div>
+									</div>
 								</div>
 							</div>
 
@@ -58,50 +67,51 @@
 								<span class="input-group-addon"><i
 									class="zmdi zmdi-email"></i></span>
 								<!-- zmdi zmdi-local-phone -->
+
 								<div class="fg-line">
 									<input type="text" class="form-control" ng-model="emailId"
+										onkeypress="validateInstantInputgroup(this)" id='emailId'
 										placeholder="Email Id">
 								</div>
+
 							</div>
 
-							<br>
+							<br><br>
 
 							<div class="input-group">
 								<span class="input-group-addon"><i
 									class="zmdi zmdi-face zmdi-hc-fw"></i></span>
+
 								<div class="fg-line">
-									<div class="form-group">
-										<div class="fg-line">
 
-											<div class="select">
-												<select class="form-control" ng-model='role'>
-													<option value=''>Select Role</option>
-													<option value='{{roles.roleid}}'
-														ng-repeat='roles in rolesdata'>{{roles.roleName}}</option>
+									<div class="select">
+										<select class="form-control" ng-model='role' id='role'
+											onchange="validateInstantInputgroup(this)">
+											<option value='{{roles.roleid}}'
+												ng-repeat='roles in rolesdata'>{{roles.roleName}}</option>
 
-												</select>
-											</div>
-										</div>
+										</select>
 									</div>
+
 								</div>
 							</div>
-							<br>
-
+							<br> <br>
 							<div class="form-group" style="margin-top: 5px;">
 								<div class="fg-line">
 
 									<div class="date-picker input-group dp-blue"
 										ng-class="{ 'is-opened': opened == true }">
-										<span class="input-group-addon"><i
+										<span class="input-group-addon"
+											style="background-color: transparent"><i
 											class="zmdi zmdi-calendar ma-icon"></i></span>
 										<div class="fg-line"
 											ng-class="{ 'fg-toggled': opened == true }">
 											<input ng-click="open($event, 'opened')" type="text" readonly
-												class="form-control" uib-datepicker-popup="{{format}}"
-												show-weeks="false" ng-model="dtPopup" is-open="opened"
-												min-date="minDate" datepicker-options="dateOptions"
-												ng-required="true" close-text="Close"
-												placeholder="Select Date" />
+												id="joindate" class="form-control"
+												uib-datepicker-popup="{{format}}" show-weeks="false"
+												ng-model="dtPopup" is-open="opened" min-date="minDate"
+												datepicker-options="dateOptions" ng-required="true"
+												close-text="Close" placeholder="Select Date"  ng-change="validateInstant('joindate')"/>
 										</div>
 
 									</div>
@@ -123,6 +133,7 @@
 									class="zmdi zmdi-code zmdi-hc-fw"></i></span>
 								<div class="fg-line">
 									<input type="text" class="form-control" ng-model='employeeCode'
+										onkeypress="validateInstantInputgroup(this)" id="employeeCode"
 										placeholder="Employee Code">
 								</div>
 							</div>
@@ -132,23 +143,24 @@
 									class="zmdi zmdi-account"></i></span>
 								<div class="fg-line">
 									<input type="text" class="form-control" ng-model='firstName'
+										onkeypress="validateInstantInputgroup(this)" id="firstName"
 										placeholder="First Name">
 								</div>
 							</div>
 
-							<br>
-
+							<br> <br>
 							<div class="input-group">
 								<span class="input-group-addon"><i
 									class="zmdi zmdi-pin-account zmdi-hc-fw"></i></span>
 								<!-- zmdi zmdi-local-phone -->
 								<div class="fg-line">
 									<input type="text" class="form-control" ng-model='loginId'
+										onkeypress="validateInstantInputgroup(this)" id="loginId"
 										placeholder="Employee Login ID">
 								</div>
 							</div>
 
-							<br>
+							<br><br>
 
 							<div class="input-group">
 								<span class="input-group-addon"><i
@@ -158,8 +170,8 @@
 										<div class="fg-line">
 
 											<div class="select">
-												<select class="form-control" ng-model='managerId'>
-													<option value=''>Select Manager</option>
+												<select class="form-control" ng-model='managerId'
+													onchange="validateInstantInputgroup(this)" id="managerId">
 													<option value='{{manager.employeeId}}'
 														ng-repeat='manager in managers'>{{manager.firstName}}&nbsp;{{manager.lastName}}</option>
 
@@ -200,8 +212,10 @@
 
 											<div class="select">
 												<select class="form-control" name="empstatus"
+													id='employeeStatus'
+													onchange="validateInstantInputgroup(this)"
 													ng-model='employeeStatus'>
-													<option value=''>Select Status</option>
+
 													<option value='active'>Active</option>
 													<option value='inactive'>InActive</option>
 
@@ -220,40 +234,43 @@
 								<!-- zmdi zmdi-local-phone -->
 								<div class="fg-line">
 									<input type="text" class="form-control" ng-model="designation"
+										id='designation' onkeypress="validateInstantInputgroup(this)"
 										placeholder="Select Designation">
 								</div>
 							</div>
-							<br>
-							<br>
+							<br> <br>
 							<div class="input-group">
 								<span class="input-group-addon"><i
 									class="zmdi zmdi-account"></i></span>
 								<div class="fg-line">
 									<input type="text" class="form-control" placeholder="Last Name"
+										id='lastName' onkeypress="validateInstantInputgroup(this)"
 										ng-model='lastName'>
 								</div>
 							</div>
-							<br>
+							<br><br>
 							<div class="input-group">
 								<span class="input-group-addon"><i
 									class="zmdi zmdi-key zmdi-hc-fw"></i></span>
 								<!-- zmdi zmdi-money -->
 								<div class="form-group">
 									<div class="fg-line">
-										<input type="password" class="form-control"
+										<input type="password" class="form-control" id='loginPassword'
+											onkeypress="validateInstantInputgroup(this)"
 											ng-model='loginPassword' placeholder="Employee Password">
 									</div>
 								</div>
 								<!-- <span class="input-group-addon last"><i
 									class="zmdi zmdi-plus-circle-o"></i></span> -->
 							</div>
-
+							<br>
 							<div class="input-group">
 								<span class="input-group-addon"><i
 									class="zmdi zmdi-home zmdi-hc-fw"></i> </span>
 								<div class="form-group">
 									<div class="fg-line">
 										<input type="text" class="form-control" ng-model='address'
+											id='address' onkeypress="validateInstantInputgroup(this)"
 											placeholder="Empoyee Address">
 									</div>
 								</div>
@@ -269,8 +286,10 @@
 										<div class="fg-line">
 
 											<div class="select">
-												<select class="form-control" ng-model='userDepartmentId'>
-													<option value=''>Select Department</option>
+												<select class="form-control" ng-model='userDepartmentId'
+													id='userDepartmentId'
+													onchange="validateInstantInputgroup(this)">
+
 													<option value='{{department.departmentId}}'
 														ng-repeat='department in departments'>{{department.departmentName}}</option>
 												</select>

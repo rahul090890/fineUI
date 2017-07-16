@@ -49,7 +49,7 @@
 
 								<div class="form-group">
 									<div class="fg-line">
-										<input type="text" class="form-control" ng-model='roleName'
+										<input type="text" class="form-control" ng-model='roleName' id="roleName"  onkeypress="validateInstant(this)"
 											placeholder="Enter Role Name">
 									</div>
 								</div>
@@ -57,7 +57,7 @@
 								<div class="form-group">
 									<div class="fg-line">
 										<div class="select">
-											<select class="form-control" name="parentroleId" ng-model='parentroleId'>
+											<select class="form-control" name="parentroleId" ng-model='parentroleId' id="parentroleId"  onchange="validateInstant(this)">
 												<option>Select Roll</option>
 												<option ng-repeat='roll in rolls' value='{{roll.roleid}}'>{{roll.roleName}}</option>
 

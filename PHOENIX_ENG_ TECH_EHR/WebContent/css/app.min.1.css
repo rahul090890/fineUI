@@ -6630,7 +6630,7 @@ a.thumbnail.active {
 }
 
 .alert {
-  padding: 15px;
+  padding: 2px;
   margin-bottom: 18px;
   border: 1px solid transparent;
   border-radius: 2px;
@@ -13813,7 +13813,7 @@ input:focus {
   -moz-appearance: none;
   appearance: none;
   padding: 0;
-  margin-top: 5px;
+  margin-top: 0px;
 }
 
 .form-control:not(.fc-alt).auto-size {

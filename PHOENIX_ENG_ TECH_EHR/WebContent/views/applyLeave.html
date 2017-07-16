@@ -13,11 +13,11 @@
 	<section id="content">
 		<div class="container c-alt" ng-controller="leavebalancecontroller">
 
-			<div class="block-header">
+			<!-- <div class="block-header">
 				<h2>
 					Leave Request <small></small>
 				</h2>
-			</div>
+			</div> -->
 			<div class="card">
 				<!-- <div class="card-header">
 					<h2>
@@ -186,16 +186,16 @@
 
 									<div class="date-picker input-group dp-blue"
 										ng-class="{ 'is-opened': opened == true }">
-										<span class="input-group-addon"><i
+										<span class="input-group-addon" style="background-color:transparent"><i
 											class="zmdi zmdi-calendar ma-icon"></i></span>
 										<div class="fg-line"
 											ng-class="{ 'fg-toggled': opened == true }">
-											<input ng-click="open($event, 1)" type="text" readonly
+											<input ng-click="open($event, 1)" id='applyLeaveStartDate' type="text" readonly
 												class="form-control" uib-datepicker-popup="{{format}}"
 												show-weeks="false" ng-model="dtPopup" is-open="opened"
 												min-date="minDate" datepicker-options="dateOptions"
 												ng-required="true" close-text="Close"
-												placeholder="Select Date" ng-change="refreshLeavetaken()" />
+												placeholder="Select Date" ng-change="refreshLeavetaken('applyLeaveStartDate')" />
 										</div>
 
 									</div>
@@ -209,16 +209,16 @@
 
 									<div class="date-picker input-group dp-blue"
 										ng-class="{ 'is-opened': opened2 == true }">
-										<span class="input-group-addon"><i
+										<span class="input-group-addon" style="background-color:transparent"><i
 											class="zmdi zmdi-calendar ma-icon"></i></span>
 										<div class="fg-line"
 											ng-class="{ 'fg-toggled': opened2 == true }">
-											<input ng-click="open($event, 2)" type="text" readonly
+											<input ng-click="open($event, 2)"  id='applyLeaveEndDate' type="text" readonly
 												class="form-control" uib-datepicker-popup="{{format}}"
 												show-weeks="false" ng-model="dtPopup1" is-open="opened2"
 												min-date="minDate" datepicker-options="dateOptions"
 												ng-required="true" close-text="Close"
-												placeholder="Select Date" ng-change="refreshLeavetaken()" />
+												placeholder="Select Date" ng-change="refreshLeavetaken('applyLeaveEndDate')" />
 										</div>
 
 									</div>
@@ -253,8 +253,7 @@
 
 							<div class="form-group">
 								<div class="fg-line">
-									<input type="text" class="form-control" ng-model="remainLeaves"
-										disabled>
+									<input type="text" id="applyLeaveRemaining" class="form-control" ng-model="remainLeaves" onchange="validateInstant(this)" disabled>
 
 								</div>
 
@@ -318,8 +317,7 @@
 
 							<div class="form-group">
 								<div class="fg-line">
-									<input type="text" class="form-control" ng-model='managerid'
-										disabled>
+									<input type="text" class="form-control" ng-model='managerid' disabled>
 								</div>
 
 							</div>
@@ -327,16 +325,14 @@
 							
 							<div class="form-group">
 								<div class="fg-line">
-									<textArea type="text" class="form-control" ng-model='comments'
-										></textArea>
+									<textArea type="text" required class="form-control" onkeypress="validateInstant(this)" ng-model='comments' id='applyLeaveComments'></textArea>
 								</div>
 
 							</div>
 						</div>
 					</div>
 					<div class="row">
-						<button class="btn bgm-lightblue waves-effect"
-							style="float: right;" ng-click='applyleave()'>Apply</button>
+						<button class="btn bgm-lightblue waves-effect" style="float: right;" ng-click='applyleave()'>Apply</button>
 					</div>
 				</div>
 

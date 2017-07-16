@@ -63,15 +63,15 @@
 								<br/> -->
 								<div class="form-group">
 									<div class="fg-line">
-										<input type="text" class="form-control" placeholder="Enter Department Name" ng-model='departmentName'>
+										<input type="text" class="form-control" placeholder="Enter Department Name" ng-model='departmentName' id="departmentName" onkeypress="validateInstant(this)">
 									</div>	
 								</div>
 								<br/>
 								<div class="form-group">
 										<div class="fg-line">
 											<div class="select">
-												<select class="form-control" name="parentDepartment" ng-model='parentDepartment'>
-													<option>Select Parent Department</option>
+												<select class="form-control" name="parentDepartment" ng-model='parentDepartment' id="parentDepartment" onchange="validateInstant(this)">
+													
 													<option ng-repeat='department in departments' value='{{department.departmentId}}'>{{department.departmentName}}</option>
 													
 												</select>
@@ -82,8 +82,8 @@
 								<div class="form-group">
 										<div class="fg-line">
 											<div class="select">
-												<select class="form-control" name="managerId" ng-model='managerId'>
-													<option>Select Manager</option>
+												<select class="form-control" name="managerId" ng-model='managerId' id="managerId" onchange="validateInstant(this)">
+													
 													<option value='{{manager.employeeId}}' ng-repeat='manager in managers'>{{manager.firstName}}&nbsp;{{manager.lastName}}</option>
 													
 												</select>

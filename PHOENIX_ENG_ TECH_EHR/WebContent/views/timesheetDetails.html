@@ -1,193 +1,109 @@
 
-<md-dialog aria-label="Mango (Fruit)">
+<md-dialog>
 <form ng-cloak data-ng-controller="timesheethistoryDetails">
 	<md-toolbar>
 	<div class="md-toolbar-tools">
 		<span flex></span>
 		<md-button class="md-icon-button" ng-click="cancelbutton()">
-		<i class="zmdi zmdi-close-circle-o zmdi-hc-fw"></i>
-		</md-icon> </md-button>
+		<i class="zmdi zmdi-close-circle-o zmdi-hc-fw"></i> </md-icon> </md-button>
 	</div>
 	</md-toolbar>
 
 	<md-dialog-content>
 	<div class="md-dialog-content">
 		<div class="card-body card-padding">
-			<hr>
-			<!-- timesheetContainer starts  -->
-			<div id="timesheetContainer" >
-				<div class='row'>
-					<div class='col-md-3'>
-						<div class="form-group">
-							<div class="fg-line">
+			<div class='card-body table-responsive'>
+				<table class='table'>
+					<thead>
+						<tr>
+							<th>Employee Id</th>
+							<th>Start Date</th>
+							<th>End Date</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>
+							{{employeetimesheetid}}</td>
+							<td>
+							{{timesheetweekstart}}</td>
+							<td>
+							{{timesheetweekend}}</td>
 								
-							</div>
-
-						</div>
-					</div>
-					<div class='col-md-3'>
-						<div class="form-group">
-							<div class="fg-line">
-								
-							</div>
-
-						</div>
-					</div>
-					<div class='col-md-4'>
-						<input type="text" style='color: green' class="form-control"
-							placeholder="" ng-model="weeksdetails" />
-					</div>
-					<div class='col-md-6'></div>
-
-				</div>
-				<br />
-				<!-- timesheet Content 1 starts  -->
-				<div class='row' id='timeHead'>
-
-
-					<div class='col-sm-1' style="padding-left: 5px">
-						<span style="color: black">All</span>
-
-					</div>
-
-
-					<div class='col-sm-2'>
-						
-					</div>
-					<div class='col-sm-2'>
-					</div>
-					<div class='col-sm-7'>
-						<p class='text-center'>
-							<i class="zmdi zmdi-alarm-add"></i> <span style="color: black">Time</span>
-						</p>
-					</div>
-				</div>
-				<div class='rowtimesheet timesheetContent'>
-
-
-
-					<div class='row' id="newRowContent">
-						<div id="timesheetData_1" style="height: 100px">
-							<div class='col-sm-6'>
-								<div class="col-sm-1" style="padding-left: 0">
-									<div class='form-group'>
-										<div class="fg-line">
-											
-										</div>
-									</div>
-								</div>
-
-								<div class="col-sm-3">
-
-									<div class="form-group">
-										<div class="fg-line">
-											<div class="select">
-												
-											</div>
-										</div>
-									</div>
-								</div>
-
-								<div class='col-sm-2'>
-									<div class="form-group">
-										<div class="fg-line">
-											
-										</div>
-									</div>
-								</div>
-
-
-								<div class='col-sm-2'>
-									<div class="form-group">
-										<div class="fg-line">
-											<div class="select">
-												
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class='col-sm-2'>
-									<div class="form-group">
-										<div class="fg-line">
-											
-										</div>
-									</div>
-								</div>
-								<div class='col-sm-2'>
-									<div class="form-group">
-										<div class="fg-line">
-											<div class="select">
-											
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-							<div class='col-sm-6'>
-								<div class='row' id='timeTable'>
-									<div class='col-sm-1' ng-repeat="week in weekdays">
-										{{week.day}}<br />
-										<div class="form-group">
-											<div class="fg-line">
-												<input type="text" class="form-control"
-													ng-model="daydetails" numbers-only
-													ng-change="updatemodel(week.date,daydetails)">
-											</div>
-										</div>
-									</div>
-
-
-									<div class='col-sm-5'>
-										{{totalhourhead}}<br />
-
-										<div class="form-group ">
-											<div class="fg-line">
-												<span> <!-- <input type="text" class="form-control"
-																ng-model="totalHours" numbers-only readonly >--></span>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-
-
-
-						</div>
-
-					</div>
-				</div>
-				<!-- timesheet Content 1 ends  -->
-				<hr />
+						</tr>
+					</tbody>
+				</table>
 			</div>
-			<div class='row'>
-				<div class='col-sm-3'>
-					<div class="form-group">
-						<span class="input-group-addon"><i
-							class="zmdi zmdi-border-color zmdi-hc-fw"> </i>Comments : </span>
-						<div class="fg-line"></div>
+			<div class='col-sm-12'>
+				<div class='row' id='timeTable'>
+					<div class='card-body table-responsive'>
+						<table class='table'>
+							<thead>
+								<tr>
+									<th>Customer</th>
+									<th>Customer Program</th>
+									<th>Department</th>
+									<th>hours</th>
+									<th>Project</th>
+									<th>Task</th>
+									<th>Day</th>
+									
+								</tr>
+							</thead>
+							<tbody>
+								<!--  <tr ng-repeat="timesheet in timesheets">
+									<td>
+										<div class="fg-line">
+											<input type="text" class="form-control" ng-model="employeeid"
+												disabled>
+										</div>
+										<div class="fg-line">
+											<input type="text" class="form-control" ng-model="weekstart"
+												disabled>
+										</div>
+										<div class="fg-line">
+											<input type="text" class="form-control" ng-model="weekend"
+												disabled>
+										</div>
+									</td>
+								</tr>  -->
+							</tbody>
+						</table>
 					</div>
 
-				</div>
 
-				<div class="col-sm-6">
-
-					<div class="form-group ">
-						<div class="fg-line">
-							<input type="text" class="form-control ng-isolate-scope"
-								ng-model="usercomments" value="">
-						</div>
-					</div>
 				</div>
-				
 			</div>
-			<!-- timesheetContainer ends  -->
+
+
+
 		</div>
 
+	</div>
+	<!-- timesheet Content 1 ends  -->
+	<hr />
+	<div class='row'>
+		<div class='col-sm-3'>
+			<div class="form-group">
+				<span class="input-group-addon"><i
+					class="zmdi zmdi-border-color zmdi-hc-fw"> </i>Comments : </span>
+				<div class="fg-line"></div>
+			</div>
 
+		</div>
+
+		<div class="col-sm-6">
+
+			<div class="form-group ">
+				<div class="fg-line">
+					<input type="text" class="form-control ng-isolate-scope" disabled
+						ng-model="comments" value="">
+				</div>
+			</div>
+		</div>
 
 	</div>
-
-	</md-dialog-content>
+	<!-- timesheetContainer ends  --> </md-dialog-content>
 
 </form>
 </md-dialog>

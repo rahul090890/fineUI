@@ -65,34 +65,40 @@
 								<div class="form-group">
 									<div class="fg-line">
 										<input type="text" class="form-control"
-											ng-model='customerName' placeholder="Enter Customer Name">
+											ng-model='customerName' placeholder="Enter Customer Name"
+											id="customerName" onkeypress="validateInstant(this)">
 									</div>
 								</div>
 
 								<div class="form-group">
 									<div class="fg-line">
 										<input type="text" class="form-control"
-											ng-model='customerAddress'
+											ng-model='customerAddress' id='customerAddress'
+											onkeypress="validateInstant(this)"
 											placeholder="Enter Customer Address">
 									</div>
 								</div>
 								<div class="form-group">
 									<div class="fg-line">
-										<br> <select class="form-control" ng-model="country" 
-											ng-options="country.name for country in countries track by country.code">
-											<option value="">-- Select a Country --</option>
-										</select>
 
-										<!-- <div class="flagstrap" id="select_country"
+										<div class="select">
+											<br> <select class="form-control" ng-model="country"
+												id="country" onchange="validateInstant(this)"
+												ng-options="country.name for country in countries track by country.code">
+											</select>
+
+											<!-- <div class="flagstrap" id="select_country"
 											ng-model='customerCountry' data-input-name="NewBuyer_country"
 											data-selected-country=""></div> -->
-									</div>
+										</div>
 
+									</div>
 								</div>
 
 								<div class="form-group">
 									<div class="fg-line">
 										<input type="text" class="form-control" ng-model='customerZip'
+											id="customerZip" onkeypress="validateInstant(this)"
 											placeholder="Enter Zip Code">
 									</div>
 								</div>

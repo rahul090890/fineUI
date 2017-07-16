@@ -137,7 +137,8 @@
 								<div class="form-group">
 									<div class="fg-line">
 										<div class="select">
-											<select class="form-control" ng-model='customerid'
+											<select class="form-control" ng-model='customerid' id="customerId"
+											onchange="validateInstant(this)"
 												ng-options="customer.customerId  as customer.customerName    for customer in customers"></select>
 
 										</div>
@@ -146,7 +147,7 @@
 								<br>
 								<div class="form-group">
 									<div class="fg-line">
-									<div ng-dropdown-multiselect="" options="example14data" selected-model="example14model" checkboxes="true" extra-settings="example14settings"></div>
+									<div ng-dropdown-multiselect="" options="example14data" selected-model="example14model" checkboxes="true" extra-settings="example14settings" id="lenght"></div>
 									
 										<!-- <div class="select">
 											<select chosen multiple data-placeholder="Select a Project..." class="w-100" ng-model='project'
@@ -171,11 +172,12 @@
 
 										</div> 
 									</div>
-								</div> -->
+								</div> --> 
 								<div class="form-group">
 									<div class="fg-line">
-										<input type="text" class="form-control"
-											placeholder="Customer Program Id"
+										<input type="text" class="form-control" id="customerprogName"
+											onkeypress="validateInstant(this)"
+											placeholder="Customer Program Name"
 											ng-model='customerProgramCode2'>
 
 									</div>
@@ -184,7 +186,8 @@
 								<div class="form-group">
 									<div class="fg-line">
 										<div class="select">
-											<select class="form-control" ng-model='customerProgramType'
+											<select class="form-control" ng-model='customerProgramType' id="customerProgCodeType"
+											onchange="validateInstant(this)"
 												ng-options="customerProgramCode.groupKey  as customerProgramCode.groupValue    for customerProgramCode in customerProgramCodelist.customerProgramType">
 
 											</select>

@@ -43,6 +43,7 @@
 									</span>
 									<div class="fg-line"></div>
 								</div>
+								<br>
 								<div class="form-group">
 									<span class="input-group-addon"> <i
 										class="zmdi zmdi-assignment zmdi-hc-fw"> </i>Department
@@ -86,13 +87,16 @@
 								<div class="form-group">
 									<div class="fg-line">
 										<input type="text" class="form-control" ng-model='projectname'
+											id="projectname" onkeypress="validateInstant(this)"
 											placeholder="Enter Project Name">
 									</div>
 								</div>
+								<br>
 								<div class="form-group">
 									<div class="fg-line">
 										<div class="select">
 											<select class="form-control" ng-model='customerid'
+												id="customerid" onchange="validateInstant(this)"
 												ng-options="customer.customerId  as customer.customerName    for customer in customers"></select>
 											<!-- <select class="form-control" name="customerprojectype"
 												ng-model='customerprojecttype'>
@@ -103,10 +107,12 @@
 										</div>
 									</div>
 								</div>
+								<br>
 								<div class="form-group">
 									<div class="fg-line">
 										<div class="select">
 											<select class="form-control" ng-model='departmentid'
+												id="departmentid" onchange="validateInstant(this)"
 												ng-options="department.departmentId  as department.departmentName    for department in departments"></select>
 
 										</div>
@@ -114,14 +120,16 @@
 
 								</div>
 								<br />
-								 <div class="form-group">
+								<div class="form-group">
 									<div class="fg-line">
-										<input type="text" class="form-control"
+										<input type="text" class="form-control" id="customerprogramid"
+											onkeypress="validateInstant(this)"
 											ng-model='customerprogramid'
 											placeholder="Customer Program Code">
 
 									</div>
-								</div> 
+								</div>
+								<br>
 								<!-- <div class="form-group">
 									<div class="fg-line">
 										<div class="select">
@@ -134,6 +142,7 @@
 									<div class="fg-line">
 										<div class="select">
 											<select class="form-control" ng-model='customerproject'
+												id="customerproject" onchange="validateInstant(this)"
 												ng-options="project.groupKey  as project.groupValue    for project in customerprojectype"></select>
 											<!-- <select class="form-control" name="customerprojectype"
 												ng-model='customerprojecttype'>
@@ -149,6 +158,7 @@
 									<div class="fg-line">
 										<div class="select">
 											<select class="form-control" ng-model='projectstatus'
+												id="projectstatus" onchange="validateInstant(this)"
 												ng-options="project.groupKey  as project.groupValue    for project in projectStatus"></select>
 											<!-- <select class="form-control" name="customerprojectype"
 												ng-model='customerprojecttype'>
@@ -159,20 +169,23 @@
 										</div>
 									</div>
 								</div>
-
+								<br>
 								<div class="form-group">
 									<div class="fg-line">
-										<br> <select class="form-control" ng-model="country"
-											ng-options="country.name for country in countries">
-											<option value="">-- Select a Country --</option>
-										</select>
+										<div class="select">
+											<select class="form-control" ng-model="country" id="country"
+												onchange="validateInstant(this)"
+												ng-options="country.name for country in countries">
+											</select>
 
-										<!-- <div class="flagstrap" id="select_country"
+											<!-- <div class="flagstrap" id="select_country"
 											ng-model='customerCountry' data-input-name="NewBuyer_country"
 											data-selected-country=""></div> -->
-									</div>
+										</div>
 
+									</div>
 								</div>
+
 								<br />
 								<div class="form-group">
 									<span>

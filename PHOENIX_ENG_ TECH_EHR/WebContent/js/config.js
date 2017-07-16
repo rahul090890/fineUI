@@ -1,30 +1,30 @@
 materialAdmin
-		.config(function($stateProvider, $urlRouterProvider,$windowProvider) {
+		.config(function($stateProvider, $urlRouterProvider, $windowProvider) {
 			// $urlRouterProvider.otherwise("/home");
-			 var $window = $windowProvider.$get();
+			var $window = $windowProvider.$get();
 			$urlRouterProvider.otherwise("/");
-			//var homeurl='views/home.html';
-			/*if(!$window.sessionStorage.getItem("Access-Token") || !$window.sessionStorage.getItem("AuthKey") || !$window.sessionStorage.getItem("EmployeeId")){
-				homeurl='views/home.html';
-			}
-			$route.reload();*/
-			/*else if(1==$window.sessionStorage.getItem("roleId")){
-				homeurl='views/home.html';
-			}
-			else if(1==$window.sessionStorage.getItem("roleId")){
-				homeurl='views/home.html';
-			}
-			else if(1==$window.sessionStorage.getItem("roleId")){
-				homeurl='views/home.html';
-			}*/
+			// var homeurl='views/home.html';
+			/*
+			 * if(!$window.sessionStorage.getItem("Access-Token") ||
+			 * !$window.sessionStorage.getItem("AuthKey") ||
+			 * !$window.sessionStorage.getItem("EmployeeId")){
+			 * homeurl='views/home.html'; } $route.reload();
+			 */
+			/*
+			 * else if(1==$window.sessionStorage.getItem("roleId")){
+			 * homeurl='views/home.html'; } else
+			 * if(1==$window.sessionStorage.getItem("roleId")){
+			 * homeurl='views/home.html'; } else
+			 * if(1==$window.sessionStorage.getItem("roleId")){
+			 * homeurl='views/home.html'; }
+			 */
 			$stateProvider
-			
-			
-			.state('/', {
-				url : '/',
-				templateUrl : 'views/login.html'
-			})
-				
+
+					.state('/', {
+						url : '/',
+						templateUrl : 'views/login.html'
+					})
+
 					.state(
 							'home',
 							{
@@ -167,7 +167,10 @@ materialAdmin
 						url : '/taskoperations',
 						templateUrl : 'views/taskoperations.html'
 					})
-
+					.state('headers.userprofile', {
+						url : '/user',
+						templateUrl : 'views/userprofile.html'
+					})
 					.state('headers.mainmenu-on-top', {
 						url : '/mainmenu-on-top',
 						templateUrl : 'views/mainmenu-on-top.html'
@@ -518,7 +521,7 @@ materialAdmin
 
 					.state('pages.profile', {
 						url : '/profile',
-						templateUrl : 'views/profile.html'
+						templateUrl : 'views/passwordmanagement.html'
 					})
 
 					.state('pages.profile.profile-about', {
@@ -642,6 +645,6 @@ materialAdmin.config(function($httpProvider) {
 	// Remove the header used to identify ajax call that would prevent CORS from
 	// working
 	$httpProvider.defaults.xsrfCookieName = 'csrftoken';
-    $httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken';
-	
+	$httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken';
+
 });

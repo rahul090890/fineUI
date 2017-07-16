@@ -65,7 +65,7 @@
 									href=""> Details <span class="{{Header[6]}}"></span>
 								</a></th>
 
-							
+
 							</tr>
 						</thead>
 						<tbody>
@@ -79,11 +79,18 @@
 								<td>{{item.totalHours}}</td>
 								<td>{{item.timesheetStatus}}</td>
 								<td>
-									<div class="col-sm-4" data-name="info-outline"
-										uib-tooltip="click here to see details" ng-click="showDetails(item.id.employeeId,item.id.weekStartDate,item.id.weekEndDate)">
+									<!-- <div class="col-sm-4" data-name="info-outline"
+										uib-tooltip="click here to see details"
+										ng-click="showDetails(item.id.employeeId,item.id.weekStartDate,item.id.weekEndDate)">
 										<p>
-											<i class="zmdi zmdi-info-outline zmdi-hc-fw"></i> 
+											<i class="zmdi zmdi-info-outline zmdi-hc-fw"></i>
 										</p>
+									</div> -->
+									<div class="col-sm-4" data-name="info-outline"
+										uib-tooltip="click here to see details" data-toggle="modal"
+										data-target="#timesheetmodal"
+										ng-click="showDetails(item.id.employeeId,item.id.weekStartDate,item.id.weekEndDate)">
+										<i class="zmdi zmdi-info-outline zmdi-hc-fw"></i>
 									</div>
 								</td>
 
@@ -101,7 +108,111 @@
 
 
 				</div>
-				<!-- <div id="recent-items-chart" class="flot-chart" data-line-chart></div> -->
+				<!-- <div class="modal fade" id="timesheetDetails" tabindex="-1" role="dialog"
+					aria-labelledby="exampleModalLabel" aria-hidden="true">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal"
+									aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+								<h4 class="modal-title" id="exampleModalLabel">Modal</h4>
+							</div>
+							<div class="modal-body">Modal content</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-default"
+									data-dismiss="modal">Close</button>
+							</div>
+						</div>
+					</div>
+				</div> -->
+
+				<div class="modal fade" id="timesheetmodal" tabindex="-1"
+					role="dialog" aria-labelledby="myModalLabel">
+					<div class="modal-dialog modal-lg" role="document">
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal"
+									aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+								<h4 class="modal-title" id="myModalLabel">TimeSheet Details</h4>
+							</div>
+							<div class="modal-body"
+								style="max-height: 400px; overflow-y: auto">
+								<div class='card-body table-responsive'>
+									<table class='table'>
+										<thead>
+											<tr>
+												<th>Employee Id</th>
+												<th>Start Date</th>
+												<th>End Date</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td>{{employeetimesheetid}}</td>
+												<td>{{timesheetweekstart}}</td>
+												<td>{{timesheetweekend}}</td>
+
+											</tr>
+										</tbody>
+									</table>
+								</div>
+								<div class='card-body table-responsive'>
+									<table class='table'>
+										<thead>
+											<tr>
+												<th>Customer</th>
+												<th>Customer Program</th>
+												<th>Department</th>
+												<th>hours</th>
+												<th>Project</th>
+												<th>Type</th>
+												<th>Task</th>
+												<th>Day</th>
+
+											</tr>
+										</thead>
+										<tbody ng-repeat="timesheet in timesheettimesheets">
+											<tr ng-repeat="task in timesheet">
+												<td>{{task.customerName}}</td>
+												<td>{{task.customerProgramCode}}</td>
+												<td>{{task.departmentId}}</td>
+												<td>{{task.hours}}</td>
+												<td>{{task.projectName}}</td>
+												<td>{{task.projectType}}</td>
+												<td>{{task.taskName}}</td>
+												<td>{{task.timesheetDate}}</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+								<div class="row" style='border: 1px grey solid !important'>
+
+									<div class='col-sm-4'>
+										<div class="form-group">
+											<span class="input-group-addon"> Comments: </span>
+											<div class="fg-line"></div>
+										</div>
+									</div>
+									<div class='col-sm-4'>
+
+										<div class="fg-line" style="margin-top: 5px;">{{timesheetcomments}}</div>
+									</div>
+								</div>
+
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-default"
+									data-dismiss="modal">Close</button>
+
+							</div>
+						</div>
+					</div>
+					<!-- <div id="recent-items-chart" class="flot-chart" data-line-chart></div> -->
+				</div>
 			</div>
 		</div>
 	</section>

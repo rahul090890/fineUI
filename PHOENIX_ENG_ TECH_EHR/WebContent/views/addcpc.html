@@ -44,7 +44,7 @@
 										class="zmdi zmdi-functions zmdi-hc-fw"> </i>Customer Program
 										Code Type</span>
 									<div class="fg-line"></div>
-								</div>
+								</div><br>
 								<div class="form-group">
 									<span class="input-group-addon"><i
 										class="zmdi zmdi-collection-image-o zmdi-hc-fw"> </i>Project </span>
@@ -57,7 +57,8 @@
 								<div class="form-group">
 									<div class="fg-line">
 										<div class="select">
-											<select class="form-control" ng-model='customerId'
+											<select class="form-control" ng-model='customerId' id="customerId"
+											onchange="validateInstant(this)"
 												ng-options="customer.customerId  as customer.customerName    for customer in customers">
 
 											</select>
@@ -67,16 +68,18 @@
 								</div>
 								<div class="form-group">
 									<div class="fg-line">
-										<input type="text" class="form-control"
+										<input type="text" class="form-control"  id="customerprogName"
+											onkeypress="validateInstant(this)"
 											ng-model='customerprogName'
 											placeholder="Enter Customer Program Code Name">
 									</div>
 								</div>
-
+								<br>
 								<div class="form-group">
 									<div class="fg-line">
 										<div class="select">
-											<select class="form-control" ng-model='customerProgCodeType'
+											<select class="form-control" ng-model='customerProgCodeType' id="customerProgCodeType"
+											onchange="validateInstant(this)"
 												ng-options="customerProgramCode.groupKey  as customerProgramCode.groupValue    for customerProgramCode in customerProgramCodelist.customerProgramType">
 
 											</select>
@@ -87,7 +90,7 @@
 								<br /> <br>
 								<div class="form-group">
 									<div class="fg-line">
-									<div ng-dropdown-multiselect="" options="example14data" selected-model="example14model" checkboxes="true" extra-settings="example14settings"></div>
+									<div ng-dropdown-multiselect="" options="example14data" selected-model="example14model" checkboxes="true" extra-settings="example14settings" id="lenght"></div>
 									
 										<!-- <div class="select">
 											<select chosen multiple data-placeholder="Select a Project..." class="w-100" ng-model='project'

@@ -147,24 +147,24 @@
 											ng-model='customerID' value='{{customerID}}'>
 									</div>
 								</div>
-
+								<br>
 								<div class="form-group">
 									<div class="fg-line">
-										<input type="text" class="form-control"
+										<input type="text" class="form-control" id="customerName" onkeypress="validateInstant(this)"
 											ng-model='customerNAME' value='{{customerNAME}}'>
 									</div>
 								</div>
-								<br />
+								
 								<div class="form-group">
 									<div class="fg-line">
-										<input type="text" class="form-control"
+										<input type="text" class="form-control" id="customerAddress" onkeypress="validateInstant(this)"
 											ng-model='customerAddress' value='{{customerAddress}}'>
 									</div>
 								</div>
-
+								<br>
 								<div class="form-group">
 									<div class="fg-line">
-										<select class="form-control" ng-model='countryname'
+										<select class="form-control" ng-model='countryname' id="country" onchange="validateInstant(this)"
 											ng-options="country.name  as country.name    for country in countries"></select>
 
 
@@ -175,10 +175,10 @@
 
 									</div>
 								</div>
-
+								<br>
 								<div class="form-group">
 									<div class="fg-line">
-										<input type="text" class="form-control"
+										<input type="text" class="form-control" id="customerZip" onkeypress="validateInstant(this)"
 											ng-model='customerZipCode' value='{{customerZipCode}}'>
 									</div>
 								</div>

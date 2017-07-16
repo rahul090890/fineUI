@@ -23,6 +23,7 @@
 					<h2>
 						Update User Details<small></small>
 					</h2>
+					</div>
 					<div class="card-body card-padding">
 
 						<!-- Jquery datatable starts -->
@@ -109,8 +110,7 @@
 												<div class="fg-line">
 
 													<div class="select">
-														<select class="form-control" ng-model='employeeType'>
-															<option value=''>Select EmployeeType</option>
+														<select class="form-control" ng-model='employeeType' id="employeeType" 	onkeypress="validateInstantInputgroup(this)">
 															<option value='{{data.groupKey}}'
 																ng-repeat='data in referenceData.employeeType'>{{data.groupValue}}</option>
 
@@ -125,7 +125,7 @@
 										<span class="input-group-addon"><i
 											class="zmdi zmdi-account"></i></span>
 										<div class="fg-line">
-											<input type="text" class="form-control" ng-model='employeeId'
+											<input type="text" class="form-control" ng-model='employeeId' id="employeeId" 	onkeypress="validateInstantInputgroup(this)"
 												readonly placeholder="Employee Id">
 										</div>
 									</div>
@@ -136,7 +136,7 @@
 										<span class="input-group-addon"><i
 											class="zmdi zmdi-email"></i></span>
 										<div class="fg-line">
-											<input type="text" class="form-control" ng-model="emailId"
+											<input type="text" class="form-control" ng-model="emailId" id="emailId" 	onkeypress="validateInstantInputgroup(this)"
 												placeholder="Email Id">
 										</div>
 									</div>
@@ -152,7 +152,7 @@
 												<div class="fg-line">
 
 													<div class="select">
-														<select class="form-control" ng-model='roleId'
+														<select class="form-control" ng-model='roleId' id="roleId" 	onchange="validateInstantInputgroup(this)"
 															ng-options="roles.roleid as roles.roleName   for roles in rolesdata"></select>
 													</div>
 												</div>
@@ -169,7 +169,7 @@
 													class="zmdi zmdi-calendar ma-icon"></i></span>
 												<div class="fg-line"
 													ng-class="{ 'fg-toggled': opened == true }">
-													<input ng-click="open($event, 'opened')" type="text"
+													<input ng-click="open($event, 'opened')" type="text" id="joindate" ng-change="validateInstant('joindate')"
 														readonly class="form-control"
 														uib-datepicker-popup="{{format}}" show-weeks="false"
 														ng-model="dtPopup" is-open="opened" min-date="minDate"
@@ -196,7 +196,7 @@
 											class="zmdi zmdi-code zmdi-hc-fw"></i></span>
 										<div class="fg-line">
 											<input type="text" class="form-control"
-												ng-model='employeeCode' placeholder="Employee Code">
+												ng-model='employeeCode' placeholder="Employee Code" id="employeeCode" 	onkeypress="validateInstantInputgroup(this)"> 
 										</div>
 									</div>
 									<br>
@@ -205,7 +205,7 @@
 										<span class="input-group-addon"><i
 											class="zmdi zmdi-account"></i></span>
 										<div class="fg-line">
-											<input type="text" class="form-control" ng-model='firstName'
+											<input type="text" class="form-control" ng-model='firstName' id="firstName" 	onkeypress="validateInstantInputgroup(this)"
 												placeholder="First Name">
 										</div>
 									</div>
@@ -217,7 +217,7 @@
 											class="zmdi zmdi-pin-account zmdi-hc-fw"></i></span>
 										<!-- zmdi zmdi-local-phone -->
 										<div class="fg-line">
-											<input type="text" class="form-control" ng-model='loginId'
+											<input type="text" class="form-control" ng-model='loginId' id="loginId" 	onkeypress="validateInstantInputgroup(this)"
 												placeholder="Employee Login ID">
 										</div>
 									</div>
@@ -232,7 +232,7 @@
 												<div class="fg-line">
 
 													<div class="select">
-														<select class="form-control" ng-model='managerId'
+														<select class="form-control" ng-model='managerId' id="managerId" 	onchange="validateInstantInputgroup(this)"
 															ng-options="manager.employeeId as manager.firstName+ ' ' + manager.lastName   for manager in managers"></select>
 
 													</div>
@@ -249,7 +249,7 @@
 												<div class="fg-line">
 
 													<div class="select">
-														<select class="form-control" ng-model='employeeStatus'
+														<select class="form-control" ng-model='employeeStatus' id="employeeStatus" 	onchange="validateInstantInputgroup(this)"
 															ng-options="status.value as status.name   for status in  statusVal"></select>
 													</div>
 												</div>
@@ -267,7 +267,7 @@
 										<!-- zmdi zmdi-local-phone -->
 										<div class="fg-line">
 											<input type="text" class="form-control"
-												ng-model="designation" placeholder="Select Designation">
+												ng-model="designation" placeholder="Select Designation" id="designation" 	onkeypress="validateInstantInputgroup(this)">
 										</div>
 									</div>
 									<br>
@@ -276,7 +276,7 @@
 											class="zmdi zmdi-account"></i></span>
 										<div class="fg-line">
 											<input type="text" class="form-control"
-												placeholder="Last Name" ng-model='lastName'>
+												placeholder="Last Name" ng-model='lastName' id="lastName" 	onkeypress="validateInstantInputgroup(this)">
 										</div>
 									</div>
 									<br>
@@ -286,27 +286,26 @@
 										<!-- zmdi zmdi-money -->
 										<div class="form-group">
 											<div class="fg-line">
-												<input type="password" class="form-control"
-													ng-model='loginPassword' placeholder="Employee Password">
-											</div>
-										</div>
-										<!-- <span class="input-group-addon last"><i
-									class="zmdi zmdi-plus-circle-o"></i></span> -->
-									</div>
-
-									<div class="input-group">
-										<span class="input-group-addon"><i
-											class="zmdi zmdi-home zmdi-hc-fw"></i> </span>
-										<div class="form-group">
-											<div class="fg-line">
-												<input type="text" class="form-control" ng-model='address'
-													placeholder="Empoyee Address">
+												<input type="password" class="form-control" id="loginPassword"
+													ng-model='loginPassword' placeholder="Employee Password" 	onkeypress="validateInstantInputgroup(this)">
 											</div>
 										</div>
 										<!-- <span class="input-group-addon last"><i
 									class="zmdi zmdi-plus-circle-o"></i></span> -->
 									</div>
 									<br>
+									<div class="input-group">
+										<span class="input-group-addon"><i
+											class="zmdi zmdi-home zmdi-hc-fw"></i> </span>
+										<div class="form-group">
+											<div class="fg-line">
+												<input type="text" class="form-control" ng-model='address' id="address" 	onkeypress="validateInstantInputgroup(this)"
+													placeholder="Empoyee Address">
+											</div>
+										</div>
+										<!-- <span class="input-group-addon last"><i
+									class="zmdi zmdi-plus-circle-o"></i></span> -->
+									</div>
 									<br>
 									<div class="input-group">
 										<span class="input-group-addon"><i
@@ -317,7 +316,7 @@
 
 													<div class="select">
 
-														<select class="form-control" ng-model='userDepartmentId'
+														<select class="form-control" ng-model='userDepartmentId' id="userDepartmentId" 	onchange="validateInstantInputgroup(this)"
 															ng-options="department.departmentId as department.departmentName for department in departments"></select>
 
 													</div>
@@ -352,7 +351,6 @@
 				<!-- Jquery datatable ends -->
 
 			</div>
-		</div>
 
 	</section>
 </section>

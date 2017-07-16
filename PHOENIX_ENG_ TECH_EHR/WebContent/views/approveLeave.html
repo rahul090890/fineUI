@@ -11,103 +11,109 @@
 		data-ng-class="{ 'toggled': mactrl.sidebarToggle.right === true }"></aside>
 
 	<section id="content">
-		<div class="row">
-			<div class="col-sm-12 ">
-				<!-- Recent Items -->
-				<div class="card" data-ng-controller="recentitemCtrl as rictrl">
-					<div class="card-header">
-						<h2>
-							Leave Requested <small>Leave requested need a approval </small>
-						</h2>
-						
-					</div>
+		<div class="container c-alt">
+			<!-- <div class="block-header">
+				<h2>
+					Leave Requested <small>Leave requested need a approval </small>
+				</h2>
+			</div> -->
 
-					<div class="card-body m-t-0">
+			<div class="card" data-ng-controller="timesheetcontroller">
+				<div class="card-header">
+					<h2>
+						<small></small>
+					</h2>
 
 
-							<div class='table-responsive'>
-								<!-- <div class="input-group">
+				</div>
+
+				<div class="card-body m-t-0">
+
+
+					<div class='table-responsive'>
+						<!-- <div class="input-group">
 									<input class="form-control" ng-model="searchText"
 										placeholder="Search" type="search" ng-change="search()" /> <span
 										class="input-group-addon"> <span
 										class="glyphicon glyphicon-search"></span>
 									</span>
 								</div> -->
-								<table class="table  table-hover data-table myTable">
-									<thead>
-										<tr>
-											<th class="EmpId"><i class="zmdi zmdi-label zmdi-hc-fw">
-											</i><a href="" ng-click="sort('employeeId',$event)">Employee
-													Id <span class="{{Header[0]}}"></span>
-											</a></th>
-											<th class="name"><i
-												class="zmdi zmdi-assignment-account zmdi-hc-fw"></i><a
-												ng-click="sort('firstName')" href=""> First Name<span
-													class="{{Header[1]}}"></span>
-											</a></th>
+						<table class="table  table-hover data-table myTable">
+							<thead>
+								<tr>
+									<th class="EmpId"><i class="zmdi zmdi-label zmdi-hc-fw">
+									</i><a href="" ng-click="sort('employeeId',$event)">Employee Id
+											<span class="{{Header[0]}}"></span>
+									</a></th>
+									<th class="name"><i
+										class="zmdi zmdi-assignment-account zmdi-hc-fw"></i><a
+										ng-click="sort('firstName')" href=""> First Name<span
+											class="{{Header[1]}}"></span>
+									</a></th>
 
-											<th class="Email"><i class="zmdi zmdi-city zmdi-hc-fw"></i><a
-												ng-click="sort('lastName')" href=""> Last Name <span
-													class="{{Header[2]}}"></span>
-											</a></th>
-											<th class="Email"><i class="zmdi zmdi-city zmdi-hc-fw"></i><a
-												ng-click="sort('fromDate')" href=""> From date <span
-													class="{{Header[3]}}"></span>
-											</a></th>
-											<th class="Email"><i class="zmdi zmdi-city zmdi-hc-fw"></i><a
-												ng-click="sort('toDate')" href=""> To Date <span
-													class="{{Header[4]}}"></span>
-											</a></th>
-											<th class="Email"><i class="zmdi zmdi-city zmdi-hc-fw"></i><a
-												ng-click="sort('noOfDays')" href=""> Total days <span
-													class="{{Header[5]}}"></span>
-											</a></th>
-											<th class="Email"><i class="zmdi zmdi-city zmdi-hc-fw"></i><a
-												ng-click="sort('leaveStatus')" href=""> Status <span
-													class="{{Header[6]}}"></span>
-											</a></th>
-											<th class="Email">
-												<!-- <a ng-click="sort('lastName')" href=""> --> <a>
-													Actions <span class="{{Header[7]}}"></span>
-											</a>
-											</th>
-										</tr>
-									</thead>
-									<tbody>
-										<tr
-											ng-repeat="item in ItemsByPage[currentPage] | orderBy:columnToOrder:reverse">
-											<td>{{item.employee.employeeId}}</td>
-											<td>{{item.employee.firstName}}</td>
-											<td>{{item.employee.lastName}}</td>
-											<td>{{item.fromDate}}</td>
-											<td>{{item.toDate}}</td>
-											<td>{{item.noOfDays}}</td>
-											<td>{{item.leaveStatus}}</td>
-											<td>
-												<button data-swal-success-msg
-													class="btn bgm-orange btn-icon waves-effect waves-circle" ng-click="approveLeave(item)">
-													<i class="zmdi zmdi-check"></i>
-												</button>&nbsp;&nbsp;|&nbsp;&nbsp;
-												<button data-swal-cancel-msg
-													class="btn bgm-cyan btn-icon waves-effect waves-circle" ng-click="rejectLeave(item)">
-													<i class="zmdi zmdi-close"></i>
-												</button>
-											</td>
-										</tr>
-									</tbody>
-								</table>
-								<ul class="pagination pagination-sm">
-									<li ng-class="{active:0}"><a href=""
-										ng-click="firstPage()">First</a></li>
-									<li ng-repeat="n in range(ItemsByPage.length)"><a href=""
-										ng-click="setPage()" ng-bind="n+1">1</a></li>
-									<li><a href="" ng-click="lastPage()">Last</a></li>
-								</ul>
+									<th class="Email"><i class="zmdi zmdi-city zmdi-hc-fw"></i><a
+										ng-click="sort('lastName')" href=""> Last Name <span
+											class="{{Header[2]}}"></span>
+									</a></th>
+									<th class="Email"><i class="zmdi zmdi-city zmdi-hc-fw"></i><a
+										ng-click="sort('fromDate')" href=""> From date <span
+											class="{{Header[3]}}"></span>
+									</a></th>
+									<th class="Email"><i class="zmdi zmdi-city zmdi-hc-fw"></i><a
+										ng-click="sort('toDate')" href=""> To Date <span
+											class="{{Header[4]}}"></span>
+									</a></th>
+									<th class="Email"><i class="zmdi zmdi-city zmdi-hc-fw"></i><a
+										ng-click="sort('noOfDays')" href=""> Total days <span
+											class="{{Header[5]}}"></span>
+									</a></th>
+									<th class="Email"><i class="zmdi zmdi-city zmdi-hc-fw"></i><a
+										ng-click="sort('leaveStatus')" href=""> Status <span
+											class="{{Header[6]}}"></span>
+									</a></th>
+									<th class="Email">
+										<!-- <a ng-click="sort('lastName')" href=""> --> <a>
+											Actions <span class="{{Header[7]}}"></span>
+									</a>
+									</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr
+									ng-repeat="item in ItemsByPage[currentPage] | orderBy:columnToOrder:reverse">
+									<td>{{item.employee.employeeId}}</td>
+									<td>{{item.employee.firstName}}</td>
+									<td>{{item.employee.lastName}}</td>
+									<td>{{item.fromDate}}</td>
+									<td>{{item.toDate}}</td>
+									<td>{{item.noOfDays}}</td>
+									<td>{{item.leaveStatus}}</td>
+									<td>
+										<button data-swal-success-msg
+											class="btn bgm-orange btn-icon waves-effect waves-circle"
+											ng-click="approveLeave(item)">
+											<i class="zmdi zmdi-check"></i>
+										</button>&nbsp;&nbsp;|&nbsp;&nbsp;
+										<button data-swal-cancel-msg
+											class="btn bgm-cyan btn-icon waves-effect waves-circle"
+											ng-click="rejectLeave(item)">
+											<i class="zmdi zmdi-close"></i>
+										</button>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+						<ul class="pagination pagination-sm">
+							<li ng-class="{active:0}"><a href="" ng-click="firstPage()">First</a></li>
+							<li ng-repeat="n in range(ItemsByPage.length)"><a href=""
+								ng-click="setPage()" ng-bind="n+1">1</a></li>
+							<li><a href="" ng-click="lastPage()">Last</a></li>
+						</ul>
 
 
 
-							</div>
-							<!-- 
+					</div>
+					<!-- 
 							<table class="table table-inner table-vmiddle">
 								<thead>
 									<tr>
@@ -146,10 +152,10 @@
 								ng-model="currentPage" class="pagination-sm"
 								previous-text="&lsaquo;" next-text="&rsaquo;"
 								first-text="&laquo;" last-text="&raquo;"></ul> -->
-						</div>
-					<!-- <div id="recent-items-chart" class="flot-chart" data-line-chart></div> -->
 				</div>
+				<!-- <div id="recent-items-chart" class="flot-chart" data-line-chart></div> -->
 			</div>
+		</div>
 		</div>
 
 	</section>

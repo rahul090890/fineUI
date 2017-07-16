@@ -60,14 +60,14 @@
 								</div> -->
 								<div class="form-group">
 									<div class="fg-line">
-										<input type="text" class="form-control" ng-model='taskName' value=''
+										<input type="text" class="form-control" ng-model='taskName' id="taskName"  onkeypress="validateInstant(this)"
 											placeholder="Enter Task Name">
 									</div>
 								</div>
 								<div class="form-group">
 									<div class="fg-line">
 										<div class="select">
-											<select class="form-control" ng-model='department'>
+											<select class="form-control" ng-model='department' id="department"  onchange="validateInstant(this)">
 												<option>Select Department</option>
 												<option ng-repeat='department in departments'
 													value='{{department.departmentId}}'>{{department.departmentName}}</option>
@@ -79,7 +79,7 @@
 								<div class="form-group">
 									<div class="fg-line">
 										<div class="select">
-											<select class="form-control" ng-model='customer'>
+											<select class="form-control" ng-model='customer' id="customer"  onchange="validateInstant(this)">
 												<option>Select Customer</option>
 												<option ng-repeat='customer in customers'
 													value='{{customer.customerId}}'>{{customer.customerName}}</option>

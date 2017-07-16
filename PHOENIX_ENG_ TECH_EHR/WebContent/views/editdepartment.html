@@ -148,7 +148,7 @@
 									<div class="form-group">
 										<div class="fg-line">
 											<div class="input" name="departmentName">
-												<input type="text" class="form-control"
+												<input type="text" class="form-control"  id="departmentName" onkeypress="validateInstant(this)" 
 													ng-model='departmentName' value='{{departmentName}}'>
 											</div>
 										</div>
@@ -158,7 +158,7 @@
 									<div class="form-group">
 										<div class="fg-line">
 											<div class="select">
-												<select class="form-control" ng-model='parentDepartment'
+												<select class="form-control" ng-model='parentDepartment'  id="parentDepartment" onchange="validateInstant(this)"
 													ng-options="department.departmentId  as department.departmentName    for department in departments"></select>
 
 											</div>
@@ -169,7 +169,7 @@
 									<div class="form-group">
 										<div class="fg-line">
 											<div class="select">
-											<select class="form-control" ng-model='managerId'
+											<select class="form-control" ng-model='managerId'  id="managerId" onchange="validateInstant(this)"
 											ng-options="manager.employeeId  as manager.firstName +' '+ manager.lastName    for manager in managersList"></select>
 												<!-- <select class="form-control" ng-model='managerId'>
 													<option ng-repeat='manager in managersList'

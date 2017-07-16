@@ -119,14 +119,14 @@
 								<div class="form-group">
 									<div class="fg-line">
 										<input type="text" class="form-control"
-											placeholder="Enter Role Name" value="{{roleName}}"
+											placeholder="Enter Role Name" value="{{roleName}}" id="roleName"  onkeypress="validateInstant(this)"
 											ng-model='roleName'>
 									</div>
 								</div>
 								<div class="form-group">
 									<div class="fg-line">
 										<div class="select">
-											<select class="form-control" ng-model='parentroleId'
+											<select class="form-control" ng-model='parentroleId'  id="parentroleId"  onchange="validateInstant(this)"
 												ng-options="role.roleid  as role.roleName    for role in rolls"></select>
 
 										</div>
