@@ -372,7 +372,8 @@ materialAdmin
 						console.log('a');
 
 					});
-
+					$scope.projects=[];
+					$scope.tasks=[];
 					$scope.onlyNumbers = /^\d+$/;
 
 					$scope.divIterator = [ 1 ];
@@ -448,7 +449,6 @@ materialAdmin
 									"error");
 							return;
 						}
-
 						var startyyyy = date2.getFullYear();
 						var startdd = date2.getDate();
 						var startmm = date2.getMonth() + 1;
@@ -515,10 +515,68 @@ materialAdmin
 					var departments = $scope.webserviceshost
 							+ 'hr/department/all';
 
-					var taskdata = $scope.webserviceshost + 'hr/task/all';
+					
 					var allcpc = $scope.webserviceshost
 							+ "hr/customerProgram/all";
-					var allproject = $scope.webserviceshost + 'hr/project/all';
+					/*
+					 * var allproject = $scope.webserviceshost +
+					 * 'hr/project/all';
+					 */
+					$scope.fillProject = function(task,divindex) {
+						
+						console.log(task);
+						var customer=task[divindex].customer;
+						var department=task[divindex].department;
+						console.log(customer+"   "+department);
+						if (customer&&department) {
+							var allproject = $scope.webserviceshost
+									+ 'hr/project/find/'
+									+customer
+									+ '/'
+									+ department;
+							$http(
+									{
+										method : "GET",
+										url : allproject,
+										headers : {
+											'XSRF-TOKEN' : $window.sessionStorage
+													.getItem("Access-Token"),
+											'authorization' : $window.sessionStorage
+													.getItem("AuthKey")
+										}
+									}).then(function mySucces(response) {
+								$scope.projects[divindex] = response.data;
+								if($scope.projects[divindex].length==0){
+									swal('error','No project mapped with current selection','error')
+								}
+							}, function myError(response) {
+								console.log(response);
+							});
+							var taskdata = $scope.webserviceshost + 'hr/task/find/'+customer
+							+ '/'
+							+ department;
+							$http(
+									{
+										method : "GET",
+										url : taskdata,
+										headers : {
+											'XSRF-TOKEN' : $window.sessionStorage
+													.getItem("Access-Token"),
+											'authorization' : $window.sessionStorage
+													.getItem("AuthKey")
+										}
+									}).then(function mySucces(response) {
+								
+								$scope.tasks[divindex] = response.data;
+								if($scope.tasks[divindex].length==0){
+									swal('error','No Task mapped with current selection','error')
+								}
+							}, function myError(response) {
+								console.log(response);
+							});
+						}
+
+					}
 					$http(
 							{
 								method : "GET",
@@ -567,21 +625,7 @@ materialAdmin
 									}, function myError(response) {
 										console.log(response);
 									});
-					$http(
-							{
-								method : "GET",
-								url : taskdata,
-								headers : {
-									'XSRF-TOKEN' : $window.sessionStorage
-											.getItem("Access-Token"),
-									'authorization' : $window.sessionStorage
-											.getItem("AuthKey")
-								}
-							}).then(function mySucces(response) {
-						$scope.tasks = response.data;
-					}, function myError(response) {
-						console.log(response);
-					});
+					
 					$http(
 							{
 								method : "GET",
@@ -612,21 +656,15 @@ materialAdmin
 					}, function myError(response) {
 						console.log(response);
 					});
-					$http(
-							{
-								method : "GET",
-								url : allproject,
-								headers : {
-									'XSRF-TOKEN' : $window.sessionStorage
-											.getItem("Access-Token"),
-									'authorization' : $window.sessionStorage
-											.getItem("AuthKey")
-								}
-							}).then(function mySucces(response) {
-						$scope.projects = response.data;
-					}, function myError(response) {
-						console.log(response);
-					});
+					/*
+					 * $http( { method : "GET", url : allproject, headers : {
+					 * 'XSRF-TOKEN' : $window.sessionStorage
+					 * .getItem("Access-Token"), 'authorization' :
+					 * $window.sessionStorage .getItem("AuthKey") }
+					 * }).then(function mySucces(response) { $scope.projects =
+					 * response.data; }, function myError(response) {
+					 * console.log(response); });
+					 */
 					$http(
 							{
 								method : "GET",
@@ -2264,223 +2302,225 @@ materialAdmin
 						$location.hash('updatecpcDetails');
 						$anchorScroll();
 						$scope.savecpcDetails = function() {
-							var cpcValidater = validateCPC($scope.customerProgramType,$scope.customerProgramCode2, $scope.customerid,$scope.example14model.length);
+							var cpcValidater = validateCPC(
+									$scope.customerProgramType,
+									$scope.customerProgramCode2,
+									$scope.customerid,
+									$scope.example14model.length);
 							if (cpcValidater) {
-							var length = $scope.example14model.length;
-							if (length < 1) {
-								swal("Kindly select at Least 1 project");
-								return;
-							}
-							var projectids = '';
-							angular.forEach($scope.example14model, function(
-									key, val) {
-								projectids += key.id + ',';
+								var length = $scope.example14model.length;
+								if (length < 1) {
+									swal("Kindly select at Least 1 project");
+									return;
+								}
+								var projectids = '';
+								angular.forEach($scope.example14model,
+										function(key, val) {
+											projectids += key.id + ',';
 
-							})
-							projectids = projectids.substring(0,
-									projectids.length - 1);
+										})
+								projectids = projectids.substring(0,
+										projectids.length - 1);
 
-							var customerProgramId = $scope.customerProgramId;
-							var customerprogName = $scope.customerprogName;
-							var customerId = $scope.customerid;
-							var customerProgramCode2 = $scope.customerProgramCode2;
-							var customerProgramType = $scope.customerProgramType;
-							var savecpcurl = $scope.webserviceshost
-									+ 'hr/customerProgram'
+								var customerProgramId = $scope.customerProgramId;
+								var customerprogName = $scope.customerprogName;
+								var customerId = $scope.customerid;
+								var customerProgramCode2 = $scope.customerProgramCode2;
+								var customerProgramType = $scope.customerProgramType;
+								var savecpcurl = $scope.webserviceshost
+										+ 'hr/customerProgram'
 
-							var additional = '/update/' + customerProgramId
-									+ '/' + customerId + '/'
-									+ customerProgramCode2 + '/'
-									+ customerProgramType + '/' + projectids;
-							savecpcurl += additional;
-							$http(
-									{
-										method : "POST",
-										url : savecpcurl,
-										headers : {
-											'XSRF-TOKEN' : $window.sessionStorage
-													.getItem("Access-Token"),
-											'authorization' : $window.sessionStorage
-													.getItem("AuthKey")
-										}
-									})
-									.then(
-											function mySucces(response) {
+								var additional = '/update/' + customerProgramId
+										+ '/' + customerId + '/'
+										+ customerProgramCode2 + '/'
+										+ customerProgramType + '/'
+										+ projectids;
+								savecpcurl += additional;
+								$http(
+										{
+											method : "POST",
+											url : savecpcurl,
+											headers : {
+												'XSRF-TOKEN' : $window.sessionStorage
+														.getItem("Access-Token"),
+												'authorization' : $window.sessionStorage
+														.getItem("AuthKey")
+											}
+										})
+										.then(
+												function mySucces(response) {
 
-												var allcpc = $scope.webserviceshost
-														+ 'hr/customerProgram/all';
-												$('#updatecpcDetails').hide();
-												$http(
-														{
-															method : "GET",
-															url : allcpc,
-															headers : {
-																'XSRF-TOKEN' : $window.sessionStorage
-																		.getItem("Access-Token"),
-																'authorization' : $window.sessionStorage
-																		.getItem("AuthKey")
-															}
-														})
-														.then(
-																function mySucces(
-																		response) {
+													var allcpc = $scope.webserviceshost
+															+ 'hr/customerProgram/all';
+													$('#updatecpcDetails')
+															.hide();
+													$http(
+															{
+																method : "GET",
+																url : allcpc,
+																headers : {
+																	'XSRF-TOKEN' : $window.sessionStorage
+																			.getItem("Access-Token"),
+																	'authorization' : $window.sessionStorage
+																			.getItem("AuthKey")
+																}
+															})
+															.then(
+																	function mySucces(
+																			response) {
 
-																	$scope.allUsers = response.data;
-																	$scope.pageSize = 50;
-																	$scope.allItems = $scope.allUsers;
-																	$scope.reverse = false;
+																		$scope.allUsers = response.data;
+																		$scope.pageSize = 50;
+																		$scope.allItems = $scope.allUsers;
+																		$scope.reverse = false;
 
-																	$scope.resetAll = function() {
-																		$scope.filteredList = $scope.allItems;
-																		$scope.customerProgramId = '';
-																		$scope.customer = '';
-																		$scope.customerProgramCode = '';
-																		$scope.customerProgramType = '';
-
-																		$scope.searchText = '';
-																		$scope.currentPage = 0;
-																		$scope.Header = [
-																				'',
-																				'',
-																				'',
-																				'',
-																				'',
-																				'',
-																				'' ];
-																	}
-
-																	$scope.search = function() {
-																		$scope.filteredList = filteredListService
-																				.searched(
-																						$scope.allItems,
-																						$scope.searchText);
-
-																		if ($scope.searchText == '') {
+																		$scope.resetAll = function() {
 																			$scope.filteredList = $scope.allItems;
+																			$scope.customerProgramId = '';
+																			$scope.customer = '';
+																			$scope.customerProgramCode = '';
+																			$scope.customerProgramType = '';
+
+																			$scope.searchText = '';
+																			$scope.currentPage = 0;
+																			$scope.Header = [
+																					'',
+																					'',
+																					'',
+																					'',
+																					'',
+																					'',
+																					'' ];
 																		}
-																		$scope
-																				.pagination();
-																	}
 
-																	$scope.pagination = function() {
-																		$scope.ItemsByPage = filteredListService
-																				.paged(
-																						$scope.filteredList,
-																						$scope.pageSize);
-																	};
+																		$scope.search = function() {
+																			$scope.filteredList = filteredListService
+																					.searched(
+																							$scope.allItems,
+																							$scope.searchText);
 
-																	$scope.setPage = function() {
-																		$scope.currentPage = this.n;
-																	};
-
-																	$scope.firstPage = function() {
-																		$scope.currentPage = 0;
-																	};
-
-																	$scope.lastPage = function() {
-																		$scope.currentPage = $scope.ItemsByPage.length - 1;
-																	};
-
-																	$scope.range = function(
-																			input,
-																			total) {
-																		var ret = [];
-																		if (!total) {
-																			total = input;
-																			input = 0;
-																		}
-																		for (var i = input; i < total; i++) {
-																			if (i != 0
-																					&& i != total - 1) {
-																				ret
-																						.push(i);
+																			if ($scope.searchText == '') {
+																				$scope.filteredList = $scope.allItems;
 																			}
-																		}
-																		return ret;
-																	};
-
-																	$scope.resetcpcuser = function() {
-																		$(
-																				'#updatecpcDetails')
-																				.hide();
-																	}
-																	$scope.sort = function(
-																			sortBy) {
-																		$scope
-																				.resetAll();
-
-																		$scope.columnToOrder = sortBy;
-
-																		// $Filter
-																		// -
-																		// Standard
-																		// Service
-																		$scope.filteredList = $filter(
-																				'orderBy')
-																				(
-																						$scope.filteredList,
-																						$scope.columnToOrder,
-																						$scope.reverse);
-
-																		if ($scope.reverse)
-																			iconName = 'glyphicon glyphicon-chevron-up';
-																		else
-																			iconName = 'glyphicon glyphicon-chevron-down';
-
-																		if (sortBy === 'customerProgramId') {
-																			$scope.Header[0] = iconName;
-																		} else if (sortBy === 'customerName') {
-																			$scope.Header[1] = iconName;
-																		} else if (sortBy === 'customerProgramCode') {
-																			$scope.Header[2] = iconName;
-																		} else if (sortBy === 'customerProgramType') {
-																			$scope.Header[3] = iconName;
-																		} else {
-																			$scope.Header[2] = iconName;
+																			$scope
+																					.pagination();
 																		}
 
-																		$scope.reverse = !$scope.reverse;
+																		$scope.pagination = function() {
+																			$scope.ItemsByPage = filteredListService
+																					.paged(
+																							$scope.filteredList,
+																							$scope.pageSize);
+																		};
 
+																		$scope.setPage = function() {
+																			$scope.currentPage = this.n;
+																		};
+
+																		$scope.firstPage = function() {
+																			$scope.currentPage = 0;
+																		};
+
+																		$scope.lastPage = function() {
+																			$scope.currentPage = $scope.ItemsByPage.length - 1;
+																		};
+
+																		$scope.range = function(
+																				input,
+																				total) {
+																			var ret = [];
+																			if (!total) {
+																				total = input;
+																				input = 0;
+																			}
+																			for (var i = input; i < total; i++) {
+																				if (i != 0
+																						&& i != total - 1) {
+																					ret
+																							.push(i);
+																				}
+																			}
+																			return ret;
+																		};
+
+																		$scope.resetcpcuser = function() {
+																			$(
+																					'#updatecpcDetails')
+																					.hide();
+																		}
+																		$scope.sort = function(
+																				sortBy) {
+																			$scope
+																					.resetAll();
+
+																			$scope.columnToOrder = sortBy;
+
+																			// $Filter
+																			// -
+																			// Standard
+																			// Service
+																			$scope.filteredList = $filter(
+																					'orderBy')
+																					(
+																							$scope.filteredList,
+																							$scope.columnToOrder,
+																							$scope.reverse);
+
+																			if ($scope.reverse)
+																				iconName = 'glyphicon glyphicon-chevron-up';
+																			else
+																				iconName = 'glyphicon glyphicon-chevron-down';
+
+																			if (sortBy === 'customerProgramId') {
+																				$scope.Header[0] = iconName;
+																			} else if (sortBy === 'customerName') {
+																				$scope.Header[1] = iconName;
+																			} else if (sortBy === 'customerProgramCode') {
+																				$scope.Header[2] = iconName;
+																			} else if (sortBy === 'customerProgramType') {
+																				$scope.Header[3] = iconName;
+																			} else {
+																				$scope.Header[2] = iconName;
+																			}
+
+																			$scope.reverse = !$scope.reverse;
+
+																			$scope
+																					.pagination();
+																		};
+
+																		// By
+																		// Default
+																		// sort
+																		// ny
+																		// Name
 																		$scope
-																				.pagination();
-																	};
+																				.sort('name');
 
-																	// By
-																	// Default
-																	// sort
-																	// ny
-																	// Name
-																	$scope
-																			.sort('name');
+																	},
+																	function myError(
+																			response) {
+																		console
+																				.log(response);
+																	});
 
-																},
-																function myError(
-																		response) {
-																	console
-																			.log(response);
-																});
+													swal(
+															"Customer Program updated SuccessFully!",
+															"", "success");
 
-												swal(
-														"Customer Program updated SuccessFully!",
-														"", "success");
-
-											}, function myError(response) {
-												console.log(response);
-											});
-							}
-							else{
+												}, function myError(response) {
+													console.log(response);
+												});
+							} else {
 
 								$('html, body')
-								.animate(
-										{
-											scrollTop : $(
-													'body')
-													.find(
+										.animate(
+												{
+													scrollTop : $('body').find(
 															'.has-error')
-													.offset().top - 150
-										}, 1000);
+															.offset().top - 150
+												}, 1000);
 
-							
 							}
 						}
 
@@ -2613,65 +2653,65 @@ materialAdmin
 					});
 
 					$scope.createCPC = function() {
-						var cpcValidater = validateCPC($scope.customerProgCodeType,$scope.customerprogName, $scope.customerId,$scope.example14model.length);
+						var cpcValidater = validateCPC(
+								$scope.customerProgCodeType,
+								$scope.customerprogName, $scope.customerId,
+								$scope.example14model.length);
 						if (cpcValidater) {
-						/*var length = $scope.example14model.length;
-						if (length < 1) {
-							swal("Kindly select at Least 1 project");
-							return;
-						}*/
-						var projectids = '';
-						angular.forEach($scope.example14model, function(key,
-								val) {
-							projectids += key.id + ',';
+							/*
+							 * var length = $scope.example14model.length; if
+							 * (length < 1) { swal("Kindly select at Least 1
+							 * project"); return; }
+							 */
+							var projectids = '';
+							angular.forEach($scope.example14model, function(
+									key, val) {
+								projectids += key.id + ',';
 
-						})
-						projectids = projectids.substring(0,
-								projectids.length - 1);
+							})
+							projectids = projectids.substring(0,
+									projectids.length - 1);
 
-						console.log(projectids);
-						var customerProgType = $scope.customerProgCodeType;
-						var customerprogName = $scope.customerprogName;
-						var customerId = $scope.customerId;
-						var createCPC = $scope.webserviceshost
-								+ 'hr/customerProgram/create/' + customerId
-								+ '/' + customerprogName + '/'
-								+ customerProgType + '/' + projectids;
+							console.log(projectids);
+							var customerProgType = $scope.customerProgCodeType;
+							var customerprogName = $scope.customerprogName;
+							var customerId = $scope.customerId;
+							var createCPC = $scope.webserviceshost
+									+ 'hr/customerProgram/create/' + customerId
+									+ '/' + customerprogName + '/'
+									+ customerProgType + '/' + projectids;
 
-						$http(
-								{
-									method : "POST",
-									url : createCPC,
-									headers : {
-										'XSRF-TOKEN' : $window.sessionStorage
-												.getItem("Access-Token"),
-										'authorization' : $window.sessionStorage
-												.getItem("AuthKey")
-									}
-								})
-								.then(
-										function mySucces(response) {
-											swal(
-													"Customer Program created SuccessFully!",
-													"", "success");
-											$scope.customerProgCodeType={};
-											$scope.customerprogName=''
-											$scope.customerId={};
-											$scope.example14model={}
-
-										}, function myError(response) {
-											console.log(response);
-										});
-						}else{
-							$('html, body')
-							.animate(
+							$http(
 									{
-										scrollTop : $(
-												'body')
-												.find(
-														'.has-error')
-												.offset().top - 150
-									}, 1000);
+										method : "POST",
+										url : createCPC,
+										headers : {
+											'XSRF-TOKEN' : $window.sessionStorage
+													.getItem("Access-Token"),
+											'authorization' : $window.sessionStorage
+													.getItem("AuthKey")
+										}
+									})
+									.then(
+											function mySucces(response) {
+												swal(
+														"Customer Program created SuccessFully!",
+														"", "success");
+												$scope.customerProgCodeType = {};
+												$scope.customerprogName = ''
+												$scope.customerId = {};
+												$scope.example14model = {}
+
+											}, function myError(response) {
+												console.log(response);
+											});
+						} else {
+							$('html, body')
+									.animate(
+											{
+												scrollTop : $('body').find(
+														'.has-error').offset().top - 150
+											}, 1000);
 
 						}
 					}
@@ -5976,225 +6016,229 @@ materialAdmin
 								$scope.customerid, $scope.departmentid,
 								$scope.country);
 						if (projectValidater) {
-						var projectid = $scope.projectid;
-						var projectName = $scope.projectname;
-						var customerid = $scope.customerid;
-						var departmentid = $scope.departmentid;
-						var customerprogramcode = $scope.customerprogramcode;
-						var country = $scope.country;
-						var projectType = $scope.customerproject;
-						var projectStatus = $scope.projectstatus;/*
-																	 * /update/{projectid}/{projectName}/{customerId}/{customerProgramId}/{departmentId}/{projectType}/{projectStatus}/{location}/{customerProjectCode}
-																	 */
-						/* '/update/{projectid}/{projectName}/{customerId}/{customerProgramId}/{departmentId}/{projectType}/{projectStatus}/{location}' */
-						var projectadd = $scope.webserviceshost + 'hr/project';
-						var additional = '/update/' + projectid + '/'
-								+ projectName + '/' + customerid + '/' + '1'
-								+ '/' + departmentid + '/' + projectType + '/'
-								+ projectStatus + '/' + country + '/'
-								+ customerprogramcode;
-						projectadd = projectadd + additional;
-						$http(
-								{
-									method : "POST",
-									url : projectadd,
-									headers : {
-										'XSRF-TOKEN' : $window.sessionStorage
-												.getItem("Access-Token"),
-										'authorization' : $window.sessionStorage
-												.getItem("AuthKey")
-									}
-								})
-								.then(
-										function mySucces(response) {
-											$("#editprojectdata").hide();
-											console.log(response.data);
-
-											var allTask = $scope.webserviceshost
-													+ 'hr/project/all';
-											$("#editprojectdata").hide();
-											$http(
-													{
-														method : "GET",
-														url : allTask,
-														headers : {
-															'XSRF-TOKEN' : $window.sessionStorage
-																	.getItem("Access-Token"),
-															'authorization' : $window.sessionStorage
-																	.getItem("AuthKey")
-														}
-													})
-													.then(
-															function mySucces(
-																	response) {
-
-																console
-																		.log(response.data);
-
-																console
-																		.log(response.data);
-																if (response != 'undefiend'
-																		&& response != "") {
-
-																	$scope.allUsers = response.data;
-																	$scope.pageSize = 150;
-																	$scope.allItems = $scope.allUsers;
-																	$scope.reverse = false;
-
-																	$scope.resetAll = function() {
-																		$scope.filteredList = $scope.allItems;
-																		$scope.projectId = '';
-																		$scope.projectName = '';
-																		$scope.customerProgramCode = '';
-																		$scope.projectType = '';
-																		$scope.projectStatus = '';
-																		$scope.searchText = '';
-																		$scope.currentPage = 0;
-																		$scope.Header = [
-																				'',
-																				'',
-																				'',
-																				'',
-																				'',
-																				'',
-																				'' ];
-																	}
-
-																	$scope.search = function() {
-																		$scope.filteredList = filteredListService
-																				.searched(
-																						$scope.allItems,
-																						$scope.searchText);
-
-																		if ($scope.searchText == '') {
-																			$scope.filteredList = $scope.allItems;
-																		}
-																		$scope
-																				.pagination();
-																	}
-
-																	// Calculate
-																	// Total
-																	// Number of
-																	// Pages
-																	// based on
-																	// Search
-																	// Result
-																	$scope.pagination = function() {
-																		$scope.ItemsByPage = filteredListService
-																				.paged(
-																						$scope.filteredList,
-																						$scope.pageSize);
-																	};
-
-																	$scope.setPage = function() {
-																		$scope.currentPage = this.n;
-																	};
-
-																	$scope.firstPage = function() {
-																		$scope.currentPage = 0;
-																	};
-
-																	$scope.lastPage = function() {
-																		$scope.currentPage = $scope.ItemsByPage.length - 1;
-																	};
-
-																	$scope.range = function(
-																			input,
-																			total) {
-																		var ret = [];
-																		if (!total) {
-																			total = input;
-																			input = 0;
-																		}
-																		for (var i = input; i < total; i++) {
-																			if (i != 0
-																					&& i != total - 1) {
-																				ret
-																						.push(i);
-																			}
-																		}
-																		return ret;
-																	};
-
-																	$scope.sort = function(
-																			sortBy) {
-																		console
-																				.log(sortBy);
-																		$scope
-																				.resetAll();
-
-																		$scope.columnToOrder = sortBy;
-
-																		// $Filter
-																		// -
-																		// Standard
-																		// Service
-																		$scope.filteredList = $filter(
-																				'orderBy')
-																				(
-																						$scope.filteredList,
-																						$scope.columnToOrder,
-																						$scope.reverse);
-
-																		if ($scope.reverse)
-																			iconName = 'glyphicon glyphicon-chevron-up';
-																		else
-																			iconName = 'glyphicon glyphicon-chevron-down';
-
-																		if (sortBy === 'projectid') {
-																			$scope.Header[0] = iconName;
-																		} else if (sortBy === 'projectName') {
-																			$scope.Header[1] = iconName;
-																		} else if (sortBy === 'customerProjectCode') {
-																			$scope.Header[2] = iconName;
-																		} else if (sortBy === 'projectType') {
-																			$scope.Header[3] = iconName;
-																		} else if (sortBy === 'projectStatus') {
-																			$scope.Header[4] = iconName;
-																		} else {
-																			$scope.Header[1] = iconName;
-																		}
-
-																		$scope.reverse = !$scope.reverse;
-
-																		$scope
-																				.pagination();
-																	};
-
-																	// By
-																	// Default
-																	// sort ny
-																	// Name
-																	$scope
-																			.sort('projectName');
-
-																	// console.log($scope.allUsers.length);
-																}
-
-															},
-															function myError(
-																	response) {
-																console
-																		.log(response);
-															});
-
-											swal({
-												title : "Project Updated Successfully",
-												closeOnConfirm : false,
-												closeOnCancel : false
-											});
-
-										}, function myError(response) {
-											console.log(response);
-										});
-						}else{
-							$('html, body')
-							.animate(
+							var projectid = $scope.projectid;
+							var projectName = $scope.projectname;
+							var customerid = $scope.customerid;
+							var departmentid = $scope.departmentid;
+							var customerprogramcode = $scope.customerprogramcode;
+							var country = $scope.country;
+							var projectType = $scope.customerproject;
+							var projectStatus = $scope.projectstatus;/*
+																		 * /update/{projectid}/{projectName}/{customerId}/{customerProgramId}/{departmentId}/{projectType}/{projectStatus}/{location}/{customerProjectCode}
+																		 */
+							/* '/update/{projectid}/{projectName}/{customerId}/{customerProgramId}/{departmentId}/{projectType}/{projectStatus}/{location}' */
+							var projectadd = $scope.webserviceshost
+									+ 'hr/project';
+							var additional = '/update/' + projectid + '/'
+									+ projectName + '/' + customerid + '/'
+									+ '1' + '/' + departmentid + '/'
+									+ projectType + '/' + projectStatus + '/'
+									+ country + '/' + customerprogramcode;
+							projectadd = projectadd + additional;
+							$http(
 									{
-										scrollTop : $('body').find(
-												'.has-error').offset().top - 150
-									}, 1000);
+										method : "POST",
+										url : projectadd,
+										headers : {
+											'XSRF-TOKEN' : $window.sessionStorage
+													.getItem("Access-Token"),
+											'authorization' : $window.sessionStorage
+													.getItem("AuthKey")
+										}
+									})
+									.then(
+											function mySucces(response) {
+												$("#editprojectdata").hide();
+												console.log(response.data);
+
+												var allTask = $scope.webserviceshost
+														+ 'hr/project/all';
+												$("#editprojectdata").hide();
+												$http(
+														{
+															method : "GET",
+															url : allTask,
+															headers : {
+																'XSRF-TOKEN' : $window.sessionStorage
+																		.getItem("Access-Token"),
+																'authorization' : $window.sessionStorage
+																		.getItem("AuthKey")
+															}
+														})
+														.then(
+																function mySucces(
+																		response) {
+
+																	console
+																			.log(response.data);
+
+																	console
+																			.log(response.data);
+																	if (response != 'undefiend'
+																			&& response != "") {
+
+																		$scope.allUsers = response.data;
+																		$scope.pageSize = 150;
+																		$scope.allItems = $scope.allUsers;
+																		$scope.reverse = false;
+
+																		$scope.resetAll = function() {
+																			$scope.filteredList = $scope.allItems;
+																			$scope.projectId = '';
+																			$scope.projectName = '';
+																			$scope.customerProgramCode = '';
+																			$scope.projectType = '';
+																			$scope.projectStatus = '';
+																			$scope.searchText = '';
+																			$scope.currentPage = 0;
+																			$scope.Header = [
+																					'',
+																					'',
+																					'',
+																					'',
+																					'',
+																					'',
+																					'' ];
+																		}
+
+																		$scope.search = function() {
+																			$scope.filteredList = filteredListService
+																					.searched(
+																							$scope.allItems,
+																							$scope.searchText);
+
+																			if ($scope.searchText == '') {
+																				$scope.filteredList = $scope.allItems;
+																			}
+																			$scope
+																					.pagination();
+																		}
+
+																		// Calculate
+																		// Total
+																		// Number
+																		// of
+																		// Pages
+																		// based
+																		// on
+																		// Search
+																		// Result
+																		$scope.pagination = function() {
+																			$scope.ItemsByPage = filteredListService
+																					.paged(
+																							$scope.filteredList,
+																							$scope.pageSize);
+																		};
+
+																		$scope.setPage = function() {
+																			$scope.currentPage = this.n;
+																		};
+
+																		$scope.firstPage = function() {
+																			$scope.currentPage = 0;
+																		};
+
+																		$scope.lastPage = function() {
+																			$scope.currentPage = $scope.ItemsByPage.length - 1;
+																		};
+
+																		$scope.range = function(
+																				input,
+																				total) {
+																			var ret = [];
+																			if (!total) {
+																				total = input;
+																				input = 0;
+																			}
+																			for (var i = input; i < total; i++) {
+																				if (i != 0
+																						&& i != total - 1) {
+																					ret
+																							.push(i);
+																				}
+																			}
+																			return ret;
+																		};
+
+																		$scope.sort = function(
+																				sortBy) {
+																			console
+																					.log(sortBy);
+																			$scope
+																					.resetAll();
+
+																			$scope.columnToOrder = sortBy;
+
+																			// $Filter
+																			// -
+																			// Standard
+																			// Service
+																			$scope.filteredList = $filter(
+																					'orderBy')
+																					(
+																							$scope.filteredList,
+																							$scope.columnToOrder,
+																							$scope.reverse);
+
+																			if ($scope.reverse)
+																				iconName = 'glyphicon glyphicon-chevron-up';
+																			else
+																				iconName = 'glyphicon glyphicon-chevron-down';
+
+																			if (sortBy === 'projectid') {
+																				$scope.Header[0] = iconName;
+																			} else if (sortBy === 'projectName') {
+																				$scope.Header[1] = iconName;
+																			} else if (sortBy === 'customerProjectCode') {
+																				$scope.Header[2] = iconName;
+																			} else if (sortBy === 'projectType') {
+																				$scope.Header[3] = iconName;
+																			} else if (sortBy === 'projectStatus') {
+																				$scope.Header[4] = iconName;
+																			} else {
+																				$scope.Header[1] = iconName;
+																			}
+
+																			$scope.reverse = !$scope.reverse;
+
+																			$scope
+																					.pagination();
+																		};
+
+																		// By
+																		// Default
+																		// sort
+																		// ny
+																		// Name
+																		$scope
+																				.sort('projectName');
+
+																		// console.log($scope.allUsers.length);
+																	}
+
+																},
+																function myError(
+																		response) {
+																	console
+																			.log(response);
+																});
+
+												swal({
+													title : "Project Updated Successfully",
+													closeOnConfirm : false,
+													closeOnCancel : false
+												});
+
+											}, function myError(response) {
+												console.log(response);
+											});
+						} else {
+							$('html, body')
+									.animate(
+											{
+												scrollTop : $('body').find(
+														'.has-error').offset().top - 150
+											}, 1000);
 						}
 
 					}
@@ -11710,16 +11754,19 @@ function searchUtil(item, toSearch) {
 						toSearch.toLowerCase()) > -1 || item.zipCode == toSearch) ? true
 				: false;
 	} else if (item.projectid != undefined) {
+		/*|| item.customerProjectCode.toLowerCase().indexOf(
+				toSearch.toLowerCase()) > -1
+				
+				|| item.zipCode == toSearch
+		*/
 
 		return (item.projectName.toLowerCase().indexOf(toSearch.toLowerCase()) > -1
 				|| item.projectName.toLowerCase().indexOf(
 						toSearch.toLowerCase()) > -1
-				|| item.customerProjectCode.toLowerCase().indexOf(
-						toSearch.toLowerCase()) > -1
 				|| item.projectType.toLowerCase().indexOf(
 						toSearch.toLowerCase()) > -1
 				|| item.projectStatus.toLowerCase().indexOf(
-						toSearch.toLowerCase()) > -1 || item.zipCode == toSearch) ? true
+						toSearch.toLowerCase()) > -1 ) ? true
 				: false;
 
 	} else if (item.leaveId != undefined) {

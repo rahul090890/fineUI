@@ -179,7 +179,7 @@
 												<div class="form-group">
 													<div class="fg-line">
 														<div class="select">
-															<select class="form-control" ng-model='task[divindex-1]["customer"]'>
+															<select class="form-control" id="customer{{divindex-1}}" ng-model='task[divindex-1]["customer"]' ng-change="fillProject(task,divindex-1)">
 																<option selected>Select Customer</option>
 																<option ng-repeat='customer in customers'
 																	value='{{customer.customerId}}'>{{customer.customerName}}</option>
@@ -194,7 +194,7 @@
 												<div class="form-group">
 													<div class="fg-line">
 														<div class="select">
-															<select class="form-control" ng-model='task[divindex-1]["department"]'>
+															<select class="form-control" id="department{{divindex-1}}" ng-model='task[divindex-1]["department"]' ng-change="fillProject(task,divindex-1)">
 																<option selected>Select Department</option>
 																<option ng-repeat='department in departments'
 																	value='{{department.departmentId}}'>{{department.departmentName}}</option>
@@ -210,9 +210,9 @@
 												<div class="form-group">
 													<div class="fg-line">
 														<div class="select">
-															<select class="form-control" ng-model='task[divindex-1]["projectId"]'>
+															<select class="form-control" id="project{{divindex-1}}" ng-model='task[divindex-1]["projectId"]'>
 																<option selected>Select Project</option>
-																<option ng-repeat='project in projects'
+																<option ng-repeat='project in projects[divindex-1]'
 																	value='{{project.projectid}}'>{{project.projectName}}</option>
 
 															</select>
@@ -224,7 +224,7 @@
 												<div class="form-group">
 													<div class="fg-line">
 														<div class="select">
-															<select class="form-control" ng-model='task[divindex-1]["cpcdetails"]'>
+															<select class="form-control" id="cpcdetails{{divindex-1}}" ng-model='task[divindex-1]["cpcdetails"]'>
 																<option selected>Select CPC</option>
 																<option ng-repeat='cpc in cpcs'
 																	value='{{cpc.customerProgramId}}'>{{cpc.customerProgramCode}}</option>
@@ -238,9 +238,9 @@
 												<div class="form-group">
 													<div class="fg-line">
 														<div class="select">
-															<select class="form-control" ng-model='task[divindex-1]["taskdetails"]'>
+															<select class="form-control"  id="taskdetails{{divindex-1}}" ng-model='task[divindex-1]["taskdetails"]'>
 																<option selected>Select Project Type</option>
-																<option ng-repeat='task in tasks'
+																<option ng-repeat='task in tasks[divindex-1]'
 																	value='{{task.taskId}}&&{{task.taskName}}'>{{task.taskName}}</option>
 
 															</select>
