@@ -30,16 +30,18 @@
 						<thead>
 							<tr>
 								<th class='col-sm-4'>Leave Type</th>
-								<th class='col-sm-4'>Leave Pending</th>
 								<th class='col-sm-4'>Leave Available</th>
+								<th class='col-sm-4'>Leave Pending</th>
+								
 							</tr>
 						</thead>
 						<tbody>
 							<tr class="" ng-repeat=" x in leaveupdates"
 								style="border: 1px solid #EDECEC;">
 								<td class='col-sm-4'><span style="color: Black;">{{x.leaveType}}</span></td>
-								<td class='col-sm-4'><span style="color: red;">{{x.pendingApproval}}</span></td>
 								<td class='col-sm-4'><span style="color: green;">{{x.eligible}}</span></td>
+								<td class='col-sm-4'><span style="color: red;">{{x.pendingApproval}}</span></td>
+								
 							</tr>
 						</tbody>
 					</table>

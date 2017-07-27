@@ -110,7 +110,8 @@
 												<div class="fg-line">
 
 													<div class="select">
-														<select class="form-control" ng-model='employeeType' id="employeeType" 	onkeypress="validateInstantInputgroup(this)">
+														<select class="form-control" ng-model='employeeType' myRequired id="employeeType" 	onkeypress="validateInstantInputgroup(this)">
+															 <option value="">Select Employee Type</option>
 															<option value='{{data.groupKey}}'
 																ng-repeat='data in referenceData.employeeType'>{{data.groupValue}}</option>
 
@@ -152,8 +153,8 @@
 												<div class="fg-line">
 
 													<div class="select">
-														<select class="form-control" ng-model='roleId' id="roleId" 	onchange="validateInstantInputgroup(this)"
-															ng-options="roles.roleid as roles.roleName   for roles in rolesdata"></select>
+														<select class="form-control" myRequired ng-model='roleId' id="roleId" 	onchange="validateInstantInputgroup(this)"
+															ng-options="roles.roleid as roles.roleName   for roles in rolesdata"> <option value="">Select Role</option></select>
 													</div>
 												</div>
 											</div>
@@ -232,8 +233,8 @@
 												<div class="fg-line">
 
 													<div class="select">
-														<select class="form-control" ng-model='managerId' id="managerId" 	onchange="validateInstantInputgroup(this)"
-															ng-options="manager.employeeId as manager.firstName+ ' ' + manager.lastName   for manager in managers"></select>
+														<select class="form-control" myRequired ng-model='managerId' id="managerId" 	onchange="validateInstantInputgroup(this)"
+															ng-options="manager.employeeId as manager.firstName+ ' ' + manager.lastName   for manager in managers"><option value="">Select Supervisor</option></select>
 
 													</div>
 												</div>
@@ -249,8 +250,8 @@
 												<div class="fg-line">
 
 													<div class="select">
-														<select class="form-control" ng-model='employeeStatus' id="employeeStatus" 	onchange="validateInstantInputgroup(this)"
-															ng-options="status.value as status.name   for status in  statusVal"></select>
+														<select class="form-control" myRequired ng-model='employeeStatus' id="employeeStatus" 	onchange="validateInstantInputgroup(this)"
+															ng-options="status.value as status.name   for status in  statusVal"><option value="">Select Employee Status</option></select>
 													</div>
 												</div>
 											</div>
@@ -316,8 +317,8 @@
 
 													<div class="select">
 
-														<select class="form-control" ng-model='userDepartmentId' id="userDepartmentId" 	onchange="validateInstantInputgroup(this)"
-															ng-options="department.departmentId as department.departmentName for department in departments"></select>
+														<select class="form-control" myRequired ng-model='userDepartmentId' id="userDepartmentId" 	onchange="validateInstantInputgroup(this)"
+															ng-options="department.departmentId as department.departmentName for department in departments"><option value="">Select Department</option></select>
 
 													</div>
 												</div>

@@ -9,6 +9,20 @@ var materialAdmin = angular.module('materialAdmin', [
     'ngTable'
 ])
 
+materialAdmin.directive('myRequired', function () {
+    return {
+    	 restrict: 'AE',
+         scope: {},
+         require: 'ngModel',
+        link: function (scope, iElement, iAttrs) {if(iElement.val() == ""){
+            //do something
+            return;
+        } else {
+            //do other things
+        }}
+    };
+});
+
 materialAdmin.directive('formvalidation', function (e) {
      var fieldId = e.target.attributes.id.value;
      var maxLength = e.target.attributes.maxlength.value;
@@ -39,8 +53,8 @@ materialAdmin.directive('numbersOnly', function () {
         link: function (scope, element, attr, ngModelCtrl) {
             function fromUser(text) {
                 if (text) {
-                    var transformedInput = text.replace(/[^0-9]/g, '');
-                    if(parseInt(transformedInput)>9 ||parseInt(transformedInput)<1){
+                    var transformedInput = text.replace(/[^1-9][^0-9]/g, '');
+                    if(parseInt(transformedInput)>20 ||parseInt(transformedInput)<1){
                     	ngModelCtrl.$setViewValue('');
                         ngModelCtrl.$render();
                     }

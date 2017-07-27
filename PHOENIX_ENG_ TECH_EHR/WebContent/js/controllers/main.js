@@ -96,6 +96,24 @@ materialAdmin
 													.path("/headers/applyLeave");
 											$window.location.reload();
 											$scope.error = false;
+										}else if ("Director" === $window.sessionStorage
+												.getItem("roleName")) {
+											$location
+													.path("headers/createuser");
+											$window.location.reload();
+											$scope.error = false;
+										}else if ("Project Manager" === $window.sessionStorage
+												.getItem("roleName")) {
+											$location
+													.path("/home");
+											$window.location.reload();
+											$scope.error = false;
+										}else if ("Lead" === $window.sessionStorage
+												.getItem("roleName")) {
+											$location
+													.path("/home");
+											$window.location.reload();
+											$scope.error = false;
 										} else {
 											$location.path("/home");
 											$window.location.reload();
@@ -604,23 +622,7 @@ materialAdmin
 											$scope.employeedepartment = response.data.department.departmentName;
 											$scope.employeedepartmentId = response.data.department.departmentId;
 											$scope.employeeemail = response.data.emailId;
-											/*
-											 * $scope.leaveTaken=response.data.employeeId;
-											 * $scope.remainLeaves=response.data.employeeId;
-											 */
-											/*
-											 * $scope.managername =
-											 * response.data.manager.firstName + ' ' +
-											 * response.data.manager.lastName;
-											 */
-											/*
-											 * $scope.managerid =
-											 * response.data.manager.employeeId
-											 * $scope.manageremail =
-											 * response.data.manager.emailId;
-											 * $scope.managerid =
-											 * response.data.manager.employeeId;
-											 */
+											
 										}
 									}, function myError(response) {
 										console.log(response);
@@ -656,15 +658,7 @@ materialAdmin
 					}, function myError(response) {
 						console.log(response);
 					});
-					/*
-					 * $http( { method : "GET", url : allproject, headers : {
-					 * 'XSRF-TOKEN' : $window.sessionStorage
-					 * .getItem("Access-Token"), 'authorization' :
-					 * $window.sessionStorage .getItem("AuthKey") }
-					 * }).then(function mySucces(response) { $scope.projects =
-					 * response.data; }, function myError(response) {
-					 * console.log(response); });
-					 */
+					
 					$http(
 							{
 								method : "GET",
@@ -699,6 +693,7 @@ materialAdmin
 					$scope.deleteRow = function() {
 						console.log($scope.ids);
 						var obj = $scope.ids;
+						
 
 						for ( var key in obj) {
 							if (obj.hasOwnProperty(key)) {
@@ -717,6 +712,11 @@ materialAdmin
 						 * $scope.divIterator.pop(deleteval); }
 						 */
 
+					}
+					$scope.countTotalhours=function(value,modelName){
+						
+						$scope.modelName=$scope.modelName+value;
+						
 					}
 					$scope.saveTimeSheet = function(task, daydetails) {
 
@@ -742,10 +742,12 @@ materialAdmin
 							})
 						})
 						if ($scope.totalhours < 40) {
+							swal('error',"Your total hours are not 40 ! You can't submit",'error');
+							/*
 
 							swal(
 									{
-										title : "Your total hours are not 40 ! Proceed if fine",
+										title : "Your total hours are not 40 ! You can't submit",
 										text : "Submitting Timesheet ",
 										showCancelButton : true,
 										confirmButtonColor : "#DD6B55",
@@ -793,7 +795,7 @@ materialAdmin
 										}
 									})
 
-						} else {
+						*/} else {
 
 							swal(
 									{

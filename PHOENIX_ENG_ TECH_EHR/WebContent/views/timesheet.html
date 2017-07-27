@@ -136,20 +136,20 @@
 								<div class='col-sm-1'>
 									<p>
 										<span style="color: green"><i
-											class="zmdi zmdi-alarm-add"></i><a ng-click="addRow(task,daydetails)"><span
+											class="zmdi zmdi-alarm-add"></i><a ng-click="addRow(task,daydetails)" style="cursor:pointer"><span
 												style="color: green"> Add</span></a></span>
 									</p>
 								</div>
 
 								<div class='col-sm-2'>
 									<p>
-										<span style="color: red"><i class="zmdi zmdi-alarm-off"></i></span><a
+										<span style="color: red"><i class="zmdi zmdi-alarm-off"></i></span><a style="cursor:pointer"
 											ng-click="deleteRow()"><span style="color: red">
 												Delete</span></a>
 									</p>
 								</div>
 								<div class='col-sm-8'>
-									<p class='text-center'>
+									<p class='text-center' >
 										<i class="zmdi zmdi-alarm-add"></i> <span style="color: black">Time</span>
 									</p>
 								</div>
@@ -160,7 +160,7 @@
 
 								<div class='row' id="newRowContent"
 									ng-repeat="divindex in divIterator">
-									<div id="timesheetData_1" style="height: 100px">
+									<div id="timesheetData" style="height: 100px">
 										<div class='col-sm-6'>
 											<div class="col-sm-1" style="padding-left: 0">
 												<div class='form-group'>
@@ -239,7 +239,7 @@
 													<div class="fg-line">
 														<div class="select">
 															<select class="form-control"  id="taskdetails{{divindex-1}}" ng-model='task[divindex-1]["taskdetails"]'>
-																<option selected>Select Project Type</option>
+																<option selected>Select Task type</option>
 																<option ng-repeat='task in tasks[divindex-1]'
 																	value='{{task.taskId}}&&{{task.taskName}}'>{{task.taskName}}</option>
 

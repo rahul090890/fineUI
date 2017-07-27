@@ -34,9 +34,10 @@
 										<div class="fg-line">
 
 											<div class="select">
-												<select class="form-control" ng-model='employeeType'
+												<select class="form-control" ng-model='employeeType' myRequired
 													onchange="validateInstantInputgroup(this)"
 													id='employeeType'>
+													 <option value="">Select Employee Type</option>
 													<option value='{{data.groupKey}}'
 														ng-repeat='data in referenceData.employeeType'>{{data.groupValue}}</option>
 
@@ -46,7 +47,7 @@
 									</div>
 								</div>
 							</div>
-							<br>
+							<!-- <br>
 							<div class="input-group">
 								<span class="input-group-addon"><i
 									class="zmdi zmdi-account"></i></span>
@@ -59,7 +60,7 @@
 										</div>
 									</div>
 								</div>
-							</div>
+							</div> -->
 
 							<br>
 
@@ -85,8 +86,9 @@
 								<div class="fg-line">
 
 									<div class="select">
-										<select class="form-control" ng-model='role' id='role'
+										<select class="form-control" ng-model='role' id='role' myRequired
 											onchange="validateInstantInputgroup(this)">
+											 <option value="">Select Role</option>
 											<option value='{{roles.roleid}}'
 												ng-repeat='roles in rolesdata'>{{roles.roleName}}</option>
 
@@ -111,14 +113,36 @@
 												uib-datepicker-popup="{{format}}" show-weeks="false"
 												ng-model="dtPopup" is-open="opened" min-date="minDate"
 												datepicker-options="dateOptions" ng-required="true"
-												close-text="Close" placeholder="Select Date"  ng-change="validateInstant('joindate')"/>
+												close-text="Close" placeholder="Date of Joining"  ng-change="validateInstant('joindate')"/>
 										</div>
 
 									</div>
 
 								</div>
 							</div>
+ <br>
+							<!-- <div class="form-group" style="margin-top: 5px;">
+								<div class="fg-line">
 
+									<div class="date-picker input-group dp-blue"
+										ng-class="{ 'is-opened': opened == true }">
+										<span class="input-group-addon"
+											style="background-color: transparent"><i
+											class="zmdi zmdi-calendar ma-icon"></i></span>
+										<div class="fg-line"
+											ng-class="{ 'fg-toggled': opened == true }">
+											<input ng-click="open($event, 'opened')" type="text" readonly
+												id="joindate" class="form-control"
+												uib-datepicker-popup="{{format}}" show-weeks="false"
+												ng-model="dtPopup" is-open="opened" min-date="minDate"
+												datepicker-options="dateOptions" ng-required="true"
+												close-text="Close" placeholder="Date of Birth"  ng-change="validateInstant('joindate')"/>
+										</div>
+
+									</div>
+
+								</div>
+							</div> -->
 							<!-- <div class="input-group">
 								<span class="input-group-addon"><i class="zmdi zmdi-pin"></i></span>
 								<div class="fg-line">
@@ -170,8 +194,9 @@
 										<div class="fg-line">
 
 											<div class="select">
-												<select class="form-control" ng-model='managerId'
+												<select class="form-control" ng-model='managerId' myRequired
 													onchange="validateInstantInputgroup(this)" id="managerId">
+													 <option value="">Select Superviser</option>
 													<option value='{{manager.employeeId}}'
 														ng-repeat='manager in managers'>{{manager.firstName}}&nbsp;{{manager.lastName}}</option>
 
@@ -211,11 +236,11 @@
 										<div class="fg-line">
 
 											<div class="select">
-												<select class="form-control" name="empstatus"
+												<select class="form-control" name="empstatus" myRequired
 													id='employeeStatus'
 													onchange="validateInstantInputgroup(this)"
 													ng-model='employeeStatus'>
-
+ 													<option value="">Select Employee Status</option>
 													<option value='active'>Active</option>
 													<option value='inactive'>InActive</option>
 
@@ -286,10 +311,10 @@
 										<div class="fg-line">
 
 											<div class="select">
-												<select class="form-control" ng-model='userDepartmentId'
+												<select class="form-control" ng-model='userDepartmentId' myRequired
 													id='userDepartmentId'
 													onchange="validateInstantInputgroup(this)">
-
+ 													<option value="">Select Department</option>
 													<option value='{{department.departmentId}}'
 														ng-repeat='department in departments'>{{department.departmentName}}</option>
 												</select>
