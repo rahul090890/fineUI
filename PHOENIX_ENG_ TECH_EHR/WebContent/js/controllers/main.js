@@ -44,6 +44,7 @@ materialAdmin
 										function(data1, status, resHeaders) {
 											// console.log(data1);
 											// console.log(resHeaders)
+											try{
 											$window.sessionStorage.setItem(
 													"Access-Token",
 													resHeaders('xsrf-token'));
@@ -75,6 +76,12 @@ materialAdmin
 											;
 											$rootScope.authenticated = true;
 											callback && callback();
+											}
+											catch(e){
+												$rootScope.authenticated = false;
+												callback && callback();
+												$rootScope.authenticated = false;
+											}
 										}).error(function() {
 									$rootScope.authenticated = false;
 									callback && callback();
@@ -989,6 +996,7 @@ materialAdmin
 					this.skinSwitch = function(color) {
 						this.currentSkin = color;
 					}
+					debugger;
 					var employeeid = $window.sessionStorage
 							.getItem("EmployeeId"); // hard
 					// coded
