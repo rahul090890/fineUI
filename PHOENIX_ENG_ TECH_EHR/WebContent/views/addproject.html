@@ -119,7 +119,7 @@
 									</div>
 
 								</div>
-								<br />
+								<!-- <br />
 								<div class="form-group">
 									<div class="fg-line">
 										<input type="text" class="form-control" id="customerprogramid"
@@ -128,16 +128,17 @@
 											placeholder="Customer Program Code">
 
 									</div>
-								</div>
+								</div> -->
 								<br>
-								<!-- <div class="form-group">
+								<div class="form-group">
 									<div class="fg-line">
 										<div class="select">
-											<select class="form-control" ng-model='customerprogramcode'
+											<select class="form-control" ng-model='customerprogramid'  onchange="validateInstant(this)"
 												ng-options="programcode.customerProgramId  as programcode.customerProgramCode    for programcode in cpc"></select>
 										</div>
 									</div>
-								</div> -->
+								</div> 
+								<br>
 								<div class="form-group">
 									<div class="fg-line">
 										<div class="select">

@@ -20,18 +20,22 @@ materialAdmin
 							|| !$window.sessionStorage.getItem("EmployeeId")) {
 						$location.path('/login');
 					}
-
+					
 					var authenticate = function(authUrl, credentials, callback) {
-
+						
 						var headers = credentials ? {
 							authorization : "Basic "
 									+ btoa(credentials.username + ":"
 											+ credentials.password)
 						} : {};
 						var url = '';
-						if (credentials != undefined)
+						
+						if (credentials != undefined){
 							url = authUrl + credentials.username;
-
+							$window.sessionStorage.setItem(
+									"loginName",  credentials.username);
+						}
+						
 						$http
 								.get(url, {
 									headers : headers
@@ -70,7 +74,6 @@ materialAdmin
 													.getItem("lastName");
 											;
 											$rootScope.authenticated = true;
-
 											callback && callback();
 										}).error(function() {
 									$rootScope.authenticated = false;
@@ -96,22 +99,20 @@ materialAdmin
 													.path("/headers/applyLeave");
 											$window.location.reload();
 											$scope.error = false;
-										}else if ("Director" === $window.sessionStorage
+										} else if ("Director" === $window.sessionStorage
 												.getItem("roleName")) {
 											$location
 													.path("headers/createuser");
 											$window.location.reload();
 											$scope.error = false;
-										}else if ("Project Manager" === $window.sessionStorage
+										} else if ("Project Manager" === $window.sessionStorage
 												.getItem("roleName")) {
-											$location
-													.path("/home");
+											$location.path("/home");
 											$window.location.reload();
 											$scope.error = false;
-										}else if ("Lead" === $window.sessionStorage
+										} else if ("Lead" === $window.sessionStorage
 												.getItem("roleName")) {
-											$location
-													.path("/home");
+											$location.path("/home");
 											$window.location.reload();
 											$scope.error = false;
 										} else {
@@ -390,8 +391,8 @@ materialAdmin
 						console.log('a');
 
 					});
-					$scope.projects=[];
-					$scope.tasks=[];
+					$scope.projects = [];
+					$scope.tasks = [];
 					$scope.onlyNumbers = /^\d+$/;
 
 					$scope.divIterator = [ 1 ];
@@ -533,24 +534,21 @@ materialAdmin
 					var departments = $scope.webserviceshost
 							+ 'hr/department/all';
 
-					
 					var allcpc = $scope.webserviceshost
 							+ "hr/customerProgram/all";
 					/*
 					 * var allproject = $scope.webserviceshost +
 					 * 'hr/project/all';
 					 */
-					$scope.fillProject = function(task,divindex) {
-						
+					$scope.fillProject = function(task, divindex) {
+
 						console.log(task);
-						var customer=task[divindex].customer;
-						var department=task[divindex].department;
-						console.log(customer+"   "+department);
-						if (customer&&department) {
+						var customer = task[divindex].customer;
+						var department = task[divindex].department;
+						console.log(customer + "   " + department);
+						if (customer && department) {
 							var allproject = $scope.webserviceshost
-									+ 'hr/project/find/'
-									+customer
-									+ '/'
+									+ 'hr/project/find/' + customer + '/'
 									+ department;
 							$http(
 									{
@@ -562,17 +560,22 @@ materialAdmin
 											'authorization' : $window.sessionStorage
 													.getItem("AuthKey")
 										}
-									}).then(function mySucces(response) {
-								$scope.projects[divindex] = response.data;
-								if($scope.projects[divindex].length==0){
-									swal('error','No project mapped with current selection','error')
-								}
-							}, function myError(response) {
-								console.log(response);
-							});
-							var taskdata = $scope.webserviceshost + 'hr/task/find/'+customer
-							+ '/'
-							+ department;
+									})
+									.then(
+											function mySucces(response) {
+												$scope.projects[divindex] = response.data;
+												if ($scope.projects[divindex].length == 0) {
+													swal(
+															'error',
+															'No project mapped with current selection',
+															'error')
+												}
+											}, function myError(response) {
+												console.log(response);
+											});
+							var taskdata = $scope.webserviceshost
+									+ 'hr/task/find/' + customer + '/'
+									+ department;
 							$http(
 									{
 										method : "GET",
@@ -583,15 +586,20 @@ materialAdmin
 											'authorization' : $window.sessionStorage
 													.getItem("AuthKey")
 										}
-									}).then(function mySucces(response) {
-								
-								$scope.tasks[divindex] = response.data;
-								if($scope.tasks[divindex].length==0){
-									swal('error','No Task mapped with current selection','error')
-								}
-							}, function myError(response) {
-								console.log(response);
-							});
+									})
+									.then(
+											function mySucces(response) {
+
+												$scope.tasks[divindex] = response.data;
+												if ($scope.tasks[divindex].length == 0) {
+													swal(
+															'error',
+															'No Task mapped with current selection',
+															'error')
+												}
+											}, function myError(response) {
+												console.log(response);
+											});
 						}
 
 					}
@@ -622,12 +630,12 @@ materialAdmin
 											$scope.employeedepartment = response.data.department.departmentName;
 											$scope.employeedepartmentId = response.data.department.departmentId;
 											$scope.employeeemail = response.data.emailId;
-											
+
 										}
 									}, function myError(response) {
 										console.log(response);
 									});
-					
+
 					$http(
 							{
 								method : "GET",
@@ -658,7 +666,7 @@ materialAdmin
 					}, function myError(response) {
 						console.log(response);
 					});
-					
+
 					$http(
 							{
 								method : "GET",
@@ -693,7 +701,6 @@ materialAdmin
 					$scope.deleteRow = function() {
 						console.log($scope.ids);
 						var obj = $scope.ids;
-						
 
 						for ( var key in obj) {
 							if (obj.hasOwnProperty(key)) {
@@ -713,10 +720,10 @@ materialAdmin
 						 */
 
 					}
-					$scope.countTotalhours=function(value,modelName){
-						
-						$scope.modelName=$scope.modelName+value;
-						
+					$scope.countTotalhours = function(value, modelName) {
+
+						$scope.modelName = $scope.modelName + value;
+
 					}
 					$scope.saveTimeSheet = function(task, daydetails) {
 
@@ -742,60 +749,36 @@ materialAdmin
 							})
 						})
 						if ($scope.totalhours < 40) {
-							swal('error',"Your total hours are not 40 ! You can't submit",'error');
-							/*
-
 							swal(
-									{
-										title : "Your total hours are not 40 ! You can't submit",
-										text : "Submitting Timesheet ",
-										showCancelButton : true,
-										confirmButtonColor : "#DD6B55",
-										confirmButtonText : "Yes, Submit it!",
-										cancelButtonText : "No, cancel it!",
-										closeOnConfirm : false,
-										closeOnCancel : false
-									},
-									function(isConfirm) {
-										if (isConfirm) {
-											var timesheeturl = $scope.webserviceshost
-													+ "hr/timesheet/save/"
-													+ JSON
-															.stringify($scope.collectData);
-											$http(
-													{
-														method : "POST",
-														url : timesheeturl,
-														headers : {
-															'XSRF-TOKEN' : $window.sessionStorage
-																	.getItem("Access-Token"),
-															'authorization' : $window.sessionStorage
-																	.getItem("AuthKey")
-														}
-													})
-													.then(
-															function mySucces(
-																	response) {
-																swal("TimeSheet Submitted")
-																$location
-																		.path('/headers/timesheethistory');
-
-															},
-
-															function myError(
-																	response) {
-																console
-																		.log(response);
-															});
-										} else {
-											swal(
-													"Cancelled",
-													"Request has been cancelled.)",
-													"error");
-										}
-									})
-
-						*/} else {
+									'error',
+									"Your total hours are not 40 ! You can't submit",
+									'error');
+							/*
+							 * 
+							 * swal( { title : "Your total hours are not 40 !
+							 * You can't submit", text : "Submitting Timesheet ",
+							 * showCancelButton : true, confirmButtonColor :
+							 * "#DD6B55", confirmButtonText : "Yes, Submit it!",
+							 * cancelButtonText : "No, cancel it!",
+							 * closeOnConfirm : false, closeOnCancel : false },
+							 * function(isConfirm) { if (isConfirm) { var
+							 * timesheeturl = $scope.webserviceshost +
+							 * "hr/timesheet/save/" + JSON
+							 * .stringify($scope.collectData); $http( { method :
+							 * "POST", url : timesheeturl, headers : {
+							 * 'XSRF-TOKEN' : $window.sessionStorage
+							 * .getItem("Access-Token"), 'authorization' :
+							 * $window.sessionStorage .getItem("AuthKey") } })
+							 * .then( function mySucces( response) {
+							 * swal("TimeSheet Submitted") $location
+							 * .path('/headers/timesheethistory');
+							 *  },
+							 * 
+							 * function myError( response) { console
+							 * .log(response); }); } else { swal( "Cancelled",
+							 * "Request has been cancelled.)", "error"); } })
+							 * 
+							 */} else {
 
 							swal(
 									{
@@ -2164,10 +2147,10 @@ materialAdmin
 									});
 
 					$scope.editcpcDetails = function(item) {
-						$scope.example14model = [];
+						/*$scope.example14model = [];*/
 						var allproject = $scope.webserviceshost
 								+ 'hr/project/all';
-						for (var x = 0; x < item.projects.length; x++) {
+						/*for (var x = 0; x < item.projects.length; x++) {
 							var updata = item.projects[x];
 							var jsonproj = {
 								'label' : '',
@@ -2189,7 +2172,7 @@ materialAdmin
 							scrollable : true,
 							enableSearch : true
 						};
-						$http(
+*/						$http(
 								{
 									method : "GET",
 									url : allproject,
@@ -2206,7 +2189,7 @@ materialAdmin
 											if (response != 'undefiend'
 													&& response != "") {
 												$scope.projects = response.data;
-												var projectData = [];
+												/*var projectData = [];
 
 												for (var x = 0; x < $scope.projects.length; x++) {
 													var updata = $scope.projects[x];
@@ -2233,7 +2216,7 @@ materialAdmin
 												$scope.example14data = projectData;
 												$scope.example2settings = {
 													displayProp : 'id'
-												};
+												};*/
 
 											}
 										}, function myError(response) {
@@ -2307,10 +2290,10 @@ materialAdmin
 							var cpcValidater = validateCPC(
 									$scope.customerProgramType,
 									$scope.customerProgramCode2,
-									$scope.customerid,
-									$scope.example14model.length);
+									$scope.customerid/*,
+									$scope.example14model.length*/);
 							if (cpcValidater) {
-								var length = $scope.example14model.length;
+								/*var length = $scope.example14model.length;
 								if (length < 1) {
 									swal("Kindly select at Least 1 project");
 									return;
@@ -2323,7 +2306,7 @@ materialAdmin
 										})
 								projectids = projectids.substring(0,
 										projectids.length - 1);
-
+*/
 								var customerProgramId = $scope.customerProgramId;
 								var customerprogName = $scope.customerprogName;
 								var customerId = $scope.customerid;
@@ -2335,8 +2318,8 @@ materialAdmin
 								var additional = '/update/' + customerProgramId
 										+ '/' + customerId + '/'
 										+ customerProgramCode2 + '/'
-										+ customerProgramType + '/'
-										+ projectids;
+										+ customerProgramType /*+ '/'
+										+ projectids*/;
 								savecpcurl += additional;
 								$http(
 										{
@@ -2547,13 +2530,13 @@ materialAdmin
 					var referencedata = $scope.webserviceshost
 							+ 'hr/refData/list';
 					var allproject = $scope.webserviceshost + 'hr/project/all';
-
-					$scope.example14model = [];
+						
+					/*$scope.example14model = [];
 					$scope.example14settings = {
 						scrollableHeight : '200px',
 						scrollable : true,
 						enableSearch : true
-					};
+					};*/
 
 					$http(
 							{
@@ -2592,7 +2575,7 @@ materialAdmin
 						console.log(response);
 					});
 
-					$http(
+					/*$http(
 							{
 								method : "GET",
 								url : allproject,
@@ -2634,7 +2617,7 @@ materialAdmin
 						}
 					}, function myError(response) {
 						console.log(response);
-					});
+					});*/
 					$http(
 							{
 								method : "GET",
@@ -2657,31 +2640,31 @@ materialAdmin
 					$scope.createCPC = function() {
 						var cpcValidater = validateCPC(
 								$scope.customerProgCodeType,
-								$scope.customerprogName, $scope.customerId,
-								$scope.example14model.length);
+								$scope.customerprogName, $scope.customerId/*,
+								$scope.example14model.length*/);
 						if (cpcValidater) {
 							/*
 							 * var length = $scope.example14model.length; if
 							 * (length < 1) { swal("Kindly select at Least 1
 							 * project"); return; }
 							 */
-							var projectids = '';
+							/*var projectids = '';
 							angular.forEach($scope.example14model, function(
 									key, val) {
 								projectids += key.id + ',';
 
 							})
 							projectids = projectids.substring(0,
-									projectids.length - 1);
+									projectids.length - 1);*/
 
-							console.log(projectids);
+							/*console.log(projectids);*/
 							var customerProgType = $scope.customerProgCodeType;
 							var customerprogName = $scope.customerprogName;
 							var customerId = $scope.customerId;
 							var createCPC = $scope.webserviceshost
 									+ 'hr/customerProgram/create/' + customerId
 									+ '/' + customerprogName + '/'
-									+ customerProgType + '/' + projectids;
+									+ customerProgType /*+ '/' + projectids*/;
 
 							$http(
 									{
@@ -2702,8 +2685,8 @@ materialAdmin
 												$scope.customerProgCodeType = {};
 												$scope.customerprogName = ''
 												$scope.customerId = {};
-												$scope.example14model = {}
-
+												/*$scope.example14model = {}
+*/
 											}, function myError(response) {
 												console.log(response);
 											});
@@ -4755,7 +4738,8 @@ materialAdmin
 								$scope.customerprogramcode = '';
 								$scope.departmentid = {};
 								$scope.country = {};
-								$scope.customer = {};
+								$scope.customers = {};
+								$scope.cpc = {};
 
 							}, function myError(response) {
 								console.log(response);
@@ -4801,8 +4785,7 @@ materialAdmin
 							.then(
 									function mySucces(response) {
 
-										console.log(response.data);
-
+										
 										console.log(response.data);
 										if (response != 'undefiend'
 												&& response != "") {
@@ -4816,7 +4799,7 @@ materialAdmin
 												$scope.filteredList = $scope.allItems;
 												$scope.projectId = '';
 												$scope.projectName = '';
-												$scope.customerProgramCode = '';
+												$scope.customerProjectCode = '';
 												$scope.projectType = '';
 												$scope.projectStatus = '';
 												$scope.searchText = '';
@@ -4919,12 +4902,13 @@ materialAdmin
 										console.log(response);
 									});
 					$scope.editprojects = function(item) {
+						debugger;
 						$("#editprojectdata").show();
 						$location.hash('editprojectdata');
 						$anchorScroll();
 						$scope.projectid = item.projectid;
 						$scope.projectname = item.projectName;
-						$scope.customerprogramcode = item.customerProjectCode;
+						$scope.customerprogramid = item.customerProgram.customerProgramId;
 						$scope.customerid = item.customer.customerId;
 						$scope.customerproject = item.projectType;
 						$scope.projectstatus = item.projectStatus;
@@ -6013,7 +5997,7 @@ materialAdmin
 					}
 					$scope.updateprojectdata = function() {
 						var projectValidater = validateProject(
-								$scope.projectname, $scope.customerprogramcode,
+								$scope.projectname, $scope.customerprogramid,
 								$scope.customerproject, $scope.projectstatus,
 								$scope.customerid, $scope.departmentid,
 								$scope.country);
@@ -6022,7 +6006,7 @@ materialAdmin
 							var projectName = $scope.projectname;
 							var customerid = $scope.customerid;
 							var departmentid = $scope.departmentid;
-							var customerprogramcode = $scope.customerprogramcode;
+							var customerprogramcode = $scope.customerprogramid;
 							var country = $scope.country;
 							var projectType = $scope.customerproject;
 							var projectStatus = $scope.projectstatus;/*
@@ -11289,48 +11273,48 @@ materialAdmin
 
 		.controller(
 				'profileCtrl',
-				function(growlService) {
-
-					// Get Profile Information from profileService Service
-
-					// User
-					this.profileSummary = "Sed eu est vulputate, fringilla ligula ac, maximus arcu. Donec sed felis vel magna mattis ornare ut non turpis. Sed id arcu elit. Sed nec sagittis tortor. Mauris ante urna, ornare sit amet mollis eu, aliquet ac ligula. Nullam dolor metus, suscipit ac imperdiet nec, consectetur sed ex. Sed cursus porttitor leo.";
-
-					this.fullName = "Mallinda Hollaway";
-					this.gender = "female";
-					this.birthDay = "23/06/1988";
-					this.martialStatus = "Single";
-					this.mobileNumber = "00971123456789";
-					this.emailAddress = "malinda.h@gmail.com";
-					this.twitter = "@malinda";
-					this.twitterUrl = "twitter.com/malinda";
-					this.skype = "malinda.hollaway";
-					this.addressSuite = "44-46 Morningside Road";
-					this.addressCity = "Edinburgh";
-					this.addressCountry = "Scotland";
-
-					// Edit
-					this.editSummary = 0;
-					this.editInfo = 0;
-					this.editContact = 0;
-
-					this.submit = function(item, message) {
-						if (item === 'profileSummary') {
-							this.editSummary = 0;
-						}
-
-						if (item === 'profileInfo') {
-							this.editInfo = 0;
-						}
-
-						if (item === 'profileContact') {
-							this.editContact = 0;
-						}
-
-						growlService.growl(message
-								+ ' has updated Successfully!', 'inverse');
-					}
-
+				function(growlService, $rootScope, $scope,$http,$window) {
+					var loginName = $window.sessionStorage
+					.getItem("loginName");
+					var employeeDetails = $scope.webserviceshost
+							+ "hr/employee/findByloginId/"
+							+ loginName;
+					
+					$http(
+							{
+								method : "GET",
+								url : employeeDetails,
+								headers : {
+									'XSRF-TOKEN' : $window.sessionStorage
+											.getItem("Access-Token"),
+									'authorization' : $window.sessionStorage
+											.getItem("AuthKey")
+								}
+							})
+							.then(
+									function mySucces(response) {
+										debugger;
+										if (response != 'undefiend'
+												&& response != "") {
+											var responseData=response.data;
+											$scope.employeeId = responseData.employeeId;
+											$scope.firstName = responseData.firstName;
+											$scope.lastName = responseData.lastName;
+											$scope.emailId = responseData.emailId;
+											$scope.loginId = responseData.loginId;
+											$scope.loginPassword = responseData.loginPassword;
+											$scope.manager = responseData.manager;
+											$scope.address = responseData.address;
+											$scope.designation = responseData.designation;
+											$scope.employeeType = responseData.employeeType;
+											$scope.department = responseData.department;
+											$scope.role = responseData.role;
+											$scope.employeeCode = responseData.employeeCode;
+											$scope.departmentName = responseData.departmentName;
+											$scope.employementStatus = responseData.employementStatus;
+											$scope.dateOfJoin = responseData.dateOfJoin;
+										}
+									})
 				})
 
 		// =================================================
@@ -11756,19 +11740,18 @@ function searchUtil(item, toSearch) {
 						toSearch.toLowerCase()) > -1 || item.zipCode == toSearch) ? true
 				: false;
 	} else if (item.projectid != undefined) {
-		/*|| item.customerProjectCode.toLowerCase().indexOf(
-				toSearch.toLowerCase()) > -1
-				
-				|| item.zipCode == toSearch
-		*/
+		/*
+		 * || item.customerProjectCode.toLowerCase().indexOf(
+		 * toSearch.toLowerCase()) > -1
+		 *  || item.zipCode == toSearch
+		 */
 
 		return (item.projectName.toLowerCase().indexOf(toSearch.toLowerCase()) > -1
 				|| item.projectName.toLowerCase().indexOf(
 						toSearch.toLowerCase()) > -1
 				|| item.projectType.toLowerCase().indexOf(
-						toSearch.toLowerCase()) > -1
-				|| item.projectStatus.toLowerCase().indexOf(
-						toSearch.toLowerCase()) > -1 ) ? true
+						toSearch.toLowerCase()) > -1 || item.projectStatus
+				.toLowerCase().indexOf(toSearch.toLowerCase()) > -1) ? true
 				: false;
 
 	} else if (item.leaveId != undefined) {

@@ -258,9 +258,18 @@
 									class="zmdi zmdi-assignment-account zmdi-hc-fw"></i></span>
 								<!-- zmdi zmdi-local-phone -->
 								<div class="fg-line">
-									<input type="text" class="form-control" ng-model="designation"
+									<!-- <input type="text" class="form-control" ng-model="designation"
 										id='designation' onkeypress="validateInstantInputgroup(this)"
-										placeholder="Select Designation">
+										placeholder="Select Designation"> -->
+								<div class="select">
+												<select class="form-control" ng-model="designation" myRequired
+													id='designation'
+													onchange="validateInstantInputgroup(this)">
+ 													<option value="">Select Designation</option>
+													<option value='{{data.groupKey}}'
+														ng-repeat='data in referenceData.designation'>{{data.groupValue}}</option>
+												</select>
+											</div>
 								</div>
 							</div>
 							<br> <br>

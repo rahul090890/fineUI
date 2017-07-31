@@ -301,7 +301,7 @@ function validateProject(
 	}
 	
 }
-function validateCPC(customerProgCodeType,customerprogName, customerId,length){
+function validateCPC(customerProgCodeType,customerprogName, customerId/*,length*/){
 var checkValidate = true;
 	debugger;
 	
@@ -317,10 +317,10 @@ var checkValidate = true;
 		checkValidateMsg('#customerId', 'Please select project .');
 		checkValidate = false;
 	}
-	if (length == null || length == '' || length == undefined ||length<1) {
+	/*if (length == null || length == '' || length == undefined ||length<1) {
 		checkValidateMsg('#lenght', 'Please select atleast 1  .');
 		checkValidate = false;
-	}
+	}*/
 	if (checkValidate) {
 		return true;
 	} else {

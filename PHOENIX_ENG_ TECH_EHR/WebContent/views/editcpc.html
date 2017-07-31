@@ -53,9 +53,9 @@
 											ng-click="sort('customerProgramType')" href=""> Program
 												Type <span class="{{Header[3]}}"></span>
 										</a></th>
-										<th class="Email"><i class="zmdi zmdi-city zmdi-hc-fw"></i><a
+										<!-- <th class="Email"><i class="zmdi zmdi-city zmdi-hc-fw"></i><a
 											href=""> Projects <span class="{{Header[4]}}"></span>
-										</a></th>
+										</a></th> -->
 										<th class="Email">
 											<!-- <a ng-click="sort('lastName')" href=""> --> <a>
 												Actions <span class="{{Header[5]}}"></span>
@@ -70,10 +70,10 @@
 										<td>{{item.customer.customerName}}</td>
 										<td>{{item.customerProgramCode}}</td>
 										<td>{{item.customerProgramType}}</td>
-										<td><span ng-repeat="project in item.projects"
+										<!-- <td><span ng-repeat="project in item.projects"
 											ng-model='projectids'>
 												<p>{{project.projectName}}</p>
-										</span></td>
+										</span></td> -->
 										<td>
 											<p>
 												<span><a ng-click="editcpcDetails(item)">Edit</a></span>
@@ -108,11 +108,11 @@
 										class="zmdi zmdi-camera-front zmdi-hc-fw"> </i>Customer</span>
 									<div class="fg-line"></div>
 								</div>
-								<div class="form-group">
+								<!-- <div class="form-group">
 									<span class="input-group-addon"><i
 										class="zmdi zmdi-camera-front zmdi-hc-fw"> </i> Projects </span>
 									<div class="fg-line"></div>
-								</div>
+								</div> -->
 								<div class="form-group">
 									<span class="input-group-addon"><i
 										class="zmdi zmdi-camera-front zmdi-hc-fw"> </i> Program Name</span>
@@ -145,19 +145,19 @@
 									</div>
 								</div>
 								<br>
-								<div class="form-group">
+								<!-- <div class="form-group">
 									<div class="fg-line">
 									<div ng-dropdown-multiselect="" options="example14data" selected-model="example14model" checkboxes="true" extra-settings="example14settings" id="lenght"></div>
 									
-										<!-- <div class="select">
+										<div class="select">
 											<select chosen multiple data-placeholder="Select a Project..." class="w-100" ng-model='project'
 												ng-options="projectdetails.projectid  as projectdetails.projectName    for projectdetails in projects">
 
 											</select>
 
-										</div> -->
+										</div>
 									</div>
-								</div>
+								</div> -->
 								<!-- <div class="form-group">
 									<div class="fg-line">
 										<div ng-dropdown-multiselect="" options="example14data"
