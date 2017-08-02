@@ -1,7 +1,7 @@
 materialAdmin
 		/*
 		 * function($timeout, $state, $scope, growlService,$location) {
-		 * $scope.webserviceshost = 'http://localhost:8080/'; // Detact Mobile
+		 * $scope.webserviceshost = 'http://172.20.70.213:8080/'; // Detact Mobile
 		 * Browser
 		 * 
 		 * $scope.login = function() { var employeeLoginid=$scope.loginid;
@@ -13,7 +13,7 @@ materialAdmin
 		.controller(
 				'logincontroller',
 				function($rootScope, $scope, $http, $location, $window) {
-					$scope.webserviceshost = 'http://localhost:8080/';
+					$scope.webserviceshost = 'http://172.20.70.213:8080/';
 
 					if (!$window.sessionStorage.getItem("Access-Token")
 							|| !$window.sessionStorage.getItem("AuthKey")
@@ -148,7 +148,7 @@ materialAdmin
 					var lastName = $window.sessionStorage.getItem("lastName");
 					growlService.growl('Welcome' + firstName + '  ' + lastName,
 							'inverse')
-					$scope.webserviceshost = 'http://localhost:8080/';
+					$scope.webserviceshost = 'http://172.20.70.213:8080/';
 					// Detact Mobile Browser
 					if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i
 							.test(navigator.userAgent)) {
@@ -11230,7 +11230,7 @@ materialAdmin
 					$scope.cancelbutton = function() {
 						$uibModalInstance.dismiss('cancel');
 					};
-					$scope.webserviceshost = 'http://localhost:8080/';
+					$scope.webserviceshost = 'http://172.20.70.213:8080/';
 					var timesheetDetail = $scope.webserviceshost
 							+ 'hr/timesheet/details/' + employeeId + "/"
 							+ startDate + "/" + endDate;
