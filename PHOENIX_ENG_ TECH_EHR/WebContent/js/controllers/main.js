@@ -2155,10 +2155,10 @@ materialAdmin
 									});
 
 					$scope.editcpcDetails = function(item) {
-						/*$scope.example14model = [];*/
+/*						$scope.example14model = [];
 						var allproject = $scope.webserviceshost
 								+ 'hr/project/all';
-						/*for (var x = 0; x < item.projects.length; x++) {
+						for (var x = 0; x < item.projects.length; x++) {
 							var updata = item.projects[x];
 							var jsonproj = {
 								'label' : '',
@@ -2180,7 +2180,7 @@ materialAdmin
 							scrollable : true,
 							enableSearch : true
 						};
-*/						$http(
+						$http(
 								{
 									method : "GET",
 									url : allproject,
@@ -2197,7 +2197,7 @@ materialAdmin
 											if (response != 'undefiend'
 													&& response != "") {
 												$scope.projects = response.data;
-												/*var projectData = [];
+												var projectData = [];
 
 												for (var x = 0; x < $scope.projects.length; x++) {
 													var updata = $scope.projects[x];
@@ -2224,13 +2224,13 @@ materialAdmin
 												$scope.example14data = projectData;
 												$scope.example2settings = {
 													displayProp : 'id'
-												};*/
+												};
 
 											}
 										}, function myError(response) {
 											console.log(response);
 										});
-						/*
+						
 						 * var projectData = [$scope.projectids];
 						 * 
 						 * for (var x = 0; x < $scope.projects.length; x++) {
