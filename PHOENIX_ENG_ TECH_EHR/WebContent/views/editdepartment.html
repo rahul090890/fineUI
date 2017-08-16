@@ -36,9 +36,13 @@
 								<table class="table  table-hover data-table myTable">
 									<thead>
 										<tr>
-											<th class="EmpId"><i class="zmdi zmdi-label zmdi-hc-fw">
+											<!-- <th class="EmpId"><i class="zmdi zmdi-label zmdi-hc-fw">
 											</i><a href="" ng-click="sort('departmentId',$event)">Department
 													Id <span class="{{Header[0]}}"></span>
+											</a></th> -->
+											<th class="EmpId"><i class="zmdi zmdi-label zmdi-hc-fw">
+											</i><a href="" ng-click="sort('departmentCode',$event)">Department
+													Code <span class="{{Header[0]}}"></span>
 											</a></th>
 											<th class="name"><i
 												class="zmdi zmdi-assignment-account zmdi-hc-fw"></i><a
@@ -67,7 +71,7 @@
 									<tbody>
 										<tr
 											ng-repeat="item in ItemsByPage[currentPage] | orderBy:columnToOrder:reverse">
-											<td>{{item.departmentId}}</td>
+											<td>{{item.departmentCode}}</td>
 											<td>{{item.departmentName}}</td>
 											<td>{{item.parentDepartment.departmentName}}</td>
 											<!-- <td>{{item.manager.firstName}}&nbsp;{{item.manager.lastName}}</td> -->
@@ -98,9 +102,14 @@
 							<div class='row' id="departmentupdatedetails"
 								style='border: 1px grey solid !important'>
 								<div class='col-sm-4'>
-									<div class="form-group">
+									<!-- <div class="form-group">
 										<span class="input-group-addon"><i
 											class="zmdi zmdi-label zmdi-hc-fw"> </i>Department Id </span>
+										<div class="fg-line"></div>
+									</div> -->
+									<div class="form-group">
+										<span class="input-group-addon"><i
+											class="zmdi zmdi-label zmdi-hc-fw"> </i>Department Code </span>
 										<div class="fg-line"></div>
 									</div>
 									<br>
@@ -136,11 +145,19 @@
 								</div>
 
 								<div class='col-sm-4'>
-									<div class="form-group">
+									<!-- <div class="form-group">
 										<div class="fg-line">
 											<div class="input" name="departmentId">
 												<input type="text" class="form-control" disabled="disabled"
 													ng-model='departmentid' value='{{departmentid}}'>
+											</div>
+										</div>
+									</div> -->
+									<div class="form-group">
+										<div class="fg-line">
+											<div class="input" name="departmentCode">
+												<input type="text" class="form-control" id='departmentCode'
+													ng-model='departmentCode' value='{{departmentCode}}'>
 											</div>
 										</div>
 									</div>

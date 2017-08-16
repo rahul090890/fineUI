@@ -1,0 +1,122 @@
+<header id="header" data-current-skin={{mactrl.currentSkin}}
+	data-ng-include="'template/header.html'"
+	data-ng-controller="headerCtrl as hctrl"></header>
+
+<section id="main">
+	<aside id="sidebar" data-ng-include="'template/sidebar-left.html'"
+		data-ng-class="{ 'toggled': mactrl.sidebarToggle.left === true }"></aside>
+
+	<aside id="chat" data-ng-include="'template/chat.html'"
+		data-ng-class="{ 'toggled': mactrl.sidebarToggle.right === true }"></aside>
+
+	<section id="content">
+		<div class="container c-alt">
+			<!-- <div class="block-header">
+				<h2>
+					Update Employee List <small></small>
+				</h2>
+			</div> -->
+
+			<div class="card" data-ng-controller="adminLeaveController">
+				<div class="card-header">
+					<h2>
+						Leave Setting <small></small>
+					</h2>
+				</div>
+				<div class="card">
+					<div class="card-body card-padding">
+						<div class="row">
+							<div class="col-sm-4">
+
+
+								<div class="form-group">
+									<span class="input-group-addon"><i class="">Leave
+											Type</i></span>
+
+								</div>
+								<br />
+
+								<div class="form-group">
+									<span class="input-group-addon"><i class="">Year </i></span>
+
+								</div>
+								<br>
+
+								<div class="form-group">
+									<span class="input-group-addon"><i class="">Number
+											of Leaves </i></span>
+
+								</div>
+							</div>
+
+
+							<div class="col-sm-4">
+
+								<div class="input-group">
+									<span class="input-group-addon"></span>
+									<div class="fg-line">
+										<div class="form-group">
+											<div class="fg-line">
+
+												<div class="select">
+													<select class="form-control" ng-model='leaveType'
+														myRequired id='leaveType'
+														onchange="validateInstantInputgroup(this)">
+														<option value="">Select Leave Type</option>
+														<option value='{{leavetype.groupKey}}'
+															ng-repeat='leavetype in leaveTypes.leaveType'>{{leavetype.groupValue}}</option>
+													</select>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="input-group">
+									<span class="input-group-addon"></span>
+									<div class="fg-line">
+										<div class="form-group">
+											<div class="fg-line">
+
+												<div class="select">
+													<select class="form-control" ng-model='year'
+														myRequired id='year'
+														onchange="validateInstantInputgroup(this)">
+														<option value="">Select Year</option>
+														<option value='{{year}}'
+															ng-repeat='year in yearDropDown'>{{year}}</option>
+													</select>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="input-group">
+									<span class="input-group-addon"></span>
+									<div class="fg-line">
+										<div class="form-group">
+											<div class="fg-line">
+
+												<input type="text" class="form-control"
+													ng-model='noofLeaves'
+													onkeypress="validateInstantInputgroup(this)"
+													id='noofLeaves' placeholder="Number of leaves">
+											</div>
+										</div>
+									</div>
+								</div>
+								<br><br><br>
+								<div class="row">
+									<button class="btn bgm-lightblue waves-effect"
+										style="float: right;" ng-click='saveglobalLeave()'>Save</button>
+								</div>
+							</div>
+
+						</div>
+					</div>
+				</div>
+			</div>
+	</section>
+
+</section>
+
+<footer id="footer" data-ng-include src="'template/footer.html'"></footer>

@@ -5,7 +5,6 @@ angular.module('materialAdmin').run(['$templateCache','$window', function($templ
     "<div class=\"chat-search\"><div class=\"fg-line\"><input type=\"text\" class=\"form-control\" placeholder=\"Search People\"></div></div><div class=\"listview\"><a class=\"lv-item\" href=\"\"><div class=\"media\"><div class=\"pull-left p-relative\"><img class=\"lv-img-sm\" src=\"img/profile-pics/2.jpg\" alt=\"\"> <i class=\"chat-status-busy\"></i></div><div class=\"media-body\"><div class=\"lv-title\">Jonathan Morris</div><small class=\"lv-small\">Available</small></div></div></a> <a class=\"lv-item\" href=\"\"><div class=\"media\"><div class=\"pull-left\"><img class=\"lv-img-sm\" src=\"img/profile-pics/1.jpg\" alt=\"\"></div><div class=\"media-body\"><div class=\"lv-title\">David Belle</div><small class=\"lv-small\">Last seen 3 hours ago</small></div></div></a> <a class=\"lv-item\" href=\"\"><div class=\"media\"><div class=\"pull-left p-relative\"><img class=\"lv-img-sm\" src=\"img/profile-pics/3.jpg\" alt=\"\"> <i class=\"chat-status-online\"></i></div><div class=\"media-body\"><div class=\"lv-title\">Fredric Mitchell Jr.</div><small class=\"lv-small\">Availble</small></div></div></a> <a class=\"lv-item\" href=\"\"><div class=\"media\"><div class=\"pull-left p-relative\"><img class=\"lv-img-sm\" src=\"img/profile-pics/4.jpg\" alt=\"\"> <i class=\"chat-status-online\"></i></div><div class=\"media-body\"><div class=\"lv-title\">Glenn Jecobs</div><small class=\"lv-small\">Availble</small></div></div></a> <a class=\"lv-item\" href=\"\"><div class=\"media\"><div class=\"pull-left\"><img class=\"lv-img-sm\" src=\"img/profile-pics/5.jpg\" alt=\"\"></div><div class=\"media-body\"><div class=\"lv-title\">Bill Phillips</div><small class=\"lv-small\">Last seen 3 days ago</small></div></div></a> <a class=\"lv-item\" href=\"\"><div class=\"media\"><div class=\"pull-left\"><img class=\"lv-img-sm\" src=\"img/profile-pics/6.jpg\" alt=\"\"></div><div class=\"media-body\"><div class=\"lv-title\">Wendy Mitchell</div><small class=\"lv-small\">Last seen 2 minutes ago</small></div></div></a> <a class=\"lv-item\" href=\"\"><div class=\"media\"><div class=\"pull-left p-relative\"><img class=\"lv-img-sm\" src=\"img/profile-pics/7.jpg\" alt=\"\"> <i class=\"chat-status-busy\"></i></div><div class=\"media-body\"><div class=\"lv-title\">Teena Bell Ann</div><small class=\"lv-small\">Busy</small></div></div></a></div>"
   );
 
-
   $templateCache.put('template/footer.html',
     "Copyright &copy; 2017 PHOENIX ENGINEERING TECHNOLOGIES<ul class=\"f-menu\"><li><a href=\"\">Home</a></li><li><a href=\"\">Dashboard</a></li><li><a href=\"\">Reports</a></li><li><a href=\"\">Support</a></li><li><a href=\"\">Contact</a></li></ul>"
   );
@@ -45,9 +44,98 @@ angular.module('materialAdmin').run(['$templateCache','$window', function($templ
   }
   else if('Admin'===$window.sessionStorage.getItem("roleName")){
 	  $templateCache.put('template/sidebar-left.html',
-			    "<div class=\"sidebar-inner c-overflow\"><div class=\"profile-menu\"><a href=\"\" toggle-submenu><div class=\"profile-pic\"><img src=\"img/profile-pics/2.jpg\" alt=\"\"></div><div class=\"profile-info\">"+$window.sessionStorage.getItem("firstName")+"  "+$window.sessionStorage.getItem("lastName")+" <i class=\"zmdi zmdi-caret-down\"></i></div></a><ul class=\"main-menu\"><li><a data-ui-sref=\"headers.userprofile\" data-ng-click=\"mactrl.sidebarStat($event)\"><i class=\"zmdi zmdi-account\"></i> View Profile</a></li><li><a href=\"\"><i class=\"zmdi zmdi-input-antenna\"></i> Privacy Settings</a></li><li><a href=\"\"><i class=\"zmdi zmdi-settings\"></i> Settings</a></li><li><a href=\"\"><i class=\"zmdi zmdi-time-restore\"></i> Logout</a></li></ul></div><ul class=\"main-menu\"><li data-ui-sref-active=\"active\"><a data-ui-sref=\"home\" data-ng-click=\"mactrl.sidebarStat($event)\"><i class=\"zmdi zmdi-home\"></i> Home</a></li><li class=\"sub-menu\" data-ng-class=\"{ '': mactrl.$state.includes('headers') }\"><a href=\"\" toggle-submenu><i class=\"zmdi zmdi-transform \"></i>Requests</a><ul><li><a data-ui-sref-active=\"active\" data-ui-sref=\"headers.applyLeave\" data-ng-click=\"mactrl.sidebarStat($event)\">Apply Leave</a></li><li><a data-ui-sref-active=\"active\" data-ui-sref=\"headers.timesheet\" data-ng-click=\"mactrl.sidebarStat($event)\">TimeSheet</a></li><li><a data-ui-sref-active=\"active\" data-ui-sref=\"headers.leavehistory\" data-ng-click=\"mactrl.sidebarStat($event)\">Leaves History</a></li><li><a data-ui-sref-active=\"active\" data-ui-sref=\"headers.timesheethistory\" data-ng-click=\"mactrl.sidebarStat($event)\">TimeSheets History</a></li></ul></li><li class=\"sub-menu\" data-ng-class=\"{ '': mactrl.$state.includes('headers') }\"><a href=\"\" toggle-submenu><i class=\"zmdi zmdi-check-all \"></i> Approvals</a><ul><li><a data-ui-sref-active=\"active\" data-ui-sref=\"headers.approveLeave\" data-ng-click=\"mactrl.sidebarStat($event)\">Approve Leaves Request</a></li><li><a data-ui-sref-active=\"active\" data-ui-sref=\"headers.approveTimeSheet\" data-ng-click=\"mactrl.sidebarStat($event)\">Approve TimeSheets</a></li></ul></li>      <li class=\"sub-menu\" data-ng-class=\"{ 'active toggled': mactrl.$state.includes('widgets') }\"><a href=\"\" toggle-submenu><i class=\"zmdi zmdi-account-box\"></i> Employee Management</a><ul><li><a data-ui-sref-active=\"active\" data-ui-sref=\"headers.createuser\" data-ng-click=\"mactrl.sidebarStat($event)\">Create Designation</a></li><li><a data-ui-sref-active=\"active\" data-ui-sref=\"headers.edituser\" data-ng-click=\"mactrl.sidebarStat($event)\">Update Designation</a></li></ul></li><li class=\"sub-menu\" data-ng-class=\"{ 'active toggled': mactrl.$state.includes('tables') }\"><a href=\"\" toggle-submenu><i class=\"zmdi zmdi-view-list\"></i> Customer Management</a><ul><li><a data-ui-sref-active=\"active\" data-ui-sref=\"headers.addcustomer\" data-ng-click=\"mactrl.sidebarStat($event)\">Add New Customer</a></li><li><a data-ui-sref-active=\"active\" data-ui-sref=\"headers.editcustomer\" data-ng-click=\"mactrl.sidebarStat($event)\">Update Customer Data</a></li></ul></li><li class=\"sub-menu\" data-ng-class=\"{ 'active toggled': mactrl.$state.includes('form') }\"><a href=\"\" toggle-submenu><i class=\"zmdi zmdi-flag \"></i> Departments Management</a><ul><li><a data-ui-sref-active=\"active\" data-ui-sref=\"headers.adddepartment\" data-ng-click=\"mactrl.sidebarStat($event)\">Add Department</a></li><li><a data-ui-sref-active=\"active\" data-ui-sref=\"headers.editdepartment\" data-ng-click=\"mactrl.sidebarStat($event)\">Update Department</a></li></ul></li><li class=\"sub-menu\" data-ng-class=\"{ 'active toggled': mactrl.$state.includes('form') }\"><a href=\"\" toggle-submenu><i class=\"zmdi zmdi-camera-front\"></i> Role Management</a><ul><li><a data-ui-sref-active=\"active\" data-ui-sref=\"headers.addrole\" data-ng-click=\"mactrl.sidebarStat($event)\">Add Role</a></li><li><a data-ui-sref-active=\"active\" data-ui-sref=\"headers.editrole\" data-ng-click=\"mactrl.sidebarStat($event)\">Update Role</a></li></ul></li>" +
-			    "<li class=\"sub-menu\" data-ng-class=\"{ 'active toggled': mactrl.$state.includes('form') }\"><a href=\"\" toggle-submenu><i class=\"zmdi zmdi-archive \"></i> Task Management</a><ul><li><a data-ui-sref-active=\"active\" data-ui-sref=\"headers.taskoperations\" data-ng-click=\"mactrl.sidebarStat($event)\">Add Task</a></li><li><a data-ui-sref-active=\"active\" data-ui-sref=\"headers.updatetask\" data-ng-click=\"mactrl.sidebarStat($event)\">Update Task</a></li></ul></li><li class=\"sub-menu\" data-ng-class=\"{ 'active toggled': mactrl.$state.includes('form') }\"><a href=\"\" toggle-submenu><i class=\"zmdi zmdi-assignment \"></i> Project Management</a><ul><li><a data-ui-sref-active=\"active\" data-ui-sref=\"headers.addproject\" data-ng-click=\"mactrl.sidebarStat($event)\">Add Project</a></li><li><a data-ui-sref-active=\"active\" data-ui-sref=\"headers.editproject\" data-ng-click=\"mactrl.sidebarStat($event)\">Update Project</a></li></ul></li><li class=\"sub-menu\" data-ng-class=\"{ 'active toggled': mactrl.$state.includes('form') }\"><a href=\"\" toggle-submenu><i class=\"zmdi zmdi-collection-text\"></i> Customer Program Code Management</a><ul><li><a data-ui-sref-active=\"active\" data-ui-sref=\"headers.addcpc\" data-ng-click=\"mactrl.sidebarStat($event)\">Add Customer Program Code</a></li><li><a data-ui-sref-active=\"active\" data-ui-sref=\"headers.editcpc\" data-ng-click=\"mactrl.sidebarStat($event)\">Update Customer Program Code</a></li></ul></li></div>"
-			 );
+			  "<div class=\"sidebar-inner c-overflow\">"
+				+"<div class=\"profile-menu\">"
+				+"<a href=\"\" toggle-submenu>"
+						+"<div class=\"profile-pic\">"
+							+"<img src=\"img/profile-pics/2.jpg\" alt=\"\"></div><div class=\"profile-info\">"
+							+$window.sessionStorage.getItem("firstName")+"  "+$window.sessionStorage.getItem("lastName")
+								+"<i class=\"zmdi zmdi-caret-down\"></i>"
+						+"</div>"
+					+"</a>"
+					+"<ul class=\"main-menu\">"
+					+"	<li><a data-ui-sref=\"headers.userprofile\" data-ng-click=\"mactrl.sidebarStat($event)\"><i class=\"zmdi zmdi-account\"></i> View Profile</a></li>"
+					+"	<li><a href=\"\"><i class=\"zmdi zmdi-input-antenna\"></i> Privacy Settings</a></li>"
+						+"<li><a href=\"\"><i class=\"zmdi zmdi-settings\"></i> Settings</a></li>"
+						+"<li><a href=\"\"><i class=\"zmdi zmdi-time-restore\"></i> Logout</a></li>"
+					+"</ul>"
+				+"</div>"
+				+"<ul class=\"main-menu\">"
+					+"<li data-ui-sref-active=\"active\"><a data-ui-sref=\"home\" data-ng-click=\"mactrl.sidebarStat($event)\"><i class=\"zmdi zmdi-home\"></i> Home</a></li>"
+					+"<li class=\"sub-menu\" data-ng-class=\"{ '': mactrl.$state.includes('headers') }\">"
+						+"<a href=\"\" toggle-submenu><i class=\"zmdi zmdi-transform \"></i>Requests</a>"
+							+"<ul><li><a data-ui-sref-active=\"active\" data-ui-sref=\"headers.applyLeave\" data-ng-click=\"mactrl.sidebarStat($event)\">Apply Leave</a></li>"
+								+"<li><a data-ui-sref-active=\"active\" data-ui-sref=\"headers.timesheet\" data-ng-click=\"mactrl.sidebarStat($event)\">TimeSheet</a></li>"
+								+"<li><a data-ui-sref-active=\"active\" data-ui-sref=\"headers.leavehistory\" data-ng-click=\"mactrl.sidebarStat($event)\">Leaves History</a></li>"
+								+"<li><a data-ui-sref-active=\"active\" data-ui-sref=\"headers.timesheethistory\" data-ng-click=\"mactrl.sidebarStat($event)\">TimeSheets History</a></li>"
+							+"</ul>"
+					+"</li>"
+					+"<li class=\"sub-menu\" data-ng-class=\"{ '': mactrl.$state.includes('headers') }\">"
+						+"<a href=\"\" toggle-submenu><i class=\"zmdi zmdi-check-all \"></i> Approvals</a>"
+						+"<ul>"
+							+"<li><a data-ui-sref-active=\"active\" data-ui-sref=\"headers.approveLeave\" data-ng-click=\"mactrl.sidebarStat($event)\">Approve Leaves Request</a></li>"
+							+"<li><a data-ui-sref-active=\"active\" data-ui-sref=\"headers.approveTimeSheet\" data-ng-click=\"mactrl.sidebarStat($event)\">Approve TimeSheets</a></li>"
+						+"</ul>"
+					+"</li>"
+					+"<li class=\"sub-menu\" data-ng-class=\"{ 'active toggled': mactrl.$state.includes('widgets') }\">"
+						+"<a href=\"\" toggle-submenu><i class=\"zmdi zmdi-account-box\"></i> Employee Management</a>"
+						+"<ul>"
+							+"<li><a data-ui-sref-active=\"active\" data-ui-sref=\"headers.createuser\" data-ng-click=\"mactrl.sidebarStat($event)\">Create Designation</a></li>"
+							+"<li><a data-ui-sref-active=\"active\" data-ui-sref=\"headers.edituser\" data-ng-click=\"mactrl.sidebarStat($event)\">Update Designation</a></li>"
+						+"</ul>"
+					+"</li>"
+					+"<li class=\"sub-menu\" data-ng-class=\"{ 'active toggled': mactrl.$state.includes('tables') }\">"
+						+"<a href=\"\" toggle-submenu><i class=\"zmdi zmdi-view-list\"></i> Customer Management</a>"
+							+"<ul>"
+								+"<li><a data-ui-sref-active=\"active\" data-ui-sref=\"headers.addcustomer\" data-ng-click=\"mactrl.sidebarStat($event)\">Add New Customer</a></li>"
+								+"<li><a data-ui-sref-active=\"active\" data-ui-sref=\"headers.editcustomer\" data-ng-click=\"mactrl.sidebarStat($event)\">Update Customer Data</a></li>"
+							+"</ul>"
+					+"</li>"
+					+"<li class=\"sub-menu\" data-ng-class=\"{ 'active toggled': mactrl.$state.includes('form') }\">"
+						+"<a href=\"\" toggle-submenu><i class=\"zmdi zmdi-flag \"></i> Departments Management</a>"
+						+"<ul>"
+							+"<li><a data-ui-sref-active=\"active\" data-ui-sref=\"headers.adddepartment\" data-ng-click=\"mactrl.sidebarStat($event)\">Add Department</a></li>"
+							+"<li><a data-ui-sref-active=\"active\" data-ui-sref=\"headers.editdepartment\" data-ng-click=\"mactrl.sidebarStat($event)\">Update Department</a></li>"
+						+"</ul>"
+					+"</li>"
+					+"<li class=\"sub-menu\" data-ng-class=\"{ 'active toggled': mactrl.$state.includes('form') }\">"
+						+"<a href=\"\" toggle-submenu><i class=\"zmdi zmdi-camera-front\"></i> Role Management</a>"
+						+"<ul>"
+							+"<li><a data-ui-sref-active=\"active\" data-ui-sref=\"headers.addrole\" data-ng-click=\"mactrl.sidebarStat($event)\">Add Role</a></li>"
+							+"<li><a data-ui-sref-active=\"active\" data-ui-sref=\"headers.editrole\" data-ng-click=\"mactrl.sidebarStat($event)\">Update Role</a></li>"
+						+"</ul>"
+					+"</li>"
+						    
+					+"<li class=\"sub-menu\" data-ng-class=\"{ 'active toggled': mactrl.$state.includes('form') }\">"
+						+"<a href=\"\" toggle-submenu><i class=\"zmdi zmdi-archive \"></i> Task Management</a>"
+							+"<ul>"
+								+"<li><a data-ui-sref-active=\"active\" data-ui-sref=\"headers.taskoperations\" data-ng-click=\"mactrl.sidebarStat($event)\">Add Task</a></li>"
+								+"<li><a data-ui-sref-active=\"active\" data-ui-sref=\"headers.updatetask\" data-ng-click=\"mactrl.sidebarStat($event)\">Update Task</a></li>"
+							+"</ul>"
+					+"</li>"
+					+"<li class=\"sub-menu\" data-ng-class=\"{ 'active toggled': mactrl.$state.includes('form') }\">"
+						+"<a href=\"\" toggle-submenu><i class=\"zmdi zmdi-assignment \"></i> Project Management</a>"
+							+"<ul>"
+								+"<li><a data-ui-sref-active=\"active\" data-ui-sref=\"headers.addproject\" data-ng-click=\"mactrl.sidebarStat($event)\">Add Project</a></li>"
+								+"<li><a data-ui-sref-active=\"active\" data-ui-sref=\"headers.editproject\" data-ng-click=\"mactrl.sidebarStat($event)\">Update Project</a></li>"
+							+"</ul>"
+					+"</li>"
+					+"<li class=\"sub-menu\" data-ng-class=\"{ 'active toggled': mactrl.$state.includes('form') }\">"
+						+"<a href=\"\" toggle-submenu><i class=\"zmdi zmdi-collection-text\"></i> Customer Program Code Management</a>"
+							+"<ul>"
+								+"<li><a data-ui-sref-active=\"active\" data-ui-sref=\"headers.addcpc\" data-ng-click=\"mactrl.sidebarStat($event)\">Add Customer Program Code</a></li>"
+								+"<li><a data-ui-sref-active=\"active\" data-ui-sref=\"headers.editcpc\" data-ng-click=\"mactrl.sidebarStat($event)\">Update Customer Program Code</a></li>"
+							+"</ul>"
+					+"</li>"
+					+"<li class=\"sub-menu\" data-ng-class=\"{ 'active toggled': mactrl.$state.includes('form') }\">"
+						+"<a href=\"\" toggle-submenu><i class=\"zmdi zmdi-collection-text\"></i> Leave Management</a>"
+							+"<ul>"
+								+"<li><a data-ui-sref-active=\"active\" data-ui-sref=\"headers.addleaves\" data-ng-click=\"mactrl.sidebarStat($event)\">Add Leaves</a></li>"
+							
+							+"</ul>"
+					+"</li>"
+			+"</div>"
+					 );
   }else if('Lead'===$window.sessionStorage.getItem("roleName")){
 	  $templateCache.put('template/sidebar-left.html',  "<div class=\"sidebar-inner c-overflow\"><div class=\"profile-menu\"><a href=\"\" toggle-submenu><div class=\"profile-pic\"><img src=\"img/profile-pics/2.jpg\" alt=\"\"></div><div class=\"profile-info\">"+$window.sessionStorage.getItem("firstName")+"  "+$window.sessionStorage.getItem("lastName")+"<i class=\"zmdi zmdi-caret-down\"></i></div></a><ul class=\"main-menu\"><li><a data-ui-sref=\"headers.userprofile\" data-ng-click=\"mactrl.sidebarStat($event)\"><i class=\"zmdi zmdi-account\"></i> View Profile</a></li><li><a href=\"\"><i class=\"zmdi zmdi-input-antenna\"></i>Privacy Settings</a></li><li><a href=\"\"><i class=\"zmdi zmdi-settings\"></i> Settings</a></li><li><a href=\"\"><i class=\"zmdi zmdi-time-restore\"></i> Logout</a></li></ul></div><ul class=\"main-menu\"><li data-ui-sref-active=\"active\"><a data-ui-sref=\"home\" data-ng-click=\"mactrl.sidebarStat($event)\"><i class=\"zmdi zmdi-home\"></i> Home</a></li><li class=\"sub-menu\" data-ng-class=\"{ '': mactrl.$state.includes('headers') }\"><a href=\"\" toggle-submenu><i class=\"zmdi zmdi-transform \"></i>Requests</a><ul><li><a data-ui-sref-active=\"active\" data-ui-sref=\"headers.applyLeave\" data-ng-click=\"mactrl.sidebarStat($event)\">Apply Leave</a></li><li><a data-ui-sref-active=\"active\" data-ui-sref=\"headers.timesheet\" data-ng-click=\"mactrl.sidebarStat($event)\">TimeSheet</a></li><li><a data-ui-sref-active=\"active\" data-ui-sref=\"headers.leavehistory\" data-ng-click=\"mactrl.sidebarStat($event)\">Leaves History</a></li><li><a data-ui-sref-active=\"active\" data-ui-sref=\"headers.timesheethistory\" data-ng-click=\"mactrl.sidebarStat($event)\">TimeSheets History</a></li></ul></li><li class=\"sub-menu\" data-ng-class=\"{ '': mactrl.$state.includes('headers') }\"><a href=\"\" toggle-submenu><i class=\"zmdi zmdi-check-all \"></i> Approvals</a><ul><li><a data-ui-sref-active=\"active\" data-ui-sref=\"headers.approveLeave\" data-ng-click=\"mactrl.sidebarStat($event)\">Approve Leaves Request</a></li><li><a data-ui-sref-active=\"active\" data-ui-sref=\"headers.approveTimeSheet\" data-ng-click=\"mactrl.sidebarStat($event)\">Approve TimeSheets</a></li></ul></li></div>");
   }else if('Project Manager'===$window.sessionStorage.getItem("roleName")){
@@ -55,15 +143,15 @@ angular.module('materialAdmin').run(['$templateCache','$window', function($templ
   
   }
   else{
-	  $templateCache.put('template/sidebar-left.html',
+	 /* $templateCache.put('template/sidebar-left.html',
 			    "<div class=\"sidebar-inner c-overflow\"><div class=\"profile-menu\"><a href=\"\" toggle-submenu><div class=\"profile-pic\"><img src=\"img/profile-pics/2.jpg\" alt=\"\"></div><div class=\"profile-info\">"+$window.sessionStorage.getItem("firstName")+"  "+$window.sessionStorage.getItem("lastName")+" <i class=\"zmdi zmdi-caret-down\"></i></div></a><ul class=\"main-menu\"><li><a data-ui-sref=\"headers.userprofile\" data-ng-click=\"mactrl.sidebarStat($event)\"><i class=\"zmdi zmdi-account\"></i> View Profile</a></li></ul></div><ul class=\"main-menu\"><li data-ui-sref-active=\"active\"><a data-ui-sref=\"home\" data-ng-click=\"mactrl.sidebarStat($event)\"><i class=\"zmdi zmdi-home\"></i> Home</a></li><li class=\"sub-menu\" data-ng-class=\"{ '': mactrl.$state.includes('headers') }\"><a href=\"\" toggle-submenu><i class=\"zmdi zmdi-transform \"></i>Requests</a><ul><li><a data-ui-sref-active=\"active\" data-ui-sref=\"headers.applyLeave\" data-ng-click=\"mactrl.sidebarStat($event)\">Apply Leave</a></li><li><a data-ui-sref-active=\"active\" data-ui-sref=\"headers.timesheet\" data-ng-click=\"mactrl.sidebarStat($event)\">TimeSheet</a></li><li><a data-ui-sref-active=\"active\" data-ui-sref=\"headers.leavehistory\" data-ng-click=\"mactrl.sidebarStat($event)\">Leaves History</a></li><li><a data-ui-sref-active=\"active\" data-ui-sref=\"headers.timesheethistory\" data-ng-click=\"mactrl.sidebarStat($event)\">TimeSheets History</a></li></ul></li><li class=\"sub-menu\" data-ng-class=\"{ '': mactrl.$state.includes('headers') }\"><a href=\"\" toggle-submenu><i class=\"zmdi zmdi-check-all \"></i> Approvals</a><ul><li><a data-ui-sref-active=\"active\" data-ui-sref=\"headers.approveLeave\" data-ng-click=\"mactrl.sidebarStat($event)\">Approve Leaves Request</a></li><li><a data-ui-sref-active=\"active\" data-ui-sref=\"headers.approveTimeSheet\" data-ng-click=\"mactrl.sidebarStat($event)\">Approve TimeSheets</a></li></ul></li>      <li class=\"sub-menu\" data-ng-class=\"{ 'active toggled': mactrl.$state.includes('widgets') }\"><a href=\"\" toggle-submenu><i class=\"zmdi zmdi-account-box\"></i> Employee Management</a><ul><li><a data-ui-sref-active=\"active\" data-ui-sref=\"headers.createuser\" data-ng-click=\"mactrl.sidebarStat($event)\">Create Designation</a></li><li><a data-ui-sref-active=\"active\" data-ui-sref=\"headers.edituser\" data-ng-click=\"mactrl.sidebarStat($event)\">Update Designation</a></li></ul></li><li class=\"sub-menu\" data-ng-class=\"{ 'active toggled': mactrl.$state.includes('tables') }\"><a href=\"\" toggle-submenu><i class=\"zmdi zmdi-view-list\"></i> Customer Management</a><ul><li><a data-ui-sref-active=\"active\" data-ui-sref=\"headers.addcustomer\" data-ng-click=\"mactrl.sidebarStat($event)\">Add New Customer</a></li><li><a data-ui-sref-active=\"active\" data-ui-sref=\"headers.editcustomer\" data-ng-click=\"mactrl.sidebarStat($event)\">Update Customer Data</a></li></ul></li><li class=\"sub-menu\" data-ng-class=\"{ 'active toggled': mactrl.$state.includes('form') }\"><a href=\"\" toggle-submenu><i class=\"zmdi zmdi-flag \"></i> Departments Management</a><ul><li><a data-ui-sref-active=\"active\" data-ui-sref=\"headers.adddepartment\" data-ng-click=\"mactrl.sidebarStat($event)\">Add Department</a></li><li><a data-ui-sref-active=\"active\" data-ui-sref=\"headers.editdepartment\" data-ng-click=\"mactrl.sidebarStat($event)\">Update Department</a></li></ul></li><li class=\"sub-menu\" data-ng-class=\"{ 'active toggled': mactrl.$state.includes('form') }\"><a href=\"\" toggle-submenu><i class=\"zmdi zmdi-camera-front\"></i> Role Management</a><ul><li><a data-ui-sref-active=\"active\" data-ui-sref=\"headers.addrole\" data-ng-click=\"mactrl.sidebarStat($event)\">Add Role</a></li><li><a data-ui-sref-active=\"active\" data-ui-sref=\"headers.editrole\" data-ng-click=\"mactrl.sidebarStat($event)\">Update Role</a></li></ul></li>" +
 			    "<li class=\"sub-menu\" data-ng-class=\"{ 'active toggled': mactrl.$state.includes('form') }\"><a href=\"\" toggle-submenu><i class=\"zmdi zmdi-archive \"></i> Task Management</a><ul><li><a data-ui-sref-active=\"active\" data-ui-sref=\"headers.taskoperations\" data-ng-click=\"mactrl.sidebarStat($event)\">Add Task</a></li><li><a data-ui-sref-active=\"active\" data-ui-sref=\"headers.updatetask\" data-ng-click=\"mactrl.sidebarStat($event)\">Update Task</a></li></ul></li><li class=\"sub-menu\" data-ng-class=\"{ 'active toggled': mactrl.$state.includes('form') }\"><a href=\"\" toggle-submenu><i class=\"zmdi zmdi-assignment \"></i> Project Management</a><ul><li><a data-ui-sref-active=\"active\" data-ui-sref=\"headers.addproject\" data-ng-click=\"mactrl.sidebarStat($event)\">Add Project</a></li><li><a data-ui-sref-active=\"active\" data-ui-sref=\"headers.editproject\" data-ng-click=\"mactrl.sidebarStat($event)\">Update Project</a></li></ul></li><li class=\"sub-menu\" data-ng-class=\"{ 'active toggled': mactrl.$state.includes('form') }\"><a href=\"\" toggle-submenu><i class=\"zmdi zmdi-collection-text\"></i> Customer Program Code Management</a><ul><li><a data-ui-sref-active=\"active\" data-ui-sref=\"headers.addcpc\" data-ng-click=\"mactrl.sidebarStat($event)\">Add Customer Program Code</a></li><li><a data-ui-sref-active=\"active\" data-ui-sref=\"headers.editcpc\" data-ng-click=\"mactrl.sidebarStat($event)\">Update Customer Program Code</a></li></ul></li></div>"
-			 );
-	  /*$templateCache
+			 );*/
+	  $templateCache
 		.put(
 				'template/sidebar-left.html',
 				"<div class=\"sidebar-inner c-overflow\"><div class=\"profile-menu\"><a href=\"\" toggle-submenu><div class=\"profile-pic\"><img src=\"img/profile-pics/2.jpg\" alt=\"\"></div><div class=\"profile-info\">"+$window.sessionStorage.getItem("firstName")+"  "+$window.sessionStorage.getItem("lastName")+" <i class=\"zmdi zmdi-caret-down\"></i></div></a><ul class=\"main-menu\"><li><a data-ui-sref=\"headers.userprofile\" data-ng-click=\"mactrl.sidebarStat($event)\"><i class=\"zmdi zmdi-account\"></i> View Profile</a></li><li><a href=\"\"><i class=\"zmdi zmdi-input-antenna\"></i> Privacy Settings</a></li><li><a href=\"\"><i class=\"zmdi zmdi-settings\"></i> Settings</a></li><li><a href=\"\"><i class=\"zmdi zmdi-time-restore\"></i> Logout</a></li></ul></div><ul class=\"main-menu\"><li class=\"sub-menu\" data-ng-class=\"{ '': mactrl.$state.includes('headers') }\"><a href=\"\" toggle-submenu><i class=\"zmdi zmdi-transform \"></i>Requests</a><ul><li><a data-ui-sref-active=\"active\" data-ui-sref=\"headers.applyLeave\" data-ng-click=\"mactrl.sidebarStat($event)\">Apply Leave</a></li><li><a data-ui-sref-active=\"active\" data-ui-sref=\"headers.timesheet\" data-ng-click=\"mactrl.sidebarStat($event)\">TimeSheet</a></li><li><a data-ui-sref-active=\"active\" data-ui-sref=\"headers.leavehistory\" data-ng-click=\"mactrl.sidebarStat($event)\">Leaves History</a></li><li><a data-ui-sref-active=\"active\" data-ui-sref=\"headers.timesheethistory\" data-ng-click=\"mactrl.sidebarStat($event)\">TimeSheets History</a></li></ul></li>"
-						+ "</div>");*/
+						+ "</div>");
   }
  /*
 	 * else if(3==$window.sessionStorage.getItem("roleId")){ //manager

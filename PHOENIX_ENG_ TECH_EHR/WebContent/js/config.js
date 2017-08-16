@@ -55,11 +55,14 @@ materialAdmin
 					// ------------------------------
 					// HEADERS
 					// ------------------------------
-					.state('headers', {
-						url : '/headers',
+					.state('headers.addleaves', {
+						url : '/addLeaves',
+						templateUrl : 'views/adminleavesetting.html'
+					})
+					.state('headers',{
+						url:'/headers',
 						templateUrl : 'views/common-2.html'
 					})
-
 					.state('headers.applyLeave', {
 						url : '/applyLeave',
 						templateUrl : 'views/applyLeave.html'

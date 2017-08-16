@@ -171,7 +171,7 @@ function validatecreateEmployee(firstName, lastName, emailId, loginId,
 		return false;
 	}
 }
-function validateCustomer(customerName, customerAddress, customerZip, country) {
+function validateCustomer(customerName, customerAddress, customerZip, country,customerCode) {
 
 	var checkValidate = true;
 	if (customerName == null || customerName == '' || customerName == undefined) {
@@ -191,6 +191,10 @@ function validateCustomer(customerName, customerAddress, customerZip, country) {
 		checkValidateMsg('#country', 'Please select country.');
 		checkValidate = false;
 	}
+	if (customerCode == null || customerCode == '' || customerCode == undefined) {
+		checkValidateMsg('#customerCode', 'Please enter Customer Code.');
+		checkValidate = false;
+	}
 	if (checkValidate) {
 		return true;
 	} else {
@@ -198,7 +202,8 @@ function validateCustomer(customerName, customerAddress, customerZip, country) {
 	}
 
 }
-function validateDepartment(parentDepartment, departmentName, managerId) {
+function validateDepartment(parentDepartment, departmentName, managerId,departmentCode) {
+	debugger;
 	var checkValidate = true;
 	if (parentDepartment == null || parentDepartment == ''
 			|| parentDepartment == undefined) {
@@ -213,6 +218,10 @@ function validateDepartment(parentDepartment, departmentName, managerId) {
 	}
 	if (managerId == null || managerId == '' || managerId == undefined) {
 		checkValidateMsg('#managerId', 'Please select manager.');
+		checkValidate = false;
+	}
+	if (departmentCode == null || departmentCode == '' || departmentCode == undefined) {
+		checkValidateMsg('#departmentCode', 'Please enter department code.');
 		checkValidate = false;
 	}
 	if (checkValidate) {
@@ -259,11 +268,36 @@ function validateTask(taskName, department, customer) {
 		return false;
 	}
 }
+function validateLeaveCredit(leaveType, year,
+				noofLeaves){
+	var checkValidate=true;
+	if (leaveType == null || leaveType == '' || leaveType == undefined) {
+		checkValidateMsg('#leaveType', 'Please select leaveType .');
+		checkValidate = false;
+	}
+	if (year == null || year == '' || year == undefined) {
+		checkValidateMsg('#year', 'Please select year .');
+		checkValidate = false;
+	}
+	if (noofLeaves == null || noofLeaves == '' || noofLeaves == undefined) {
+		checkValidateMsg('#noofLeaves', 'Please enter no of days .');
+		checkValidate = false;
+	}
+	if (noofLeaves<1) {
+		checkValidateMsg('#noofLeaves', 'leave cannot be less the 1 .');
+		checkValidate = false;
+	}
+	if (checkValidate) {
+		return true;
+	} else {
+		return false;
+	}
+}
 function validateProject(
 		projectname,customerprogramid,
 		customerproject,projectstatus,
 		customerid,departmentid,
-		country){
+		country,projectCode){
 	var checkValidate = true;
 	
 	if (projectname == null || projectname == '' || projectname == undefined) {
@@ -292,6 +326,10 @@ function validateProject(
 	}
 	if (country == null || country == '' || country == undefined) {
 		checkValidateMsg('#country', 'Please select country .');
+		checkValidate = false;
+	}
+	if (projectCode == null || projectCode == '' || projectCode == undefined) {
+		checkValidateMsg('#projectCode', 'Please enter Customer Project Code .');
 		checkValidate = false;
 	}
 	if (checkValidate) {

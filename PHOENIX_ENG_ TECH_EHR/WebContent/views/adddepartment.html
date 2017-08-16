@@ -35,7 +35,12 @@
 									<span class="input-group-addon"><i class="zmdi zmdi-flag zmdi-hc-fw"> </i>Department Name</span>
 									<div class="fg-line"></div>
 								</div>
-								<br>
+								
+								<div class="form-group">
+									<span class="input-group-addon"><i class="zmdi zmdi-flag zmdi-hc-fw"> </i>Department Code</span>
+									<div class="fg-line"></div>
+								</div>
+								
 								<div class="form-group">
 									<span class="input-group-addon"><i class="zmdi zmdi-flag zmdi-hc-fw"> </i>Parent Department</span>
 									<div class="fg-line"></div>
@@ -68,11 +73,17 @@
 								</div>
 								<br/>
 								<div class="form-group">
+									<div class="fg-line">
+										<input type="text" class="form-control" placeholder="Enter Department Code" ng-model='departmentCode' id="departmentCode" onkeypress="validateInstant(this)">
+									</div>	
+								</div>
+								<br>
+								<div class="form-group">
 										<div class="fg-line">
 											<div class="select">
 												<select class="form-control" name="parentDepartment" ng-model='parentDepartment' id="parentDepartment" onchange="validateInstant(this)">
 													
-													<option ng-repeat='department in departments' value='{{department.departmentId}}'>{{department.departmentName}}</option>
+													<option ng-repeat='department in departments' value='{{department.departmentId}}'>{{department.parentDepartment.departmentName}}--->{{department.departmentName}}</option>
 													
 												</select>
 											</div>

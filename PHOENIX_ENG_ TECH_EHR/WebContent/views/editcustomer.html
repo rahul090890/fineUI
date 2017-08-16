@@ -36,16 +36,16 @@
 								<table class="table  table-hover data-table myTable">
 									<thead>
 										<tr>
-											<th class="EmpId"><i class="zmdi zmdi-label zmdi-hc-fw">
-											</i><a href="" ng-click="sort('customerId',$event)">ID <span
-													class="{{Header[0]}}"></span>
-											</a></th>
 											<th class="name"><i
 												class="zmdi zmdi-assignment-account zmdi-hc-fw"></i><a
 												ng-click="sort('customerNamme')" href=""> Customer Name<span
 													class="{{Header[1]}}"></span>
 											</a></th>
-
+											<th class="name"><i
+												class="zmdi zmdi-assignment-account zmdi-hc-fw"></i><a
+												ng-click="sort('customerCode')" href=""> Customer Code<span
+													class="{{Header[5]}}"></span>
+											</a></th>
 											<th class="Email"><i class="zmdi zmdi-city zmdi-hc-fw"></i><a
 												ng-click="sort('zipCode')" href=""> Zip Code <span
 													class="{{Header[2]}}"></span>
@@ -70,8 +70,9 @@
 									<tbody>
 										<tr
 											ng-repeat="item in ItemsByPage[currentPage] | orderBy:columnToOrder:reverse">
-											<td>{{item.customerId}}</td>
+											<!-- <td>{{item.customerId}}</td> -->
 											<td>{{item.customerName}}</td>
+											<td>{{item.customerCode}}</td>
 											<td>{{item.zipCode}}</td>
 											<td>{{item.country}}</td>
 											<td>{{item.address}}</td>
@@ -92,7 +93,7 @@
 									<li><a href="" ng-click="lastPage()">Last</a></li>
 								</ul>
 
-								
+
 							</div>
 
 
@@ -103,16 +104,16 @@
 
 
 
-							
+
 						</div>
 						<div class='row' id="updateCustomerData"
 							style='border: 1px grey solid !important'>
 							<div class='col-sm-4'>
-								<div class="form-group">
+								<!-- <div class="form-group">
 									<span class="input-group-addon"><i
 										class="zmdi zmdi-label zmdi-hc-fw"> </i> Id </span>
 									<div class="fg-line"></div>
-								</div>
+								</div> -->
 
 								<div class="form-group">
 									<span class="input-group-addon"><i
@@ -120,7 +121,12 @@
 										Name</span>
 									<div class="fg-line"></div>
 								</div>
-
+								<div class="form-group">
+									<span class="input-group-addon"><i
+										class="zmdi zmdi-assignment-account zmdi-hc-fw"></i>Customer
+										Code</span>
+									<div class="fg-line"></div>
+								</div>
 								<div class="form-group">
 									<span class="input-group-addon"><i
 										class="zmdi zmdi-city zmdi-hc-fw" title="Customer Address"></i>Address</span>
@@ -141,30 +147,40 @@
 							</div>
 
 							<div class='col-sm-4'>
-								<div class="form-group">
+								<!-- <div class="form-group">
 									<div class="fg-line">
 										<input type="text" class="form-control" disabled="disabled"
 											ng-model='customerID' value='{{customerID}}'>
 									</div>
 								</div>
-								<br>
+								<br> -->
 								<div class="form-group">
 									<div class="fg-line">
-										<input type="text" class="form-control" id="customerName" onkeypress="validateInstant(this)"
-											ng-model='customerNAME' value='{{customerNAME}}'>
-									</div>
-								</div>
-								
-								<div class="form-group">
-									<div class="fg-line">
-										<input type="text" class="form-control" id="customerAddress" onkeypress="validateInstant(this)"
-											ng-model='customerAddress' value='{{customerAddress}}'>
+										<input type="text" class="form-control" id="customerName"
+											onkeypress="validateInstant(this)" ng-model='customerNAME'
+											value='{{customerNAME}}'>
 									</div>
 								</div>
 								<br>
 								<div class="form-group">
 									<div class="fg-line">
-										<select class="form-control" ng-model='countryname' id="country" onchange="validateInstant(this)"
+										<input type="text" class="form-control" id="customerCode"
+											onkeypress="validateInstant(this)" ng-model='customerCode'
+											value='{{customerCode}}'>
+									</div>
+								</div>
+								<div class="form-group">
+									<div class="fg-line">
+										<input type="text" class="form-control" id="customerAddress"
+											onkeypress="validateInstant(this)" ng-model='customerAddress'
+											value='{{customerAddress}}'>
+									</div>
+								</div>
+								<br>
+								<div class="form-group">
+									<div class="fg-line">
+										<select class="form-control" ng-model='countryname'
+											id="country" onchange="validateInstant(this)"
 											ng-options="country.name  as country.name    for country in countries"></select>
 
 
@@ -178,8 +194,9 @@
 								<br>
 								<div class="form-group">
 									<div class="fg-line">
-										<input type="text" class="form-control" id="customerZip" onkeypress="validateInstant(this)"
-											ng-model='customerZipCode' value='{{customerZipCode}}'>
+										<input type="text" class="form-control" id="customerZip"
+											onkeypress="validateInstant(this)" ng-model='customerZipCode'
+											value='{{customerZipCode}}'>
 									</div>
 								</div>
 								<div style='height: 20px;'></div>

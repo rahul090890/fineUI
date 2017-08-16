@@ -136,20 +136,21 @@
 								<div class='col-sm-1'>
 									<p>
 										<span style="color: green"><i
-											class="zmdi zmdi-alarm-add"></i><a ng-click="addRow(task,daydetails)" style="cursor:pointer"><span
+											class="zmdi zmdi-alarm-add"></i><a
+											ng-click="addRow(task,daydetails)" style="cursor: pointer"><span
 												style="color: green"> Add</span></a></span>
 									</p>
 								</div>
 
 								<div class='col-sm-2'>
 									<p>
-										<span style="color: red"><i class="zmdi zmdi-alarm-off"></i></span><a style="cursor:pointer"
-											ng-click="deleteRow()"><span style="color: red">
-												Delete</span></a>
+										<span style="color: red"><i class="zmdi zmdi-alarm-off"></i></span><a
+											style="cursor: pointer" ng-click="deleteRow()"><span
+											style="color: red"> Delete</span></a>
 									</p>
 								</div>
 								<div class='col-sm-8'>
-									<p class='text-center' >
+									<p class='text-center'>
 										<i class="zmdi zmdi-alarm-add"></i> <span style="color: black">Time</span>
 									</p>
 								</div>
@@ -165,9 +166,9 @@
 											<div class="col-sm-1" style="padding-left: 0">
 												<div class='form-group'>
 													<div class="fg-line">
-														<label class="checkbox "
-															id='checkAll'> <input type="checkbox"
-															ng-model="ids[divindex]" value="option1"> <!-- <i
+														<label class="checkbox " id='checkAll'> <input
+															type="checkbox" ng-model="ids[divindex]" value="option1">
+															<!-- <i
 															class="input-helper"></i> -->
 														</label>
 													</div>
@@ -179,7 +180,9 @@
 												<div class="form-group">
 													<div class="fg-line">
 														<div class="select">
-															<select class="form-control" id="customer{{divindex-1}}" ng-model='task[divindex-1]["customer"]' ng-change="fillProject(task,divindex-1)">
+															<select class="form-control" id="customer{{divindex-1}}"
+																ng-model='task[divindex-1]["customer"]'
+																ng-change="fillProject(task,divindex-1)">
 																<option selected>Select Customer</option>
 																<option ng-repeat='customer in customers'
 																	value='{{customer.customerId}}'>{{customer.customerName}}</option>
@@ -194,10 +197,13 @@
 												<div class="form-group">
 													<div class="fg-line">
 														<div class="select">
-															<select class="form-control" id="department{{divindex-1}}" ng-model='task[divindex-1]["department"]' ng-change="fillProject(task,divindex-1)">
+															<select class="form-control"
+																id="department{{divindex-1}}"
+																ng-model='task[divindex-1]["department"]'
+																ng-change="fillProject(task,divindex-1)">
 																<option selected>Select Department</option>
 																<option ng-repeat='department in departments'
-																	value='{{department.departmentId}}'>{{department.departmentName}}</option>
+																	value='{{department.departmentId}}'>{{department.parentDepartment.departmentName}}--->{{department.departmentName}}</option>
 
 															</select>
 														</div>
@@ -210,7 +216,8 @@
 												<div class="form-group">
 													<div class="fg-line">
 														<div class="select">
-															<select class="form-control" id="project{{divindex-1}}" ng-model='task[divindex-1]["projectId"]'>
+															<select class="form-control" id="project{{divindex-1}}"
+																ng-model='task[divindex-1]["projectId"]'>
 																<option selected>Select Project</option>
 																<option ng-repeat='project in projects[divindex-1]'
 																	value='{{project.projectid}}'>{{project.projectName}}</option>
@@ -224,7 +231,9 @@
 												<div class="form-group">
 													<div class="fg-line">
 														<div class="select">
-															<select class="form-control" id="cpcdetails{{divindex-1}}" ng-model='task[divindex-1]["cpcdetails"]'>
+															<select class="form-control"
+																id="cpcdetails{{divindex-1}}"
+																ng-model='task[divindex-1]["cpcdetails"]'>
 																<option selected>Select CPC</option>
 																<option ng-repeat='cpc in cpcs'
 																	value='{{cpc.customerProgramId}}'>{{cpc.customerProgramCode}}</option>
@@ -238,7 +247,9 @@
 												<div class="form-group">
 													<div class="fg-line">
 														<div class="select">
-															<select class="form-control"  id="taskdetails{{divindex-1}}" ng-model='task[divindex-1]["taskdetails"]'>
+															<select class="form-control"
+																id="taskdetails{{divindex-1}}"
+																ng-model='task[divindex-1]["taskdetails"]'>
 																<option selected>Select Task type</option>
 																<option ng-repeat='task in tasks[divindex-1]'
 																	value='{{task.taskId}}&&{{task.taskName}}'>{{task.taskName}}</option>
@@ -256,22 +267,25 @@
 													<div class="form-group">
 														<div class="fg-line">
 															<input type="text" class="form-control"
-																ng-model="daydetails[divindex-1][week.date]" numbers-only>
+																ng-model="daydetails[divindex-1][week.date]"
+																ng-change='onChangeHR($parent.$index, $index, week.date)'
+																numbers-only>
 														</div>
 													</div>
 												</div>
 
 
-												<div class='col-sm-5'>
+												<div class='col-sm-5' ng-if='weekdays'>
 													{{totalhourhead}}<br />
 
 													<div class="form-group ">
 														<div class="fg-line">
-															<span> <!-- <input type="text" class="form-control"
-																ng-model="totalHours" numbers-only readonly >--></span>
+															<span> <input type="text" class="form-control"
+																ng-model="rowTotals[divindex-1]" readonly></span>
 														</div>
 													</div>
 												</div>
+
 											</div>
 										</div>
 
@@ -279,8 +293,32 @@
 
 									</div>
 
+
+								</div>
+								<div class='col-sm-offset-6' ng-if='weekdays'>
+									<div class='col-sm-1'
+										ng-repeat="colTotal in colTotals track by $index">
+										&nbsp;<br />
+										<div class="form-group">
+											<div class="fg-line">
+												<input type="text" style="color:red"   ng-value="colTotal"
+													readonly>
+											</div>
+										</div>
+									</div>
+									<div class='col-sm-5' ng-if='weekdays'>
+													Total Week Hours<br />
+
+													<div class="form-group ">
+														<div class="fg-line" >
+															<span> <input type="text" style="color:red" 
+																ng-model="weekTotal" readonly></span>
+														</div>
+													</div>
+												</div>
 								</div>
 							</div>
+							<div class='clearfix'></div>
 							<!-- timesheet Content 1 ends  -->
 							<hr />
 						</div>
@@ -311,7 +349,8 @@
 											<i class="zmdi zmdi-check-all"></i> Submit
 										</button>
 
-										<button class="btn btn-danger btn-icon-text waves-effect" ng-click="clearTimeSheet()">
+										<button class="btn btn-danger btn-icon-text waves-effect"
+											ng-click="clearTimeSheet()">
 											<i class="zmdi zmdi-close"></i> Clear
 										</button>
 									</span>

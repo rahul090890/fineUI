@@ -345,7 +345,7 @@
 													<select class="form-control" myRequired
 														ng-model='userDepartmentId' id="userDepartmentId"
 														onchange="validateInstantInputgroup(this)"
-														ng-options="department.departmentId as department.departmentName for department in departments"><option
+														ng-options="department.departmentId as department.departmentName+'--->'+ department.parentDepartment.departmentName  for department in departments"><option
 															value="">Select Department</option></select>
 
 												</div>

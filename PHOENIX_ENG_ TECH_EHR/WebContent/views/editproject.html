@@ -38,8 +38,12 @@
 								<table class="table  table-hover data-table myTable">
 									<thead>
 										<tr>
-											<th class="EmpId"><a href=""
+											<!-- <th class="EmpId"><a href=""
 												ng-click="sort('projectId')">ID <span
+													class="{{Header[0]}}"></span>
+											</a></th> -->
+											<th class="EmpId"><a href=""
+												ng-click="sort('projectCode')">Project Code <span
 													class="{{Header[0]}}"></span>
 											</a></th>
 											<th class="name"><a ng-click="sort('projectName')"
@@ -66,7 +70,7 @@
 									<tbody>
 										<tr
 											ng-repeat="item in ItemsByPage[currentPage] | orderBy:columnToOrder:reverse">
-											<td>{{item.projectid}}</td>
+											<td>{{item.projectCode}}</td>
 											<td>{{item.projectName}}</td>
 											<td>{{item.customerProgram.customerProgramCode}}</td>
 											<td>{{item.projectType}}</td>
@@ -95,13 +99,19 @@
 							style='border: 1px grey solid !important'>
 
 							<div class='col-sm-4'>
-								<div class="form-group">
+								<!-- <div class="form-group">
 									<span class="input-group-addon"> <i
 										class="zmdi zmdi-label zmdi-hc-fw"> </i> Project Id
 									</span>
 									<div class="fg-line"></div>
+								</div> -->
+								<div class="form-group">
+									<span class="input-group-addon"> <i
+										class="zmdi zmdi-label zmdi-hc-fw"> </i> Project Code
+									</span>
+									<div class="fg-line"></div>
 								</div>
-
+								<br>
 								<div class="form-group">
 									<span class="input-group-addon"> <i
 										class="zmdi zmdi-assignment zmdi-hc-fw"> </i>Project Name
@@ -149,23 +159,33 @@
 							</div>
 
 							<div class='col-sm-4'>
-								<div class="form-group">
+								<!-- <div class="form-group">
 									<div class="fg-line">
 										<input type="text" class="form-control"
 											placeholder="Enter Project Id" ng-model='projectid' disabled>
 									</div>
-								</div>
-
+								</div> -->
 								<div class="form-group">
 									<div class="fg-line">
-										<input type="text" class="form-control" ng-model='projectname' id="projectname" onkeypress="validateInstant(this)"
+										<input type="text" class="form-control" ng-model='projectCode'
+											id="projectCode" onkeypress="validateInstant(this)"
 											placeholder="Enter Project Name">
 									</div>
-								</div><br>
+								</div>
+								<br>
+								<div class="form-group">
+									<div class="fg-line">
+										<input type="text" class="form-control" ng-model='projectname'
+											id="projectname" onkeypress="validateInstant(this)"
+											placeholder="Enter Project Name">
+									</div>
+								</div>
+								<br>
 								<div class="form-group">
 									<div class="fg-line">
 										<div class="select">
-											<select class="form-control" ng-model='customerid' id="customerid" onchange="validateInstant(this)"
+											<select class="form-control" ng-model='customerid'
+												id="customerid" onchange="validateInstant(this)"
 												ng-options="customer.customerId  as customer.customerName    for customer in customers"></select>
 											<!-- <select class="form-control" name="customerprojectype"
 												ng-model='customerprojecttype'>
@@ -180,7 +200,8 @@
 								<div class="form-group">
 									<div class="fg-line">
 										<div class="select">
-											<select class="form-control" ng-model='departmentid' id="departmentid" onchange="validateInstant(this)"
+											<select class="form-control" ng-model='departmentid'
+												id="departmentid" onchange="validateInstant(this)"
 												ng-options="department.departmentId  as department.departmentName    for department in departments"></select>
 
 										</div>
@@ -188,19 +209,19 @@
 
 								</div>
 								<br />
-								
-								 <div class="form-group">
+
+								<div class="form-group">
 									<div class="fg-line">
 										<div class="select">
 											<select class="form-control" id="customerprogramid"
-										 onchange="validateInstant(this)"
-											ng-model='customerprogramid'
+												onchange="validateInstant(this)"
+												ng-model='customerprogramid'
 												ng-options="programcode.customerProgramId  as programcode.customerProgramCode    for programcode in cpc"></select>
 										</div>
 									</div>
 								</div>
 
-							<!-- 	<div class="form-group">
+								<!-- 	<div class="form-group">
 									<div class="fg-line">
 										<input type="text" class="form-control" id="customerprogramid"
 											onkeypress="validateInstant(this)"
@@ -213,7 +234,8 @@
 								<div class="form-group">
 									<div class="fg-line">
 										<div class="select">
-											<select class="form-control" ng-model='customerproject' id="customerproject" onchange="validateInstant(this)"
+											<select class="form-control" ng-model='customerproject'
+												id="customerproject" onchange="validateInstant(this)"
 												ng-options="project.groupKey  as project.groupValue    for project in customerprojectype"></select>
 											<!-- <select class="form-control" name="customerprojectype"
 												ng-model='customerprojecttype'>
@@ -228,7 +250,8 @@
 								<div class="form-group">
 									<div class="fg-line">
 										<div class="select">
-											<select class="form-control" ng-model='projectstatus' id="projectstatus" onchange="validateInstant(this)"
+											<select class="form-control" ng-model='projectstatus'
+												id="projectstatus" onchange="validateInstant(this)"
 												ng-options="project.groupKey  as project.groupValue    for project in projectStatus"></select>
 											<!-- <select class="form-control" name="customerprojectype"
 												ng-model='customerprojecttype'>
@@ -239,7 +262,8 @@
 										</div>
 									</div>
 								</div>
-								<br /><br>
+								<br />
+								<br>
 								<div class="form-group">
 									<div class="fg-line">
 										<div class="select">

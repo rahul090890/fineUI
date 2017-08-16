@@ -325,7 +325,7 @@
 													onchange="validateInstantInputgroup(this)">
  													<option value="">Select Department</option>
 													<option value='{{department.departmentId}}'
-														ng-repeat='department in departments'>{{department.departmentName}}</option>
+														ng-repeat='department in departments'>{{department.parentDepartment.departmentName}}--->{{department.departmentName}}</option>
 												</select>
 											</div>
 										</div>

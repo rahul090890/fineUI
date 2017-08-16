@@ -69,6 +69,10 @@
 										ng-click="sort('leaveStatus')" href="#"> Status <span
 											class="{{Header[7]}}"></span>
 									</a></th>
+									<th class="Email"><i class="zmdi zmdi-city zmdi-hc-fw"></i><a
+										ng-click="sort('comments')" href="#"> Remarks <span
+											class="{{Header[8]}}"></span>
+									</a></th>
 									<!-- <th class="Email"><i class="zmdi zmdi-city zmdi-hc-fw"></i><a
 										ng-click="sort('department')" href="#"> Department <span
 											class="{{Header[7]}}"></span>
@@ -91,6 +95,7 @@
 									<td>{{item.noOfDays}}</td>
 									<td>{{item.leaveType}}</td>
 									<td>{{item.leaveStatus}}</td>
+									<td>{{item.comments}}</td>
 									
 								</tr>
 							</tbody>
