@@ -193,7 +193,7 @@
 												</div>
 											</div>
 
-											<div class='col-sm-2'>
+											<div class='col-sm-3'>
 												<div class="form-group">
 													<div class="fg-line">
 														<div class="select">
@@ -212,7 +212,7 @@
 											</div>
 
 
-											<div class='col-sm-2'>
+											<div class='col-sm-3'>
 												<div class="form-group">
 													<div class="fg-line">
 														<div class="select">
@@ -227,7 +227,7 @@
 													</div>
 												</div>
 											</div>
-											<div class='col-sm-2'>
+											<!-- <div class='col-sm-2'>
 												<div class="form-group">
 													<div class="fg-line">
 														<div class="select">
@@ -242,7 +242,7 @@
 														</div>
 													</div>
 												</div>
-											</div>
+											</div> -->
 											<div class='col-sm-2'>
 												<div class="form-group">
 													<div class="fg-line">
@@ -295,27 +295,86 @@
 
 
 								</div>
-								<div class='col-sm-offset-6' ng-if='weekdays'>
-									<div class='col-sm-1'
-										ng-repeat="colTotal in colTotals track by $index">
-										&nbsp;<br />
-										<div class="form-group">
-											<div class="fg-line">
-												<input type="text" style="color:red"   ng-value="colTotal"
-													readonly>
-											</div>
-										</div>
-									</div>
-									<div class='col-sm-5' ng-if='weekdays'>
-													Total Week Hours<br />
+								<div class="row" id="timeTable" style='border-color: red;border: 1px;'>
+									<div class='col-sm-6' ng-if='weekdays'
+										style=' font-weight: 500;text-transform: uppercase;'>Total
+										Week Hours :</div>
 
-													<div class="form-group ">
-														<div class="fg-line" >
-															<span> <input type="text" style="color:red" 
-																ng-model="weekTotal" readonly></span>
-														</div>
+									<div class='col-sm-6' ng-if='weekdays'>
+										<div class='row'>
+											<div class='col-sm-1'
+												ng-repeat="colTotal in colTotals track by $index">
+
+												<div class="form-group">
+													<div class="fg-line">
+														<input type="text" class="form-control"
+															style="color: red; background-color: white;"
+															readonlystyle="color: red" ng-value="colTotal" readonly>
 													</div>
 												</div>
+											</div>
+
+
+											<div class='col-sm-5' ng-if='weekdays'>
+
+
+												<div class="form-group ">
+													<div class="fg-line">
+														<span> <input type="text" class="form-control"
+															
+															readonlystyle="color: red" ng-model="weekTotal" readonly></span>
+													</div>
+												</div>
+											</div>
+
+										</div>
+									</div>
+									<!-- <div class='col-sm-6' ng-if='weekdays'>
+										<div class='row'>
+											<div class='col-sm-1'
+												ng-repeat="colTotal in colTotals track by $index">
+
+												<div class="form-group">
+													<div class="fg-line">
+														<input type="text" style="color: red" ng-value="colTotal"
+															readonly>
+													</div>
+												</div>
+											</div>
+											<div class='col-sm-5' ng-if='weekdays'>
+
+
+												<div class="form-group ">
+													<div class="fg-line">
+														<span> <input type="text" style="color: red"
+															ng-model="weekTotal" readonly></span>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div> -->
+									<!-- <div class='col-sm-offset-6' ng-if='weekdays'>
+										<div class='col-sm-1'
+											ng-repeat="colTotal in colTotals track by $index">
+											&nbsp;<br />
+											<div class="form-group">
+												<div class="fg-line">
+													<input type="text" style="color: red" ng-value="colTotal"
+														readonly>
+												</div>
+											</div>
+										</div>
+										<div class='col-sm-5' ng-if='weekdays'>
+											Total Week Hours<br />
+
+											<div class="form-group ">
+												<div class="fg-line">
+													<span> <input type="text" style="color: red"
+														ng-model="weekTotal" readonly></span>
+												</div>
+											</div>
+										</div>
+									</div> -->
 								</div>
 							</div>
 							<div class='clearfix'></div>

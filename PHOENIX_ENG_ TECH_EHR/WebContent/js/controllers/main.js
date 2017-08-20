@@ -897,7 +897,7 @@ materialAdmin
 																	customerId : task[rowNumb]["customer"],
 																	departmentId : task[rowNumb]["department"],
 																	taskName : taskInfo[1],
-																	customerProgramId : task[rowNumb]["cpcdetails"],
+																	customerProgramId : 1/*task[rowNumb]["cpcdetails"]*/,
 																	projectId : task[rowNumb]["projectId"],
 																	hours : value,
 																	timesheetDate : key
@@ -1080,9 +1080,10 @@ materialAdmin
 												$scope.toDate = '';
 												$scope.noOfDays = ''
 												$scope.searchText = '';
+												$scope.comments='';
 												$scope.currentPage = 0;
 												$scope.Header = [ '', '', '',
-														'', '', '', '' ];
+														'', '', '', '','' ];
 											}
 
 											$scope.search = function() {

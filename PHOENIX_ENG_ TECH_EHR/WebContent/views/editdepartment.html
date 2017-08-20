@@ -176,7 +176,7 @@
 										<div class="fg-line">
 											<div class="select">
 												<select class="form-control" ng-model='parentDepartment'  id="parentDepartment" onchange="validateInstant(this)"
-													ng-options="department.departmentId  as department.departmentName    for department in departments"></select>
+													ng-options="department.departmentId  as department.parentDepartment.departmentName+'--->'+ department.departmentName    for department in departments"></select>
 
 											</div>
 										</div>
