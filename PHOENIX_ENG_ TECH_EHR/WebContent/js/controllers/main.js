@@ -11545,7 +11545,77 @@ materialAdmin
 									}
 								});
 					}
+					$scope.showDetails = function(employeeid, argStart, argEnd) {
 
+						// $window.location.path='headers.timesheet';
+
+						var timesheetDetail = $scope.webserviceshost
+								+ 'hr/timesheet/details/' + employeeid + "/"
+								+ argStart + "/" + argEnd;
+
+						$http(
+								{
+									method : "GET",
+									url : timesheetDetail,
+									headers : {
+										'XSRF-TOKEN' : $window.sessionStorage
+												.getItem("Access-Token"),
+										'authorization' : $window.sessionStorage
+												.getItem("AuthKey")
+									}
+								})
+								.then(
+										function mySucces(response) {
+
+											if (response != 'undefiend'
+													&& response != "") {
+												$scope.timesheetfullDetails = response.data;
+												$scope.employeetimesheetid = $scope.timesheetfullDetails.employeeId;
+												$scope.timesheetcomments = $scope.timesheetfullDetails.comments;
+												$scope.timesheetweekstart = $scope.timesheetfullDetails.startDateOfWeek;
+												$scope.timesheetweekend = $scope.timesheetfullDetails.endDateOfWeek;
+												$scope.timesheettimesheets = $scope.timesheetfullDetails.timesheets;
+												console.log(response);
+											}
+										})
+						console.log($scope.THSEmployeeID, $scope.THSWStartDate,
+								$scope.THSWEndDate);
+
+						// var modalInstance = $uibModal.open({
+						// templateUrl : 'views/timesheetDetails.html',
+						// controller : 'timesheethistoryDetails',
+						// scope: $scope,
+						// keyboard : false,
+						// resolve : {
+						// userData : function() {
+						// var x = {
+						// 'employeeid' : employeeid,
+						// 'startDate' : argStart,
+						// 'endDate' : argEnd
+						// }
+						// return x;
+						// }
+						// }
+						// });
+
+						/*
+						 * return { restrict: 'E', link: function(scope,
+						 * element, attrs) { // some ode }, templateUrl:
+						 * function(elem,attrs) { return attrs.templateUrl ||
+						 * 'view/timesheet.html' } }
+						 */
+						/*
+						 * var modalInstance = $uibModal.open({ templateUrl :
+						 * 'views/timesheetDetails.html', controller :
+						 * 'timesheethistoryDetails', backdrop : 'static',
+						 * keyboard : false, resolve : { userData : function() {
+						 * var x = { 'employeeid' : employeeid, 'startDate' :
+						 * argStart, 'endDate' : argEnd } return x; } } });
+						 * modalInstance.result.then(function(selectedItem) {
+						 * $scope.selected = selectedItem; })
+						 */
+					
+}
 				})
 		.controller(
 				'timesheethistoryDetails',

@@ -12,12 +12,9 @@
 
 	<section id="content">
 		<div class="container c-alt">
-			<!-- <div class="block-header">
-				<h2>
-					TimeSheet Approval <small>TimeSheet requested need a
-						approval </small>
-				</h2>
-			</div> -->
+			<div class="block-header">
+				<h2>TimeSheet Approval</h2>
+			</div>
 
 			<div class="card" data-ng-controller="timesheetapproval">
 				<div class="card-header">
@@ -48,38 +45,41 @@
 					<table class="table  table-hover data-table myTable">
 						<thead>
 							<tr>
-								<th class="EmpId"><i class="zmdi zmdi-label zmdi-hc-fw">
-								</i><a href="" ng-click="sort('employeeId',$event)">Employee Id
-										<span class="{{Header[0]}}"></span>
+								<th class="EmpId"><i class=""> </i><a href=""
+									ng-click="sort('employeeId',$event)">Employee Id <span
+										class="{{Header[0]}}"></span>
 								</a></th>
 								<th class="name"><i
 									class="zmdi zmdi-assignment-account zmdi-hc-fw"></i><a
-									ng-click="sort('firstName')" href=""> First Name<span
+									ng-click="sort('firstName')" href=""> First name<span
 										class="{{Header[1]}}"></span>
 								</a></th>
 
-								<th class="Email"><i class="zmdi zmdi-city zmdi-hc-fw"></i><a
-									ng-click="sort('lastName')" href=""> Last Name <span
+								<th class="Email"><i class=""></i><a
+									ng-click="sort('lastName')" href=""> Last name <span
 										class="{{Header[2]}}"></span>
 								</a></th>
-								<th class="Email"><i class="zmdi zmdi-city zmdi-hc-fw"></i><a
+								<th class="Email"><i class=""></i><a
 									ng-click="sort('weekStartDate')" href=""> From date <span
 										class="{{Header[3]}}"></span>
 								</a></th>
-								<th class="Email"><i class="zmdi zmdi-city zmdi-hc-fw"></i><a
-									ng-click="sort('weekEndDate')" href=""> To Date <span
+								<th class="Email"><i class=""></i><a
+									ng-click="sort('weekEndDate')" href=""> To date <span
 										class="{{Header[4]}}"></span>
 								</a></th>
-								<th class="Email"><i class="zmdi zmdi-city zmdi-hc-fw"></i><a
-									ng-click="sort('totalHours')" href=""> Total days <span
+								<th class="Email"><i class=""></i><a
+									ng-click="sort('totalHours')" href=""> Total hour <span
 										class="{{Header[5]}}"></span>
 								</a></th>
-								<th class="Email"><i class="zmdi zmdi-city zmdi-hc-fw"></i><a
+								<th class="Email"><i class=""></i><a
 									ng-click="sort('timesheetStatus')" href=""> Status <span
 										class="{{Header[6]}}"></span>
 								</a></th>
-								<th class="Email"><i class="zmdi zmdi-city zmdi-hc-fw"></i><a
-									href=""> Action <span class="{{Header[6]}}"></span>
+								<th class="Email"><i class=""></i><a href=""> Details <span
+										class="{{Header[7]}}"></span>
+								</a></th>
+								<th class="Email"><i class=""></i><a href=""> Action <span
+										class="{{Header[8]}}"></span>
 								</a></th>
 
 
@@ -95,6 +95,21 @@
 								<td>{{item.id.weekEndDate}}</td>
 								<td>{{item.totalHours}}</td>
 								<td>{{item.timesheetStatus}}</td>
+								<td>
+									<!-- <div class="col-sm-4" data-name="info-outline"
+										uib-tooltip="click here to see details"
+										ng-click="showDetails(item.id.employeeId,item.id.weekStartDate,item.id.weekEndDate)">
+										<p>
+											<i class="zmdi zmdi-info-outline zmdi-hc-fw"></i>
+										</p>
+									</div> -->
+									<div class="col-sm-4" data-name="info-outline"
+										style="cursor: pointer" data-toggle="modal"
+										data-target="#timesheetmodal"
+										ng-click="showDetails(item.id.employeeId,item.id.weekStartDate,item.id.weekEndDate)">
+										<i class="zmdi zmdi-info-outline zmdi-hc-fw"></i>
+									</div>
+								</td>
 								<td>
 									<button data-swal-success-msg
 										class="btn bgm-orange btn-icon waves-effect waves-circle"
@@ -122,6 +137,94 @@
 
 
 				</div>
+
+				<div class="modal fade" id="timesheetmodal" tabindex="-1"
+					role="dialog" aria-labelledby="myModalLabel">
+					<div class="modal-dialog modal-lg" role="document">
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal"
+									aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+								<h4 class="modal-title" id="myModalLabel">TimeSheet Details</h4>
+							</div>
+							<div class="modal-body"
+								style="max-height: 400px; overflow-y: auto">
+								<div class='card-body table-responsive'>
+									<table class='table'>
+										<thead>
+											<tr>
+												<th>Employee Id</th>
+												<th>Start Date</th>
+												<th>End Date</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td>{{employeetimesheetid}}</td>
+												<td>{{timesheetweekstart}}</td>
+												<td>{{timesheetweekend}}</td>
+
+											</tr>
+										</tbody>
+									</table>
+								</div>
+								<div class='card-body table-responsive'>
+									<table class='table'>
+										<thead>
+											<tr>
+												<th>Customer</th>
+												<th>Customer Program</th>
+												<th>Department</th>
+												<th>hours</th>
+												<th style="width: 150px !important">Project</th>
+												<th>Type</th>
+												<th style="width: 125px !important">Task</th>
+												<th>Day</th>
+
+											</tr>
+										</thead>
+										<tbody ng-repeat="timesheet in timesheettimesheets">
+											<tr ng-repeat="task in timesheet">
+												<td>{{task.customerName}}</td>
+												<td>{{task.customerProgramCode}}</td>
+												<td>{{task.departmentId}}</td>
+												<td>{{task.hours}}</td>
+												<td style="width: 150px !important">{{task.projectName}}</td>
+												<td>{{task.projectType}}</td>
+												<td style="width: 125px !important">{{task.taskName}}</td>
+												<td>{{task.timesheetDate}}</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+								<div class="row" style='border: 1px grey solid !important'>
+
+									<div class='col-sm-4'>
+										<div class="form-group">
+											<span class="input-group-addon"> Comments: </span>
+											<div class="fg-line"></div>
+										</div>
+									</div>
+									<div class='col-sm-4'>
+
+										<div class="fg-line" style="margin-top: 5px;">{{timesheetcomments}}</div>
+									</div>
+								</div>
+
+							</div>
+							<div class="modal-footer">
+								<button class="btn btn-danger btn-icon-text waves-effect"
+									ng-click="clearTimeSheet()" data-dismiss="modal">
+									<i class="zmdi zmdi-close"></i> Close
+								</button>
+							</div>
+						</div>
+					</div>
+					<!-- <div id="recent-items-chart" class="flot-chart" data-line-chart></div> -->
+				</div>
+
 			</div>
 
 		</div>
