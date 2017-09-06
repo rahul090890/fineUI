@@ -32,8 +32,7 @@
 												show-weeks="false" ng-model="dtPopup" is-open="opened"
 												min-date="minDate" datepicker-options="dateOptions"
 												ng-required="true" close-text="Close"
-												placeholder="Select Date" 
-												 />
+												placeholder="Select Date" />
 										</div>
 
 									</div>
@@ -55,8 +54,7 @@
 												show-weeks="false" ng-model="dtPopup1" is-open="opened2"
 												min-date="minDate" datepicker-options="dateOptions"
 												ng-required="true" close-text="Close"
-												placeholder="Select Date" 
-												 />
+												placeholder="Select Date" />
 										</div>
 
 									</div>
@@ -67,7 +65,10 @@
 						<div class='col-md-3'>
 							<div class="form-group">
 
-								<button class="btn btn-info btn-icon waves-effect waves-circle" ng-click="searchtimesheet()"><i class="zmdi zmdi-search"></i></button>
+								<button class="btn btn-info btn-icon waves-effect waves-circle"
+									ng-click="searchtimesheet()">
+									<i class="zmdi zmdi-search"></i>
+								</button>
 
 							</div>
 						</div>
@@ -183,7 +184,7 @@
 				</div> -->
 
 				<div class="modal fade" id="timesheetmodal" tabindex="-1"
-					role="dialog" aria-labelledby="myModalLabel">
+					style="max-height: 500px;" dialog" aria-labelledby="myModalLabel">
 					<div class="modal-dialog modal-lg" role="document">
 						<div class="modal-content">
 							<div class="modal-header">
@@ -194,61 +195,75 @@
 								<h4 class="modal-title" id="myModalLabel">TimeSheet Details</h4>
 							</div>
 							<div class="modal-body"
-								style="max-height: 400px; overflow-y: auto">
+								style="max-height: 500px; overflow-y: auto">
 								<div class='card-body table-responsive'>
-									<table class='table'>
+									<table class="table table-hover">
 										<thead>
-											<tr>
-												<th>Employee Id</th>
+											<tr class="bg-info">
+												<th>Employee ID</th>
 												<th>Start Date</th>
 												<th>End Date</th>
 											</tr>
 										</thead>
 										<tbody>
 											<tr>
-												<td>{{employeetimesheetid}}</td>
-												<td>{{timesheetweekstart}}</td>
-												<td>{{timesheetweekend}}</td>
-
+												<th>{{timeSheetDetails.employeeId}}</th>
+												<th>{{timeSheetDetails.startDateOfWeek|
+													date:'dd-MM-yyyy'}}</th>
+												<th>{{timeSheetDetails.endDateOfWeek|
+													date:'dd-MM-yyyy'}}</th>
 											</tr>
 										</tbody>
 									</table>
 								</div>
 								<div class='card-body table-responsive'>
-									<table class='table'>
+									<table class="table table-hover table-striped">
 										<thead>
-											<tr>
+											<tr class="bg-info">
+												<th>Task Name</th>
+												<th>Project Name</th>
+												<th>Project Type</th>
 												<th>Customer</th>
-												<th>Customer Program</th>
 												<th>Department</th>
-												<th>hours</th>
-												<th style="width:150px !important">Project</th>
-												<th>Type</th>
-												<th style="width: 125px !important">Task</th>
-												<th>Day</th>
-
+												<th class="text-center" ng-repeat="item in weekDays">{{item.day}}<br />{{item.date}}
+												</th>
+												<th>Total Hours</th>
 											</tr>
 										</thead>
-										<tbody ng-repeat="timesheet in timesheettimesheets">
-											<tr ng-repeat="task in timesheet">
-												<td>{{task.customerName}}</td>
-												<td>{{task.customerProgramCode}}</td>
-												<td>{{task.departmentId}}</td>
-												<td>{{task.hours}}</td>
-												<td style="width:150px !important">{{task.projectName}}</td>
-												<td>{{task.projectType}}</td>
-												<td style="width: 125px !important">{{task.taskName}}</td>
-												<td>{{task.timesheetDate}}</td>
+										<tbody>
+											<tr ng-repeat="task in tasks">
+												<th>{{task.taskName}}</th>
+												<th>{{task.projectName}}</th>
+												<th>{{task.projectType}}</th>
+												<th>{{task.customerName}}</th>
+												<th>{{task.departmentId}}</th>
+												<td class="text-center" ng-repeat="dayHR in task.dates">{{dayHR?dayHR:0}}</td>
+												<td class="text-center">{{task.totalHours}}</td>
 											</tr>
 										</tbody>
+										<tfoot>
+											<tr>
+												<td colspan="5"
+													style="text-decoration: underline; font-weight: bold;">Total
+													Week Hours</td>
+												<td class="text-center"
+													style="text-decoration: underline; font-weight: bold;"
+													ng-repeat="item in weekDaysHR.dates">{{item}}</td>
+												<td class="text-center"
+													style="text-decoration: underline; font-weight: bold;">{{weekDaysHR.totalHours}}</td>
+											</tr>
+										</tfoot>
 									</table>
+
+
+
 								</div>
 								<div class="row" style='border: 1px grey solid !important'>
 
 									<div class='col-sm-4'>
 										<div class="form-group">
 											<span class="input-group-addon"> Comments: </span>
-											<div class="fg-line"></div>
+
 										</div>
 									</div>
 									<div class='col-sm-4'>
@@ -257,6 +272,7 @@
 									</div>
 								</div>
 
+
 							</div>
 							<div class="modal-footer">
 								<button class="btn btn-danger btn-icon-text waves-effect"
@@ -264,11 +280,14 @@
 									<i class="zmdi zmdi-close"></i> Close
 								</button>
 							</div>
+
 						</div>
+
 					</div>
-					<!-- <div id="recent-items-chart" class="flot-chart" data-line-chart></div> -->
 				</div>
+				<!-- <div id="recent-items-chart" class="flot-chart" data-line-chart></div> -->
 			</div>
+		</div>
 		</div>
 	</section>
 </section>
