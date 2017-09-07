@@ -875,7 +875,7 @@ materialAdmin
 					var taskDetails = {};
 
 					function constructTimeSheetJson(task, daydetails) {
-
+						
 						var divRowsCount = $scope.divIterator.length;
 
 						angular
@@ -892,7 +892,18 @@ materialAdmin
 															daydetails[rowNumb],
 															function(value,
 																	key, obj) {
-
+																
+															var partTime=key.split("-");
+															var datefi="";
+																for(var tt=0;tt<partTime.length;tt++){
+																	if(partTime[tt].length<2){
+																		datefi=datefi+"0"+partTime[tt]+"-";
+																	}
+																	else{
+																		datefi=datefi+partTime[tt]+"-";
+																	}
+																}
+															datefi=datefi.substr(0,datefi.length-1);
 																var taskDetailsInner = {
 																	customerId : task[rowNumb]["customer"],
 																	departmentId : task[rowNumb]["department"],
@@ -900,7 +911,7 @@ materialAdmin
 																	customerProgramId : 1/*task[rowNumb]["cpcdetails"]*/,
 																	projectId : task[rowNumb]["projectId"],
 																	hours : value,
-																	timesheetDate : key
+																	timesheetDate : datefi
 																};
 																this
 																		.push(taskDetailsInner);
@@ -10714,7 +10725,8 @@ materialAdmin
 										            var weekEnd = new Date($scope.timeSheetDetails.endDateOfWeek);
 										            var startDate = new Date($scope.timeSheetDetails.startDateOfWeek); 
 										            var count = 0;
-										            
+										           /* var totalDays= new Date(weekStart.fullYear(), weekStart.getMonth(), 0)
+													.getDate();*/
 										            for (var i = weekStart.getDate('dd'); i <= weekEnd.getDate('dd'); i++) {
 										                $scope.weekDays[(i < 10 ? '0' + i : i) + '-' + ((weekStart.getMonth() + 1) < 10 ? '0' + (weekStart.getMonth() + 1) : weekStart.getMonth() + 1) + '-' + weekStart.getFullYear()] = {
 										                    date:(i < 10 ? '0' + i : i),
