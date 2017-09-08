@@ -10727,15 +10727,20 @@ materialAdmin
 										            var count = 0;
 										           /* var totalDays= new Date(weekStart.fullYear(), weekStart.getMonth(), 0)
 													.getDate();*/
-										            for (var i = weekStart.getDate('dd'); i <= weekEnd.getDate('dd'); i++) {
-										                $scope.weekDays[(i < 10 ? '0' + i : i) + '-' + ((weekStart.getMonth() + 1) < 10 ? '0' + (weekStart.getMonth() + 1) : weekStart.getMonth() + 1) + '-' + weekStart.getFullYear()] = {
-										                    date:(i < 10 ? '0' + i : i),
-										                    day:$scope.dayName[new Date(startDate.setDate(weekStart.getDate()+count)).getDay()]
+										            for (var i = 0; i <= 6; i++) {
+										                var weekKey = new Date(weekStart.getTime()+i*24*60*60*1000);        //weekKey.setDate(weekStart.getDate()+i);
+										                
+										                var weekDate = weekKey.getDate()<10?'0'+weekKey.getDate(): weekKey.getDate();
+										                var weekMonth = weekKey.getMonth()+1 < 10 ? '0' + parseInt(weekKey.getMonth()+1) : weekKey.getMonth()+1;
+										                var weekYear = weekKey.getFullYear();
+										                                
+										                $scope.weekDays[weekDate + '-' + weekMonth + '-' + weekYear] = {
+										                    date:weekDate,
+										                    day:$scope.dayName[weekKey.getDay()]
 										                };
 										                
-										                count++;
+										                console.log(weekDate, weekMonth, weekYear);
 										            }
-
 										            $.each($scope.timeSheetDetails.timesheets, function (index, value) {
 										                var taskObj = {
 										                    "dates": {},
