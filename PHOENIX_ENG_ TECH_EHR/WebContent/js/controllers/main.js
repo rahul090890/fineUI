@@ -1,7 +1,7 @@
 materialAdmin
 		/*
 		 * function($timeout, $state, $scope, growlService,$location) {
-		 * $scope.webserviceshost = 'http://172.20.70.213:8080/'; // Detact Mobile
+		 * $scope.webserviceshost = 'http://localhost:8080/'; // Detact Mobile
 		 * Browser
 		 * 
 		 * $scope.login = function() { var employeeLoginid=$scope.loginid;
@@ -3330,7 +3330,7 @@ materialAdmin
 											}
 											$scope.edituserdetails = function(
 													item) {
-
+												$scope.dtPopup=item.dateOfJoin;
 												$scope.today = function() {
 													$scope.dt = new Date();
 												};
@@ -3338,7 +3338,7 @@ materialAdmin
 
 												$scope.myDate = new Date();
 
-												$scope.toggleMin = function() {
+												/*$scope.toggleMin = function() {
 													$scope.minDate = new Date(
 															$scope.myDate
 																	.getFullYear(),
@@ -3349,7 +3349,7 @@ materialAdmin
 
 												};
 												$scope.toggleMin();
-
+*/
 												$scope.open = function($event,
 														opened) {
 													$event.preventDefault();
@@ -3378,6 +3378,7 @@ materialAdmin
 												$scope.firstName = item.firstName;
 												$scope.lastName = item.lastName;
 												$scope.emailId = item.emailId;
+												
 												$scope.loginId = item.loginId;
 												$scope.loginPassword = item.loginPassword;
 												$scope.address = item.address;
@@ -8018,11 +8019,11 @@ materialAdmin
 								$scope.employeeCode, $scope.dtPopup)
 						if (validate) {
 							var year = $scope.dtPopup.getFullYear();
-							var month = $scope.dtPopup.getMonth();
+							var month = $scope.dtPopup.getMonth()+1;
 							if (month.toString().length == 1) {
 								month = '0' + month;
 							}
-							var day = $scope.dtPopup.getDay();
+							var day = $scope.dtPopup.getDate();
 							if (day.toString().length == 1) {
 								day = '0' + day;
 							}
@@ -10727,20 +10728,15 @@ materialAdmin
 										            var count = 0;
 										           /* var totalDays= new Date(weekStart.fullYear(), weekStart.getMonth(), 0)
 													.getDate();*/
-										            for (var i = 0; i <= 6; i++) {
-										                var weekKey = new Date(weekStart.getTime()+i*24*60*60*1000);        //weekKey.setDate(weekStart.getDate()+i);
-										                
-										                var weekDate = weekKey.getDate()<10?'0'+weekKey.getDate(): weekKey.getDate();
-										                var weekMonth = weekKey.getMonth()+1 < 10 ? '0' + parseInt(weekKey.getMonth()+1) : weekKey.getMonth()+1;
-										                var weekYear = weekKey.getFullYear();
-										                                
-										                $scope.weekDays[weekDate + '-' + weekMonth + '-' + weekYear] = {
-										                    date:weekDate,
-										                    day:$scope.dayName[weekKey.getDay()]
+										            for (var i = weekStart.getDate('dd'); i <= weekEnd.getDate('dd'); i++) {
+										                $scope.weekDays[(i < 10 ? '0' + i : i) + '-' + ((weekStart.getMonth() + 1) < 10 ? '0' + (weekStart.getMonth() + 1) : weekStart.getMonth() + 1) + '-' + weekStart.getFullYear()] = {
+										                    date:(i < 10 ? '0' + i : i),
+										                    day:$scope.dayName[new Date(startDate.setDate(weekStart.getDate()+count)).getDay()]
 										                };
 										                
-										                console.log(weekDate, weekMonth, weekYear);
+										                count++;
 										            }
+
 										            $.each($scope.timeSheetDetails.timesheets, function (index, value) {
 										                var taskObj = {
 										                    "dates": {},
